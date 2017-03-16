@@ -31,11 +31,11 @@
                               <div class="wrapper__inner align--right">
                                   <ul class="list list--inline">
                                       <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
-                                      <li class="item">
+                                      <li class="item" v-if="user.profileImageUrl">
                                           <a class="link link--secondary fontSize--xs" href="#">Delete</a>
                                       </li>
                                       <li class="item">
-                                          <button class="btn btn--primary" data-change="Uploading..." data-loads>Upload Photo</button>
+                                          <button class="btn btn--primary" data-change="Uploading..." data-loads @click="uploadPhoto">Upload Photo</button>
                                       </li>
                                   </ul>
                               </div>
@@ -95,11 +95,22 @@ import { User } from '../../api';
 import { mapGetters } from 'vuex';
 
 export default {
-    computed: {
-      ...mapGetters([
-        'user', 'savedClasses', 'classesInProgress'
-      ])
+  data: function () {
+    return {
+      photoIsUploaded: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'user', 'savedClasses', 'classesInProgress'
+    ])
+  },
+  methods: {
+    uploadPhoto() {
+      console.log('uploading photo');
+    }
+  }
+
 }
 </script>
 
