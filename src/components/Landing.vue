@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-          <div class="col-sm-12" v-if="!user">
+          <div class="col-sm-12" v-if="!userLoggedIn">
             <h1>PLEASE LOGIN</h1>
           </div>
           <div class="col-sm-12" v-else>
@@ -32,7 +32,7 @@
     export default {
         computed: {
           ...mapGetters([
-            'user'
+            'user', 'userLoggedIn'
           ])
         },
         methods: {

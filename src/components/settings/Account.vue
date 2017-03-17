@@ -1,90 +1,134 @@
 <template lang="html">
 
-  <div class="panel">
+  <div class="row">
 
-              <!-- PANEL HEADER -->
-              <div class="panel__head">
-                  <div class="wrapper">
-                      <div class="wrapper__inner">
-                          <h3 class="ts--title">Account Settings</h3>
-                          <p class="ts--body is--secondary">Make changes to your profile information and membership.</p>
-                      </div>
-                      <div class="wrapper__inner align--right">
-                          <svg class="icon-account icon--l color--accent"><use xlink:href="#icon-account"></use></svg>
-                      </div>
-                  </div>
-              </div>
-              <!-- /PANEL HEADER -->
+      <!-- LEFT SIDEBAR -->
+      <div class="col col--2-of-12 col--push-1-of-12">
+        <ul class="list list--nav page__tabs">
+          <li class="item">
+              <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+          </li>
+          <li class="item">
+              <router-link class="link" :to="{ name: 'password' }">Password</router-link>
+          </li>
+          <li class="item">
+              <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
+          </li>
+          <li class="item">
+              <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+          </li>
+          <li class="item">
+              <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+          </li>
+          <li class="item">
+              <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+          </li>
+        </ul>
+      </div>
+      <!-- /LEFT SIDEBAR -->
 
-              <!-- PANEL BODY -->
-              <div class="panel__body">
+      <!-- SETTINGS PANEL -->
+      <div class="col col--7-of-12">
+        <div class="panel">
+                    <!-- PANEL HEADER -->
+                    <div class="panel__head">
+                        <div class="wrapper">
+                            <div class="wrapper__inner">
+                                <h3 class="ts--title">Account Settings</h3>
+                                <p class="ts--body is--secondary">Make changes to your profile information and membership.</p>
+                            </div>
+                            <div class="wrapper__inner align--right">
+                                <svg class="icon-account icon--l color--accent"><use xlink:href="#icon-account"></use></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /PANEL HEADER -->
 
-                  <!-- AVATAR -->
-                  <div class="panel__section">
-                      <div class="well">
-                          <div class="wrapper">
-                              <div class="wrapper__inner">
-                                  <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + user.profileImageUrl + ')'"></div>
-                                  <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
-                                  Updated: 2 days ago
-                              </div>
-                              <div class="wrapper__inner align--right">
-                                  <ul class="list list--inline">
-                                      <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
-                                      <li class="item" v-if="user.profileImageUrl">
-                                          <a class="link link--secondary fontSize--xs" href="#">Delete</a>
-                                      </li>
-                                      <li class="item">
-                                          <button class="btn btn--primary" data-change="Uploading..." data-loads @click="uploadPhoto">Upload Photo</button>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- /AVATAR -->
+                    <!-- PANEL BODY -->
+                    <div class="panel__body">
 
-                  <!-- PROFILE FORM -->
-                  <div class="panel__section">
-                      <div class="well bg--snow">
-                          <form id="formProfileSettings" class="form" action="">
-                              <div class="input input--text">
-                                  <input type="text" class="input__field not--empty" id="firstName" :value="user.firstName">
-                                  <label for="firstName">First Name</label>
-                              </div>
-                              <div class="input input--text">
-                                  <input type="text" class="input__field not--empty" id="lastName" :value="user.lastName">
-                                  <label for="lastName">Last Name (Optional)</label>
-                              </div>
-                              <div class="input input--text">
-                                  <input type="email" class="input__field not--empty" id="emailAddress" :value="user.email">
-                                  <label for="emailAddress">Email Address</label>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-                  <!-- /PROFILE FORM -->
+                        <!-- AVATAR -->
+                        <div class="panel__section">
+                            <div class="well">
+                                <div class="wrapper">
+                                    <div class="wrapper__inner">
+                                        <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'"></div>
+                                        <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
+                                        Updated: 2 days ago
+                                    </div>
+                                    <div class="wrapper__inner align--right">
+                                        <ul class="list list--inline">
+                                            <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
+                                            <li class="item" v-if="user.profileImageUrl">
+                                                <a class="link link--secondary fontSize--xs" href="#">Delete</a>
+                                            </li>
+                                            <li class="item">
+                                              <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange"/>
+                                              <button class="btn btn--primary" data-change="Uploading..." data-loads @click="uploadPhoto">Upload Photo</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /AVATAR -->
 
-                  <!-- MEMBERSHIP -->
-                  <div clas="panel__section">
-                      <div class="well">
-                          <div class="wrapper">
-                              <div class="wrapper__inner">
-                                  <span class="ts--subtitle">Membership</span>
-                                  <span class="ts--body is--secondary disp--block">Automatically renews: June 17, 2018</span>
-                              </div>
-                              <div class="wrapper__inner align--right">
-                                  <button class="btn btn--secondary">Pause Renewal</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- /MEMBERSHIP -->
+                        <!-- PROFILE FORM -->
+                        <div class="panel__section">
+                            <div class="well bg--snow">
+                                <form id="formProfileSettings" class="form" action="">
+                                    <div class="input input--text">
+                                        <input type="text" class="input__field" :class="{'not--empty': firstName.length > 0}" id="firstName" v-model="firstName">
+                                        <label for="firstName">First Name</label>
+                                    </div>
+                                    <div class="input input--text">
+                                        <input type="text" class="input__field" :class="{'not--empty': lastName.length > 0}" id="lastName" v-model="lastName">
+                                        <label for="lastName">Last Name (Optional)</label>
+                                    </div>
+                                    <div class="input input--text">
+                                        <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email">
+                                        <label for="emailAddress">Email Address</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /PROFILE FORM -->
 
-              </div>
-              <!-- /PANEL BODY -->
+                        <!-- MEMBERSHIP -->
+                        <div clas="panel__section">
+                            <div class="well">
+                                <div class="wrapper">
+                                    <div class="wrapper__inner">
+                                        <span class="ts--subtitle">Membership</span>
+                                        <span class="ts--body is--secondary disp--block">Automatically renews: June 17, 2018</span>
+                                    </div>
+                                    <div class="wrapper__inner align--right">
+                                        <button class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /MEMBERSHIP -->
 
-          </div>
+                    </div>
+                    <!-- /PANEL BODY -->
+        </div>
+      </div>
+      <!-- /SETTINGS PANEL -->
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="col col--2-of-12 align--center" :class="{hide: shouldHide}">
+          <ul class="list list--buttons">
+              <li class="item">
+                  <button class="btn btn--primary" @click="saveUser">Save Changes</button>
+              </li>
+              <li class="item" @click="discardChanges">
+                  <a class="link link--secondary fontSize--xs">Discard Changes</a>
+              </li>
+          </ul>
+      </div>
+      <!-- / RIGHT SIDEBAR -->
+
   </div>
 
 </template>
@@ -93,21 +137,77 @@
 
 import { User } from '../../api';
 import { mapGetters } from 'vuex';
+import { uploadToS3 } from '../../api/uploader';
+import { eventBus } from '../../main';
 
 export default {
   data: function () {
     return {
-      photoIsUploaded: false
+      photoIsUploaded: false,
+      profileImageUrl: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      errorMessage: ''
     }
   },
   computed: {
     ...mapGetters([
       'user', 'savedClasses', 'classesInProgress'
-    ])
+    ]),
+    shouldHide() {
+      if ((this.email != this.user.email) || (this.firstName != this.user.firstName) || (this.lastName != this.user.lastName)) return false;
+      return true;
+    },
+    updatePayload() {
+      return {
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        profileImageUrl: this.profileImageUrl
+      }
+    }
+  },
+  created() {
+    this.profileImageUrl = this.user.profileImageUrl;
+    this.email = this.user.email;
+    this.firstName = this.user.firstName;
+    this.lastName = this.user.lastName;
   },
   methods: {
     uploadPhoto() {
-      console.log('uploading photo');
+      document.getElementById('inputfile').click();
+    },
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      let _this = this;
+      uploadToS3(file, (err, imageUrl) => {
+        if(err) console.log(err);
+        this.profileImageUrl = imageUrl;
+        _this.$store.dispatch('updateUser', {profileImageUrl: imageUrl});
+      });
+    },
+    removeImage() {
+      this.image = '';
+    },
+    pauseRenewal() {
+      console.log('pausing');
+    },
+    saveUser() {
+      console.log('will save user ' + JSON.stringify(this.updatePayload));
+      this.$store.dispatch('updateUser', this.updatePayload);
+      User.updateUser(this, this.updatePayload);
+    },
+    discardChanges() {
+      console.log('will discard changes');
+      this.profileImageUrl = this.user.profileImageUrl;
+      this.email = this.user.email;
+      this.firstName = this.user.firstName;
+      this.lastName = this.user.lastName;
     }
   }
 

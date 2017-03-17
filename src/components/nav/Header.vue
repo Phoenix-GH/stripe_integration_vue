@@ -20,7 +20,7 @@
                               <ul id="userNav" class="list list--inline list--divided">
 
                                   <!-- LOGGED IN NAV -->
-                                  <li id="navClasses" class="item" v-if="visible">
+                                  <li id="navClasses" class="item" v-if="userLoggedIn">
                                       <ul class="list list--inline">
 
                                           <!-- NOTE: Display on 'Paid Account' -->
@@ -39,7 +39,7 @@
                                   </li>
 
                                   <!-- NOTE: Display on 'All Accounts' -->
-                                  <li id="navAccount" class="item has--icon has--popover" :class="{'is--active': profileMenuVisible}" v-if="visible" @click.stop="showProfileMenu">
+                                  <li id="navAccount" class="item has--icon has--popover" :class="{'is--active': profileMenuVisible}" v-if="userLoggedIn" @click.stop="showProfileMenu">
                                       <div class="avatar avatar--m" :style="{ 'background-image': 'url(' + profileImage + ')' }"></div>
                                       <a class="link link--dropdown"><span class="mobile--hide">{{ user ? user.firstName : "" }}</span></a>
                                       <ul class="list list--nav list--dropdown">
@@ -50,17 +50,17 @@
                                               <a class="has--badge" data-badge="0" href="/saved">Saved</a>
                                           </li>
                                           <li class="item has--icon">
-                                            <router-link class="link" :to="{ name: 'account' }"><svg class="icon-account icon--s"><use xlink:href="#icon-account"></use></svg>
+                                            <router-link :to="{ name: 'account' }"><svg class="icon-account icon--s"><use xlink:href="#icon-account"></use></svg>
                                             My Profile</router-link>
                                           </li>
                                           <li class="item">
-                                              <router-link class="link" :to="{ name: 'billing' }">
+                                              <router-link :to="{ name: 'billing' }">
                                                   <svg class="icon-billing icon--s"><use xlink:href="#icon-billing"></use></svg>
                                                   Billing
                                               </router-link>
                                           </li>
                                           <li class="item">
-                                              <router-link class="link" :to="{ name: 'referrals' }">
+                                              <router-link :to="{ name: 'referrals' }">
                                                   <svg class="icon-reward icon--s"><use xlink:href="#icon-reward"></use></svg>
                                                   Refer a Friend
                                               </router-link>
@@ -84,7 +84,7 @@
                                   <!-- /LOGGED IN NAV -->
 
                                   <!-- LOGGED OUT NAV -->
-                                  <li id="navLoggedOut" class="item" v-if="!visible">
+                                  <li id="navLoggedOut" class="item" v-if="!userLoggedIn">
                                       <ul class="list list--inline">
                                           <li class="item" @click="showLogin">
                                               <a class="link modal--toggle" href="javascript:;">Log In</a>
@@ -129,24 +129,17 @@
       },
       computed: {
         ...mapGetters([
-          'user', 'savedClasses', 'classesInProgress'
+          'user', 'savedClasses', 'classesInProgress', 'userLoggedIn'
         ]),
-        visible() {
-          if (this.user != undefined) {
-            return true;
-          } else {
-            return false;
-          }
-        },
         showUpgrade(){
-          if ((this.user != undefined) && (!this.user.subscribed)) {
+          if ((this.userLoggedIn) && (!this.user.subscribed)) {
             return true;
           } else {
             return false;
           }
         },
         profileImage() {
-          if ((this.user != undefined) && (this.user.profileImageUrl)) {
+          if ((this.userLoggedIn) && (this.user.profileImageUrl)) {
             return this.user.profileImageUrl;
           } else {
             return "";
