@@ -1,7 +1,7 @@
 //import and setup axios
 import axios from 'axios'
-//let BASE_URL = 'https://smmapi-dev.herokuapp.com/v1/api/'
-let BASE_URL = 'http://localhost:4000/v1/api/'
+let BASE_URL = 'https://smmapi-dev.herokuapp.com/v1/api/'
+//let BASE_URL = 'http://localhost:4000/v1/api/'
 let API_TOKEN = localStorage.getItem('token');
 
 function headers() {
