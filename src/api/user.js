@@ -43,6 +43,20 @@ export default {
     .catch((error) => outputError(error));
   },
 
+  loginFacebook(context, payload) {
+    console.log('calling login facebook');
+    let _this = this;
+    axios.post(BASE_URL + 'users/facebooklogin', payload)
+    .then((response) => {
+      API_TOKEN = response.data.data;
+      localStorage.setItem('token', API_TOKEN);
+    })
+    .then(() => {
+      _this.sync(context);
+    })
+    .catch((error) => outputError(error));
+  },
+
   logout(context) {
     API_TOKEN = null;
     localStorage.removeItem('token');
