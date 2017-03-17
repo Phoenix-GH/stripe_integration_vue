@@ -103,5 +103,5 @@ export const loadCache = () => {
 
 function persist() {
   localStorage.setItem('state', JSON.stringify(store.state));
-  console.log(JSON.stringify(store.state));
+  console.log('persisted state');
 }
