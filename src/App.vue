@@ -52,6 +52,14 @@
             eventBus.$emit('closeMenu');
         });
 
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      :'263766374079183',
+                xfbml      :true,
+                version    :'v2.8'
+            });
+        };
+
       }
   }
 

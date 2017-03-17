@@ -20,19 +20,19 @@
 
                       <!-- FACEBOOK LOGIN -->
                       <div class="panel__section divider--or">
-                          <button class="btn btn--cta btn--block is--facebook">Log In with Facebook</button>
+                          <button class="btn btn--cta btn--block is--facebook" @click="loginWithFacebook">Log In with Facebook</button>
                       </div>
                       <!-- /FACEBOOK LOGIN -->
 
                       <!-- SIGN IN WITH EMAIL -->
                       <div class="panel__section">
-                          <form id="formLogin" class="form" action="" @submit.prevent="">
+                          <form id="formLogin" class="form" @submit.prevent="">
                               <div class="input input--text">
-                                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" value="" required>
+                                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" required>
                                   <label for="emailAddress">Email Address</label>
                               </div>
                               <div class="input input--password">
-                                  <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" value="" required>
+                                  <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" required>
                                   <label for="createPass">Password</label>
                               </div>
                               <div class="align--center">
@@ -53,7 +53,7 @@
                       <!-- GO TO CREATE ACCOUNT -->
                       <div class="panel__section align--center fontSize--m">
                           <div class="well">
-                              Don't have an account yet? <a class="link modal--toggle" href="javascript:;" data-target="#modalSignup">Sign Up</a>
+                              Don't have an account yet? <a @click="showSignup" class="link modal--toggle">Sign Up</a>
                           </div>
                       </div>
                       <!-- /GO TO CREATE ACCOUNT -->
@@ -73,13 +73,17 @@ import { User } from '../../api';
 import { mapGetters } from 'vuex';
 
 export default {
+  created() {
+
+  },
   data: function() {
     return {
       email: '',
       password: '',
       facebookId: '',
       errorMessage: '',
-      profileImageUrl: ''
+      profileImageUrl: '',
+      name: ''
     }
   },
   computed: {
@@ -101,6 +105,14 @@ export default {
         profileImageUrl: this.profileImageUrl
       }
     },
+    facebookLoginPayload() {
+      return {
+        email: this.email,
+        facebookId: this.facebookId,
+        profileImageUrl: this.profileImageUrl,
+        name: this.name
+      }
+    },
     checkErrorMessage() {
       if (this.errorMessage.length > 0) {
         return true;
@@ -116,6 +128,43 @@ export default {
     },
     login() {
       User.login(this, this.loginPayload);
+    },
+    loginWithFacebook() {
+      let _this = this;
+      FB.login(function(response) {
+        // handle the response
+        if (response.status === 'connected') {
+          // Logged into your app and Facebook.
+          let __this = _this;
+          FB.api('/me', function(response) {
+            __this.facebookId = response.id;
+            __this.name = response.name;
+            __this.profileImageUrl = `https://graph.facebook.com/${response.id}/picture?type=large`
+            if (response.email) {
+              __this.email = response.email;
+            }
+            __this.createFacebookAccount();
+          });
+        } else {
+          // The person is not logged into this app or we are unable to tell.
+          alert('There was a problem logging into Facebook.');
+        }
+      }, { scope: 'public_profile, email'});
+    },
+    createFacebookAccount() {
+      let payload = this.facebookLoginPayload;
+      if (this.name.length > 0) {
+        let res = this.name.split(" ");
+        if (res.length > 0) {
+          payload.firstName = res[0];
+          payload.lastName = res[1];
+        }
+      }
+      User.loginFacebook(this, payload);
+    },
+    showSignup() {
+      this.$store.dispatch('updateHasModal', true);
+      this.$store.dispatch('updateActiveModal', 'signup');
     }
   }
 }
