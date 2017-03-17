@@ -4,8 +4,8 @@ import { eventBus } from '../main';
 export const uploadToS3 = (file, callback) => {
   _getSignedRequest(file)
   .then(_uploadToS3)
-  .then((message) => {
-    callback(null, message);
+  .then((imageUrl) => {
+    callback(null, imageUrl);
   })
   .catch((err) => {
     callback(err, null);
@@ -44,7 +44,7 @@ let _uploadToS3 = (payload) => {
     let _this = this;
     axios.put(_payload.signedUrl, _payload.file, config)
     .then(function (res) {
-      resolve({message: 'upload success!'});
+      resolve(_payload.url);
     })
     .catch(function (err) {
       reject(JSON.stringify(err));

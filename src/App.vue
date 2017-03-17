@@ -28,6 +28,9 @@
   //import the event bus
   import { eventBus } from './main';
 
+  //import cache
+  import { loadCache } from './store';
+
   //import jquery, meh
   import $ from 'jquery';
 
@@ -41,13 +44,11 @@
       },
       created() {
 
-        //set the user based on what is in local storage
-        let user = JSON.parse(localStorage.getItem('user'));
-        if ((user != null) || (user)) {
-          this.$store.dispatch('updateUser', user);
-        } else {
-          this.$store.dispatch('updateUser', undefined);
-        }
+        //logs for dev
+        console.log('beginning application lifecycle');
+
+        //load cache on the created event
+        loadCache();
 
         //emit close menu event
         $(document).click(function(e){

@@ -12,9 +12,9 @@
                   <div class="panel__body">
 
                       <!-- ERROR MESSAGE -->
-                      <div class="well bg--light-negative border--negative align--center color--negative">
+                      <div class="well bg--light-negative border--negative align--center color--negative" v-if="checkErrorMessage">
                           <svg class="icon-lock icon--s margin--xs no--margin-tb no--margin-l"><use xlink:href="#icon-lock"></use></svg>
-                          Oops, we couldn't log you in with those credentials...
+                          {{ errorMessage }}
                       </div>
                       <!-- /ERROR MESSAGE -->
 
@@ -26,19 +26,19 @@
 
                       <!-- SIGN IN WITH EMAIL -->
                       <div class="panel__section">
-                          <form id="formLogin" class="form" action="">
+                          <form id="formLogin" class="form" action="" @submit.prevent="">
                               <div class="input input--text">
-                                  <input type="email" class="input__field" id="emailAddress" value="" required>
+                                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" value="" required>
                                   <label for="emailAddress">Email Address</label>
                               </div>
                               <div class="input input--password">
-                                  <input type="password" class="input__field" id="createPass" value="" required>
+                                  <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" value="" required>
                                   <label for="createPass">Password</label>
                               </div>
                               <div class="align--center">
                                   <ul class="list list--buttons">
                                       <li class="item">
-                                          <button type="submit" class="btn btn--cta btn--block" data-loads>Log In</button>
+                                          <button type="submit" class="btn btn--cta btn--block" data-loads @click="login">Log In</button>
                                       </li>
                                       <li class="item">
                                           <a class="link link--secondary modal--toggle" href="javascript:;" data-target="#modalForgotPassword">Forgot Password?</a>
@@ -69,8 +69,19 @@
 
 <script>
 
+import { User } from '../../api';
 import { mapGetters } from 'vuex';
+
 export default {
+  data: function() {
+    return {
+      email: '',
+      password: '',
+      facebookId: '',
+      errorMessage: '',
+      profileImageUrl: ''
+    }
+  },
   computed: {
     ...mapGetters([
       'hasModal', 'activeModal'
@@ -81,12 +92,30 @@ export default {
       } else {
         return false;
       }
+    },
+    loginPayload(){
+      return {
+        email: this.email,
+        password: this.password,
+        facebookId: this.facebookId,
+        profileImageUrl: this.profileImageUrl
+      }
+    },
+    checkErrorMessage() {
+      if (this.errorMessage.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   methods: {
     close() {
       this.$store.dispatch('updateHasModal', false);
       this.$store.dispatch('updateActiveModal', '');
+    },
+    login() {
+      User.login(this, this.loginPayload);
     }
   }
 }
