@@ -6,7 +6,7 @@
       <div class="col col--2-of-12 col--push-1-of-12">
         <ul class="list list--nav page__tabs">
           <li class="item">
-              <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+              <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
           </li>
           <li class="item">
               <router-link class="link" :to="{ name: 'password' }">Password</router-link>

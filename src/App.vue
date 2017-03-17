@@ -47,9 +47,6 @@
         //logs for dev
         console.log('beginning application lifecycle');
 
-        //load cache on the created event
-        loadCache();
-
         //emit close menu event
         $(document).click(function(e){
             eventBus.$emit('closeMenu');

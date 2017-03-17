@@ -12,6 +12,7 @@ import Password from '../components/settings/Password.vue'
 import Payments from '../components/settings/Payments.vue'
 import Referrals from '../components/settings/Referrals.vue'
 import Podcasts from '../components/Podcasts.vue';
+import { store } from '../store';
 
 Vue.use(Router)
 
@@ -26,6 +27,12 @@ export default new Router({
     { path: '/saved', name:'saved', component: SavedClasses },
     { path: '/settings',
       component: Settings,
+      beforeEnter: (to, from, next) => {
+        let loggedIn = store.state.userLoggedIn;
+        if (loggedIn) {
+          next();
+        }
+      },
       children: [
           {
             path: 'account',

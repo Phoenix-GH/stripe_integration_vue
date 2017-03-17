@@ -2,12 +2,17 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import { store } from './store/index';
+import { store, loadCache } from './store/index';
 import router from './router'
 
 Vue.config.productionTip = false
+
 //event bus
 export const eventBus = new Vue();
+console.log('created event bus');
+
+//load the cache
+loadCache();
 
 /* eslint-disable no-new */
 new Vue({

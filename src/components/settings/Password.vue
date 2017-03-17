@@ -8,8 +8,8 @@
           <li class="item">
               <router-link class="link" :to="{ name: 'account' }">Account</router-link>
           </li>
-          <li class="item">
-              <router-link class="link" :to="{ name: 'password' }">Password</router-link>
+          <li class="item" v-if="!hasFacebook">
+              <router-link class="link is--active" :to="{ name: 'password' }">Password</router-link>
           </li>
           <li class="item">
               <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
@@ -100,6 +100,7 @@
 
 <script>
 import { User } from '../../api';
+import { mapGetters } from 'vuex';
 export default {
   data: function() {
     return {
@@ -109,6 +110,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'user'
+    ]),
+    hasFacebook() {
+      if ((this.user.facebookId == undefined) || (this.user.facebookId == null) || (this.user.facebookId.length == 0)) return false;
+      return true;
+    },
     shouldHide() {
       if (this.password.length >= 4) {
         return false;
