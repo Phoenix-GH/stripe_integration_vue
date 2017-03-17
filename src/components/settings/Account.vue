@@ -64,7 +64,10 @@
                                             </li>
                                             <li class="item">
                                               <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange"/>
-                                              <button class="btn btn--primary" data-change="Uploading..." data-loads @click="uploadPhoto">Upload Photo</button>
+                                              <button id="upload-button" class="btn btn--primary" :class="{'has--loader': hasLoader }" :style="styleObject" @click="uploadPhoto">
+                                                <div v-if="uploadState <= 1" class="btn--inner"><span class="text">{{ uploadingText }}</span><div class="loader"><span></span></div></div>
+                                                <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
+                                              </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -148,7 +151,11 @@ export default {
       email: '',
       firstName: '',
       lastName: '',
-      errorMessage: ''
+      errorMessage: '',
+      hasLoader: false,
+      uploadingText: 'Upload Photo',
+      width: '192px',
+      uploadState: 0
     }
   },
   computed: {
@@ -166,17 +173,42 @@ export default {
         lastName: this.lastName,
         profileImageUrl: this.profileImageUrl
       }
+    },
+    styleObject() {
+        return {
+          width: this.width,
+          'max-width': this.width
+        };
     }
   },
   created() {
+
+    //set initial values
     this.profileImageUrl = this.user.profileImageUrl;
     this.email = this.user.email;
     this.firstName = this.user.firstName;
     this.lastName = this.user.lastName;
+
   },
   methods: {
-    uploadPhoto() {
+    uploadPhoto(e) {
       document.getElementById('inputfile').click();
+    },
+    beginUpload() {
+      if (!this.hasLoader) {
+        this.uploadingText = "Uploading..."
+        this.width = document.getElementById('upload-button').offsetWidth;
+        this.hasLoader = true;
+      }
+    },
+    completeUpload() {
+      this.hasLoader = false;
+      this.uploadState = 2;
+      let _this = this;
+      setTimeout(function () {
+        _this.uploadingText = "Upload Photo";
+        _this.uploadState = 0;
+      }, 1400);
     },
     onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files;
@@ -185,9 +217,11 @@ export default {
     },
     createImage(file) {
       let _this = this;
+      this.beginUpload();
       uploadToS3(file, (err, imageUrl) => {
         if(err) console.log(err);
-        this.profileImageUrl = imageUrl;
+        _this.completeUpload();
+        _this.profileImageUrl = imageUrl;
         _this.$store.dispatch('updateUser', {profileImageUrl: imageUrl});
       });
     },
