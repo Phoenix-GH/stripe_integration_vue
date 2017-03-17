@@ -17,7 +17,7 @@ let _getSignedRequest = (file) => {
   let promise = new Promise((resolve, reject) => {
     const filename = _file.name;
     const filetype = _file.type;
-    const url = `http://localhost:4000/v1/api/sign?filename=${filename}&filetype=${filetype}`
+    const url = `https://smmapi-dev.herokuapp.com//v1/api/sign?filename=${filename}&filetype=${filetype}`
     axios.get(url)
     .then((response) => {
       resolve({signedUrl: response.data.data.signedUrl, url: response.data.data.url, file: _file});
