@@ -1,7 +1,7 @@
 //import and setup axios
 import axios from 'axios'
-let BASE_URL = 'https://smmapi-dev.herokuapp.com/v1/api/'
-//let BASE_URL = 'http://localhost:4000/v1/api/'
+//let BASE_URL = 'https://smmapi-dev.herokuapp.com/v1/api/'
+let BASE_URL = 'http://localhost:4000/v1/api/'
 let API_TOKEN = localStorage.getItem('token');
 
 function headers() {
@@ -109,6 +109,28 @@ export default {
     .catch((error) => {
       callback(error, null);
     });
+  },
+
+  topicsForName(context, payload, callback) {
+    let _this = this;
+    axios.get(BASE_URL + 'topics/topicsfornames', payload)
+    .then(response => {
+      callback(null, response.data.data);
+    })
+    .catch(error => {
+      callback(error, null);
+    })
+  },
+
+  updateUserWithSelectedTopics(context, payload, callback) {
+    let _this = this;
+    axios.post(BASE_URL + 'topics/topicsfornames', payload)
+    .then(response => {
+      callback(null, response.data.data);
+    })
+    .catch(error => {
+      callback(error, null);
+    })
   }
 
 }

@@ -52,7 +52,7 @@
 
                   <!-- PAYMENT METHOD -->
                   <!-- NOTE: Display only if Credit Card saved -->
-                  <div class="well">
+                  <div class="well" v-if="hasStripeAccount">
                       <div class="wrapper">
                           <div class="wrapper__inner">
                               <ul class="list list--inline list--divided">
@@ -74,14 +74,14 @@
 
                   <!-- PAYMENT METHOD - EMPTY STATE -->
                   <!-- NOTE: Display if no payment method is added -->
-                  <div class="well is--empty align--center">
+                  <div class="well is--empty align--center" v-if="!hasStripeAccount">
                       <p class="ts--body">You don't have a payment method saved yet.</p>
                       <button class="btn btn--primary">Add Credit Card</button>
                   </div>
                   <!-- /PAYMENT METHOD - EMPTY STATE -->
 
                   <!-- Billing Link -->
-                  <div class="align--right">
+                  <div class="align--right" v-if="hasStripeAccount">
                       <a class="link link--secondary" href="/templates/settings/billing">View Billing History</a>
                   </div>
 
@@ -114,6 +114,13 @@ export default {
     hasFacebook() {
       if ((this.user.facebookId == undefined) || (this.user.facebookId == null) || (this.user.facebookId.length == 0)) return false;
       return true;
+    },
+    hasStripeAccount(){
+      if (this.user.hasCustomerId) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   methods: {

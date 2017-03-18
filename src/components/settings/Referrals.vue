@@ -64,18 +64,26 @@
                           </div>
                           <div class="wrapper__inner" style="width:190px; transform: translateY(-4px);">
 
-                              <!-- FACBOOK SHARE -->
-                              <div id="fb-root"></div>
-                              <div class="fb-share-button" data-href="https://selfmademan.com/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
-                              <!-- /FACEBOOK SHARE -->
+                            <!-- FACBOOK SHARE -->
+                            <div id="fb-root"></div>
 
-                              <!-- TWITTER SHARE -->
-                              <div class="disp--ib" style="transform:translateY(7px);">
-                                  <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false">Tweet</a>
-                              </div>
-                              <!-- /TWITTER SHARE -->
+                            <div data-href="https://selfmademan.com/" data-layout="button" data-size="small" data-mobile-iframe="true" class="fb-share-button fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=263766374079183&amp;container_width=190&amp;href=https%3A%2F%2Fselfmademan.com%2F&amp;layout=button&amp;locale=en_US&amp;mobile_iframe=true&amp;sdk=joey&amp;size=small">
+                              <span style="vertical-align: bottom; width: 59px; height: 20px;">
 
+                                <iframe name="f1e731dbabbe5c" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:share_button Facebook Social Plugin" src="https://www.facebook.com/v2.8/plugins/share_button.php?app_id=263766374079183&amp;channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2Fao6eUeuGXQq.js%3Fversion%3D42%23cb%3Df1a38e046c80f2%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8080%252Ffa32620891dc1c%26relation%3Dparent.parent&amp;container_width=190&amp;href=https%3A%2F%2Fselfmademan.com%2F&amp;layout=button&amp;locale=en_US&amp;mobile_iframe=true&amp;sdk=joey&amp;size=small" style="border: none; visibility: visible; width: 59px; height: 20px;" class="">
+                                </iframe>
+
+                              </span>
+                            </div>
+
+                            <div class="disp--ib" style="transform: translateY(7px);">
+                              <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" title="Twitter Tweet Button" src="http://platform.twitter.com/widgets/tweet_button.a0ec3119d8db2bc5422f2144c89ad7a9.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=http%3A%2F%2Flocalhost%3A8080%2Fsettings%2Freferrals&amp;size=m&amp;text=Self%20Made%20Man&amp;time=1489866942995&amp;type=share&amp;url=http%3A%2F%2Flocalhost%3A8080%2Fsettings%2Freferrals" style="position: static; visibility: visible; width: 61px; height: 20px;"></iframe>
+                              <script2 src="//platform.twitter.com/widgets.js" type="text/javascript"></script2>
+                            </div>
+
+                            <div>
                               <a class="btn btn--share is--email" href="mailto:" style="transform: translateY(7px);">Email</a>
+                            </div>
 
                           </div>
                       </div>
@@ -95,7 +103,7 @@
                   <!-- /REFERRALS - (EMPTY STATE) -->
 
                   <!-- REFERRALS -->
-                  <table class="table">
+                  <table class="table" v-if="loggedIn">
                       <tbody>
 
                           <!-- SINGLE REFERRAL -->
@@ -171,22 +179,10 @@
 
 <script>
 
-// (function(d, s, id) {
-//   var js, fjs = d.getElementsByTagName(s)[0];
-//   if (d.getElementById(id)) return;
-//   js = d.createElement(s); js.id = id;
-//   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1262316793801783";
-//   fjs.parentNode.insertBefore(js, fjs);
-// }(document, 'script', 'facebook-jssdk'));
-
 import { User } from '../../api';
 import { mapGetters } from 'vuex';
+
 export default {
-  data: function() {
-    return {
-      topics: []
-    }
-  },
   computed: {
     ...mapGetters([
       'user'
@@ -194,9 +190,10 @@ export default {
     hasFacebook() {
       if ((this.user.facebookId == undefined) || (this.user.facebookId == null) || (this.user.facebookId.length == 0)) return false;
       return true;
+    },
+    loggedIn() {
+      return false;
     }
-  },
-  methods: {
   }
 }
 </script>

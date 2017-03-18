@@ -54,17 +54,17 @@
                   <h4 class="ts--subtitle">Notify me:</h4>
                   <div class="control__group margin--s no--margin-r">
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="notifNewClasses">
+                          <input type="checkbox" name="notifNewClasses" v-model="notifyNewClass">
                           <div class="control__indicator"></div>
                           New classes are released
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="notifNewPodcasts">
+                          <input type="checkbox" name="notifNewPodcasts" v-model="notifyNewPodcast">
                           <div class="control__indicator"></div>
                           New podcast episodes are available
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="notifNewAnnouncements">
+                          <input type="checkbox" name="notifNewAnnouncements" v-model="notifyAnouncement">
                           <div class="control__indicator"></div>
                           Announcements/upcoming events
                       </label>
@@ -78,47 +78,47 @@
                   <p class="ts--body is--secondary">Notify me when new classes are released for my followed topics:</p>
                   <div class="control__group margin--s no--margin-r">
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedMindset">
+                          <input type="checkbox" id="Mindset" value="Mindset" name="followedMindset" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Mindset
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedProductivity">
+                          <input type="checkbox" id="Productivity" value="Productivity" name="followedProductivity" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Productivity
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedEntreneurship">
+                          <input type="checkbox" id="Entrepreneurship" value="Entrepreneurship" name="followedEntreneurship" v-model="selectedTopics">
                           <div class="control__indicator"></div>
-                          Entreneurship
+                          Entrepreneurship
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedMoney">
+                          <input type="checkbox" id="Money" value="Money" name="followedMoney" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Money
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedGiving">
+                          <input type="checkbox" id="Giving" value="Giving" name="followedGiving" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Giving
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedHealthFitness">
+                          <input type="checkbox" id="Fitness" value="Fitness" name="followedHealthFitness" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Health &amp; Fitness
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedDefense">
+                          <input type="checkbox" id="Defense" value="Defense" name="followedDefense" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Defense
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedLifestyle">
+                          <input type="checkbox" id="Lifestyle" value="Lifestyle" name="followedLifestyle" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Lifestyle
                       </label>
                       <label class="control control__checkbox">
-                          <input type="checkbox" name="followedRelationships">
+                          <input type="checkbox" id="Relationships" value="Relationships" name="followedRelationships" v-model="selectedTopics">
                           <div class="control__indicator"></div>
                           Relationships
                       </label>
@@ -134,6 +134,10 @@
       </div>
       <!-- /MAIN CONTENT -->
 
+      <div>
+        {{ selectedTopics }}
+      </div>
+
   </div>
 
 </template>
@@ -144,8 +148,24 @@ import { mapGetters } from 'vuex';
 export default {
   data: function() {
     return {
-      topics: []
+      selectedTopics: [],
+      notifyNewClass: false,
+      notifyNewPodcast: false,
+      notifyAnouncement: false,
+      topicIds: []
     }
+  },
+  beforeDestroy() {
+    let payload = {
+      topics: this.selectedTopics
+    }
+    this.updateUser(payload);
+  },
+  created() {
+    this.selectedTopics = this.user.followedTopics;
+    this.notifyNewClass = this.user.notifyNewClass;
+    this.notifyNewPodcast = this.user.notifyNewPodcast;
+    this.notifyAnouncement = this.user.notifyAnouncement;
   },
   computed: {
     ...mapGetters([
@@ -154,9 +174,24 @@ export default {
     hasFacebook() {
       if ((this.user.facebookId == undefined) || (this.user.facebookId == null) || (this.user.facebookId.length == 0)) return false;
       return true;
+    },
+    updatePayload() {
+      return {
+        followedTopics: this.topicIds,
+        notifyNewClass: this.notifyNewClass,
+        notifyNewPodcast: this.notifyNewPodcast,
+        notifyAnouncement: this.notifyAnouncement
+      }
     }
   },
   methods: {
+    updateUser(payload) {
+      let _this = this;
+      User.updateUserWithSelectedTopics(this, payload, (err, topicIds) => {
+        if (!err) _this.topicIds = topicIds;
+        User.updateUser(_this, this.updatePayload);
+      });
+    }
   }
 }
 </script>

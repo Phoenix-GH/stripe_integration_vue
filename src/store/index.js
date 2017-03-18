@@ -12,7 +12,8 @@ export const store = new Vuex.Store({
     lessonProgress: [],
     hasModal: false,
     activeModal: '',
-    userLoggedIn: false
+    userLoggedIn: false,
+    selectedTopics: []
   },
   actions: {
     replaceUser: ({ commit }, payload) => {
@@ -38,6 +39,9 @@ export const store = new Vuex.Store({
     },
     updateCache: ({commit}, payload) => {
       commit('loadCache', payload);
+    },
+    updateSelectedTopics: ({ commit }, payload) => {
+      commit('updateSelectedTopics', payload);
     }
   },
   mutations: {
@@ -71,6 +75,10 @@ export const store = new Vuex.Store({
     },
     updateActiveModal: (state, payload) => {
       state.activeModal = payload;
+    },
+    updateSelectedTopics: (state, payload) => {
+      state.selectedTopics = payload;
+      persist();
     }
   },
   getters: {
@@ -91,6 +99,9 @@ export const store = new Vuex.Store({
     },
     activeModal: state => {
       return state.activeModal;
+    },
+    selectedTopics: state => {
+      return state.selectedTopics;
     }
   }
 });
@@ -102,6 +113,7 @@ export const loadCache = () => {
 }
 
 function persist() {
+  console.log(JSON.stringify(store.state.user));
   localStorage.setItem('state', JSON.stringify(store.state));
   console.log('persisted state');
 }

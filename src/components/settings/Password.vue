@@ -101,6 +101,7 @@
 <script>
 import { User } from '../../api';
 import { mapGetters } from 'vuex';
+import $ from 'jquery';
 export default {
   data: function() {
     return {
@@ -139,6 +140,29 @@ export default {
       this.password = '';
       this.newPassword = '';
     }
+  },
+  created() {
+
+    //===== Showing/Hiding Password Toggle
+    $(document).ready(function(){
+      $('.input--password .input__field').each(function(){
+          var input = $(this),
+          toggle = $(this).siblings('.input__link'),
+          show = '<svg class="input__link--icon icon-show"><use xlink:href="#icon-show"></use></svg><a class="link" href="javascript:;">Show</a>',
+          hide = '<svg class="input__link--icon icon-hide"><use xlink:href="#icon-hide"></use></svg><a class="link" href="javascript:;">Hide</a>';
+          $(toggle).html(show);
+          $(toggle).click(function(){
+              if ($(input).attr('type') === 'password'){
+                  $(input).attr('type', 'text');
+                  $(toggle).html(hide);
+              } else{
+                  $(input).attr('type', 'password');
+                  $(toggle).html(show);
+              }
+          })
+      });
+    });
+
   }
 }
 </script>
