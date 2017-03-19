@@ -2,10 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import { store, loadCache } from './store/index';
+import { store, loadCache } from './store/index'
 import router from './router'
 import VueScript2 from 'vue-script2'
-Vue.use(VueScript2);
+Vue.use(VueScript2)
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer);
 
 Vue.config.productionTip = false
 
