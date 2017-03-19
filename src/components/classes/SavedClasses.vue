@@ -1,21 +1,12 @@
 <template>
-  <div>
-    <div class="col col--10-of-12">
-        <form action="/charge" method="post" id="payment-form">
-          <div class="form-row">
-            <label for="card-element">
-              Credit or debit card
-            </label>
-            <div id="card-element">
-              <!-- a Stripe Element will be inserted here. -->
-            </div>
-            <!-- Used to display form errors -->
-            <div id="card-errors"></div>
-          </div>
-          <button class="btn btn--primary">Submit</button>
-        </form>
-    </div>
-  </div>
+  <form>
+    <input type="text" name="cardholder_name" v-model="name" />
+    <input type="text" name="card_number" v-model="cardNumber" />
+    <input type="text" name="expiration" v-model="expiration" />
+    <input type="text" name="security_code" v-model="securityCode" />
+    <input type="text" name="postal_code" v-model="postalCode" />
+    <input type="hidden" name="token" v-model="token" />
+  </form>
 </template>
 
 <script>
@@ -48,18 +39,27 @@
   // Create an instance of the card Element
   var card = elements.create('card', {style: style});
 
-
   export default {
+    data: function() {
+      return {
+        name: '',
+        cardNumber: '',
+        expiration: '',
+        securityCode: '',
+        postalCode: '',
+        token: '',
+      }
+    },
     created(){
       console.log('I was created');
     },
     destroyed(){
       console.log('destroyed');
-      this.unmountStripeComponent();
+      //this.unmountStripeComponent();
     },
     mounted() {
       console.log('i was mounted');
-      this.mountStripeComponent();
+      //this.mountStripeComponent();
     },
     beforeMount() {
       console.log('before mounted');
@@ -73,6 +73,23 @@
       },
       unmountStripeComponent() {
         card.unmount();
+      },
+      getToken() {
+        console.log('getting token');
+        console.log(stripe);
+        console.log(card.cardNumber);
+        stripe.createToken(card).then(function(result) {
+          if (result.error) {
+            // Inform the user if there was an error
+            //var errorElement = document.getElementById('card-errors');
+            //errorElement.textContent = result.error.message;
+            console.log(result.error.message);
+          } else {
+            // Send the token to your server
+            //stripeTokenHandler(result.token);
+            console.log(result.token);
+          }
+        });
       }
     }
   }

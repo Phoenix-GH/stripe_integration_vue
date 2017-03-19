@@ -81,9 +81,7 @@
                               <script2 src="//platform.twitter.com/widgets.js" type="text/javascript"></script2>
                             </div>
 
-                            <div>
-                              <a class="btn btn--share is--email" href="mailto:" style="transform: translateY(7px);">Email</a>
-                            </div>
+                            <a class="btn btn--share is--email" href="mailto:" style="transform: translateY(7px);">Email</a>
 
                           </div>
                       </div>
