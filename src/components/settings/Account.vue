@@ -9,7 +9,7 @@
               <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
           </li>
           <li class="item">
-              <router-link class="link" :to="{ name: 'password' }">Password</router-link>
+              <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
           </li>
           <li class="item">
               <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
@@ -179,6 +179,10 @@ export default {
           width: this.width,
           'max-width': this.width
         };
+    },
+    hasFacebook() {
+      if ((this.user.facebookId == undefined) || (this.user.facebookId == null) || (this.user.facebookId.length == 0)) return false;
+      return true;
     }
   },
   created() {

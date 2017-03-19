@@ -109,6 +109,28 @@ export default {
     .catch((error) => {
       callback(error, null);
     });
+  },
+
+  topicsForName(context, payload, callback) {
+    let _this = this;
+    axios.get(BASE_URL + 'topics/topicsfornames', payload)
+    .then(response => {
+      callback(null, response.data.data);
+    })
+    .catch(error => {
+      callback(error, null);
+    })
+  },
+
+  updateUserWithSelectedTopics(context, payload, callback) {
+    let _this = this;
+    axios.post(BASE_URL + 'topics/topicsfornames', payload)
+    .then(response => {
+      callback(null, response.data.data);
+    })
+    .catch(error => {
+      callback(error, null);
+    })
   }
 
 }
