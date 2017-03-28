@@ -53,6 +53,12 @@
         'user', 'userLoggedIn'
       ])
     },
+    beforeCreate() {
+      document.body.classList.add("has--banner");
+    },
+    beforeDestroy() {
+      document.body.classList.remove("has--banner");
+    },
     methods: {
       login() {
         User.login(this, { email: 'aaron+3@manhattanmobile.net', password: 'test123'});
