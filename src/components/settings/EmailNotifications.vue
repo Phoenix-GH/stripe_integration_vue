@@ -134,10 +134,6 @@
       </div>
       <!-- /MAIN CONTENT -->
 
-      <div>
-        {{ selectedTopics }}
-      </div>
-
   </div>
 
 </template>

@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.0",
     "vue": "^2.2.2",
     "vue-router": "^2.2.0",
     "vue-script2": "^2.0.0",
+    "vue-slick": "^1.1.0",
     "vue-video-player": "^2.5.0",
     "vuex": "^2.2.1"
   },

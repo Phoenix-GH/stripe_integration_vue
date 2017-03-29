@@ -1,127 +1,204 @@
 <template>
-  <form>
-    <input type="text" name="cardholder_name" v-model="name" />
-    <input type="text" name="card_number" v-model="cardNumber" />
-    <input type="text" name="expiration" v-model="expiration" />
-    <input type="text" name="security_code" v-model="securityCode" />
-    <input type="text" name="postal_code" v-model="postalCode" />
-    <input type="hidden" name="token" v-model="token" />
-  </form>
+
+    <div>
+        <!-- BANNER -->
+        <div class="banner bg--black bg--wood">
+            <div class="banner__content container container--fw is--reversed">
+                <div class="wrapper">
+                    <div class="wrapper__inner">
+                        <h1 class="ts--headline">Saved for Later</h1>
+                        <p class="ts--title is--secondary">View a list of all the classes you’ve saved to take later</p>
+                    </div>
+                    <!-- BROWSE CLASSES -->
+                    <!-- NOTE: This button is only displayed if the user is enrolled in classes -->
+                    <div class="wrapper__inner align--right">
+                        <button class="btn btn--cta">Browse Classes</button>
+                    </div>
+                    <!-- /BROWSE CLASSES -->
+                </div>
+            </div>
+        </div>
+        <!-- /BANNER -->
+
+        <!-- CLASS LIST -->
+        <div class="content__section container container--fw">
+
+            <div class="well is--empty align--center padding--xxl border--medium">
+                <span class="ts--title">You haven't saved any classes yet!</span>
+                <div class="divider divider--s" style="margin-left:auto; margin-right:auto;"></div>
+                <button class="btn btn--cta" data-target="/templates/classes">Browse Classes</button>
+            </div>
+            <!-- /EMPTY STATE -->
+
+            <!-- CLASSES - IN PROGRESS -->
+            <Slick class="carousel" ref="slick" :options="slickOptions">
+        
+                <!-- SINGLE CLASS -->
+                <div class="class" data-progress="0">
+                    <a class="class__thumb" href="/templates/classes/class">
+                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
+                        <span class="btn__play btn--s btn--secondary"></span>
+                        <span class="image__cap">
+                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
+                            2h 16m
+                        </span>
+                        <span class="remove__link link link--secondary">Remove</span>
+                    </a>
+                    <div class="class__info">
+                        <a class="link" href="#">The Power of Being Broke</a>
+                        <ul class="class__meta list list--inline">
+                            <li class="item has--icon">
+                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
+                                Daymond John
+                            </li>
+                            <li class="item has--icon">
+                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
+                                <a class="link link--secondary" href="#">1.2k</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /SINGLE CLASS -->
+
+                                <!-- SINGLE CLASS -->
+                <div class="class" data-progress="0">
+                    <a class="class__thumb" href="/templates/classes/class">
+                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
+                        <span class="btn__play btn--s btn--secondary"></span>
+                        <span class="image__cap">
+                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
+                            2h 16m
+                        </span>
+                        <span class="remove__link link link--secondary">Remove</span>
+                    </a>
+                    <div class="class__info">
+                        <a class="link" href="#">The Power of Being Broke</a>
+                        <ul class="class__meta list list--inline">
+                            <li class="item has--icon">
+                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
+                                Daymond John
+                            </li>
+                            <li class="item has--icon">
+                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
+                                <a class="link link--secondary" href="#">1.2k</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /SINGLE CLASS -->
+
+                                <!-- SINGLE CLASS -->
+                <div class="class" data-progress="0">
+                    <a class="class__thumb" href="/templates/classes/class">
+                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
+                        <span class="btn__play btn--s btn--secondary"></span>
+                        <span class="image__cap">
+                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
+                            2h 16m
+                        </span>
+                        <span class="remove__link link link--secondary">Remove</span>
+                    </a>
+                    <div class="class__info">
+                        <a class="link" href="#">The Power of Being Broke</a>
+                        <ul class="class__meta list list--inline">
+                            <li class="item has--icon">
+                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
+                                Daymond John
+                            </li>
+                            <li class="item has--icon">
+                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
+                                <a class="link link--secondary" href="#">1.2k</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /SINGLE CLASS -->
+
+                                <!-- SINGLE CLASS -->
+                <div class="class" data-progress="0">
+                    <a class="class__thumb" href="/templates/classes/class">
+                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
+                        <span class="btn__play btn--s btn--secondary"></span>
+                        <span class="image__cap">
+                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
+                            2h 16m
+                        </span>
+                        <span class="remove__link link link--secondary">Remove</span>
+                    </a>
+                    <div class="class__info">
+                        <a class="link" href="#">The Power of Being Broke</a>
+                        <ul class="class__meta list list--inline">
+                            <li class="item has--icon">
+                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
+                                Daymond John
+                            </li>
+                            <li class="item has--icon">
+                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
+                                <a class="link link--secondary" href="#">1.2k</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /SINGLE CLASS -->
+
+            </Slick>
+            <!-- /CLASSES - IN PROGRESS -->
+
+        </div>
+        <!-- /CLASS LIST -->
+
+    </div>
+
 </template>
 
 <script>
 
-  // Create a Stripe client
-  var stripe = Stripe('pk_test_hz7Ftxjb7anZasP8PFtcFwQv');
-
-  // Create an instance of Elements
-  var elements = stripe.elements();
-
-  // Custom styling can be passed to options when creating an Element.
-  // (Note that this demo uses a wider set of styles than the guide below.)
-  var style = {
-    base: {
-      color: '#32325d',
-      lineHeight: '24px',
-      fontFamily: 'Helvetica Neue',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
-      '::placeholder': {
-        color: '#aab7c4'
-      }
-    },
-    invalid: {
-      color: '#fa755a',
-      iconColor: '#fa755a'
-    }
-  };
-
-  // Create an instance of the card Element
-  var card = elements.create('card', {style: style});
+  import Slick from 'vue-slick';
 
   export default {
     data: function() {
       return {
-        name: '',
-        cardNumber: '',
-        expiration: '',
-        securityCode: '',
-        postalCode: '',
-        token: '',
+        savedClasses: [],
+        slickOptions: {
+            lazyLoad: 'ondemand',
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                }
+            ]
+        },
       }
     },
-    created(){
-      console.log('I was created');
+    components: {
+        Slick
     },
-    destroyed(){
-      console.log('destroyed');
-      //this.unmountStripeComponent();
-    },
-    mounted() {
-      console.log('i was mounted');
-      //this.mountStripeComponent();
-    },
-    beforeMount() {
-      console.log('before mounted');
-    },
-    methods:{
-      mountStripeComponent() {
-        console.log('mounting stripe');
-        const node = document.getElementById('card-element');
-        const card = stripe.elements().create('card', {style: style});
-        card.mount(node);
-      },
-      unmountStripeComponent() {
-        card.unmount();
-      },
-      getToken() {
-        console.log('getting token');
-        console.log(stripe);
-        console.log(card.cardNumber);
-        stripe.createToken(card).then(function(result) {
-          if (result.error) {
-            // Inform the user if there was an error
-            //var errorElement = document.getElementById('card-errors');
-            //errorElement.textContent = result.error.message;
-            console.log(result.error.message);
-          } else {
-            // Send the token to your server
-            //stripeTokenHandler(result.token);
-            console.log(result.token);
-          }
-        });
-      }
-    }
+    // beforeCreate(){
+    // document.body.classList.add("has--banner");
+    // },
+    // beforeDestroy(){
+    //   document.body.classList.remove("has--banner");
+    // }
   }
 
 </script>
 
 <style>
-
-.bottom {
-  padding-top: 50px;
-}
-
-.StripeElement {
-  background-color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
-  transition: box-shadow 150ms ease;
-}
-
-.StripeElement--focus {
-  box-shadow: 0 1px 3px 0 #cfd7df;
-}
-
-.StripeElement--invalid {
-  border-color: #fa755a;
-}
-
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
-}
 
 </style>
