@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <!-- BANNER -->
         <div class="banner bg--black bg--wood">
