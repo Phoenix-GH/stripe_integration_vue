@@ -1,21 +1,10 @@
 <template lang="html">
-  <div class="content no--pad">
+  <div>
     <h1>Podcasts go here.</h1>
-    <h1>Upload this</h1>
-    <h1>{{ message }}</h1>
-    <div v-if="!image">
-      <h2>Select an image</h2>
-      <input id="file" type="file" @change="onFileChange">
-    </div>
-    <div v-else>
-      <img :src="image" />
-      <button @click="removeImage">Remove image</button>
-    </div>
   </div>
 </template>
 
 <script>
-
   import { uploadToS3 } from '../api/uploader';
   import { eventBus } from '../main';
 
@@ -43,11 +32,11 @@
         const reader = new FileReader();
         let vm = this;
         reader.onload = (e) => {
-         vm.image = e.target.result;
-         uploadToS3(file, (err, message) => {
-           console.log(err);
-           console.log(message);
-         });
+          vm.image = e.target.result;
+          uploadToS3(file, (err, message) => {
+            console.log(err);
+            console.log(message);
+          });
         };
         reader.readAsDataURL(file);
       },
@@ -60,13 +49,5 @@
 </script>
 
 <style lang="css" scoped>
-
-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
 
 </style>
