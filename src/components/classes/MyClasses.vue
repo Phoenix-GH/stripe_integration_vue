@@ -32,19 +32,36 @@
         </div>
         <!-- /EMPTY STATE -->
 
+            <!-- /CLASS LIST -->
+<inprogress />
+<purchased />
+    <completed-classes />
+    
+
     </div>
-    <!-- /CLASS LIST -->
+
+
   </div>
 </template>
 
 <script>
+
+import CompletedClasses from './sections/CompletedClasses.vue'
+import PurchasedClasses from './sections/PurchasedClasses.vue'
+import InProgress from './sections/InProgressClasses.vue'
+
 export default {
-  beforeCreate(){
-    document.body.classList.add("has--banner");
-  },
-  beforeDestroy(){
-    document.body.classList.remove("has--banner");
-  }
+    components: {
+        completedClasses: CompletedClasses,
+        inprogress: InProgress,
+        purchased: PurchasedClasses
+    }
+//   beforeCreate(){
+//     document.body.classList.add("has--banner");
+//   },
+//   beforeDestroy(){
+//     document.body.classList.remove("has--banner");
+//   }
 }
 </script>
 

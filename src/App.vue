@@ -2,9 +2,9 @@
   <div class="page__wrapper">
     <appHeader></appHeader>
     <section class="page__block is--push">
-      <div class="content">
-        <router-view></router-view>
-      </div>
+    <div class="content">
+      <router-view></router-view>
+    </div>
       <loginModal></loginModal>
       <signupModal></signupModal>
     </section>
@@ -43,10 +43,7 @@
           signupModal: Signup
       },
       created() {
-
-        //logs for dev
-        console.log('beginning application lifecycle');
-
+        
         //emit close menu event
         $(document).click(function(e){
             eventBus.$emit('closeMenu');

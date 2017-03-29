@@ -1,6 +1,6 @@
 <template lang="html">
 
-  <div class="row">
+  <div class="row content">
 
       <!-- LEFT SIDEBAR -->
       <div class="col col--2-of-12 col--push-1-of-12">

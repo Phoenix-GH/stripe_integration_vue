@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="content no--pad">
     <h1>Podcasts go here.</h1>
     <h1>Upload this</h1>
     <h1>{{ message }}</h1>
