@@ -14,6 +14,7 @@ import Password from '../components/settings/Password.vue';
 import Payments from '../components/settings/Payments.vue';
 import Referrals from '../components/settings/Referrals.vue';
 import Podcasts from '../components/Podcasts.vue';
+import SearchResults from '../components/search/SearchResults.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -27,6 +28,7 @@ export default new Router({
     { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
     { path: '/myclasses', name: 'myclasses', component: MyClasses },
     { path: '/saved', name: 'saved', component: SavedClasses },
+    { path: '/searchresults', name: 'searchresults', component: SearchResults },
     {
       path: '/settings',
       component: Settings,
