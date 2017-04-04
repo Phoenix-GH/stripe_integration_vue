@@ -78,7 +78,7 @@
                         <!-- NOTE: Display if no payment method is added -->
                         <div class="well is--empty align--center" v-if="!hasStripeAccount">
                             <p class="ts--body">You don't have a payment method saved yet.</p>
-                            <button class="btn btn--primary">Add Credit Card</button>
+                            <button class="btn btn--primary" @click="openStripeCheckout">Add Credit Card</button>
                         </div>
                         <!-- /PAYMENT METHOD - EMPTY STATE -->
 
@@ -104,9 +104,27 @@
     import { User } from '../../api';
     import { mapGetters } from 'vuex';
     export default {
+        created() {
+            this.stripeHandler = StripeCheckout.configure({
+                key: 'pk_test_kEvdItrteZsUTKZVX4b2bFLI',
+                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+                locale: 'auto',
+                token: function (token) {
+                    // You can access the token ID with `token.id`.
+                    // Get the token ID to your server-side code for use.
+                    console.log(token.id);
+                }
+            });
+
+            // Close Checkout on page navigation:
+            window.addEventListener('popstate', function () {
+                this.stripeHandler.close();
+            });
+        },
         data: function () {
             return {
-                topics: []
+                topics: [],
+                stripeHandler: {}
             }
         },
         computed: {
@@ -126,6 +144,14 @@
             }
         },
         methods: {
+            openStripeCheckout() {
+                // Open Checkout with further options:
+                this.stripeHandler.open({
+                    name: 'Self Made Man',
+                    description: 'Annual membership for Self Made Man',
+                    amount: 14999
+                });
+            }
         }
     }
 
