@@ -148,183 +148,19 @@
             <div class="row grid">
 
                 <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
-                    <a class="class__thumb" href="/templates/classes/class">
+                <div v-for="course in classes" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+                    <a class="class__thumb" @click="updateCurrentClass(course)">
                         <!-- TODO: Need to add progress circles to already started courses. The percent/100 should be appended to the 'data-progress' attribute -->
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
+                        <img :src="course.thumbImageUrl" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
+                        <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>2h 16m</span>
                     </a>
                     <div class="class__info">
-                        <a class="link" href="#">The Power of Being Broke</a>
+                        <a class="link" href="#">{{ course.title }}</a>
                         <ul class="class__meta list list--inline">
                             <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                Daymond John
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-2.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">How to Attract One Million Fans While Raising Four Kids</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-rachel.jpg');"></span>                                Rachel Maser
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-3.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">How to Grow Your Brand and Live Your Dream</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-lewis.jpg');"></span>                                Lewis Howes
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-4.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">How to Turn a Pattern of Failure into a Pattern of Success</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-james.jpg');"></span>                                James Altucher
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-5.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">How to Become a Productivity Monster, Crush Your Goals and Change Your Life Forever</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-david.jpg');"></span>                                David Osborn
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-6.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">Ryan Holiday's Ultimate Guide to Free Press</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-ryan.jpg');"></span>                                Ryan Holiday
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                <!-- SINGLE CLASS -->
-                <div class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-7.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                    <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                    2h 16m
-                </span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">Juiced: How to Transform Your Body, and Your Business</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-drew.jpg');"></span>                                Drew Canole
+                                <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
+                                course.instructor.name }}
                             </li>
                             <li class="item has--icon">
                                 <svg class="icon-thumbs-up">
@@ -346,6 +182,8 @@
 
 <script>
     import Slick from 'vue-slick';
+    import { Class, User } from '../../api';
+    import { mapGetters } from 'vuex';
 
     export default {
         data: function () {
@@ -383,6 +221,11 @@
         components: {
             Slick
         },
+        computed: {
+            ...mapGetters([
+                'user', 'savedClasses', 'classesInProgress', 'classes'
+            ]),
+        },
         methods: {
             catClicked(topic) {
                 this.selectedCategory = topic;
@@ -401,7 +244,14 @@
                     default:
                         this.currentSort = 'Newest First';
                 }
+            },
+            updateCurrentClass(course) {
+                this.$store.dispatch('updateActiveCourse', course);
+                this.$router.push({ name: 'singleclass', params: { id: course._id } });
             }
+        },
+        created() {
+            Class.recentClasses(this);
         }
     }
 
