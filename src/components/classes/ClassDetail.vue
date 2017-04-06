@@ -96,7 +96,8 @@
                                     </ul>
                                 </li>
                                 <li class="item">
-                                    <div class="progress show--count">
+
+                                    <div class="progress show--count"><span class="progress__counter">80%</span>
                                         <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                                             <circle cx="16" cy="16" r="15" class="progress__bg" />
                                             <circle cx="16" cy="16" r="15" class="progress__bar" />
@@ -400,108 +401,26 @@
                                     <!-- /LIST HEAD -->
 
                                     <!-- LESSON -->
-                                    <!--
-                                NOTE: Lessons have 2 modifiers: status and progress. Status takes the form of the classes: '.is--complete', '.is--playing', '.is--locked'. Progress for each lesson should be updated while the video is playing and the class on 'circularProgress' is changed from '--0' to '--100'
-                            -->
-
-                                    <!-- LESSON -->
-                                    <li v-for="(lesson, index) in currentLessons" class="lesson wrapper" :class="playbackState(lesson)" @click="playLesson(lesson._id, lesson.videoUrl)">
-                                        <div class="lesson__title wrapper__inner" :data-tooltip="tooltipString(lesson)" data-tip-pos="left">
+                                    <li v-for="lesson in lessons" @click="playLesson(lesson._id, lesson.videoUrl)" class="lesson wrapper" :class="{'is--playing': (lesson._id == currentLessonId)}">
+                                        <div class="lesson__title wrapper__inner" data-tip-pos="left">
                                             <span class="lesson__btn">
-                                                <div class="circularProgress --90"><div class="circularProgress__overlay"></div></div>
-                                        <div class="progress">
-                                            <svg data-progress="0.56" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> {{ index+1 }}. {{ lesson.title }}
-                                        </div>
-                                        <div class="lesson__time wrapper__inner align--right">
-                                            {{ lesson.duration }}
-                                        </div>
-                                    </li>
-                                    <!-- /LESSON -->
+                                                <div class="circularProgress">
+                                                    <div class="circularProgress__overlay">
 
-                                    <!-- LESSON -->
-                                    <li class="lesson wrapper">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="56% Complete" data-tip-pos="left">
-                                            <span class="lesson__btn">
-                                                <div class="circularProgress --50"><div class="circularProgress__overlay"></div></div>
-                                        <div class="progress">
-                                            <svg data-progress="0.56" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> 3. Partially Completed, Saved Place
-                                        </div>
-                                        <div class="lesson__time wrapper__inner align--right">
-                                            <ul class="list list--inline list--tight">
-                                                <li class="item">
-                                                    <svg class="icon-bookmark icon--s">
-                                                        <use xlink:href="#icon-bookmark"></use>
+                                                    </div>
+                                                </div>
+                                                <div class="progress" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
+                                                        <circle cx="16" cy="16" r="15" class="progress__bg" />
+                                                        <transition>
+                                                        <circle cx="16" cy="16" r="15" class="progress__bar" :style="offsetCalc(lesson)" />
+                                                        </transition>
                                                     </svg>
-                                                    <span class="link link--secondary">13m 34s</span>
-                                                </li>
-                                                <li class="item">
-                                                    24m 17s
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <!-- /LESSON -->
-
-                                    <!-- LESSON -->
-                                    <li class="lesson wrapper is--playing">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="Now Playing" data-tip-pos="left">
-                                            <span class="lesson__btn">
-                                        <div class="progress">
-                                            <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> 4. Currently Playing Lesson
+                                                </div>
+                                            </span> {{ lesson.title }}
                                         </div>
                                         <div class="lesson__time wrapper__inner align--right">
-                                            24m 17s
-                                        </div>
-                                    </li>
-                                    <!-- /LESSON -->
-
-                                    <!-- LESSON -->
-                                    <li class="lesson wrapper">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="Not Started" data-tip-pos="left">
-                                            <span class="lesson__btn">
-                                        <div class="progress">
-                                            <svg data-progress="0" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> 5. Zero Percent Complete
-                                        </div>
-                                        <div class="lesson__time wrapper__inner align--right">
-                                            24m 17s
-                                        </div>
-                                    </li>
-                                    <!-- /LESSON -->
-
-                                    <!-- LESSON -->
-                                    <li class="lesson wrapper is--locked">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="Sign in to Unlock" data-tip-pos="left">
-                                            <span class="lesson__btn">
-                                        <div class="progress">
-                                            <svg data-progress="0" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> 6. A Locked Episode
-                                        </div>
-                                        <div class="lesson__time wrapper__inner align--right">
-                                            24m 17s
+                                            {{ lesson.title }}
                                         </div>
                                     </li>
                                     <!-- /LESSON -->
@@ -529,7 +448,7 @@
 <script>
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
-    import $ from 'jquery';
+    //import $ from 'jquery';
 
     export default {
 
@@ -560,12 +479,6 @@
             player() {
                 return this.$refs.myPlayer.player;
             },
-            updatedLessonProgress() {
-                return this.currentLessonData;
-            },
-            updateCourseProgress() {
-                return this.currentCourseData;
-            },
             progressPayload() {
                 let payload = {
                     lessonProgress: this.currentLessonData,
@@ -593,20 +506,6 @@
             }
         },
         created() {
-            //jquery to handle progress for videos
-            $('document').ready(function () {
-                $('.progress svg').each(function () {
-                    let wrapper = $(this).closest('.progress');
-                    let progress = $(this).data('progress'); //From 'data-progress' attr
-                    let strokeDashOffsetValue = 100 - (progress * 100);
-                    let countdownBar = $(this).find('.progress__bar');
-                    if ($(wrapper).hasClass('show--count')) {
-                        let count = progress * 100;
-                        $(wrapper).prepend('<span class="progress__counter">' + count + '%</span>');
-                    }
-                    countdownBar.animate({ "stroke-dashoffset": strokeDashOffsetValue });
-                });
-            });
 
             //setup of video
             this.videoOptions.poster = this.activeCourse.bannerImageUrl;
@@ -619,7 +518,13 @@
                 _this.videoOptions.source.src = _this.lessons[0].videoUrl;
                 _this.currentLessonId = _this.lessons[0]._id;
                 if (!_this.currentLessonData[_this.currentLessonId]) {
-                    _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0 };
+                    _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                }
+                for (var index = 0; index < response.length; index++) {
+                    let lesson = response[index];
+                    if (!_this.currentLessonData[lesson._id]) {
+                        _this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                    }
                 }
             })
         },
@@ -627,6 +532,20 @@
             User.updateUser(this, this.progressPayload);
         },
         methods: {
+            offsetCalc(lesson) {
+                let lessonProgress = this.currentLessonData[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.isComplete) {
+                        return { 'stroke-dashoffset': 0 };
+                    } else {
+                        let offset = 100 - lessonProgress.percentComplete;
+                        console.log(offset);
+                        return { 'stroke-dashoffset': offset };
+                    }
+                } else {
+                    return {};
+                }
+            },
             //method for calculating time
             tooltipString(lesson) {
                 let lessonProgress = this.currentLessonData[lesson._id];
@@ -672,10 +591,10 @@
                 if (playerCurrentState.ended) {
                     this.currentLessonData[this.currentLessonId].isComplete = true;
                     this.currentLessonData[this.currentLessonId].completionDate = Date.now();
-                } else if (Math.round((playerCurrentState.currentTime / this.player.duration()) * 100) > 0) {
-                    if (this.currentLessonData[this.currentLessonId].lastPosition < playerCurrentState.currentTime) {
-                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((playerCurrentState.currentTime / this.player.duration()) * 100);
+                } else if (playerCurrentState.currentTime > 0) {
+                    if (this.currentLessonData[this.currentLessonId].lastPosition <= playerCurrentState.currentTime) {
                         this.currentLessonData[this.currentLessonId].lastPosition = playerCurrentState.currentTime;
+                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((playerCurrentState.currentTime / this.player.duration()) * 100);
                     }
                 }
             },
@@ -683,7 +602,7 @@
                 let _this = this;
                 this.currentLessonId = id;
                 if (!this.currentLessonData[id]) {
-                    this.currentLessonData[id] = { lastPosition: 0 };
+                    this.currentLessonData[id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
                 }
                 this.videoOptions.source.src = videoUrl;
                 setTimeout(() => {
