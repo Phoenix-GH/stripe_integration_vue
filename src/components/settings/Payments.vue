@@ -59,11 +59,11 @@
                                 <div class="wrapper__inner">
                                     <ul class="list list--inline list--divided">
                                         <li class="item no--pad-l">
-                                            <span class="cc__icon is--visa"></span>
+                                            <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'Mastercard'}"></span>
                                         </li>
                                         <li class="item">
-                                            <span class="ts--subtitle disp--block">Visa ending in 6455</span>
-                                            <span class="ts--body is--secondary">Expires June/2018</span>
+                                            <span class="ts--subtitle disp--block">{{ updatedCardInfo.cardType }} ending in {{ updatedCardInfo.last4 }}</span>
+                                            <span class="ts--body is--secondary">Expires {{ updatedCardInfo.exp_month }} / {{ updatedCardInfo.exp_year }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -105,14 +105,13 @@
     import { mapGetters } from 'vuex';
     export default {
         created() {
+            let _this = this;
             this.stripeHandler = StripeCheckout.configure({
-                key: 'pk_test_kEvdItrteZsUTKZVX4b2bFLI',
+                key: 'pk_test_hz7Ftxjb7anZasP8PFtcFwQv',
                 image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
                 locale: 'auto',
                 token: function (token) {
-                    // You can access the token ID with `token.id`.
-                    // Get the token ID to your server-side code for use.
-                    console.log(token.id);
+                    _this.createStripeCustomer(token.id);
                 }
             });
 
@@ -120,11 +119,14 @@
             window.addEventListener('popstate', function () {
                 this.stripeHandler.close();
             });
+
+            this.retrieveCardInfo();
         },
         data: function () {
             return {
                 topics: [],
-                stripeHandler: {}
+                stripeHandler: {},
+                cardInfo: {}
             }
         },
         computed: {
@@ -141,6 +143,9 @@
                 } else {
                     return false;
                 }
+            },
+            updatedCardInfo() {
+                return this.cardInfo;
             }
         },
         methods: {
@@ -151,6 +156,24 @@
                     description: 'Annual membership for Self Made Man',
                     amount: 14999
                 });
+            },
+            createStripeCustomer(token) {
+                const payload = {
+                    token: token
+                }
+                let _this = this;
+                User.createStripeCustomer(_this, payload, (err, result) => {
+                    if (err) console.log(err);
+                    //will sync the user with the API
+                    User.sync(_this);
+                })
+            },
+            retrieveCardInfo() {
+                let _this = this;
+                User.cardInfo(this, (err, result) => {
+                    if (err) console.log(err);
+                    _this.cardInfo = result;
+                })
             }
         }
     }

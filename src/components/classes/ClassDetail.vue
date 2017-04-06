@@ -20,18 +20,19 @@
                         <div class="wrapper__inner padding--l no--pad-lr no--pad-b">
 
                             <!-- CLASS INFO -->
-                            <h1 class="ts--headline">How to Save America, One Story at a Time</h1>
+                            <h1 class="ts--headline">{{ activeCourse.title }}</h1>
                             <ul class="class__meta list list--inline list--divided">
                                 <li class="item has--icon">
                                     <!-- NOTE: Instructors name should open the 'About Class' tab and scroll to the instructor card -->
-                                    <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-mike.jpg');"></span>                                    with <a class="link link--secondary" href="#">Mike Rowe</a>
+                                    <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>with
+                                    <a class="link link--secondary">{{ activeCourse.instructor.name }}</a>
                                 </li>
                                 <li class="item has--icon">
                                     <!-- NOTE: Feedback link should open the 'Reviews' tab. -->
                                     <svg class="icon-thumbs-up">
                                         <use xlink:href="#icon-thumbs-up"></use>
                                     </svg>
-                                    <a class="link link--secondary" href="#">1.2K Positive</a>
+                                    <a class="link link--secondary">1.2K Positive</a>
                                 </li>
                                 <li class="item has--icon">
                                     <svg class="icon-users">
@@ -123,26 +124,12 @@
                         <div id="about" class="tab__content" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
                             <h3 class="ts--subtitle">Tagged with:</h3>
                             <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
-                                <li class="item">
-                                    <a class="tag" href="#">Money</a>
-                                </li>
-                                <li class="item">
-                                    <a class="tag" href="#">Coaching</a>
-                                </li>
-                                <li class="item">
-                                    <a class="tag" href="#">Financial Strategy</a>
-                                </li>
-                                <li class="item">
-                                    <a class="tag" href="#">Lifestyle Design</a>
+                                <li v-for="tagName in activeCourse.tags" class="item">
+                                    <a class="tag">{{ tagName }}</a>
                                 </li>
                             </ul>
                             <span class="divider divider--s"></span>
-                            <p class="ts--body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non
-                                convallis at, elementum in nibh. Phasellus vel turpis nulla. Suspendisse malesuada neque
-                                sit amet ante bibendum, nec varius eros eleifend. Curabitur magna libero, rhoncus sit amet
-                                ante tincidunt, iaculis facilisis est. Mauris id consequat arcu, non tristique sapien. Maecenas
-                                sodales turpis vel ipsum venenatis consequat. Donec cursus varius scelerisque. Cras porta
-                                pretium nunc, eget iaculis ante viverra in.</p>
+                            <p class="ts--body">{{ activeCourse.description }}</p>
 
                             <h3 class="ts--subtitle">What you will learn:</h3>
                             <ul class="list list--bulleted list--checks">
@@ -158,18 +145,16 @@
                             </ul>
                             <br>
                             <h3 class="ts--subtitle">About the Instructor</h3>
-                            <p class="ts--body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non
-                                convallis at, elementum in nibh. Phasellus vel turpis nulla. Suspendisse malesuada neque
-                                sit amet ante bibendum.</p>
+                            <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
                             <span class="divider divider--s"></span>
                             <div class="well disp--ib">
                                 <ul class="list list--inline">
                                     <li class="item">
-                                        <span class="avatar avatar--xxl" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-mike.jpg');"></span>
+                                        <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
                                     </li>
                                     <li class="item">
-                                        <h3 class="ts--title">Mike Rowe</h3>
-                                        <span class="ts--susbtitle is--secondary">Story-teller, Author and Philanthropist.</span>
+                                        <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
+                                        <span class="ts--susbtitle is--secondary">{{ activeCourse.instructor.title }}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -404,7 +389,7 @@
 
                                     <!-- LIST HEAD -->
                                     <li class="heading wrapper">
-                                        <div class="wrapper__inner">10 Lessons</div>
+                                        <div class="wrapper__inner">{{ lessons.length }} Lessons</div>
                                         <div class="wrapper__inner align--right">
                                             <svg class="icon-time icon--s color--accent">
                                                 <use xlink:href="#icon-time"></use>
@@ -418,38 +403,22 @@
                                     <!--
                                 NOTE: Lessons have 2 modifiers: status and progress. Status takes the form of the classes: '.is--complete', '.is--playing', '.is--locked'. Progress for each lesson should be updated while the video is playing and the class on 'circularProgress' is changed from '--0' to '--100'
                             -->
-                                    <li class="lesson wrapper is--complete">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="2d Ago" data-tip-pos="left">
-                                            <span class="lesson__btn">
-                                        <!-- <div class="circularProgress --100"><div class="circularProgress__overlay"></div></div> -->
-                                        <div class="progress">
-                                            <svg data-progress="1" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                <circle cx="16" cy="16" r="15" class="progress__bar" />
-                                            </svg>
-                                        </div>
-                                    </span> 1. This is a Completed Lesson
-                                        </div>
-                                        <div class="lesson__time wrapper__inner align--right">
-                                            24m 17s
-                                        </div>
-                                    </li>
-                                    <!-- /LESSON -->
 
                                     <!-- LESSON -->
-                                    <li class="lesson wrapper is--complete">
-                                        <div class="lesson__title wrapper__inner" data-tooltip="Today" data-tip-pos="left">
+                                    <li v-for="(lesson, index) in currentLessons" class="lesson wrapper" :class="playbackState(lesson)" @click="playLesson(lesson._id, lesson.videoUrl)">
+                                        <div class="lesson__title wrapper__inner" :data-tooltip="tooltipString(lesson)" data-tip-pos="left">
                                             <span class="lesson__btn">
+                                                <div class="circularProgress --90"><div class="circularProgress__overlay"></div></div>
                                         <div class="progress">
-                                            <svg data-progress="1" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
+                                            <svg data-progress="0.56" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                                                 <circle cx="16" cy="16" r="15" class="progress__bg" />
                                                 <circle cx="16" cy="16" r="15" class="progress__bar" />
                                             </svg>
                                         </div>
-                                    </span> 2. Another Completed Lesson
+                                    </span> {{ index+1 }}. {{ lesson.title }}
                                         </div>
                                         <div class="lesson__time wrapper__inner align--right">
-                                            24m 17s
+                                            {{ lesson.duration }}
                                         </div>
                                     </li>
                                     <!-- /LESSON -->
@@ -458,6 +427,7 @@
                                     <li class="lesson wrapper">
                                         <div class="lesson__title wrapper__inner" data-tooltip="56% Complete" data-tip-pos="left">
                                             <span class="lesson__btn">
+                                                <div class="circularProgress --50"><div class="circularProgress__overlay"></div></div>
                                         <div class="progress">
                                             <svg data-progress="0.56" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                                                 <circle cx="16" cy="16" r="15" class="progress__bg" />
@@ -557,7 +527,12 @@
 </template>
 
 <script>
+    import { Class, User } from '../../api';
+    import { mapGetters } from 'vuex';
+    import $ from 'jquery';
+
     export default {
+
         data() {
             return {
                 videoOptions: {
@@ -570,20 +545,33 @@
                     autoplay: false
                 },
                 lessons: [],
-                course: {
-
-                },
-                courseProgress: 0,
-                lessonProgress: {
-
-                },
+                currentLessonData: {},
+                currentCourseData: {},
+                currentLessonId: "",
+                currentCourseId: "",
                 popOverIsActive: true,
                 currentActiveTab: 'About'
             }
         },
         computed: {
+            ...mapGetters([
+                'user', 'activeCourse'
+            ]),
             player() {
                 return this.$refs.myPlayer.player;
+            },
+            updatedLessonProgress() {
+                return this.currentLessonData;
+            },
+            updateCourseProgress() {
+                return this.currentCourseData;
+            },
+            progressPayload() {
+                let payload = {
+                    lessonProgress: this.currentLessonData,
+                    courseProgress: this.currentCourseData
+                }
+                return payload;
             },
             popOverShouldClose() {
                 return !this.popOverIsActive;
@@ -599,62 +587,148 @@
             reviewsActive() {
                 if (this.currentActiveTab == 'Reviews') return true;
                 return false;
+            },
+            currentLessons() {
+                return this.lessons;
             }
         },
+        created() {
+            //jquery to handle progress for videos
+            $('document').ready(function () {
+                $('.progress svg').each(function () {
+                    let wrapper = $(this).closest('.progress');
+                    let progress = $(this).data('progress'); //From 'data-progress' attr
+                    let strokeDashOffsetValue = 100 - (progress * 100);
+                    let countdownBar = $(this).find('.progress__bar');
+                    if ($(wrapper).hasClass('show--count')) {
+                        let count = progress * 100;
+                        $(wrapper).prepend('<span class="progress__counter">' + count + '%</span>');
+                    }
+                    countdownBar.animate({ "stroke-dashoffset": strokeDashOffsetValue });
+                });
+            });
+
+            //setup of video
+            this.videoOptions.poster = this.activeCourse.bannerImageUrl;
+            this.currentCourseId = this.activeCourse._id;
+            if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
+            if (this.user.courseProgress != undefined) this.currentCourseData = this.user.courseProgress;
+            let _this = this;
+            Class.lessonsForClass(this, this.activeCourse._id, response => {
+                _this.lessons = response;
+                _this.videoOptions.source.src = _this.lessons[0].videoUrl;
+                _this.currentLessonId = _this.lessons[0]._id;
+                if (!_this.currentLessonData[_this.currentLessonId]) {
+                    _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0 };
+                }
+            })
+        },
+        beforeDestroy() {
+            User.updateUser(this, this.progressPayload);
+        },
         methods: {
+            //method for calculating time
+            tooltipString(lesson) {
+                let lessonProgress = this.currentLessonData[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.isComplete) {
+                        return lessonProgress.completionDate;
+                    } else {
+                        return `${lessonProgress.percentComplete}%`;
+                    }
+                } else {
+                    return 'Not Started';
+                }
+            },
             //methods for handling tab changing
             tappedOnAboutTab() {
-                console.log("tapped on about");
                 this.currentActiveTab = 'About'
             },
             tappedOnNotesTab() {
-                console.log("tapped on notes");
                 this.currentActiveTab = 'Notes'
             },
             tappedOnReviewsTab() {
-                console.log("tapped on reviews");
                 this.currentActiveTab = 'Reviews'
             },
             //methods for handling popovermenu selections
             tappedOnUnEnroll() {
-                console.log("tapped on unenroll");
                 this.popOverIsActive = false;
             },
             tappedOnResetProgress() {
-                console.log("tapped on reset progress");
                 this.popOverIsActive = false;
             },
             tappedOnMarkComplete() {
-                console.log("tapped on mark complete");
                 this.popOverIsActive = false;
             },
             //open popover openMenu
             openMenu() {
-                console.log("open menu selected");
                 if (this.popOverIsActive) {
                     this.popOverIsActive = false;
                 } else {
                     this.popOverIsActive = true;
                 }
             },
-            changeVideo() {
-                let _this = this;
-                this.videoOptions.source.src = "https://d9iiow8rnlprs.cloudfront.net/logan/758294637291.m3u8";
-                setTimeout(() => {
-                    _this.player.currentTime(20);
-                    _this.player.play();
-                }, 100);
-            },
-            changeVideo2() {
-                let _this = this;
-                this.videoOptions.source.src = "https://d9iiow8rnlprs.cloudfront.net/johnwick2/encoded-Tue-Jan-2017-04-35-07/encoded-Tue-Jan-2017-04-35-07.m3u8";
-                setTimeout(() => {
-                    _this.player.currentTime(20);
-                    _this.player.play();
-                }, 100);
-            },
             playerStateChanged(playerCurrentState) {
-                console.log(Math.round((playerCurrentState.currentTime / this.player.duration()) * 100));
+                if (playerCurrentState.ended) {
+                    this.currentLessonData[this.currentLessonId].isComplete = true;
+                    this.currentLessonData[this.currentLessonId].completionDate = Date.now();
+                } else if (Math.round((playerCurrentState.currentTime / this.player.duration()) * 100) > 0) {
+                    if (this.currentLessonData[this.currentLessonId].lastPosition < playerCurrentState.currentTime) {
+                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((playerCurrentState.currentTime / this.player.duration()) * 100);
+                        this.currentLessonData[this.currentLessonId].lastPosition = playerCurrentState.currentTime;
+                    }
+                }
+            },
+            playLesson(id, videoUrl) {
+                let _this = this;
+                this.currentLessonId = id;
+                if (!this.currentLessonData[id]) {
+                    this.currentLessonData[id] = { lastPosition: 0 };
+                }
+                this.videoOptions.source.src = videoUrl;
+                setTimeout(() => {
+                    _this.player.play();
+                }, 200);
+            },
+            playLessonMark(id, videoUrl, mark) {
+                let _this = this;
+                this.currentLessonId = id;
+                this.videoOptions.source.src = videoUrl;
+                setTimeout(() => {
+                    _this.player.currentTime(mark);
+                    _this.player.play();
+                }, 200);
+            },
+            playbackState(lesson) {
+
+                let lessonProgress = this.currentLessonData[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.isComplete) {
+                        return {
+                            'is-complete': true
+                        }
+                    } else {
+                        return {
+                            'is--complete': false
+                        }
+                    }
+                } else {
+                    return {
+                        'is--complete': false
+                    }
+                }
+            },
+            percentComplete(lesson) {
+                let lessonProgress = this.currentLessonData[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.isComplete) {
+                        return '100%';
+                    } else {
+                        return `${lessonProgress.percentComplete}%`;
+                    }
+                } else {
+                    return 'Not Started';
+                }
             }
         }
     }

@@ -39,16 +39,11 @@
   //import cache
   import { loadCache } from './store';
 
-  //import jquery, meh
+  //import jquery
   import $ from 'jquery';
 
   //template exports
   export default {
-    data: function () {
-      return {
-        alertHidden: false
-      }
-    },
     components: {
       appHeader: Header,
       appFooter: Footer,
@@ -57,19 +52,24 @@
     },
     methods: {
       closeAlert() {
-        this.alertHidden = true;
         document.body.classList.remove('has--alert');
       }
     },
     computed: {
+      ...mapGetters([
+        'user'
+      ]),
       shouldHide() {
-        if (this.alertHidden) return true;
+        if (this.user.subscribed == undefined) return true;
+        if (this.user.subscribed) return true;
         return false;
       }
     },
     created() {
 
-      //emit close menu event
+      if (this.user.subscribed == undefined) document.body.classList.remove('has--alert');
+      if (this.user.subscribed) document.body.classList.remove('has--alert');
+
       $(document).click(function (e) {
         eventBus.$emit('closeMenu');
       });

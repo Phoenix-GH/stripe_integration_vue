@@ -20,56 +20,56 @@ import { store } from '../store';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  routes: [
-    { path: '/', name: 'landing', component: Landing },
-    { path: '/podcasts', name: 'podcasts', component: Podcasts },
-    { path: '/classes', name: 'classes', component: Classes },
-    { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
-    { path: '/myclasses', name: 'myclasses', component: MyClasses },
-    { path: '/saved', name: 'saved', component: SavedClasses },
-    { path: '/searchresults', name: 'searchresults', component: SearchResults },
-    {
-      path: '/settings',
-      component: Settings,
-      beforeEnter: (to, from, next) => {
-        let loggedIn = store.state.userLoggedIn;
-        if (loggedIn) {
-          next();
+    mode: 'history',
+    routes: [
+        { path: '/', name: 'landing', component: Landing },
+        { path: '/podcasts', name: 'podcasts', component: Podcasts },
+        { path: '/classes', name: 'classes', component: Classes },
+        { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
+        { path: '/myclasses', name: 'myclasses', component: MyClasses },
+        { path: '/saved', name: 'saved', component: SavedClasses },
+        { path: '/searchresults', name: 'searchresults', component: SearchResults },
+        {
+            path: '/settings',
+            component: Settings,
+            beforeEnter: (to, from, next) => {
+                let loggedIn = store.state.userLoggedIn;
+                if (loggedIn) {
+                    next();
+                }
+            },
+            children: [
+                {
+                    path: 'account',
+                    name: 'account',
+                    component: Account
+                },
+                {
+                    path: 'password',
+                    name: 'password',
+                    component: Password
+                },
+                {
+                    path: 'payments',
+                    name: 'payments',
+                    component: Payments
+                },
+                {
+                    path: 'billing',
+                    name: 'billing',
+                    component: Billing
+                },
+                {
+                    path: 'emailnotifications',
+                    name: 'emailnotifications',
+                    component: EmailNotifications
+                },
+                {
+                    path: 'referrals',
+                    name: 'referrals',
+                    component: Referrals
+                }
+            ]
         }
-      },
-      children: [
-        {
-          path: 'account',
-          name: 'account',
-          component: Account
-        },
-        {
-          path: 'password',
-          name: 'password',
-          component: Password
-        },
-        {
-          path: 'payments',
-          name: 'payments',
-          component: Payments
-        },
-        {
-          path: 'billing',
-          name: 'billing',
-          component: Billing
-        },
-        {
-          path: 'emailnotifications',
-          name: 'emailnotifications',
-          component: EmailNotifications
-        },
-        {
-          path: 'referrals',
-          name: 'referrals',
-          component: Referrals
-        }
-      ]
-    }
-  ]
+    ]
 });

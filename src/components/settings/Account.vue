@@ -161,7 +161,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress'
+                'user'
             ]),
             shouldHide() {
                 if ((this.email != this.user.email) || (this.firstName != this.user.firstName) || (this.lastName != this.user.lastName)) return false;
