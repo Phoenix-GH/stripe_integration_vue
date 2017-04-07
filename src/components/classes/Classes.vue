@@ -2,18 +2,18 @@
     <div>
 
         <!-- BANNER -->
-        <div class="banner banner--m go go--bottom" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/featured-banner-3.jpg');">
+        <div class="banner banner--m go go--bottom" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
             <div class="banner__content container container--fw container--l is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="#">Watch</a>
-                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; Lifestyle, Money, Entrepreneurship</span>
-                        <a class="banner__title ts--display link" href="/templates/classes/class">How to Save America, One Story at a Time</a>
+                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; {{ updateFeaturedClass.topics }}</span>
+                        <a class="banner__title ts--display link" href="/templates/classes/class">{{ updateFeaturedClass.title }}</a>
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline list--divided list--box">
                             <li class="item has--icon">
-                                <span class="avatar avatar--m" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-mike.jpg');"></span>
-                                <a class="link link--secondary" href="#">Mike Rowe</a>
+                                <span class="avatar avatar--m" :style="{ 'background-image': 'url(' + updateFeaturedClass.instructor.profileImage + ')' }"></span>
+                                <a class="link link--secondary" href="#">{{ updateFeaturedClass.instructor.name }}</a>
                             </li>
                             <li class="item has--icon">
                                 <svg class="icon-thumbs-up color--white">
@@ -152,7 +152,7 @@
                     <a class="class__thumb" @click="updateCurrentClass(course)">
                         <img :src="course.thumbImageUrl" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>2h 16m</span>
+                        <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>{{ readableCourseDuration(course.duration) }}</span>
                     </a>
                     <div class="class__info">
                         <a class="link" href="#">{{ course.title }}</a>
@@ -184,7 +184,7 @@
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import { eventBus } from '../../main';
-
+    import { convertSecondsToReadableFormat } from '../../helpers/util';
 
 
     export default {
@@ -225,10 +225,15 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress', 'classes', 'userLoggedIn'
+                'user', 'savedClasses', 'classesInProgress', 'classes', 'userLoggedIn', 'featuredClasses'
             ]),
             showFollow() {
                 return (this.selectedCategory.length > 0) ? true : false;
+            },
+            updateFeaturedClass() {
+                if (this.featuredClasses.length > 0) {
+                    return this.featuredClasses[0];
+                }
             }
         },
         methods: {
@@ -257,6 +262,9 @@
             updateCurrentClass(course) {
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
+            },
+            readableCourseDuration(duration) {
+                return convertSecondsToReadableFormat(duration);
             }
         },
         created() {
@@ -270,6 +278,7 @@
                     this.catClicked(cat);
                 }
             }
+            Class.featuredClasses(this);
 
         }
     }
