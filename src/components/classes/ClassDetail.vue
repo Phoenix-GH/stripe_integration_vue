@@ -126,7 +126,7 @@
                             <h3 class="ts--subtitle">Tagged with:</h3>
                             <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
                                 <li v-for="tagName in activeCourse.tags" class="item">
-                                    <a class="tag">{{ tagName }}</a>
+                                    <router-link class="tag" :to="{ name: 'searchresults', query: { terms: tagName }}">{{ tagName }}</router-link>
                                 </li>
                             </ul>
                             <span class="divider divider--s"></span>
@@ -134,13 +134,7 @@
 
                             <h3 class="ts--subtitle">What you will learn:</h3>
                             <ul class="list list--bulleted list--checks">
-                                <li class="item">
-                                    This is a cool bullet point
-                                </li>
-                                <li class="item">
-                                    This is a cool bullet point
-                                </li>
-                                <li class="item">
+                                <li v-for="bullet in activeCourse.bullets" class="item">
                                     This is a cool bullet point
                                 </li>
                             </ul>

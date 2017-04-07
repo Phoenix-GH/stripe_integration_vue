@@ -140,7 +140,7 @@
                 </ul>
             </span>
                 </div>
-                <div class="wrapper__inner align--right">
+                <div class="wrapper__inner align--right" v-if="selectedCategory.length > 0">
                     <button class="btn btn--secondary">Follow</button>
                 </div>
             </div>
@@ -150,7 +150,6 @@
                 <!-- SINGLE CLASS -->
                 <div v-for="course in classes" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
                     <a class="class__thumb" @click="updateCurrentClass(course)">
-                        <!-- TODO: Need to add progress circles to already started courses. The percent/100 should be appended to the 'data-progress' attribute -->
                         <img :src="course.thumbImageUrl" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
                         <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>2h 16m</span>
@@ -225,10 +224,17 @@
             ...mapGetters([
                 'user', 'savedClasses', 'classesInProgress', 'classes'
             ]),
+            showFollow() {
+                return (this.selectedCategory.length > 0) ? true : false;
+            }
         },
         methods: {
             catClicked(topic) {
-                this.selectedCategory = topic;
+                if (this.selectedCategory == topic) {
+                    this.selectedCategory = "";
+                } else {
+                    this.selectedCategory = topic;
+                }
             },
             sortClasses(search) {
                 switch (search) {

@@ -1,121 +1,267 @@
 <template lang="html">
-
-    <!-- ===== MAIN NAVIGATION ===== -->
     <div class="page__block">
-        <header class="header header__main wrapper">
-            <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
-            <div class="main__nav">
-                <nav class="wrapper">
-                    <ul class="list list--inline wrapper__inner">
-                        <li class="item has--icon">
-                            <router-link class="link" :to="{ name: 'classes' }">
-                                <svg class="icon-grid color--brand">
-                                    <use xlink:href="#icon-grid"></use>
-                                </svg>
-                                <span class="mobile--hide">Classes</span></router-link>
-                        </li>
-                        <li class="item mobile--hide">
-                            <router-link class="link" :to="{ name: 'podcasts' }">Podcast</router-link>
-                        </li>
-                    </ul>
-                    <div class="wrapper__inner align--right">
-                        <ul id="userNav" class="list list--inline list--divided">
 
-                            <!-- LOGGED IN NAV -->
-                            <li id="navClasses" class="item" v-if="userLoggedIn">
-                                <ul class="list list--inline">
-
-                                    <!-- NOTE: Display on 'Paid Account' -->
-                                    <li id="navClasses" class="item">
-                                        <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
-                                    </li>
-                                    <!-- /NOTE -->
-
-                                    <!-- NOTE: Display on 'All Accounts' -->
-                                    <li id="navSaved" class="item">
-                                        <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
-                                    </li>
-                                    <!-- /NOTE -->
-
-                                </ul>
+        <!-- ===== MAIN NAVIGATION ===== -->
+        <div>
+            <header class="header header__main wrapper">
+                <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
+                <div class="main__nav">
+                    <nav class="wrapper">
+                        <ul class="list list--inline wrapper__inner">
+                            <li class="item has--icon">
+                                <router-link class="link" :to="{ name: 'classes' }">
+                                    <svg class="icon-grid color--brand">
+                                        <use xlink:href="#icon-grid"></use>
+                                    </svg>
+                                    <span class="mobile--hide">Classes</span></router-link>
                             </li>
-
-                            <!-- NOTE: Display on 'All Accounts' -->
-                            <li id="navAccount" class="item has--icon has--popover" :class="{'is--active': profileMenuVisible}" v-if="userLoggedIn" @click.stop="showProfileMenu">
-                                <div class="avatar avatar--m" :style="{ 'background-image': 'url(' + profileImage + ')' }"></div>
-                                <a class="link link--dropdown"><span class="mobile--hide">{{ user ? user.firstName : "" }}</span></a>
-                                <ul class="list list--nav list--dropdown">
-                                    <li class="item mobile--only">
-                                        <a class="has--badge is--primary" data-badge="0" href="/my-classes">My Classes</a>
-                                    </li>
-                                    <li class="item mobile--only">
-                                        <a class="has--badge" data-badge="0" href="/saved">Saved</a>
-                                    </li>
-                                    <li class="item has--icon">
-                                        <router-link :to="{ name: 'account' }">
-                                            <svg class="icon-account icon--s">
-                                                <use xlink:href="#icon-account"></use>
-                                            </svg>
-                                            My Profile</router-link>
-                                    </li>
-                                    <li class="item">
-                                        <router-link :to="{ name: 'billing' }">
-                                            <svg class="icon-billing icon--s">
-                                                <use xlink:href="#icon-billing"></use>
-                                            </svg>
-                                            Billing
-                                        </router-link>
-                                    </li>
-                                    <li class="item">
-                                        <router-link :to="{ name: 'referrals' }">
-                                            <svg class="icon-reward icon--s">
-                                                <use xlink:href="#icon-reward"></use>
-                                            </svg>
-                                            Refer a Friend
-                                        </router-link>
-                                    </li>
-                                    <li class="item is--divided" @click="logOut">
-                                        <router-link :to="{ name: 'landing' }">
-                                            <svg class="icon-lock icon--s">
-                                                <use xlink:href="#icon-lock"></use>
-                                            </svg>
-                                            Sign Out
-                                        </router-link>
-                                    </li>
-                                </ul>
+                            <li class="item mobile--hide">
+                                <router-link class="link" :to="{ name: 'podcasts' }">Podcast</router-link>
                             </li>
-                            <!-- /NOTE -->
-
-                            <!-- NOTE: Display on 'Free Accounts' only -->
-                            <li id="navUpgrade" class="item" v-if="showUpgrade">
-                                <button class="btn btn--primary is--affirmative">Upgrade</button>
-                            </li>
-
-                            <!-- /NOTE -->
-                            <!-- /LOGGED IN NAV -->
-
-                            <!-- LOGGED OUT NAV -->
-                            <li id="navLoggedOut" class="item" v-if="!userLoggedIn">
-                                <ul class="list list--inline">
-                                    <li class="item" @click="showLogin">
-                                        <a class="link modal--toggle" href="javascript:;">Log In</a>
-                                    </li>
-                                    <li class="item" @click="showSignup">
-                                        <button class="btn btn--primary is--affirmative modal--toggle">Sign Up</button>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- /LOGGED OUT NAV -->
                         </ul>
+                        <div class="wrapper__inner align--right">
+                            <ul id="userNav" class="list list--inline list--divided">
+
+                                <!-- LOGGED IN NAV -->
+                                <li id="navClasses" class="item" v-if="userLoggedIn">
+                                    <ul class="list list--inline">
+
+                                        <!-- NOTE: Display on 'Paid Account' -->
+                                        <li id="navClasses" class="item">
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
+                                        </li>
+                                        <!-- /NOTE -->
+
+                                        <!-- NOTE: Display on 'All Accounts' -->
+                                        <li id="navSaved" class="item">
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
+                                        </li>
+                                        <!-- /NOTE -->
+
+                                    </ul>
+                                </li>
+
+                                <!-- NOTE: Display on 'All Accounts' -->
+                                <li id="navAccount" class="item has--icon has--popover" :class="{'is--active': profileMenuVisible}" v-if="userLoggedIn" @click.stop="showProfileMenu">
+                                    <div class="avatar avatar--m" :style="{ 'background-image': 'url(' + profileImage + ')' }"></div>
+                                    <a class="link link--dropdown"><span class="mobile--hide">{{ user ? user.firstName : "" }}</span></a>
+                                    <ul class="list list--nav list--dropdown">
+                                        <li class="item mobile--only">
+                                            <a class="has--badge is--primary" data-badge="0" href="/my-classes">My Classes</a>
+                                        </li>
+                                        <li class="item mobile--only">
+                                            <a class="has--badge" data-badge="0" href="/saved">Saved</a>
+                                        </li>
+                                        <li class="item has--icon">
+                                            <router-link :to="{ name: 'account' }">
+                                                <svg class="icon-account icon--s">
+                                                    <use xlink:href="#icon-account"></use>
+                                                </svg>
+                                                My Profile</router-link>
+                                        </li>
+                                        <li class="item">
+                                            <router-link :to="{ name: 'billing' }">
+                                                <svg class="icon-billing icon--s">
+                                                    <use xlink:href="#icon-billing"></use>
+                                                </svg>
+                                                Billing
+                                            </router-link>
+                                        </li>
+                                        <li class="item">
+                                            <router-link :to="{ name: 'referrals' }">
+                                                <svg class="icon-reward icon--s">
+                                                    <use xlink:href="#icon-reward"></use>
+                                                </svg>
+                                                Refer a Friend
+                                            </router-link>
+                                        </li>
+                                        <li class="item is--divided" @click="logOut">
+                                            <router-link :to="{ name: 'landing' }">
+                                                <svg class="icon-lock icon--s">
+                                                    <use xlink:href="#icon-lock"></use>
+                                                </svg>
+                                                Sign Out
+                                            </router-link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- /NOTE -->
+
+                                <!-- NOTE: Display on 'Free Accounts' only -->
+                                <li id="navUpgrade" class="item" v-if="showUpgrade">
+                                    <button class="btn btn--primary is--affirmative">Upgrade</button>
+                                </li>
+
+                                <!-- /NOTE -->
+                                <!-- /LOGGED IN NAV -->
+
+                                <!-- LOGGED OUT NAV -->
+                                <li id="navLoggedOut" class="item" v-if="!userLoggedIn">
+                                    <ul class="list list--inline">
+                                        <li class="item" @click="showLogin">
+                                            <a class="link modal--toggle" href="javascript:;">Log In</a>
+                                        </li>
+                                        <li class="item" @click="showSignup">
+                                            <button class="btn btn--primary is--affirmative modal--toggle">Sign Up</button>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- /LOGGED OUT NAV -->
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="input input--search">
+                        <input @keyup.enter="searchPage" v-model="searchTerms" type="text" id="siteSearch" placeholder="Search for classes and podcast episodes…">
                     </div>
-                </nav>
-                <div class="input input--search">
-                    <input type="text" id="siteSearch" placeholder="Search for classes and podcast episodes…">
+                </div>
+            </header>
+        </div>
+        <!-- ===== /MAIN NAVIGATION ===== -->
+
+        <!-- ===== SEARCH DROPDOWN ===== -->
+        <div id="searchResults" class="search overflow">
+            <div class="search__results">
+                <div class="container container--fw container--l">
+                    <div class="wrapper">
+                        <div class="wrapper__inner">
+                            <div class="search__helper">
+                                <span class="helper__text">{{helperText}}</span>
+                                <span class="helper__query">{{helperQuery}}</span>
+                                <span class="helper__ellips">...</span>
+                            </div>
+                        </div>
+                        <div class="wrapper__inner align--right">
+                            <svg id="closeSearch" class="icon-close" @click="closeOverlay">
+                                <use xlink:href="#icon-close"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="results row">
+
+                        <!-- CLASS RESULTS -->
+                        <div class="col col--5-of-12">
+                            <div class="results__head">
+                                Classes
+                                <div class="loader"><span></span></div>
+                            </div>
+                            <div class="results__list">
+                                <!-- EMPTY RESULTS -->
+                                <div class="well is--empty align--center hide remove">
+                                    No matching classes...
+                                </div>
+                                <!-- /EMPTY RESULTS -->
+
+                                <!-- SINGLE RESULT -->
+                                <div class="result is--class">
+                                    <div class="meta">
+                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png')">
+                                            <svg class="icon-play">
+                                                <use xlink:href="#icon-play"></use>
+                                            </svg>
+                                        </div>
+                                        <span class="ts--title truncate link">How to Build a Team That Works and Gets Results Longer Title</span>
+                                        <ul class="list list--inline list--divided">
+                                            <li class="item has--icon">
+                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                                Daymond John
+                                            </li>
+                                            <li class="item has--icon">
+                                                <svg class="icon-thumbs-up">
+                                                    <use xlink:href="#icon-thumbs-up"></use>
+                                                </svg>
+                                                1.2K
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /SINGLE RESULT -->
+
+                                <!-- SINGLE RESULT -->
+                                <div class="result is--class">
+                                    <div class="meta">
+                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-3.png')">
+                                            <svg class="icon-play">
+                                                <use xlink:href="#icon-play"></use>
+                                            </svg>
+                                        </div>
+                                        <span class="ts--title truncate link">How to Grow Your Brand and Live Your Dream</span>
+                                        <ul class="list list--inline list--divided">
+                                            <li class="item has--icon">
+                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-lewis.jpg');"></span>                                                Lewis Howes
+                                            </li>
+                                            <li class="item has--icon">
+                                                <svg class="icon-thumbs-up">
+                                                    <use xlink:href="#icon-thumbs-up"></use>
+                                                </svg>
+                                                1.2K
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /SINGLE RESULT -->
+
+                                <div class="well no--border-lr no--border-b no--radius no--pad-lr">
+                                    <button class="btn btn--secondary btn--block is--link" data-target="/templates/search-results">More Results (3)</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /CLASS RESULTS -->
+
+                        <!-- PODCAST RESULTS -->
+                        <div class="col col--5-of-12 col--push-1-of-12">
+                            <div class="results__head">
+                                Podcasts
+                                <div class="loader"><span></span></div>
+                            </div>
+
+                            <div class="results__list">
+                                <!-- EMPTY RESULTS -->
+                                <div class="well is--empty align--center hide remove">
+                                    No matching podcasts...
+                                </div>
+                                <!-- /EMPTY RESULTS -->
+
+                                <!-- SINGLE RESULT -->
+                                <div class="result is--podcast">
+                                    <div class="meta">
+                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-2.png')">
+                                            <svg class="icon-podcast">
+                                                <use xlink:href="#icon-podcast"></use>
+                                            </svg>
+                                        </div>
+                                        <span class="ts--title truncate link">EP61 &mdash; How to Make, Keep and Grow Your Money</span>
+                                        <ul class="list list--inline list--divided">
+                                            <li class="item has--icon">
+                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                                Daymond John
+                                            </li>
+                                            <li class="item has--icon">
+                                                <svg class="icon-date">
+                                                    <use xlink:href="#icon-date"></use>
+                                                </svg>
+                                                Jul 17, 2016
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /SINGLE RESULT -->
+
+                                <div class="well no--border-lr no--border-b no--radius no--pad-lr">
+                                    <button class="btn btn--secondary btn--block">More Results (3)</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /PODCAST RESULTS -->
+
+                    </div>
                 </div>
             </div>
-        </header>
+            <div class="search__overlay" @click="closeOverlay"></div>
+        </div>
+        <!-- ===== /SEARCH DROPDOWN ===== -->
+
     </div>
-    <!-- ===== /MAIN NAVIGATION ===== -->
 
 
 </template>
@@ -126,16 +272,23 @@
 
     //import the event bus
     import { eventBus } from '../../main';
+    import $ from 'jquery';
 
     export default {
         created() {
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
+
         },
         data: function () {
             return {
-                profileMenuVisible: false
+                profileMenuVisible: false,
+                searchTerms: "",
+                helperText: "",
+                helperQuery: "",
+                showLoader: true,
+                showResultsList: false
             }
         },
         computed: {
@@ -154,6 +307,28 @@
                     return this.user.profileImageUrl;
                 } else {
                     return "";
+                }
+            },
+            willShowLoader() {
+                return this.showLoader;
+            },
+            willShowResults() {
+                return this.showResultsList;
+            }
+        },
+        watch: {
+            searchTerms(val) {
+                if (val.length > 0) {
+                    $('body').addClass('is--searching');
+                    $('html').css({ 'overflow-y': 'hidden' });
+                    this.helperText = "Searching for ";
+                    this.helperQuery = ` ${val} `;
+                    let _this = this;
+                    setTimeout(function () {
+                        _this.foundResults();
+                    }, 1000);
+                } else {
+                    this.closeOverlay();
                 }
             }
         },
@@ -175,12 +350,29 @@
             },
             logOut() {
                 User.logout(this);
+            },
+            closeOverlay() {
+                $('body').removeClass('is--searching found--results');
+                $('html').css({ 'overflow-y': 'auto' });
+                $('#searchResults .results__list').fadeOut();
+                $('#searchResults .loader').fadeIn();
+                $('#siteSearch').val('');
+            },
+            foundResults() {
+                this.helperText = "Press 'Enter' to search for ";
+                $('body').addClass('found--results');
+                $('#searchResults .results__list').fadeIn();
+                $('#searchResults .loader').fadeOut();
+            },
+            searchPage() {
+                this.closeOverlay();
+                this.$router.push({ name: 'searchresults', query: { terms: this.searchTerms } });
             }
         }
     }
 
 </script>
 
-<style lang="css">
+<style>
 
 </style>
