@@ -14,7 +14,9 @@ export const store = new Vuex.Store({
         userLoggedIn: false,
         selectedTopics: [],
         classes: [],
-        activeCourse: {}
+        activeCourse: {},
+        searchResults: [],
+        featuredClasses: []
     },
     actions: {
         replaceUser: ({ commit }, payload) => {
@@ -49,6 +51,12 @@ export const store = new Vuex.Store({
         },
         updateActiveCourse: ({ commit }, payload) => {
             commit('updateActiveCourse', payload);
+        },
+        updateSearchResults: ({ commit }, payload) => {
+            commit('updateSearchResults', payload);
+        },
+        updateFeaturedClasses: ({ commit }, payload) => {
+            commit('updateFeaturedClasses', payload);
         }
     },
     mutations: {
@@ -93,6 +101,12 @@ export const store = new Vuex.Store({
         updateActiveCourse: (state, payload) => {
             state.activeCourse = payload;
             persist();
+        },
+        updateSearchResults: (state, payload) => {
+            state.searchResults = payload;
+        },
+        updateFeaturedClasses: (state, payload) => {
+            state.featuredClasses = payload;
         }
     },
     getters: {
@@ -122,6 +136,12 @@ export const store = new Vuex.Store({
         },
         activeCourse: state => {
             return state.activeCourse;
+        },
+        searchResults: state => {
+            return state.searchResults;
+        },
+        featuredClasses: state => {
+            return state.featuredClasses;
         }
     }
 });

@@ -1,7 +1,7 @@
 //import and setup axios
 import axios from 'axios';
-//let BASE_URL = 'https://smmapi-dev.herokuapp.com/v1/api/'
-let BASE_URL = 'http://localhost:4000/v1/api/';
+let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
+//let BASE_URL = 'http://localhost:4000/v1/api/';
 let API_TOKEN = localStorage.getItem('token');
 
 function headers() {
@@ -25,14 +25,14 @@ export default {
             .catch(error => outputError(error));
     },
 
-    searchClasses(context, terms) {
+    searchClasses(context, terms, cb) {
         axios
             .get(BASE_URL + 'courses/search?terms=' + terms, headers())
             .then(response => {
-                console.log(response.data.data);
-                // context.$store.dispatch('classResults', response.data.data);
+                context.$store.dispatch('updateSearchResults', response.data.data);
+                cb({ status: 'success', data: response.data.data });
             })
-            .catch(error => outputError(error));
+            .catch(error => cb({ status: 'error', data: error }));
     },
 
     classesByTopic(context, topic) {
@@ -49,8 +49,7 @@ export default {
         axios
             .get(BASE_URL + 'courses/featured', headers())
             .then(response => {
-                console.log(response.data.data);
-                // context.$store.dispatch('featuredClasses', response.data.data);
+                context.$store.dispatch('updateFeaturedClasses', response.data.data);
             })
             .catch(error => outputError(error));
     },

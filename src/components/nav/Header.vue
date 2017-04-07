@@ -152,47 +152,23 @@
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <div class="result is--class">
-                                    <div class="meta">
-                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png')">
+                                <div v-for="course in updateSearchResults" class="result is--class">
+                                    <div class="meta" @click="openCourse(course._id)">
+                                        <div class="thumb" :style="{ 'background-image': 'url(' + course.thumbImageUrl + ')' }">
                                             <svg class="icon-play">
                                                 <use xlink:href="#icon-play"></use>
                                             </svg>
                                         </div>
-                                        <span class="ts--title truncate link">How to Build a Team That Works and Gets Results Longer Title</span>
+                                        <span class="ts--title truncate link">{{ course.title }}</span>
                                         <ul class="list list--inline list--divided">
                                             <li class="item has--icon">
-                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                                Daymond John
+                                                <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>                                                {{ course.instructor.name }}
                                             </li>
                                             <li class="item has--icon">
                                                 <svg class="icon-thumbs-up">
                                                     <use xlink:href="#icon-thumbs-up"></use>
                                                 </svg>
-                                                1.2K
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /SINGLE RESULT -->
-
-                                <!-- SINGLE RESULT -->
-                                <div class="result is--class">
-                                    <div class="meta">
-                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-3.png')">
-                                            <svg class="icon-play">
-                                                <use xlink:href="#icon-play"></use>
-                                            </svg>
-                                        </div>
-                                        <span class="ts--title truncate link">How to Grow Your Brand and Live Your Dream</span>
-                                        <ul class="list list--inline list--divided">
-                                            <li class="item has--icon">
-                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-lewis.jpg');"></span>                                                Lewis Howes
-                                            </li>
-                                            <li class="item has--icon">
-                                                <svg class="icon-thumbs-up">
-                                                    <use xlink:href="#icon-thumbs-up"></use>
-                                                </svg>
-                                                1.2K
+                                                {{ course.positiveReviewCount ? course.positiveReviewCount : 0 }}
                                             </li>
                                         </ul>
                                     </div>
@@ -200,7 +176,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button class="btn btn--secondary btn--block is--link" data-target="/templates/search-results">More Results (3)</button>
+                                    <button class="btn btn--secondary btn--block is--link" data-target="/templates/search-results">More Results ({{ updateSearchResults.length }})</button>
                                 </div>
 
                             </div>
@@ -216,13 +192,13 @@
 
                             <div class="results__list">
                                 <!-- EMPTY RESULTS -->
-                                <div class="well is--empty align--center hide remove">
+                                <div class="well is--empty align--center">
                                     No matching podcasts...
                                 </div>
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <div class="result is--podcast">
+                                <!--<div class="result is--podcast">
                                     <div class="meta">
                                         <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-2.png')">
                                             <svg class="icon-podcast">
@@ -242,12 +218,12 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!-- /SINGLE RESULT -->
 
-                                <div class="well no--border-lr no--border-b no--radius no--pad-lr">
+                                <!--<div class="well no--border-lr no--border-b no--radius no--pad-lr">
                                     <button class="btn btn--secondary btn--block">More Results (3)</button>
-                                </div>
+                                </div>-->
 
                             </div>
 
@@ -267,7 +243,7 @@
 </template>
 
 <script>
-    import { User } from '../../api';
+    import { User, Class } from '../../api';
     import { mapGetters } from 'vuex';
 
     //import the event bus
@@ -288,7 +264,8 @@
                 helperText: "",
                 helperQuery: "",
                 showLoader: true,
-                showResultsList: false
+                showResultsList: false,
+                searchResults: []
             }
         },
         computed: {
@@ -314,6 +291,9 @@
             },
             willShowResults() {
                 return this.showResultsList;
+            },
+            updateSearchResults() {
+                return this.searchResults;
             }
         },
         watch: {
@@ -324,9 +304,15 @@
                     this.helperText = "Searching for ";
                     this.helperQuery = ` ${val} `;
                     let _this = this;
-                    setTimeout(function () {
-                        _this.foundResults();
-                    }, 1000);
+                    Class.searchClasses(this, val, result => {
+                        if (result.status == 'success') {
+                            _this.searchResults = result.data;
+                            _this.foundResults();
+                        } else {
+                            _this.searchResults = [];
+                            _this.noResultsFound();
+                        }
+                    })
                 } else {
                     this.closeOverlay();
                 }
@@ -357,6 +343,7 @@
                 $('#searchResults .results__list').fadeOut();
                 $('#searchResults .loader').fadeIn();
                 $('#siteSearch').val('');
+                this.searchTerms = "";
             },
             foundResults() {
                 this.helperText = "Press 'Enter' to search for ";
@@ -364,9 +351,19 @@
                 $('#searchResults .results__list').fadeIn();
                 $('#searchResults .loader').fadeOut();
             },
+            noResultsFound() {
+                this.helperText = "No results found ";
+                $('body').addClass('found--results');
+                $('#searchResults .results__list').fadeIn();
+                $('#searchResults .loader').fadeOut();
+            },
             searchPage() {
                 this.closeOverlay();
                 this.$router.push({ name: 'searchresults', query: { terms: this.searchTerms } });
+            },
+            openCourse(id) {
+                this.closeOverlay();
+                this.$router.push({ name: 'singleclass', params: { id: id } });
             }
         }
     }

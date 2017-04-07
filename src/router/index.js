@@ -19,6 +19,7 @@ import Referrals from '../components/settings/Referrals.vue';
 import Podcasts from '../components/Podcasts.vue';
 import SearchResults from '../components/search/SearchResults.vue';
 import Home from '../components/Home.vue';
+import NotFoundComponent from '../components/NotFoundComponent.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -91,6 +92,10 @@ export default new Router({
                     component: Referrals
                 }
             ]
+        },
+        {
+            path: '*',
+            component: NotFoundComponent
         }
     ]
 });

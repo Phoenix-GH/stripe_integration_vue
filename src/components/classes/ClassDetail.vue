@@ -97,12 +97,13 @@
                                 </li>
                                 <li class="item">
 
-                                    <div class="progress show--count"><span class="progress__counter">80%</span>
+                                    <div class="progress show--count"><span class="progress__counter">{{ percentComplete }}%</span>
                                         <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                                             <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                            <circle cx="16" cy="16" r="15" class="progress__bar" />
+                                            <circle cx="16" cy="16" r="15" class="progress__bar" :style="courseProgressBar" />
                                         </svg>
                                     </div>
+
                                 </li>
                                 <li class="item">
                                     <button class="btn btn--secondary modal--toggle" data-target="#modalReviewClass">Write a Review</button>
@@ -135,7 +136,7 @@
                             <h3 class="ts--subtitle">What you will learn:</h3>
                             <ul class="list list--bulleted list--checks">
                                 <li v-for="bullet in activeCourse.bullets" class="item">
-                                    This is a cool bullet point
+                                    {{ bullet }}
                                 </li>
                             </ul>
                             <br>
@@ -395,7 +396,7 @@
                                     <!-- /LIST HEAD -->
 
                                     <!-- LESSON -->
-                                    <li v-for="lesson in lessons" @click="playLesson(lesson._id, lesson.cloudUrl)" class="lesson wrapper" :class="{'is--playing': (lesson._id == currentLessonId)}">
+                                    <li v-for="lesson in lessons" @click="playLesson(lesson)" class="lesson wrapper" :class="checkStatus(lesson)">
                                         <div class="lesson__title wrapper__inner" data-tip-pos="left">
                                             <span class="lesson__btn">
                                                 <div class="circularProgress">
@@ -459,9 +460,7 @@
                 },
                 lessons: [],
                 currentLessonData: {},
-                currentCourseData: {},
                 currentLessonId: "",
-                currentCourseId: "",
                 popOverIsActive: true,
                 currentActiveTab: 'About'
             }
@@ -481,7 +480,6 @@
             progressPayload() {
                 let payload = {
                     lessonProgress: this.currentLessonData,
-                    courseProgress: this.currentCourseData
                 }
                 return payload;
             },
@@ -502,14 +500,24 @@
             },
             currentLessons() {
                 return this.lessons;
+            },
+            percentComplete() {
+                let numberCompleted = 0;
+                let numberOfLessons = this.lessons.length;
+                Object.keys(this.currentLessonData).forEach(key => {
+                    if (this.currentLessonData[key].isComplete) numberCompleted++;
+                });
+                return Math.round((numberCompleted / numberOfLessons) * 100);
+            },
+            courseProgressBar() {
+                let offset = 100 - this.percentComplete;
+                return { 'stroke-dashoffset': offset };
             }
         },
         created() {
             //setup of video
             this.videoOptions.poster = this.activeCourse.bannerImageUrl;
-            this.currentCourseId = this.activeCourse._id;
             if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
-            if (this.user.courseProgress != undefined) this.currentCourseData = this.user.courseProgress;
             let _this = this;
             Class.lessonsForClass(this, this.activeCourse._id, response => {
                 _this.lessons = response;
@@ -534,6 +542,21 @@
         methods: {
             convertLessonDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
+            },
+            checkStatus(lesson) {
+                let lessonProgress = this.currentLessonData[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.isComplete) {
+                        return { 'is--playing': false, 'is--complete': true };
+                    } else {
+                        if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                        return { 'is--playing': false, 'is--complete': false };
+                    }
+                } else {
+                    if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                    return { 'is--playing': false, 'is--complete': false };
+                }
+
             },
             offsetCalc(lesson) {
                 let lessonProgress = this.currentLessonData[lesson._id];
@@ -604,13 +627,13 @@
                     }
                 }
             },
-            playLesson(id, videoUrl) {
+            playLesson(lesson) {
                 let _this = this;
-                this.currentLessonId = id;
-                if (!this.currentLessonData[id]) {
-                    this.currentLessonData[id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                this.currentLessonId = lesson._id;
+                if (!this.currentLessonData[lesson._id]) {
+                    this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
                 }
-                this.videoOptions.source.src = videoUrl;
+                this.videoOptions.source.src = lesson.cloudUrl;
                 setTimeout(() => {
                     _this.player.play();
                 }, 200);
