@@ -10,7 +10,7 @@
           <use xlink:href="#icon-search"></use>
         </svg>
         <span class="ts--subtitle is--secondary">Oops! We couldn't find anything...</span>
-        <span class="ts--headline">There are no results maching '<span class="underlined">Lorem Ipsum</span>'</span>
+        <span class="ts--headline">There are no results maching '<span class="underlined">{{searchTerms}}</span>'</span>
         <span class="divider divider--s"></span>
       </div>
       <div class="well border--light is--empty align--center">
@@ -23,7 +23,7 @@
     <div class="results">
       <div class="well border--light wrapper">
         <div class="wrapper__inner">
-          <span class="ts--title">You searched for: '<span class="underlined">Lorem Ipsum</span>'</span>
+          <span class="ts--title">You searched for: '<span class="underlined">{{searchTerms}}</span>'</span>
         </div>
         <div class="wrapper__inner align--right">
           Sort by:
@@ -46,18 +46,19 @@
 
       <!-- CLASS RESULTS -->
       <div class="col col--5-of-12">
-        <div class="results__head has--badge" data-badge="2">
+        <div class="results__head has--badge" :data-badge="classes.length">
           Classes
         </div>
         <div class="results__list">
+
           <!-- EMPTY RESULTS -->
-          <div class="well is--empty border--light align--center">
+          <div class="well is--empty border--light align--center" v-if="classes.length == 0">
             No matching classes...
           </div>
           <!-- /EMPTY RESULTS -->
 
           <!-- SINGLE RESULT -->
-          <div class="result is--class">
+          <div v-for="course in classes" class="result is--class">
             <div class="meta">
               <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png')">
                 <svg class="icon-play">
@@ -86,53 +87,23 @@
           </div>
           <!-- /SINGLE RESULT -->
 
-          <!-- SINGLE RESULT -->
-          <div class="result is--class">
-            <div class="meta">
-              <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-3.png')">
-                <svg class="icon-play">
-                  <use xlink:href="#icon-play"></use>
-                </svg>
-              </div>
-              <span class="ts--title truncate link">How to Grow Your Brand and Live Your Dream</span>
-              <ul class="list list--inline list--divided">
-                <li class="item has--icon">
-                  <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-lewis.jpg');"></span>                  Lewis Howes
-                </li>
-                <li class="item has--icon">
-                  <svg class="icon-thumbs-up">
-                    <use xlink:href="#icon-thumbs-up"></use>
-                  </svg>
-                  <a class="link link--secondary" href="#">1.2K</a>
-                </li>
-                <li class="item has--icon">
-                  <svg class="icon-time">
-                    <use xlink:href="#icon-time"></use>
-                  </svg>
-                  <a class="link link--secondary" href="#">2h 53m</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- /SINGLE RESULT --->
-
         </div>
       </div>
       <!-- /CLASS RESULTS -->
 
       <!-- PODCAST RESULTS -->
       <div class="col col--5-of-12 col--push-1-of-12">
-        <div class="results__head has--badge" data-badge="1">
+        <div class="results__head has--badge" :data-badge="podcasts.length">
           Podcasts
         </div>
         <div class="results__list">
           <!-- EMPTY RESULTS -->
-          <div class="well is--empty border--light align--center">
+          <div class="well is--empty border--light align--center" v-if="podcasts.length == 0">
             No matching podcasts...
           </div>
           <!-- /EMPTY RESULTS -->
           <!-- SINGLE RESULT -->
-          <div class="result is--podcast">
+          <div v-for="podcast in podcasts" class="result is--podcast">
             <div class="meta">
               <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-2.png')">
                 <svg class="icon-podcast">
@@ -171,9 +142,20 @@
   export default {
     data() {
       return {
-        searchResults: []
+        terms: "",
+        searchResults: [],
+        classes: [],
+        podcasts: []
       }
     },
+    computed: {
+      searchTerms() {
+        return this.terms;
+      }
+    },
+    created() {
+      this.terms = this.$route.query.terms;
+    }
   }
 
 </script>
