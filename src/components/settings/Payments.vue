@@ -84,7 +84,7 @@
 
                         <!-- Billing Link -->
                         <div class="align--right" v-if="hasStripeAccount">
-                            <a class="link link--secondary" href="/templates/settings/billing">View Billing History</a>
+                            <router-link class="link link--secondary" :to="{ name: 'billing' }">View Billing History</router-link>
                         </div>
 
                     </div>

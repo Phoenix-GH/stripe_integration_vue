@@ -5,11 +5,13 @@ let BASE_URL = 'http://localhost:4000/v1/api/';
 let API_TOKEN = localStorage.getItem('token');
 
 function headers() {
-    return { headers: { 'x-access-token': API_TOKEN } };
+    if (API_TOKEN != null && API_TOKEN.length > 0)
+        return { headers: { 'x-access-token': API_TOKEN } };
+    return { headers: {} };
 }
 
 function outputError(error) {
-    console.log(error);
+    console.log(JSON.stringify(error));
 }
 
 export default {

@@ -389,13 +389,13 @@
                                             <svg class="icon-time icon--s color--accent">
                                                 <use xlink:href="#icon-time"></use>
                                             </svg>
-                                            2h 53m
+                                            {{ totalTime }}
                                         </div>
                                     </li>
                                     <!-- /LIST HEAD -->
 
                                     <!-- LESSON -->
-                                    <li v-for="lesson in lessons" @click="playLesson(lesson._id, lesson.videoUrl)" class="lesson wrapper" :class="{'is--playing': (lesson._id == currentLessonId)}">
+                                    <li v-for="lesson in lessons" @click="playLesson(lesson._id, lesson.cloudUrl)" class="lesson wrapper" :class="{'is--playing': (lesson._id == currentLessonId)}">
                                         <div class="lesson__title wrapper__inner" data-tip-pos="left">
                                             <span class="lesson__btn">
                                                 <div class="circularProgress">
@@ -414,7 +414,7 @@
                                             </span> {{ lesson.title }}
                                         </div>
                                         <div class="lesson__time wrapper__inner align--right">
-                                            {{ lesson.title }}
+                                            {{ convertLessonDuration(lesson.duration) }}
                                         </div>
                                     </li>
                                     <!-- /LESSON -->
@@ -442,7 +442,7 @@
 <script>
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
-    //import $ from 'jquery';
+    import { convertSecondsToReadableFormat } from '../../helpers/util';
 
     export default {
 
@@ -451,10 +451,10 @@
                 videoOptions: {
                     source: {
                         type: "application/x-mpegURL",
-                        src: "https://d9iiow8rnlprs.cloudfront.net/johnwick2/encoded-Tue-Jan-2017-04-35-07/encoded-Tue-Jan-2017-04-35-07.m3u8"
+                        src: ""
                     },
                     playbackRates: [0.5, 1, 1.5, 2],
-                    poster: "http://www.freemake.com/blog/wp-content/uploads/2015/06/videojs-logo.jpg",
+                    poster: "",
                     autoplay: false
                 },
                 lessons: [],
@@ -468,10 +468,15 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'activeCourse'
+                'user', 'activeCourse', 'userLoggedIn'
             ]),
             player() {
                 return this.$refs.myPlayer.player;
+            },
+            totalTime() {
+                return convertSecondsToReadableFormat(this.lessons.map(lesson => {
+                    return (lesson.duration != undefined) ? lesson.duration : 0;
+                }).reduce((a, b) => a + b, 0));
             },
             progressPayload() {
                 let payload = {
@@ -500,7 +505,6 @@
             }
         },
         created() {
-
             //setup of video
             this.videoOptions.poster = this.activeCourse.bannerImageUrl;
             this.currentCourseId = this.activeCourse._id;
@@ -509,7 +513,7 @@
             let _this = this;
             Class.lessonsForClass(this, this.activeCourse._id, response => {
                 _this.lessons = response;
-                _this.videoOptions.source.src = _this.lessons[0].videoUrl;
+                _this.videoOptions.source.src = _this.lessons[0].cloudUrl;
                 _this.currentLessonId = _this.lessons[0]._id;
                 if (!_this.currentLessonData[_this.currentLessonId]) {
                     _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
@@ -523,9 +527,14 @@
             })
         },
         beforeDestroy() {
-            User.updateUser(this, this.progressPayload);
+            if (this.userLoggedIn) {
+                User.updateUser(this, this.progressPayload);
+            }
         },
         methods: {
+            convertLessonDuration(duration) {
+                return convertSecondsToReadableFormat(duration);
+            },
             offsetCalc(lesson) {
                 let lessonProgress = this.currentLessonData[lesson._id];
                 if (lessonProgress != undefined) {
@@ -585,6 +594,9 @@
                 if (playerCurrentState.ended) {
                     this.currentLessonData[this.currentLessonId].isComplete = true;
                     this.currentLessonData[this.currentLessonId].completionDate = Date.now();
+                    if (this.state.userLoggedIn) {
+                        User.updateUser(this, this.progressPayload);
+                    }
                 } else if (playerCurrentState.currentTime > 0) {
                     if (this.currentLessonData[this.currentLessonId].lastPosition <= playerCurrentState.currentTime) {
                         this.currentLessonData[this.currentLessonId].lastPosition = playerCurrentState.currentTime;

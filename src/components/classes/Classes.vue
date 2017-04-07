@@ -141,7 +141,7 @@
             </span>
                 </div>
                 <div class="wrapper__inner align--right" v-if="selectedCategory.length > 0">
-                    <button class="btn btn--secondary">Follow</button>
+                    <button v-if="userLoggedIn" class="btn btn--secondary">Follow</button>
                 </div>
             </div>
 
@@ -183,6 +183,9 @@
     import Slick from 'vue-slick';
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
+    import { eventBus } from '../../main';
+
+
 
     export default {
         data: function () {
@@ -222,7 +225,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress', 'classes'
+                'user', 'savedClasses', 'classesInProgress', 'classes', 'userLoggedIn'
             ]),
             showFollow() {
                 return (this.selectedCategory.length > 0) ? true : false;
@@ -257,7 +260,17 @@
             }
         },
         created() {
+            eventBus.$on('topicChanged', (data) => {
+                this.selectedCategory = data.topic;
+            })
             Class.recentClasses(this);
+            let cat = this.$route.query.topic;
+            if (cat != undefined) {
+                if (cat.length > 0) {
+                    this.catClicked(cat);
+                }
+            }
+
         }
     }
 
