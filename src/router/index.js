@@ -20,6 +20,7 @@ import Podcasts from '../components/Podcasts.vue';
 import SearchResults from '../components/search/SearchResults.vue';
 import Home from '../components/Home.vue';
 import NotFoundComponent from '../components/NotFoundComponent.vue';
+import VideoTest from '../components/classes/VideoTest.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -49,6 +50,7 @@ export default new Router({
         { path: '/searchresults', name: 'searchresults', component: SearchResults },
         { path: '/privacypolicy', name: 'privacypolicy', component: PrivacyPolicy },
         { path: '/termsofuse', name: 'termsofuse', component: TermsOfUse },
+        { path: '/videotest', name: 'videotest', component: VideoTest },
         { path: '/faq', name: 'faq', component: FAQ },
         {
             path: '/settings',

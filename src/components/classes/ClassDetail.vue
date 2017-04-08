@@ -4,7 +4,9 @@
 
         <!-- BANNER -->
         <div class="banner banner--video bg--black bg--wood">
-            <video-player class="player" :options="videoOptions" @player-state-changed="playerStateChanged" ref="myPlayer"></video-player>
+            <video-player class="player" :options="updatedPlayerOptions" @ready="playerReadied" @timeupdate="onPlayerTimeUpdate($event)"
+                @play="onPlayerPlay($event)" @pause="onPlayerPause($event)" @ended="onPlayerEnded($event)">
+            </video-player>
         </div>
         <!-- /BANNER -->
 
@@ -449,28 +451,32 @@
 
         data() {
             return {
-                videoOptions: {
-                    source: {
+                playerOptions: {
+                    // videojs and plugin options
+                    sources: [{
+                        withCredentials: false,
                         type: "application/x-mpegURL",
-                        src: ""
-                    },
+                        src: "https://d9iiow8rnlprs.cloudfront.net/johnwick2/encoded-Tue-Jan-2017-04-35-07/encoded-Tue-Jan-2017-04-35-07.m3u8"
+                    }],
+                    flash: { hls: { withCredentials: false } },
+                    html5: { hls: { withCredentials: false } },
                     playbackRates: [0.5, 1, 1.5, 2],
-                    poster: "",
-                    autoplay: false
+                    poster: "http://www.freemake.com/blog/wp-content/uploads/2015/06/videojs-logo.jpg"
                 },
                 lessons: [],
                 currentLessonData: {},
                 currentLessonId: "",
                 popOverIsActive: true,
-                currentActiveTab: 'About'
+                currentActiveTab: 'About',
+                player: {}
             }
         },
         computed: {
             ...mapGetters([
                 'user', 'activeCourse', 'userLoggedIn'
             ]),
-            player() {
-                return this.$refs.myPlayer.player;
+            updatedPlayerOptions() {
+                return this.playerOptions;
             },
             totalTime() {
                 return convertSecondsToReadableFormat(this.lessons.map(lesson => {
@@ -516,12 +522,12 @@
         },
         created() {
             //setup of video
-            this.videoOptions.poster = this.activeCourse.bannerImageUrl;
+            this.playerOptions.poster = this.activeCourse.bannerImageUrl;
             if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
             let _this = this;
             Class.lessonsForClass(this, this.activeCourse._id, response => {
                 _this.lessons = response;
-                _this.videoOptions.source.src = _this.lessons[0].cloudUrl;
+                _this.playerOptions.sources[0].src = _this.lessons[0].cloudUrl;
                 _this.currentLessonId = _this.lessons[0]._id;
                 if (!_this.currentLessonData[_this.currentLessonId]) {
                     _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
@@ -540,6 +546,37 @@
             }
         },
         methods: {
+            playerReadied(player) {
+                this.player = player;
+                var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+                player.tech_.hls.xhr.beforeRequest = function (options) {
+                    return options
+                }
+            },
+            onPlayerPlay(event) {
+                console.log('stated playing send play event to server for course for count');
+            },
+            onPlayerPause(event) {
+                console.log('paused, update records on server');
+                User.updateUser(this, this.progressPayload);
+            },
+            onPlayerEnded(event) {
+                this.currentLessonData[this.currentLessonId].isComplete = true;
+                this.currentLessonData[this.currentLessonId].completionDate = Date.now();
+                if (this.userLoggedIn) {
+                    User.updateUser(this, this.progressPayload);
+                }
+            },
+            onPlayerTimeUpdate(playerCurrentState) {
+                const currentTime = playerCurrentState.currentTime();
+                console.log('player current position ' + currentTime);
+                if (currentTime > 0) {
+                    if (this.currentLessonData[this.currentLessonId].lastPosition <= currentTime) {
+                        this.currentLessonData[this.currentLessonId].lastPosition = currentTime;
+                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((currentTime / this.player.duration()) * 100);
+                    }
+                }
+            },
             convertLessonDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
             },
@@ -565,7 +602,6 @@
                         return { 'stroke-dashoffset': 0 };
                     } else {
                         let offset = 100 - lessonProgress.percentComplete;
-                        console.log(offset);
                         return { 'stroke-dashoffset': offset };
                     }
                 } else {
@@ -613,27 +649,13 @@
                     this.popOverIsActive = true;
                 }
             },
-            playerStateChanged(playerCurrentState) {
-                if (playerCurrentState.ended) {
-                    this.currentLessonData[this.currentLessonId].isComplete = true;
-                    this.currentLessonData[this.currentLessonId].completionDate = Date.now();
-                    if (this.state.userLoggedIn) {
-                        User.updateUser(this, this.progressPayload);
-                    }
-                } else if (playerCurrentState.currentTime > 0) {
-                    if (this.currentLessonData[this.currentLessonId].lastPosition <= playerCurrentState.currentTime) {
-                        this.currentLessonData[this.currentLessonId].lastPosition = playerCurrentState.currentTime;
-                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((playerCurrentState.currentTime / this.player.duration()) * 100);
-                    }
-                }
-            },
             playLesson(lesson) {
                 let _this = this;
                 this.currentLessonId = lesson._id;
                 if (!this.currentLessonData[lesson._id]) {
                     this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
                 }
-                this.videoOptions.source.src = lesson.cloudUrl;
+                this.playerOptions.sources[0].src = lesson.cloudUrl;
                 setTimeout(() => {
                     _this.player.play();
                 }, 200);
@@ -641,7 +663,7 @@
             playLessonMark(id, videoUrl, mark) {
                 let _this = this;
                 this.currentLessonId = id;
-                this.videoOptions.source.src = videoUrl;
+                this.playerOptions.sources[0].src = videoUrl;
                 setTimeout(() => {
                     _this.player.currentTime(mark);
                     _this.player.play();

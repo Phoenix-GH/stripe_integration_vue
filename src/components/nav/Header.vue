@@ -153,7 +153,7 @@
 
                                 <!-- SINGLE RESULT -->
                                 <div v-for="course in updateSearchResults" class="result is--class">
-                                    <div class="meta" @click="openCourse(course._id)">
+                                    <div class="meta" @click="openCourse(course)">
                                         <div class="thumb" :style="{ 'background-image': 'url(' + course.thumbImageUrl + ')' }">
                                             <svg class="icon-play">
                                                 <use xlink:href="#icon-play"></use>
@@ -361,9 +361,10 @@
                 this.closeOverlay();
                 this.$router.push({ name: 'searchresults', query: { terms: this.searchTerms } });
             },
-            openCourse(id) {
+            openCourse(course) {
                 this.closeOverlay();
-                this.$router.push({ name: 'singleclass', params: { id: id } });
+                this.$store.dispatch('updateActiveCourse', course);
+                this.$router.push({ name: 'singleclass', params: { id: course._id } });
             }
         }
     }

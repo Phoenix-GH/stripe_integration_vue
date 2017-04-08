@@ -1,15 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import { store, loadCache } from './store/index'
-import router from './router'
-import VueScript2 from 'vue-script2'
-Vue.use(VueScript2)
-import VideoPlayer from 'vue-video-player'
+import Vue from 'vue';
+import App from './App';
+import { store, loadCache } from './store/index';
+import router from './router';
+import VueScript2 from 'vue-script2';
+Vue.use(VueScript2);
+import VideoPlayer from 'vue-video-player';
 Vue.use(VideoPlayer);
-
-Vue.config.productionTip = false
+// hls plugin
+require('videojs-contrib-hls/dist/videojs-contrib-hls');
+Vue.config.productionTip = false;
 
 //event bus
 export const eventBus = new Vue();
@@ -18,33 +19,29 @@ console.log('created event bus');
 //load the cache
 loadCache();
 
-
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
-    if(d.getElementById(id)) {
+    if (d.getElementById(id)) {
         return;
     }
     js = d.createElement(s);
     js.id = id;
-    js.src ="//connect.facebook.net/en_US/sdk.js";
+    js.src = '//connect.facebook.net/en_US/sdk.js';
     fjs.parentNode.insertBefore(js, fjs);
-}
-(document,'script','facebook-jssdk'));
-
+})(document, 'script', 'facebook-jssdk');
 
 window.fbAsyncInit = function() {
     FB.init({
-        appId      :'263766374079183',
-        xfbml      :true,
-        version    :'v2.8'
+        appId: '263766374079183',
+        xfbml: true,
+        version: 'v2.8'
     });
 };
 
-
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  store,
-  router,
-  render: h => h(App)
-})
+    el: '#app',
+    store,
+    router,
+    render: h => h(App)
+});
