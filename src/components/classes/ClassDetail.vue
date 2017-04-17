@@ -1,5 +1,4 @@
 <template>
-
     <div>
 
         <!-- BANNER -->
@@ -46,7 +45,7 @@
                                     <svg class="icon-show">
                                         <use xlink:href="#icon-show"></use>
                                     </svg>
-                                    42.K Views
+                                    {{ activeCourse.viewCount }} Views
                                 </li>
                             </ul>
                             <!-- /CLASS INFO -->
@@ -60,7 +59,7 @@
                                     My Notes
                                 </li>
                                 <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
-                                    <span class="has--badge" data-badge="36">Reviews</span>
+                                    <span class="has--badge" :data-badge="reviews.length">Reviews</span>
                                 </li>
                             </ul>
                             <!-- /CLASS TABS -->
@@ -164,95 +163,30 @@
 
                             <!-- EMPTY STATE -->
                             <!-- NOTE: Only displayed if there are no notes saved -->
-                            <div class="well is--empty align--center">
+                            <div class="well is--empty align--center" v-if="selectedNotes.length == 0">
                                 You haven't saved any notes yet.
                             </div>
                             <!-- /EMPTY STATE -->
 
-                            <!-- LESSON NOTES -->
-                            <div class="lesson__notes">
-                                <h3 class="ts--subtitle">Lesson 1 &mdash; Introduction</h3>
-                                <ul class="list">
-
-                                    <!-- SINGLE NOTES -->
-                                    <li class="item well" style="overflow:visible;">
-                                        <div class="well__title wrapper">
-                                            <div class="wrapper__inner color--black">
-                                                <svg class="icon-time icon--s">
-                                                    <use xlink:href="#icon-time"></use>
-                                                </svg>
-                                                02:41
-                                            </div>
-                                            <div class="wrapper__inner align--right">
-                                                <div class="has--popover disp--ib">
-                                                    <svg class="icon-more icon--s color--black no--margin">
-                                                        <use xlink:href="#icon-more"></use>
-                                                    </svg>
-                                                    </a>
-                                                    <ul class="list">
-                                                        <li class="item">
-                                                            <a>Edit</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a>Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non convallis at, elementum in
-                                        nibh.
-                                    </li>
-                                    <!-- /SINGLE NOTES -->
-
-                                    <!-- SINGLE NOTES -->
-                                    <li class="item well" style="overflow:visible;">
-                                        <div class="well__title wrapper">
-                                            <div class="wrapper__inner color--black">
-                                                <svg class="icon-time icon--s">
-                                                    <use xlink:href="#icon-time"></use>
-                                                </svg>
-                                                02:41
-                                            </div>
-                                            <div class="wrapper__inner align--right">
-                                                <div class="has--popover disp--ib">
-                                                    <svg class="icon-more icon--s color--black no--margin">
-                                                        <use xlink:href="#icon-more"></use>
-                                                    </svg>
-                                                    </a>
-                                                    <ul class="list">
-                                                        <li class="item">
-                                                            <a>Edit</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a>Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non convallis at, elementum in
-                                        nibh.
-                                    </li>
-                                    <!-- /SINGLE NOTES -->
-
-                                </ul>
+                            <h3 v-if="selectedNotes.length > 0" class="ts--subtitle">{{ selectedLesson.title }}</h3>
+                            <div>
+                                <textarea v-model="noteDraft">{{ noteDraft }}</textarea>
+                                <button @click="addNoteToLesson">Add Note</button>
                             </div>
-                            <!-- /LESSON NOTES -->
 
                             <!-- LESSON NOTES -->
-                            <div class="lesson__notes">
-                                <h3 class="ts--subtitle">Lesson 4 &mdash; Lorem Ipsum Dolor Sit Amet</h3>
+                            <div v-if="selectedNotes.length > 0" class="lesson__notes">
+
                                 <ul class="list">
 
                                     <!-- SINGLE NOTES -->
-                                    <li class="item well" style="overflow:visible;">
+                                    <li v-for="note in selectedNotes" class="item well" style="overflow:visible;">
                                         <div class="well__title wrapper">
                                             <div class="wrapper__inner color--black">
                                                 <svg class="icon-time icon--s">
                                                     <use xlink:href="#icon-time"></use>
                                                 </svg>
-                                                02:41
+                                                {{ note.ts }}
                                             </div>
                                             <div class="wrapper__inner align--right">
                                                 <div class="has--popover disp--ib">
@@ -271,8 +205,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non convallis at, elementum in
-                                        nibh.
+                                        {{ note.body }}
                                     </li>
                                     <!-- /SINGLE NOTES -->
 
@@ -288,7 +221,7 @@
 
                             <!-- EMPTY STATE -->
                             <!-- NOTE: Only displayed if there are no notes saved -->
-                            <div class="well is--empty align--center">
+                            <div class="well is--empty align--center" v-if="reviews.length == 0">
                                 <span class="ts--subtitle">No one has reviewed this class yet...</span>
                                 <span class="divider divider--s"></span>
                                 <button class="btn btn--cta modal--toggle" data-target="#modalReviewClass">Be the first to review it</button>
@@ -296,66 +229,16 @@
                             <!-- /EMPTY STATE -->
 
                             <!-- REVIEWS LIST -->
-                            <ul class="reviews">
+                            <ul class="reviews" v-if="reviews.length > 0">
 
                                 <!-- REVIEW -->
-                                <li class="review is--positive">
+                                <li v-for="review in reviews" class="review" :class="{'is--positive': true, 'is--negative': false}">
                                     <div class="well">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tortor sapien, pulvinar non convallis at, elementum in
-                                        nibh.
+                                        {{ review.body }}
                                     </div>
                                     <ul class="review__meta list list--inline list--divided">
                                         <li class="item">
                                             <span class="avatar avatar-xs" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/avatar-2.jpg');"></span>                                            Will D.
-                                        </li>
-                                        <li class="item">
-                                            <svg class="icon-thumbs-up-fill">
-                                                <use xlink:href="#icon-thumbs-up-fill"></use>
-                                            </svg>
-                                        </li>
-                                        <li class="item">
-                                            <svg class="icon-progress">
-                                                <use xlink:href="#icon-progress"></use>
-                                            </svg>
-                                            100% Completed
-                                        </li>
-                                    </ul>
-                                </li>
-                                <!-- /REVIEW -->
-
-                                <!-- REVIEW -->
-                                <li class="review is--negative">
-                                    <div class="well">
-                                        I pity the fool who takes this class!
-                                    </div>
-                                    <ul class="review__meta list list--inline list--divided">
-                                        <li class="item">
-                                            <span class="avatar avatar-xs" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/avatar-4.jpg');"></span>                                            Mister T.
-                                        </li>
-                                        <li class="item">
-                                            <svg class="icon-thumbs-down">
-                                                <use xlink:href="#icon-thumbs-down"></use>
-                                            </svg>
-                                        </li>
-                                        <li class="item">
-                                            <svg class="icon-progress">
-                                                <use xlink:href="#icon-progress"></use>
-                                            </svg>
-                                            36% Completed
-                                        </li>
-                                    </ul>
-                                </li>
-                                <!-- /REVIEW -->
-
-                                <!-- REVIEW -->
-                                <li class="review is--positive">
-                                    <div class="well">
-                                        The guy above me has no idea what he's talking about. He didn't even complete the whole class. I, however, completed it fully
-                                        and now I only date models.
-                                    </div>
-                                    <ul class="review__meta list list--inline list--divided">
-                                        <li class="item">
-                                            <span class="avatar avatar-xs" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/avatar-3.jpg');"></span>                                            Senisa S.
                                         </li>
                                         <li class="item">
                                             <svg class="icon-thumbs-up-fill">
@@ -399,7 +282,7 @@
 
                                     <!-- LESSON -->
                                     <li v-for="lesson in lessons" @click="playLesson(lesson)" class="lesson wrapper" :class="checkStatus(lesson)">
-                                        <div class="lesson__title wrapper__inner" data-tip-pos="left">
+                                        <div class="lesson__title wrapper__inner" :data-tooltip="tooltipString(lesson)" data-tip-pos="left">
                                             <span class="lesson__btn">
                                                 <div class="circularProgress">
                                                     <div class="circularProgress__overlay">
@@ -439,13 +322,31 @@
         <!-- /CLASS CONTENT -->
 
     </div>
-
 </template>
 
 <script>
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import { convertSecondsToReadableFormat } from '../../helpers/util';
+
+    //todo
+    /*
+    add tooltip
+    add bookmark/continue progress
+    get current course progress
+    get all lesson progress
+    save all lesson progress
+    save course progress
+    create note
+    edit note
+    delete note
+    create review
+    see all reviews
+    show course stats
+    reset course progress
+    unenroll from course
+    complete course
+    */
 
     export default {
 
@@ -464,12 +365,53 @@
                     poster: "http://www.freemake.com/blog/wp-content/uploads/2015/06/videojs-logo.jpg"
                 },
                 lessons: [],
+                reviews: [],
+                notes: [],
                 currentLessonData: {},
                 currentLessonId: "",
                 popOverIsActive: true,
                 currentActiveTab: 'About',
-                player: {}
+                player: {},
+                noteDraft: "",
+                currentTime: 0.0
             }
+        },
+        created() {
+
+
+            //set local lessons array to the course lessons
+            this.lessons = this.activeCourse.lessons;
+
+            //set local reviews array to the course reviews
+            this.reviews = this.activeCourse.reviews;
+
+            //get updated notes
+            this.updateClassNotes();
+
+            //update view count
+            Class.updateViewCount(this, this.activeCourse._id, count => {
+                console.log(`updated count ${count}`);
+            })
+
+            //setup of video
+            this.playerOptions.poster = this.activeCourse.bannerImageUrl;
+            if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
+            this.playerOptions.sources[0].src = this.lessons[0].cloudUrl;
+            this.currentLessonId = this.lessons[0]._id;
+            if (!this.currentLessonData[this.currentLessonId]) {
+                this.currentLessonData[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+            }
+            for (var index = 0; index < this.lessons.length; index++) {
+                let lesson = this.lessons[index];
+                if (!this.currentLessonData[lesson._id]) {
+                    this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                }
+            }
+        },
+        beforeDestroy() {
+            // if (this.userLoggedIn) {
+            //     User.updateUser(this, this.progressPayload);
+            // }
         },
         computed: {
             ...mapGetters([
@@ -504,9 +446,6 @@
                 if (this.currentActiveTab == 'Reviews') return true;
                 return false;
             },
-            currentLessons() {
-                return this.lessons;
-            },
             percentComplete() {
                 let numberCompleted = 0;
                 let numberOfLessons = this.lessons.length;
@@ -518,31 +457,35 @@
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
-            }
-        },
-        created() {
-            //setup of video
-            this.playerOptions.poster = this.activeCourse.bannerImageUrl;
-            if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
-            let _this = this;
-            Class.lessonsForClass(this, this.activeCourse._id, response => {
-                _this.lessons = response;
-                _this.playerOptions.sources[0].src = _this.lessons[0].cloudUrl;
-                _this.currentLessonId = _this.lessons[0]._id;
-                if (!_this.currentLessonData[_this.currentLessonId]) {
-                    _this.currentLessonData[_this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
-                }
-                for (var index = 0; index < response.length; index++) {
-                    let lesson = response[index];
-                    if (!_this.currentLessonData[lesson._id]) {
-                        _this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+            },
+            //lessons
+            currentLessons() {
+                return this.lessons;
+            },
+            selectedLesson() {
+                let _lessons = this.lessons.filter(lesson => {
+                    if (lesson._id == this.currentLessonId) {
+                        return true;
+                    } else {
+                        return false;
                     }
+                }).map(lesson => { return lesson; });
+                console.log(_lessons);
+                if (_lessons.length > 0) {
+                    return _lessons[0];
                 }
-            })
-        },
-        beforeDestroy() {
-            if (this.userLoggedIn) {
-                User.updateUser(this, this.progressPayload);
+            },
+            //notes
+            selectedNotes() {
+                let _notes = this.notes.filter(note => {
+                    if (note.lesson == this.currentLessonId) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(note => { return note; });
+                console.log(_notes);
+                return _notes;
             }
         },
         methods: {
@@ -571,6 +514,7 @@
                 const currentTime = playerCurrentState.currentTime();
                 console.log('player current position ' + currentTime);
                 if (currentTime > 0) {
+                    this.currentTime = currentTime;
                     if (this.currentLessonData[this.currentLessonId].lastPosition <= currentTime) {
                         this.currentLessonData[this.currentLessonId].lastPosition = currentTime;
                         this.currentLessonData[this.currentLessonId].percentComplete = Math.round((currentTime / this.player.duration()) * 100);
@@ -581,17 +525,26 @@
                 return convertSecondsToReadableFormat(duration);
             },
             checkStatus(lesson) {
-                let lessonProgress = this.currentLessonData[lesson._id];
-                if (lessonProgress != undefined) {
-                    if (lessonProgress.isComplete) {
-                        return { 'is--playing': false, 'is--complete': true };
+                if (this.userLoggedIn) {
+                    let lessonProgress = this.currentLessonData[lesson._id];
+                    if (lessonProgress != undefined) {
+                        if (lessonProgress.isComplete) {
+                            return { 'is--playing': false, 'is--complete': true };
+                        } else {
+                            if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                            return { 'is--playing': false, 'is--complete': false };
+                        }
                     } else {
                         if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
                         return { 'is--playing': false, 'is--complete': false };
                     }
                 } else {
-                    if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
-                    return { 'is--playing': false, 'is--complete': false };
+                    console.log(lesson.free);
+                    if (!lesson.free) {
+                        return { 'is--locked': true };
+                    } else {
+                        if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                    }
                 }
 
             },
@@ -613,7 +566,9 @@
                 let lessonProgress = this.currentLessonData[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.isComplete) {
-                        return lessonProgress.completionDate;
+                        return `Completed`;
+                    } else if (lessonProgress.lastPosition == 0) {
+                        return 'Not Started';
                     } else {
                         return `${lessonProgress.percentComplete}%`;
                     }
@@ -650,6 +605,13 @@
                 }
             },
             playLesson(lesson) {
+
+                //check if user is logged in
+                if (!this.userLoggedIn) {
+                    console.log('require logged in user');
+                    return;
+                }
+
                 let _this = this;
                 this.currentLessonId = lesson._id;
                 if (!this.currentLessonData[lesson._id]) {
@@ -699,12 +661,39 @@
                 } else {
                     return 'Not Started';
                 }
+            },
+            //notes
+            updateClassNotes() {
+                let _this = this;
+                Class.classNotes(this, this.activeCourse._id, notes => {
+                    _this.notes = notes;
+                })
+            },
+            addNoteToLesson() {
+                console.log(this.noteDraft);
+                const message = this.noteDraft;
+                this.noteDraft = "";
+                let payload = {
+                    body: message,
+                    course: this.activeCourse._id,
+                    lesson: this.currentLessonId,
+                    user: this.user._id,
+                    ts: this.currentTime
+                }
+                let _this = this;
+                Class.addNote(this, payload, note => {
+                    console.log('note added ' + JSON.stringify(note));
+                    _this.updateClassNotes();
+                })
             }
         }
     }
 
 </script>
 
-<style lang="css">
-
+<style lang="css" scoped>
+    .textAreaNotes {
+        width: auto;
+        height: 100px;
+    }
 </style>

@@ -1,7 +1,7 @@
 //import and setup axios
 import axios from 'axios';
-let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
-//let BASE_URL = 'http://localhost:4000/v1/api/';
+//let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
+let BASE_URL = 'http://localhost:4000/v1/api/';
 let API_TOKEN = localStorage.getItem('token');
 
 function headers() {
@@ -35,12 +35,15 @@ export default {
             .catch(error => cb({ status: 'error', data: error }));
     },
 
-    classesByTopic(context, topic) {
+    classesByTopic(context, topic, cb) {
         axios
-            .get(BASE_URL + 'courses/topic/' + topic, headers())
+            .get(BASE_URL + 'courses/topics/' + topic, headers())
             .then(response => {
-                console.log(response.data.data);
-                // context.$store.dispatch('classResults', response.data.data);
+                context.$store.dispatch('updateClassesByTopic', {
+                    topic: topic,
+                    data: response.data.data
+                });
+                cb(response.data.data);
             })
             .catch(error => outputError(error));
     },
@@ -54,11 +57,12 @@ export default {
             .catch(error => outputError(error));
     },
 
-    recentClasses(context) {
+    recentClasses(context, cb) {
         axios
             .get(BASE_URL + 'courses', headers())
             .then(response => {
                 context.$store.dispatch('updateClasses', response.data.data);
+                cb(response.data.data);
             })
             .catch(error => outputError(error));
     },
@@ -71,5 +75,41 @@ export default {
                 callback(response.data.data);
             })
             .catch(error => outputError(error));
-    }
+    },
+
+    //Meta
+    updateViewCount(context, classId, callback) {
+        axios
+            .post(BASE_URL + `courses/updateviewcount/${classId}`, {}, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    //Notes Section
+    classNotes(context, classId, callback) {
+        axios
+            .get(BASE_URL + `notes/class/${classId}`, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    addNote(context, payload, callback) {
+        axios
+            .post(BASE_URL + 'notes', payload, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    deleteNoteForLesson(context, noteId, callback) {},
+
+    editNoteForLesson(context, payload, callback) {},
+
+    //Review Section
+    addReviewForClass(context, payload, callback) {}
 };

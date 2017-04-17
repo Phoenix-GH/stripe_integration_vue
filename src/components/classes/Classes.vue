@@ -148,7 +148,7 @@
             <div class="row grid">
 
                 <!-- SINGLE CLASS -->
-                <div v-for="course in classes" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+                <div v-for="course in currentResults" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
                     <a class="class__thumb" @click="updateCurrentClass(course)">
                         <img :src="course.thumbImageUrl" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
@@ -186,12 +186,11 @@
     import { eventBus } from '../../main';
     import { convertSecondsToReadableFormat } from '../../helpers/util';
 
-
     export default {
         data: function () {
             return {
                 currentSort: 'Newest First',
-                savedClasses: [],
+                currentResults: [],
                 selectedCategory: '',
                 slickOptions: {
                     lazyLoad: 'ondemand',
@@ -225,7 +224,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress', 'classes', 'userLoggedIn', 'featuredClasses'
+                'user', 'savedClasses', 'classesInProgress', 'classes', 'userLoggedIn', 'featuredClasses', 'classesByTopic'
             ]),
             showFollow() {
                 return (this.selectedCategory.length > 0) ? true : false;
@@ -234,15 +233,31 @@
                 if (this.featuredClasses.length > 0) {
                     return this.featuredClasses[0];
                 }
+            },
+            currentResults() {
+                return this.currentResults;
             }
         },
         methods: {
+            toTitleCase(str) {
+                return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+            },
             catClicked(topic) {
-                if (this.selectedCategory == topic) {
-                    this.selectedCategory = "";
+
+                //highlight or clear topic selection
+                this.selectedCategory = this.selectedCategory == topic ? this.selectedCategory = "" : this.selectedCategory = topic;
+                if (this.selectedCategory.length > 0) {
+                    //if there is an existing topic cached, use that
+                    let searchTopic = this.toTitleCase(topic);
+                    this.currentResults = this.classesByTopic[searchTopic];
+                    let _this = this;
+                    Class.classesByTopic(this, searchTopic, (data) => {
+                        _this.currentResults = data;
+                    })
                 } else {
-                    this.selectedCategory = topic;
+                    this.currentResults = this.classes;
                 }
+
             },
             sortClasses(search) {
                 switch (search) {
@@ -268,18 +283,21 @@
             }
         },
         created() {
+            this.currentResults = this.classes;
             eventBus.$on('topicChanged', (data) => {
-                this.selectedCategory = data.topic;
+                this.catClicked(data.topic);
             })
-            Class.recentClasses(this);
+            let _this = this;
+            Class.recentClasses(this, (data) => {
+                _this.currentResults = data;
+            });
+            Class.featuredClasses(this);
             let cat = this.$route.query.topic;
             if (cat != undefined) {
                 if (cat.length > 0) {
                     this.catClicked(cat);
                 }
             }
-            Class.featuredClasses(this);
-
         }
     }
 
