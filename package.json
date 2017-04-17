@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.16.0",
     "jquery": "^3.2.0",
+    "moment": "^2.18.1",
     "videojs-contrib-hls": "^5.4.0",
     "vue": "^2.2.2",
     "vue-router": "^2.2.0",

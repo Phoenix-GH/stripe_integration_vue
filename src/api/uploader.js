@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { eventBus } from '../main';
 
-let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
-//let BASE_URL = 'http://localhost:4000/v1/api/'
+//let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
+let BASE_URL = 'http://localhost:4000/v1/api/';
 
 //this will get a signed request from the API to upload a file to S3
 export const uploadToS3 = (file, callback) => {
