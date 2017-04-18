@@ -7,8 +7,8 @@
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="#">Watch</a>
-                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; {{ updateFeaturedClass.topics }}</span>
-                        <a class="banner__title ts--display link" href="/templates/classes/class">{{ updateFeaturedClass.title }}</a>
+                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; {{ topicList }}</span>
+                        <a class="banner__title ts--display link" @click="updateCurrentClass(updateFeaturedClass)">{{ updateFeaturedClass.title }}</a>
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline list--divided list--box">
                             <li class="item has--icon">
@@ -232,6 +232,13 @@
             updateFeaturedClass() {
                 if (this.featuredClasses.length > 0) {
                     return this.featuredClasses[0];
+                }
+            },
+            topicList() {
+                if (this.featuredClasses.length > 0) {
+                    let course = this.featuredClasses[0];
+                    let str = course.topics.join(" ");
+                    return str;
                 }
             },
             currentResults() {

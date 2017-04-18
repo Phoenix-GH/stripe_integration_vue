@@ -105,7 +105,7 @@
                             <div class="wrapper">
                                 <div class="wrapper__inner">
                                     <span class="ts--subtitle">Membership</span>
-                                    <span class="ts--body is--secondary disp--block">Automatically renews: June 17, 2018</span>
+                                    <span class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
                                 </div>
                                 <div class="wrapper__inner align--right">
                                     <button class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
@@ -143,6 +143,7 @@
     import { mapGetters } from 'vuex';
     import { uploadToS3 } from '../../api/uploader';
     import { eventBus } from '../../main';
+    var hdate = require('human-date');
 
     export default {
         data: function () {
@@ -156,7 +157,8 @@
                 hasLoader: false,
                 uploadingText: 'Upload Photo',
                 width: '192px',
-                uploadState: 0
+                uploadState: 0,
+                subDate: ''
             }
         },
         computed: {
@@ -188,6 +190,9 @@
             isSubscribed() {
                 if (this.user.subscribed) return true;
                 return false;
+            },
+            subscriptionRenewal() {
+                return this.subDate;
             }
         },
         created() {
@@ -197,6 +202,11 @@
             this.email = this.user.email;
             this.firstName = this.user.firstName;
             this.lastName = this.user.lastName;
+
+            User.subscriptionInfo(this, info => {
+                let newDate = hdate.prettyPrint(new Date(info.current_period_end * 1000));
+                this.subDate = newDate;
+            })
 
         },
         methods: {

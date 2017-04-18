@@ -162,11 +162,7 @@
                     token: token
                 }
                 let _this = this;
-                User.createStripeCustomer(_this, payload, (err, result) => {
-                    if (err) console.log(err);
-                    //will sync the user with the API
-                    User.sync(_this);
-                })
+                User.createStripeCustomer(_this, payload);
             },
             retrieveCardInfo() {
                 let _this = this;

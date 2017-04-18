@@ -45,7 +45,7 @@
                                     <svg class="icon-show">
                                         <use xlink:href="#icon-show"></use>
                                     </svg>
-                                    {{ activeCourse.viewCount }} Views
+                                    {{ currentViewCount }} Views
                                 </li>
                             </ul>
                             <!-- /CLASS INFO -->
@@ -59,7 +59,7 @@
                                     My Notes
                                 </li>
                                 <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
-                                    <span class="has--badge" :data-badge="reviews.length">Reviews</span>
+                                    <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                                 </li>
                             </ul>
                             <!-- /CLASS TABS -->
@@ -107,7 +107,7 @@
 
                                 </li>
                                 <li class="item">
-                                    <button class="btn btn--secondary modal--toggle" data-target="#modalReviewClass">Write a Review</button>
+                                    <button class="btn btn--secondary modal--toggle" @click="addReview">Write a Review</button>
                                 </li>
                             </ul>
                         </div>
@@ -169,10 +169,12 @@
                             <!-- /EMPTY STATE -->
 
                             <h3 v-if="selectedNotes.length > 0" class="ts--subtitle">{{ selectedLesson.title }}</h3>
-                            <div>
-                                <textarea v-model="noteDraft">{{ noteDraft }}</textarea>
-                                <button @click="addNoteToLesson">Add Note</button>
+                            <div class="input input--textarea input--m">
+                                <textarea v-model="noteDraft" class="input__field" :class="{'not--empty': noteDraft.length > 0}" maxlength="500" required>{{ noteDraft }}</textarea>
+                                <label for="reviewText ">Add a note...</label>
+                                <span class="input__counter "><span>0</span>/500</span>
                             </div>
+                            <button @click="addNoteToLesson" class="btn btn--cta btn--block ">Add Note</button>
 
                             <!-- LESSON NOTES -->
                             <div v-if="selectedNotes.length > 0" class="lesson__notes">
@@ -229,27 +231,30 @@
                             <!-- /EMPTY STATE -->
 
                             <!-- REVIEWS LIST -->
-                            <ul class="reviews" v-if="reviews.length > 0">
+                            <ul class="reviews" v-if="activeCourse.reviews.length > 0">
 
                                 <!-- REVIEW -->
-                                <li v-for="review in reviews" class="review" :class="{'is--positive': true, 'is--negative': false}">
+                                <li v-for="review in activeCourse.reviews" class="review" :class="{'is--positive': true, 'is--negative': false}">
                                     <div class="well">
                                         {{ review.body }}
                                     </div>
                                     <ul class="review__meta list list--inline list--divided">
                                         <li class="item">
-                                            <span class="avatar avatar-xs" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/avatar-2.jpg');"></span>                                            Will D.
+                                            <span class="avatar avatar-xs" :style="{ 'background-image': 'url(' + review.user.profileImageUrl + ')' }"></span>                                            {{ review.user.firstName }} {{ review.user.lastName }}
                                         </li>
                                         <li class="item">
-                                            <svg class="icon-thumbs-up-fill">
+                                            <svg class="icon-thumbs-up-fill" v-if="review.rating == 1">
                                                 <use xlink:href="#icon-thumbs-up-fill"></use>
+                                            </svg>
+                                            <svg class="icon-thumbs-down" v-if="review.rating == 0">
+                                                <use xlink:href="#icon-thumbs-down"></use>
                                             </svg>
                                         </li>
                                         <li class="item">
                                             <svg class="icon-progress">
                                                 <use xlink:href="#icon-progress"></use>
                                             </svg>
-                                            100% Completed
+                                            {{review.reviewProgress}}% Completed
                                         </li>
                                     </ul>
                                 </li>
@@ -328,25 +333,7 @@
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import { convertSecondsToReadableFormat } from '../../helpers/util';
-
-    //todo
-    /*
-    add tooltip
-    add bookmark/continue progress
-    get current course progress
-    get all lesson progress
-    save all lesson progress
-    save course progress
-    create note
-    edit note
-    delete note
-    create review
-    see all reviews
-    show course stats
-    reset course progress
-    unenroll from course
-    complete course
-    */
+    import { eventBus } from '../../main';
 
     export default {
 
@@ -367,7 +354,8 @@
                 lessons: [],
                 reviews: [],
                 notes: [],
-                currentLessonData: {},
+                currentCourseData: {},
+                lessonProgress: {},
                 currentLessonId: "",
                 popOverIsActive: true,
                 currentActiveTab: 'About',
@@ -377,46 +365,21 @@
             }
         },
         created() {
-
-
-            //set local lessons array to the course lessons
-            this.lessons = this.activeCourse.lessons;
-
-            //set local reviews array to the course reviews
-            this.reviews = this.activeCourse.reviews;
-
-            //get updated notes
-            this.updateClassNotes();
-
-            //update view count
-            Class.updateViewCount(this, this.activeCourse._id, count => {
-                console.log(`updated count ${count}`);
+            this.initDetails();
+            eventBus.$on('updateClassDetails', () => {
+                this.initDetails();
             })
-
-            //setup of video
-            this.playerOptions.poster = this.activeCourse.bannerImageUrl;
-            if (this.user.lessonProgress != undefined) this.currentLessonData = this.user.lessonProgress;
-            this.playerOptions.sources[0].src = this.lessons[0].cloudUrl;
-            this.currentLessonId = this.lessons[0]._id;
-            if (!this.currentLessonData[this.currentLessonId]) {
-                this.currentLessonData[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
-            }
-            for (var index = 0; index < this.lessons.length; index++) {
-                let lesson = this.lessons[index];
-                if (!this.currentLessonData[lesson._id]) {
-                    this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
-                }
-            }
         },
         beforeDestroy() {
-            // if (this.userLoggedIn) {
-            //     User.updateUser(this, this.progressPayload);
-            // }
+            eventBus.$off('updateClassDetails');
         },
         computed: {
             ...mapGetters([
                 'user', 'activeCourse', 'userLoggedIn'
             ]),
+            currentViewCount() {
+                return `${this.activeCourse.viewCount}`;
+            },
             updatedPlayerOptions() {
                 return this.playerOptions;
             },
@@ -427,7 +390,8 @@
             },
             progressPayload() {
                 let payload = {
-                    lessonProgress: this.currentLessonData,
+                    lessonProgress: this.lessonProgress,
+                    progress: this.percentComplete
                 }
                 return payload;
             },
@@ -449,8 +413,8 @@
             percentComplete() {
                 let numberCompleted = 0;
                 let numberOfLessons = this.lessons.length;
-                Object.keys(this.currentLessonData).forEach(key => {
-                    if (this.currentLessonData[key].isComplete) numberCompleted++;
+                Object.keys(this.lessonProgress).forEach(key => {
+                    if (this.lessonProgress[key].isComplete) numberCompleted++;
                 });
                 return Math.round((numberCompleted / numberOfLessons) * 100);
             },
@@ -470,7 +434,6 @@
                         return false;
                     }
                 }).map(lesson => { return lesson; });
-                console.log(_lessons);
                 if (_lessons.length > 0) {
                     return _lessons[0];
                 }
@@ -489,6 +452,46 @@
             }
         },
         methods: {
+            initDetails() {
+                this.currentCourseData = {};
+                this.lessonProgress = {};
+
+                //set local lessons array to the course lessons
+                this.lessons = this.activeCourse.lessons;
+
+                //set local reviews array to the course reviews
+                this.reviews = this.activeCourse.reviews;
+
+                //get updated notes
+                if (this.userLoggedIn) {
+                    this.updateClassNotes(this.activeCourse._id);
+                }
+
+                //update view count
+                Class.updateViewCount(this, this.activeCourse._id, count => {
+                    Class.classDetails(this, this.activeCourse._id);
+                })
+
+                Class.getCourseProgress(this, this.activeCourse._id, data => {
+                    console.log('course progress data' + JSON.stringify(data));
+                    this.currentCourseData = data;
+                    this.lessonProgress = data.lessonProgress;
+                    this.currentLessonId = this.lessons[0]._id;
+                    if (!this.lessonProgress[this.currentLessonId]) {
+                        this.lessonProgress[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                    }
+                    for (var index = 0; index < this.lessons.length; index++) {
+                        let lesson = this.lessons[index];
+                        if (!this.lessonProgress[lesson._id]) {
+                            this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                        }
+                    }
+                })
+
+                //setup of video
+                this.playerOptions.poster = this.activeCourse.bannerImageUrl;
+                this.playerOptions.sources[0].src = this.lessons[0].cloudUrl;
+            },
             playerReadied(player) {
                 this.player = player;
                 var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
@@ -497,27 +500,32 @@
                 }
             },
             onPlayerPlay(event) {
-                console.log('stated playing send play event to server for course for count');
+                //console.log('stated playing send play event to server for course for count');
             },
             onPlayerPause(event) {
-                console.log('paused, update records on server');
-                User.updateUser(this, this.progressPayload);
+                if (this.userLoggedIn) {
+                    Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                    });
+                }
             },
             onPlayerEnded(event) {
-                this.currentLessonData[this.currentLessonId].isComplete = true;
-                this.currentLessonData[this.currentLessonId].completionDate = Date.now();
+                this.lessonProgress[this.currentLessonId].isComplete = true;
+                this.lessonProgress[this.currentLessonId].completionDate = Date.now();
                 if (this.userLoggedIn) {
-                    User.updateUser(this, this.progressPayload);
+                    Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                    });
                 }
             },
             onPlayerTimeUpdate(playerCurrentState) {
                 const currentTime = playerCurrentState.currentTime();
-                console.log('player current position ' + currentTime);
                 if (currentTime > 0) {
                     this.currentTime = currentTime;
-                    if (this.currentLessonData[this.currentLessonId].lastPosition <= currentTime) {
-                        this.currentLessonData[this.currentLessonId].lastPosition = currentTime;
-                        this.currentLessonData[this.currentLessonId].percentComplete = Math.round((currentTime / this.player.duration()) * 100);
+                    if (this.lessonProgress[this.currentLessonId] != undefined) {
+                        this.lessonProgress[this.currentLessonId].percentComplete;
+                        if (this.lessonProgress[this.currentLessonId].lastPosition <= currentTime) {
+                            this.lessonProgress[this.currentLessonId].lastPosition = currentTime;
+                            this.lessonProgress[this.currentLessonId].percentComplete = Math.round((currentTime / this.player.duration()) * 100);
+                        }
                     }
                 }
             },
@@ -526,7 +534,7 @@
             },
             checkStatus(lesson) {
                 if (this.userLoggedIn) {
-                    let lessonProgress = this.currentLessonData[lesson._id];
+                    let lessonProgress = this.lessonProgress[lesson._id];
                     if (lessonProgress != undefined) {
                         if (lessonProgress.isComplete) {
                             return { 'is--playing': false, 'is--complete': true };
@@ -539,7 +547,6 @@
                         return { 'is--playing': false, 'is--complete': false };
                     }
                 } else {
-                    console.log(lesson.free);
                     if (!lesson.free) {
                         return { 'is--locked': true };
                     } else {
@@ -549,7 +556,7 @@
 
             },
             offsetCalc(lesson) {
-                let lessonProgress = this.currentLessonData[lesson._id];
+                let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.isComplete) {
                         return { 'stroke-dashoffset': 0 };
@@ -563,7 +570,7 @@
             },
             //method for calculating time
             tooltipString(lesson) {
-                let lessonProgress = this.currentLessonData[lesson._id];
+                let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.isComplete) {
                         return `Completed`;
@@ -581,9 +588,11 @@
                 this.currentActiveTab = 'About'
             },
             tappedOnNotesTab() {
+                if (!this.userLoggedIn) return;
                 this.currentActiveTab = 'Notes'
             },
             tappedOnReviewsTab() {
+                if (!this.userLoggedIn) return;
                 this.currentActiveTab = 'Reviews'
             },
             //methods for handling popovermenu selections
@@ -598,6 +607,7 @@
             },
             //open popover openMenu
             openMenu() {
+                if (!this.userLoggedIn) return;
                 if (this.popOverIsActive) {
                     this.popOverIsActive = false;
                 } else {
@@ -608,14 +618,13 @@
 
                 //check if user is logged in
                 if (!this.userLoggedIn) {
-                    console.log('require logged in user');
                     return;
                 }
 
                 let _this = this;
                 this.currentLessonId = lesson._id;
-                if (!this.currentLessonData[lesson._id]) {
-                    this.currentLessonData[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
+                if (!this.lessonProgress[lesson._id]) {
+                    this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null, isComplete: false };
                 }
                 this.playerOptions.sources[0].src = lesson.cloudUrl;
                 setTimeout(() => {
@@ -623,6 +632,8 @@
                 }, 200);
             },
             playLessonMark(id, videoUrl, mark) {
+                if (!this.userLoggedIn) return;
+
                 let _this = this;
                 this.currentLessonId = id;
                 this.playerOptions.sources[0].src = videoUrl;
@@ -633,7 +644,7 @@
             },
             playbackState(lesson) {
 
-                let lessonProgress = this.currentLessonData[lesson._id];
+                let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.isComplete) {
                         return {
@@ -651,7 +662,7 @@
                 }
             },
             percentComplete(lesson) {
-                let lessonProgress = this.currentLessonData[lesson._id];
+                let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.isComplete) {
                         return '100%';
@@ -663,14 +674,13 @@
                 }
             },
             //notes
-            updateClassNotes() {
+            updateClassNotes(id) {
                 let _this = this;
-                Class.classNotes(this, this.activeCourse._id, notes => {
+                Class.classNotes(this, id, notes => {
                     _this.notes = notes;
                 })
             },
             addNoteToLesson() {
-                console.log(this.noteDraft);
                 const message = this.noteDraft;
                 this.noteDraft = "";
                 let payload = {
@@ -682,9 +692,12 @@
                 }
                 let _this = this;
                 Class.addNote(this, payload, note => {
-                    console.log('note added ' + JSON.stringify(note));
-                    _this.updateClassNotes();
+                    _this.updateClassNotes(this.activeCourse._id);
                 })
+            },
+            addReview() {
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'review');
             }
         }
     }

@@ -1,13 +1,13 @@
 <template>
   <div class="page__wrapper">
     <!-- ALERTS -->
-    <div class="alert" :class="{hideElement: shouldHide}">
+    <!--<div class="alert" :class="{hideElement: shouldHide}" @click="closeAlert">
       Get unlimited on-demand access for only $149/year!
-      <a href="#">Upgrade Now!</a>
-      <svg class="icon-close" @click="closeAlert">
+      <a @click="">Upgrade Now!</a>
+      <svg class="icon-close">
         <use xlink:href="#icon-close"></use>
       </svg>
-    </div>
+    </div>-->
     <!-- /ALERTS -->
     <appHeader></appHeader>
     <section class="page__block is--push">
@@ -16,6 +16,7 @@
       </div>
       <loginModal></loginModal>
       <signupModal></signupModal>
+      <reviewModal></reviewModal>
     </section>
     <appFooter></appFooter>
   </div>
@@ -29,6 +30,7 @@
   //import modals
   import Login from './components/modals/Login.vue'
   import Signup from './components/modals/Signup.vue'
+  import Review from './components/modals/Review.vue'
 
   //map getters from Vuex store
   import { mapGetters } from 'vuex';
@@ -48,11 +50,21 @@
       appHeader: Header,
       appFooter: Footer,
       loginModal: Login,
-      signupModal: Signup
+      signupModal: Signup,
+      reviewModal: Review
+    },
+    data: function () {
+      return {
+        showUpgradeBanner: true
+      }
     },
     methods: {
       closeAlert() {
         document.body.classList.remove('has--alert');
+        this.showUpgradeBanner = false;
+      },
+      updateAccount() {
+        console.log('upgrade');
       }
     },
     computed: {
@@ -60,15 +72,14 @@
         'user'
       ]),
       shouldHide() {
-        if (this.user.subscribed == undefined) return true;
         if (this.user.subscribed) return true;
-        return false;
+        if (!this.showUpgradeBanner) return true;
+        if (this.user.subscribed == undefined || this.user.subscribed == false) return false;
       }
     },
     created() {
 
-      if (this.user.subscribed == undefined) document.body.classList.remove('has--alert');
-      if (this.user.subscribed) document.body.classList.remove('has--alert');
+      //if (this.user.subscribed) document.body.classList.remove('has--alert');
 
       $(document).click(function (e) {
         eventBus.$emit('closeMenu');

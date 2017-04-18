@@ -7,7 +7,7 @@ export const store = new Vuex.Store({
     state: {
         user: {},
         masterClasses: [],
-        savedClasses: [],
+        completedClasses: [],
         classesInProgress: [],
         hasModal: false,
         activeModal: '',
@@ -32,8 +32,8 @@ export const store = new Vuex.Store({
         updateClassesInProgress: ({ commit }, payload) => {
             commit('updateClassesInProgress', payload);
         },
-        updateSavedClasses: ({ commit }, payload) => {
-            commit('updateSavedClasses', payload);
+        updateCompletedClasses: ({ commit }, payload) => {
+            commit('updateCompletedClasses', payload);
         },
         updateHasModal: ({ commit }, payload) => {
             commit('updateHasModal', payload);
@@ -85,8 +85,8 @@ export const store = new Vuex.Store({
         updateClassesInProgress: (state, payload) => {
             state.classesInProgress = payload;
         },
-        updateSavedClasses: (state, payload) => {
-            state.savedClasses = payload;
+        updateCompletedClasses: (state, payload) => {
+            state.completedClasses = payload;
         },
         updateHasModal: (state, payload) => {
             state.hasModal = payload;
@@ -126,8 +126,8 @@ export const store = new Vuex.Store({
         classesInProgress: state => {
             return state.classesInProgress;
         },
-        savedClasses: state => {
-            return state.savedClasses;
+        completedClasses: state => {
+            return state.completedClasses;
         },
         hasModal: state => {
             return state.hasModal;
@@ -157,13 +157,13 @@ export const store = new Vuex.Store({
 });
 
 export const loadCache = () => {
-    console.log('loading cache');
+    //console.log('loading cache');
     let cache = JSON.parse(localStorage.getItem('state'));
     store.dispatch('updateCache', cache);
-    console.log('loaded cache');
+    //console.log('loaded cache');
 };
 
 function persist() {
     localStorage.setItem('state', JSON.stringify(store.state));
-    console.log('persisted state');
+    //console.log('persisted state');
 }

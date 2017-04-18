@@ -34,7 +34,7 @@
 
                                         <!-- NOTE: Display on 'All Accounts' -->
                                         <li id="navSaved" class="item">
-                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="user.savedCourses.length">Saved</router-link>
                                         </li>
                                         <!-- /NOTE -->
 
@@ -89,7 +89,7 @@
 
                                 <!-- NOTE: Display on 'Free Accounts' only -->
                                 <li id="navUpgrade" class="item" v-if="showUpgrade">
-                                    <button class="btn btn--primary is--affirmative">Upgrade</button>
+                                    <button class="btn btn--primary is--affirmative" @click="upgradeAccount">Upgrade</button>
                                 </li>
 
                                 <!-- /NOTE -->
@@ -270,7 +270,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress', 'userLoggedIn'
+                'user', 'classesInProgress', 'userLoggedIn'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (!this.user.subscribed)) {
@@ -336,6 +336,7 @@
             },
             logOut() {
                 User.logout(this);
+                this.$router.push({ name: 'home' });
             },
             closeOverlay() {
                 $('body').removeClass('is--searching found--results');
@@ -365,6 +366,9 @@
                 this.closeOverlay();
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
+            },
+            upgradeAccount() {
+                User.purchaseAnnualSubscription(this);
             }
         }
     }
