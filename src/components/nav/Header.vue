@@ -1,7 +1,14 @@
 <template lang="html">
     <div class="page__block">
+        <transition name="fadet">
+            <div class="loading__overlay" v-if="showSpinner">
+                <div class="loader"><span></span></div>
+            </div>
+        </transition>
+
+
         <!-- Alert -->
-        <div class="alert2" :class="{shouldHide: shouldShowAlert}">
+        <div class="alert2" :class="{shouldHide: shouldHideAlert}">
             Get unlimited on-demand access for only $149/year!
             <a href="javascript:;" @click="upgradeAccount">Upgrade Now!</a>
             <svg @click="hideAlert" class="icon-close">
@@ -10,7 +17,7 @@
         </div>
 
         <!-- ===== MAIN NAVIGATION ===== -->
-        <div :class="{alertMargin: !shouldShowAlert}">
+        <div :class="{alertMargin: !shouldHideAlert}">
             <header class="header header__main wrapper">
                 <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
                 <div class="main__nav">
@@ -263,23 +270,7 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
-        },
-        mounted() {
-
-            this.stripeHandler = StripeCheckout.configure({
-                key: 'pk_test_hz7Ftxjb7anZasP8PFtcFwQv',
-                image: 'https://selfmademan.com/wp-content/uploads/2016/09/Logo_Self_Made_Man_CMYK.svg',
-                locale: 'auto',
-                token: function (token) {
-                    console.log(token.id);
-                }
-            });
-
-            // Close Checkout on page navigation:
-            window.addEventListener('popstate', function () {
-                this.stripeHandler.close();
-            });
-
+            console.log(this.user.stripeSubscriptionId);
         },
         data: function () {
             return {
@@ -290,13 +281,13 @@
                 showLoader: true,
                 showResultsList: false,
                 searchResults: [],
-                shouldShowAlert: false,
-                stripeHandler: {}
+                stripeHandler: {},
+                closedAlert: false
             }
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (!this.user.subscribed)) {
@@ -320,6 +311,12 @@
             },
             updateSearchResults() {
                 return this.searchResults;
+            },
+            shouldHideAlert() {
+                if (this.closedAlert) return true;
+                if (this.userLoggedIn && (this.user.stripeSubscriptionId != undefined)) return true;
+                if (!this.userLoggedIn) return true;
+                return false;
             }
         },
         watch: {
@@ -393,12 +390,11 @@
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
             },
-            upgradeAccount() {
-                console.log('will attempt an upgrade');
-                //User.purchaseAnnualSubscription(this);
-            },
             hideAlert() {
-                this.shouldShowAlert = true;
+                this.closedAlert = true;
+            },
+            upgradeAccount() {
+                this.$router.push({ name: 'upgradeaccount' });
             }
         }
     }
@@ -406,6 +402,19 @@
 </script>
 
 <style scoped>
+    .fadet-enter-active,
+    .fadet-leave-active {
+        transition: opacity .7s
+    }
+    
+    .fadet-enter,
+    .fadet-leave-to
+    /* .fade-leave-active in <2.1.8 */
+    
+    {
+        opacity: 0
+    }
+    
     .shouldHide {
         display: none;
     }

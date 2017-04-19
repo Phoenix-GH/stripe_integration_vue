@@ -19,7 +19,8 @@ export const store = new Vuex.Store({
         featuredClasses: [],
         classesByTopic: {},
         lastRenewal: '',
-        lastLesson: {}
+        lastLesson: {},
+        showSpinner: false
     },
     actions: {
         updateLastLesson: ({ commit }, payload) => {
@@ -69,6 +70,9 @@ export const store = new Vuex.Store({
         },
         updateLastRenewal: ({ commit }, payload) => {
             commit('updateLastRenewal', payload);
+        },
+        updateSpinner: ({ commit }, payload) => {
+            commit('updateSpinner', payload);
         }
     },
     mutations: {
@@ -135,6 +139,9 @@ export const store = new Vuex.Store({
         updateLastLesson: (state, payload) => {
             state.lastLesson = payload;
             persist();
+        },
+        updateSpinner: (state, payload) => {
+            state.showSpinner = payload;
         }
     },
     getters: {
@@ -179,6 +186,9 @@ export const store = new Vuex.Store({
         },
         lastLesson: state => {
             return state.lastLesson;
+        },
+        showSpinner: state => {
+            return state.showSpinner;
         }
     }
 });

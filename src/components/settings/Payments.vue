@@ -235,7 +235,10 @@
                 }
                 let _this = this;
                 this.changeCreditCard = false;
-                User.createStripeCustomer(_this, payload);
+                User.createStripeCustomer(_this, payload, (err, response) => {
+                    if (err) return console.log(err);
+                    console.log(response);
+                });
             },
             retrieveCardInfo() {
                 let _this = this;

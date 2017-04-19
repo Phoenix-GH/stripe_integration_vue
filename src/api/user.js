@@ -108,27 +108,40 @@ export default {
     },
 
     //this will create a stripe customer
-    createStripeCustomer(context, payload) {
+    createStripeCustomer(context, payload, callback) {
         let _this = this;
         axios
             .post(BASE_URL + 'users/createstripecustomer', payload, headers())
             .then(response => {
+                callback(null, response);
                 _this.sync(context);
             })
-            .catch(error => outputError(error));
+            .catch(error => callback(error, null));
     },
 
-    purchaseAnnualSubscription(context) {
+    purchaseAnnualSubscription(context, callback) {
         let _this = this;
         axios
             .post(BASE_URL + 'users/purchaseannualsubscription', {}, headers())
             .then(response => {
                 _this.sync(context);
+                callback(null, response);
             })
-            .catch(error => outputError(error));
+            .catch(error => callback(error, null));
     },
 
-    subscriptionInfo(context) {
+    purchaseMonthlySubscription(context, callback) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/purchasemonthlysubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+                callback(null, response);
+            })
+            .catch(error => callback(error, null));
+    },
+
+    subscriptionInfo(context, callback) {
         axios
             .get(BASE_URL + 'users/retrievesubscriptioninfo', headers())
             .then(response => {
