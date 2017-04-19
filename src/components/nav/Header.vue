@@ -1,8 +1,16 @@
 <template lang="html">
     <div class="page__block">
+        <!-- Alert -->
+        <div class="alert2" :class="{shouldHide: shouldShowAlert}">
+            Get unlimited on-demand access for only $149/year!
+            <a href="javascript:;" @click="upgradeAccount">Upgrade Now!</a>
+            <svg @click="hideAlert" class="icon-close">
+                <use xlink:href="#icon-close"></use>
+            </svg>
+        </div>
 
         <!-- ===== MAIN NAVIGATION ===== -->
-        <div>
+        <div :class="{alertMargin: !shouldShowAlert}">
             <header class="header header__main wrapper">
                 <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
                 <div class="main__nav">
@@ -255,6 +263,22 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
+        },
+        mounted() {
+
+            this.stripeHandler = StripeCheckout.configure({
+                key: 'pk_test_hz7Ftxjb7anZasP8PFtcFwQv',
+                image: 'https://selfmademan.com/wp-content/uploads/2016/09/Logo_Self_Made_Man_CMYK.svg',
+                locale: 'auto',
+                token: function (token) {
+                    console.log(token.id);
+                }
+            });
+
+            // Close Checkout on page navigation:
+            window.addEventListener('popstate', function () {
+                this.stripeHandler.close();
+            });
 
         },
         data: function () {
@@ -265,7 +289,9 @@
                 helperQuery: "",
                 showLoader: true,
                 showResultsList: false,
-                searchResults: []
+                searchResults: [],
+                shouldShowAlert: false,
+                stripeHandler: {}
             }
         },
         computed: {
@@ -368,13 +394,88 @@
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
             },
             upgradeAccount() {
-                User.purchaseAnnualSubscription(this);
+                console.log('will attempt an upgrade');
+                //User.purchaseAnnualSubscription(this);
+            },
+            hideAlert() {
+                this.shouldShowAlert = true;
             }
         }
     }
 
 </script>
 
-<style>
-
+<style scoped>
+    .shouldHide {
+        display: none;
+    }
+    
+    .alertMargin {
+        margin-top: 48px;
+    }
+    
+    .alert2 {
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        top: 0;
+        color: #FFFFFF;
+        text-align: left;
+        padding-left: 16px;
+        padding-right: 20%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow-x: auto;
+        background-color: #0086FF;
+        position: fixed;
+        z-index: 999;
+    }
+    
+    .alert2 .icon-close {
+        width: 18px;
+        height: 18px;
+        right: 16px;
+        top: 14px;
+        opacity: 0.6;
+        position: fixed;
+        z-index: 1;
+        -webkit-transition: all 0.1s ease-in-out;
+        transition: all 0.1s ease-in-out;
+    }
+    
+    .alert2 .icon-close:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+    
+    .alert2::after {
+        content: '';
+        height: 48px;
+        width: 40%;
+        display: block;
+        top: 0;
+        right: 0;
+        z-index: 0;
+        background: -webkit-linear-gradient(left, rgba(0, 134, 255, 0) 0%, #0086ff 100%);
+        background: linear-gradient(to right, rgba(0, 134, 255, 0) 0%, #0086ff 100%);
+        pointer-events: none;
+    }
+    
+    .alert2 a {
+        color: #FFFFFF;
+        margin-left: 16px;
+        font-weight: 600;
+        -webkit-transition: all 0.1s ease-in-out;
+        transition: all 0.1s ease-in-out;
+    }
+    
+    @media (min-width: 30em) {
+        .alert2 {
+            text-align: center;
+            padding-right: 0;
+        }
+        .alert2::after {
+            display: none;
+        }
+    }
 </style>

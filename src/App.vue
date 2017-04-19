@@ -1,14 +1,5 @@
 <template>
   <div class="page__wrapper">
-    <!-- ALERTS -->
-    <!--<div class="alert" :class="{hideElement: shouldHide}" @click="closeAlert">
-      Get unlimited on-demand access for only $149/year!
-      <a @click="">Upgrade Now!</a>
-      <svg class="icon-close">
-        <use xlink:href="#icon-close"></use>
-      </svg>
-    </div>-->
-    <!-- /ALERTS -->
     <appHeader></appHeader>
     <section class="page__block is--push">
       <div class="content">
@@ -59,10 +50,6 @@
       }
     },
     methods: {
-      closeAlert() {
-        document.body.classList.remove('has--alert');
-        this.showUpgradeBanner = false;
-      },
       updateAccount() {
         console.log('upgrade');
       }
@@ -78,8 +65,6 @@
       }
     },
     created() {
-
-      //if (this.user.subscribed) document.body.classList.remove('has--alert');
 
       $(document).click(function (e) {
         eventBus.$emit('closeMenu');

@@ -4,7 +4,7 @@
 
         <h2 class="ts--title is--title has--badge is--tertiary" :data-badge="completedClasses.length">Complete</h2>
 
-        <Slick class="carousel" ref="slick" :options="slickOptions">
+        <div class="row grid">
 
             <!-- SINGLE CLASS -->
             <div v-for="course in completedClasses" class="class">
@@ -29,7 +29,7 @@
             </div>
             <!-- /SINGLE CLASS -->
 
-        </Slick>
+        </div>
 
     </div>
     <!-- /CLASSES - COMPLETE -->

@@ -113,7 +113,7 @@ export default {
         axios
             .post(BASE_URL + 'users/createstripecustomer', payload, headers())
             .then(response => {
-                _this.purchaseAnnualSubscription(context);
+                _this.sync(context);
             })
             .catch(error => outputError(error));
     },
@@ -128,8 +128,7 @@ export default {
             .catch(error => outputError(error));
     },
 
-    subscriptionInfo(context, callback) {
-        let _this = this;
+    subscriptionInfo(context) {
         axios
             .get(BASE_URL + 'users/retrievesubscriptioninfo', headers())
             .then(response => {
@@ -138,8 +137,16 @@ export default {
             .catch(error => outputError(error));
     },
 
+    billingInfo(context, callback) {
+        axios
+            .get(BASE_URL + 'users/billinghistory', headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     //this will retrieve the customer card information from Stripe
-    //we cannot store any of this information
     cardInfo(context, callback) {
         let _this = this;
         axios
@@ -148,5 +155,16 @@ export default {
                 callback(null, response.data.data);
             })
             .catch(error => callback(error, null));
+    },
+
+    updateCardInfo(context, payload, callback) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/updatecardinfo', payload, headers())
+            .then(response => {
+                _this.sync(context);
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
     }
 };

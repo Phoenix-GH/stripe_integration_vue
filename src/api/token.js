@@ -1,5 +1,5 @@
-export let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
-//export let BASE_URL = 'http://localhost:4000/v1/api/';
+//export let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
+export let BASE_URL = 'http://localhost:4000/v1/api/';
 export var API_TOKEN = localStorage.getItem('token');
 export function headers() {
     console.log('API token is ' + API_TOKEN);

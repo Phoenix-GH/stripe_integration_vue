@@ -163,7 +163,7 @@
         },
         computed: {
             ...mapGetters([
-                'user'
+                'user', 'lastRenewal'
             ]),
             shouldHide() {
                 if ((this.email != this.user.email) || (this.firstName != this.user.firstName) || (this.lastName != this.user.lastName)) return false;
@@ -192,7 +192,7 @@
                 return false;
             },
             subscriptionRenewal() {
-                return this.subDate;
+                return this.lastRenewal;
             }
         },
         created() {
@@ -205,7 +205,7 @@
 
             User.subscriptionInfo(this, info => {
                 let newDate = hdate.prettyPrint(new Date(info.current_period_end * 1000));
-                this.subDate = newDate;
+                this.$store.dispatch('updateLastRenewal', newDate);
             })
 
         },

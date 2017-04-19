@@ -17,9 +17,14 @@ export const store = new Vuex.Store({
         activeCourse: {},
         searchResults: [],
         featuredClasses: [],
-        classesByTopic: {}
+        classesByTopic: {},
+        lastRenewal: '',
+        lastLesson: {}
     },
     actions: {
+        updateLastLesson: ({ commit }, payload) => {
+            commit('updateLastLesson', payload);
+        },
         replaceUser: ({ commit }, payload) => {
             commit('replaceUser', payload);
         },
@@ -61,6 +66,9 @@ export const store = new Vuex.Store({
         },
         updateClassesByTopic: ({ commit }, payload) => {
             commit('updateClassesByTopic', payload);
+        },
+        updateLastRenewal: ({ commit }, payload) => {
+            commit('updateLastRenewal', payload);
         }
     },
     mutations: {
@@ -84,9 +92,11 @@ export const store = new Vuex.Store({
         },
         updateClassesInProgress: (state, payload) => {
             state.classesInProgress = payload;
+            persist();
         },
         updateCompletedClasses: (state, payload) => {
             state.completedClasses = payload;
+            persist();
         },
         updateHasModal: (state, payload) => {
             state.hasModal = payload;
@@ -108,12 +118,23 @@ export const store = new Vuex.Store({
         },
         updateSearchResults: (state, payload) => {
             state.searchResults = payload;
+            persist();
         },
         updateFeaturedClasses: (state, payload) => {
             state.featuredClasses = payload;
+            persist();
         },
         updateClassesByTopic: (state, payload) => {
             state.classesByTopic[payload.topic] = payload.data;
+            persist();
+        },
+        updateLastRenewal: (state, payload) => {
+            state.lastRenewal = payload;
+            persist();
+        },
+        updateLastLesson: (state, payload) => {
+            state.lastLesson = payload;
+            persist();
         }
     },
     getters: {
@@ -152,6 +173,12 @@ export const store = new Vuex.Store({
         },
         classesByTopic: state => {
             return state.classesByTopic;
+        },
+        lastRenewal: state => {
+            return state.lastRenewal;
+        },
+        lastLesson: state => {
+            return state.lastLesson;
         }
     }
 });

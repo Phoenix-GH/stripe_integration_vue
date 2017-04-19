@@ -33,15 +33,14 @@
             <!-- /EMPTY STATE -->
 
             <!-- /CLASS LIST -->
-            <inprogress />
+            <inprogress v-if="classesInProgress.length > 0" />
             <!--<purchased />-->
-            <completed-classes />
-
+            <completed-classes v-if="completedClasses.length > 0" />
 
         </div>
 
-
     </div>
+
 </template>
 
 <script>
@@ -59,7 +58,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress'
+                'user', 'classesInProgress', 'completedClasses'
             ]),
         },
         methods: {
