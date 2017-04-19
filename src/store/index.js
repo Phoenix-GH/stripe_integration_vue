@@ -7,7 +7,7 @@ export const store = new Vuex.Store({
     state: {
         user: {},
         masterClasses: [],
-        savedClasses: [],
+        completedClasses: [],
         classesInProgress: [],
         hasModal: false,
         activeModal: '',
@@ -17,9 +17,15 @@ export const store = new Vuex.Store({
         activeCourse: {},
         searchResults: [],
         featuredClasses: [],
-        classesByTopic: {}
+        classesByTopic: {},
+        lastRenewal: '',
+        lastLesson: {},
+        showSpinner: false
     },
     actions: {
+        updateLastLesson: ({ commit }, payload) => {
+            commit('updateLastLesson', payload);
+        },
         replaceUser: ({ commit }, payload) => {
             commit('replaceUser', payload);
         },
@@ -32,8 +38,8 @@ export const store = new Vuex.Store({
         updateClassesInProgress: ({ commit }, payload) => {
             commit('updateClassesInProgress', payload);
         },
-        updateSavedClasses: ({ commit }, payload) => {
-            commit('updateSavedClasses', payload);
+        updateCompletedClasses: ({ commit }, payload) => {
+            commit('updateCompletedClasses', payload);
         },
         updateHasModal: ({ commit }, payload) => {
             commit('updateHasModal', payload);
@@ -61,6 +67,12 @@ export const store = new Vuex.Store({
         },
         updateClassesByTopic: ({ commit }, payload) => {
             commit('updateClassesByTopic', payload);
+        },
+        updateLastRenewal: ({ commit }, payload) => {
+            commit('updateLastRenewal', payload);
+        },
+        updateSpinner: ({ commit }, payload) => {
+            commit('updateSpinner', payload);
         }
     },
     mutations: {
@@ -84,9 +96,11 @@ export const store = new Vuex.Store({
         },
         updateClassesInProgress: (state, payload) => {
             state.classesInProgress = payload;
+            persist();
         },
-        updateSavedClasses: (state, payload) => {
-            state.savedClasses = payload;
+        updateCompletedClasses: (state, payload) => {
+            state.completedClasses = payload;
+            persist();
         },
         updateHasModal: (state, payload) => {
             state.hasModal = payload;
@@ -108,12 +122,26 @@ export const store = new Vuex.Store({
         },
         updateSearchResults: (state, payload) => {
             state.searchResults = payload;
+            persist();
         },
         updateFeaturedClasses: (state, payload) => {
             state.featuredClasses = payload;
+            persist();
         },
         updateClassesByTopic: (state, payload) => {
             state.classesByTopic[payload.topic] = payload.data;
+            persist();
+        },
+        updateLastRenewal: (state, payload) => {
+            state.lastRenewal = payload;
+            persist();
+        },
+        updateLastLesson: (state, payload) => {
+            state.lastLesson = payload;
+            persist();
+        },
+        updateSpinner: (state, payload) => {
+            state.showSpinner = payload;
         }
     },
     getters: {
@@ -126,8 +154,8 @@ export const store = new Vuex.Store({
         classesInProgress: state => {
             return state.classesInProgress;
         },
-        savedClasses: state => {
-            return state.savedClasses;
+        completedClasses: state => {
+            return state.completedClasses;
         },
         hasModal: state => {
             return state.hasModal;
@@ -152,18 +180,27 @@ export const store = new Vuex.Store({
         },
         classesByTopic: state => {
             return state.classesByTopic;
+        },
+        lastRenewal: state => {
+            return state.lastRenewal;
+        },
+        lastLesson: state => {
+            return state.lastLesson;
+        },
+        showSpinner: state => {
+            return state.showSpinner;
         }
     }
 });
 
 export const loadCache = () => {
-    console.log('loading cache');
+    //console.log('loading cache');
     let cache = JSON.parse(localStorage.getItem('state'));
     store.dispatch('updateCache', cache);
-    console.log('loaded cache');
+    //console.log('loaded cache');
 };
 
 function persist() {
     localStorage.setItem('state', JSON.stringify(store.state));
-    console.log('persisted state');
+    //console.log('persisted state');
 }

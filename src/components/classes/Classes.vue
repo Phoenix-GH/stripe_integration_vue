@@ -6,31 +6,31 @@
             <div class="banner__content container container--fw container--l is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
-                        <a id="mobilePlay" class="btn__play" href="#">Watch</a>
-                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; {{ updateFeaturedClass.topics }}</span>
-                        <a class="banner__title ts--display link" href="/templates/classes/class">{{ updateFeaturedClass.title }}</a>
+                        <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
+                        <span class="banner__featured ts--title is--secondary">Featured in &mdash; {{ topicList }}</span>
+                        <a class="banner__title ts--display link" @click="updateCurrentClass(updateFeaturedClass)">{{ updateFeaturedClass.title }}</a>
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline list--divided list--box">
                             <li class="item has--icon">
                                 <span class="avatar avatar--m" :style="{ 'background-image': 'url(' + updateFeaturedClass.instructor.profileImage + ')' }"></span>
-                                <a class="link link--secondary" href="#">{{ updateFeaturedClass.instructor.name }}</a>
+                                <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.instructor.name }}</a>
                             </li>
                             <li class="item has--icon">
                                 <svg class="icon-thumbs-up color--white">
                                     <use xlink:href="#icon-thumbs-up"></use>
                                 </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
+                                <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.positiveReviewCount }}</a>
                             </li>
                             <li class="item has--icon">
                                 <svg class="icon-users color--white">
                                     <use xlink:href="#icon-users"></use>
                                 </svg>
-                                3.1K
+                                {{ updateFeaturedClass.studentCount }}
                             </li>
                         </ul>
                     </div>
                     <div class="banner__play wrapper__inner align--right">
-                        <a class="btn__play btn--l" href="#">Watch</a>
+                        <a @click="updateCurrentClass(updateFeaturedClass)" class="btn__play btn--l" href="javascript:;">Watch</a>
                     </div>
                 </div>
             </div>
@@ -165,7 +165,7 @@
                                 <svg class="icon-thumbs-up">
                                     <use xlink:href="#icon-thumbs-up"></use>
                                 </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
+                                <a class="link link--secondary">{{ course.positiveReviewCount }}</a>
                             </li>
                         </ul>
                     </div>
@@ -232,6 +232,13 @@
             updateFeaturedClass() {
                 if (this.featuredClasses.length > 0) {
                     return this.featuredClasses[0];
+                }
+            },
+            topicList() {
+                if (this.featuredClasses.length > 0) {
+                    let course = this.featuredClasses[0];
+                    let str = course.topics.join(" ");
+                    return str;
                 }
             },
             currentResults() {

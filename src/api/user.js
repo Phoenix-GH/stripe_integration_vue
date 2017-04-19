@@ -1,18 +1,7 @@
 //import and setup axios
 import axios from 'axios';
-//let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
-let BASE_URL = 'http://localhost:4000/v1/api/';
-let API_TOKEN = localStorage.getItem('token');
-
-function headers() {
-    if (API_TOKEN != null && API_TOKEN.length > 0)
-        return { headers: { 'x-access-token': API_TOKEN } };
-    return { headers: {} };
-}
-
-function outputError(error) {
-    console.log(JSON.stringify(error));
-}
+import { headers, outputError, API_TOKEN, BASE_URL, updateAPIToken } from './token';
+import { eventBus } from '../main';
 
 export default {
     //user signup, login, and token management
@@ -21,7 +10,7 @@ export default {
         axios
             .post(BASE_URL + 'users/signup', payload)
             .then(response => {
-                API_TOKEN = response.data.data;
+                updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
             })
             .then(() => {
@@ -35,7 +24,7 @@ export default {
         axios
             .post(BASE_URL + 'users/login', payload)
             .then(response => {
-                API_TOKEN = response.data.data;
+                updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
             })
             .then(() => {
@@ -49,7 +38,7 @@ export default {
         axios
             .post(BASE_URL + 'users/facebooklogin', payload)
             .then(response => {
-                API_TOKEN = response.data.data;
+                updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
             })
             .then(() => {
@@ -59,10 +48,11 @@ export default {
     },
 
     logout(context) {
-        API_TOKEN = null;
+        updateAPIToken(null);
+        context.$store.dispatch('clearUser');
         localStorage.removeItem('token');
         localStorage.removeItem('state');
-        context.$store.dispatch('clearUser');
+        eventBus.$emit('updateClassDetails');
     },
 
     sync(context) {
@@ -72,6 +62,7 @@ export default {
                 context.$store.dispatch('updateHasModal', false);
                 context.$store.dispatch('updateActiveModal', '');
                 context.$store.dispatch('replaceUser', response.data.data);
+                eventBus.$emit('updateClassDetails');
             })
             .catch(error => outputError(error));
     },
@@ -81,7 +72,7 @@ export default {
         axios
             .get(BASE_URL + 'users/refreshToken', headers())
             .then(response => {
-                API_TOKEN = response.data.data;
+                updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
             })
             .then(() => {
@@ -91,12 +82,11 @@ export default {
     },
 
     updateUser(context, payload) {
-        console.log(payload);
         let _this = this;
         axios
             .put(BASE_URL + 'users/update', payload, headers())
             .then(response => {
-                API_TOKEN = response.data.data;
+                updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
             })
             .then(() => {
@@ -123,21 +113,71 @@ export default {
         axios
             .post(BASE_URL + 'users/createstripecustomer', payload, headers())
             .then(response => {
-                callback(null, response.data.data);
+                callback(null, response);
+                _this.sync(context);
             })
             .catch(error => callback(error, null));
     },
 
+    purchaseAnnualSubscription(context, callback) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/purchaseannualsubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+                callback(null, response);
+            })
+            .catch(error => callback(error, null));
+    },
+
+    purchaseMonthlySubscription(context, callback) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/purchasemonthlysubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+                callback(null, response);
+            })
+            .catch(error => callback(error, null));
+    },
+
+    subscriptionInfo(context, callback) {
+        axios
+            .get(BASE_URL + 'users/retrievesubscriptioninfo', headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    billingInfo(context, callback) {
+        axios
+            .get(BASE_URL + 'users/billinghistory', headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     //this will retrieve the customer card information from Stripe
-    //we cannot store any of this information
     cardInfo(context, callback) {
         let _this = this;
         axios
             .get(BASE_URL + 'users/retrievecardinfo', headers())
             .then(response => {
-                console.log(response);
                 callback(null, response.data.data);
             })
             .catch(error => callback(error, null));
+    },
+
+    updateCardInfo(context, payload, callback) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/updatecardinfo', payload, headers())
+            .then(response => {
+                _this.sync(context);
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
     }
 };

@@ -11,7 +11,7 @@
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->
                     <div class="wrapper__inner align--right">
-                        <button class="btn btn--cta">Browse Classes</button>
+                        <button class="btn btn--cta" @click="openClasses">Browse Classes</button>
                     </div>
                     <!-- /BROWSE CLASSES -->
                 </div>
@@ -22,18 +22,18 @@
         <!-- CLASS LIST -->
         <div class="content__section container container--fw">
 
-            <div class="well is--empty align--center padding--xxl border--medium">
+            <div class="well is--empty align--center padding--xxl border--medium" v-if="user.savedCourses.length == 0">
                 <span class="ts--title">You haven't saved any classes yet!</span>
                 <div class="divider divider--s" style="margin-left:auto; margin-right:auto;"></div>
-                <button class="btn btn--cta" data-target="/templates/classes">Browse Classes</button>
+                <button class="btn btn--cta" @click="openClasses">Browse Classes</button>
             </div>
             <!-- /EMPTY STATE -->
 
             <!-- CLASSES - IN PROGRESS -->
             <Slick class="carousel" ref="slick" :options="slickOptions">
-        
+
                 <!-- SINGLE CLASS -->
-                <div class="class" data-progress="0">
+                <div v-for="course in user.savedCourses" class="class" data-progress="0">
                     <a class="class__thumb" href="/templates/classes/class">
                         <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
@@ -47,92 +47,12 @@
                         <a class="link" href="#">The Power of Being Broke</a>
                         <ul class="class__meta list list--inline">
                             <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
-                                Daymond John
+                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                Daymond John
                             </li>
                             <li class="item has--icon">
-                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                                <!-- SINGLE CLASS -->
-                <div class="class" data-progress="0">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                            2h 16m
-                        </span>
-                        <span class="remove__link link link--secondary">Remove</span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">The Power of Being Broke</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
-                                Daymond John
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                                <!-- SINGLE CLASS -->
-                <div class="class" data-progress="0">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                            2h 16m
-                        </span>
-                        <span class="remove__link link link--secondary">Remove</span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">The Power of Being Broke</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
-                                Daymond John
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-                                <!-- SINGLE CLASS -->
-                <div class="class" data-progress="0">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                            2h 16m
-                        </span>
-                        <span class="remove__link link link--secondary">Remove</span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">The Power of Being Broke</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>
-                                Daymond John
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up"><use xlink:href="#icon-thumbs-up"></use></svg>
+                                <svg class="icon-thumbs-up">
+                                    <use xlink:href="#icon-thumbs-up"></use>
+                                </svg>
                                 <a class="link link--secondary" href="#">1.2k</a>
                             </li>
                         </ul>
@@ -151,50 +71,65 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
 
-  import Slick from 'vue-slick';
 
-  export default {
-    data: function() {
-      return {
-        savedClasses: [],
-        slickOptions: {
-            lazyLoad: 'ondemand',
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3
-                    }
+
+
+
+    import Slick from 'vue-slick';
+
+    export default {
+        data: function () {
+            return {
+                savedClasses: [],
+                slickOptions: {
+                    lazyLoad: 'ondemand',
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3
+                            }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                slidesToShow: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 2
+                            }
+                        }
+                    ]
                 },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2
-                    }
-                }
-            ]
+            }
         },
-      }
-    },
-    components: {
-        Slick
-    },
-    // beforeCreate(){
-    // document.body.classList.add("has--banner");
-    // },
-    // beforeDestroy(){
-    //   document.body.classList.remove("has--banner");
-    // }
-  }
+        components: {
+            Slick
+        },
+        computed: {
+            ...mapGetters([
+                'user'
+            ]),
+        },
+        methods: {
+            openClasses() {
+                this.$router.push({ name: 'classes' });
+            }
+        }
+        // beforeCreate(){
+        // document.body.classList.add("has--banner");
+        // },
+        // beforeDestroy(){
+        //   document.body.classList.remove("has--banner");
+        // }
+    }
 
 </script>
 

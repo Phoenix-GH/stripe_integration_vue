@@ -63,12 +63,12 @@
                                         </li>
                                         <li class="item">
                                             <span class="ts--subtitle disp--block">{{ updatedCardInfo.cardType }} ending in {{ updatedCardInfo.last4 }}</span>
-                                            <span class="ts--body is--secondary">Expires {{ updatedCardInfo.exp_month }} / {{ updatedCardInfo.exp_year }}</span>
+                                            <span class="ts--body is--secondary">Expires on  {{ updatedCardInfo.exp_month }}/{{ updatedCardInfo.exp_year }}</span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="wrapper__inner align--right">
-                                    <button class="btn btn--secondary">Change Method</button>
+                                    <button class="btn btn--secondary" @click="updateCreditCard">Change Method</button>
                                 </div>
                             </div>
                         </div>
@@ -76,10 +76,17 @@
 
                         <!-- PAYMENT METHOD - EMPTY STATE -->
                         <!-- NOTE: Display if no payment method is added -->
-                        <div class="well is--empty align--center" v-if="!hasStripeAccount">
+                        <div class="well is--empty align--center" v-if="showCardEntry">
                             <p class="ts--body">You don't have a payment method saved yet.</p>
-                            <button class="btn btn--primary" @click="openStripeCheckout">Add Credit Card</button>
+                            <div class="form-row">
+                                <div class="StripeElement" id="card-element">
+                                </div>
+                                <div id="card-errors"></div>
+                            </div>
+                            <br>
+                            <button style="margin: 20px;" @click="generateToken" class="btn btn--primary">{{ buttonMessage }}</button>
                         </div>
+
                         <!-- /PAYMENT METHOD - EMPTY STATE -->
 
                         <!-- Billing Link -->
@@ -104,29 +111,31 @@
     import { User } from '../../api';
     import { mapGetters } from 'vuex';
     export default {
-        created() {
-            let _this = this;
-            this.stripeHandler = StripeCheckout.configure({
-                key: 'pk_test_hz7Ftxjb7anZasP8PFtcFwQv',
-                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-                locale: 'auto',
-                token: function (token) {
-                    _this.createStripeCustomer(token.id);
-                }
-            });
-
-            // Close Checkout on page navigation:
-            window.addEventListener('popstate', function () {
-                this.stripeHandler.close();
-            });
-
+        mounted() {
+            if (!this.user.hasCustomerId) {
+                this.setupStripe();
+            }
             this.retrieveCardInfo();
         },
         data: function () {
             return {
-                topics: [],
-                stripeHandler: {},
-                cardInfo: {}
+                cardInfo: {},
+                stripeReference: {},
+                cardReference: {},
+                changeCreditCard: false,
+                buttonMessage: 'Add Credit Card'
+            }
+        },
+        watch: {
+            changeCreditCard(val) {
+                if (val == true) {
+                    this.$nextTick(() => {
+                        this.setupStripe();
+                    })
+                    console.log('wants to change credit card');
+                } else {
+                    console.log('back to normal');
+                }
             }
         },
         computed: {
@@ -138,7 +147,7 @@
                 return true;
             },
             hasStripeAccount() {
-                if (this.user.hasCustomerId) {
+                if (this.user.hasCustomerId && this.changeCreditCard == false) {
                     return true;
                 } else {
                     return false;
@@ -146,27 +155,90 @@
             },
             updatedCardInfo() {
                 return this.cardInfo;
+            },
+            showCardEntry() {
+                if (!this.user.hasCustomerId || this.changeCreditCard == true) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         },
         methods: {
-            openStripeCheckout() {
-                // Open Checkout with further options:
-                this.stripeHandler.open({
-                    name: 'Self Made Man',
-                    description: 'Annual membership for Self Made Man',
-                    amount: 14999
+            generateToken() {
+                let _this = this;
+                this.stripeReference.createToken(this.cardReference).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server
+                        if (_this.user.hasCustomerId) { //just update the card on file
+                            _this.updateCustomerCreditCard(result.token.id);
+                        } else { //create a new customer
+                            _this.createStripeCustomer(result.token.id);
+                        }
+                    }
                 });
+            },
+            setupStripe() {
+                // Create a Stripe client
+                let stripe = Stripe('pk_test_hz7Ftxjb7anZasP8PFtcFwQv');
+                this.stripeReference = stripe;
+
+                // Create an instance of Elements
+                var elements = stripe.elements();
+
+                // Custom styling can be passed to options when creating an Element.
+                // (Note that this demo uses a wider set of styles than the guide below.)
+                var style = {
+                    base: {
+                        color: '#32325d',
+                        lineHeight: '24px',
+                        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                        fontSmoothing: 'antialiased',
+                        fontSize: '24px',
+                        '::placeholder': {
+                            color: '#aab7c4'
+                        }
+                    },
+                    invalid: {
+                        color: '#fa755a',
+                        iconColor: '#fa755a'
+                    }
+                };
+
+                // Create an instance of the card Element
+                var card = elements.create('card', { style: style, hidePostalCode: true });
+
+                // Add an instance of the card Element into the `card-element` <div>
+                var cardElement = document.getElementById('card-element');
+                card.mount(cardElement);
+
+                // Handle real-time validation errors from the card Element.
+                card.addEventListener('change', function (event) {
+                    var displayError = document.getElementById('card-errors');
+                    if (event.error) {
+                        displayError.textContent = event.error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+
+                this.cardReference = card;
+
             },
             createStripeCustomer(token) {
                 const payload = {
                     token: token
                 }
                 let _this = this;
-                User.createStripeCustomer(_this, payload, (err, result) => {
-                    if (err) console.log(err);
-                    //will sync the user with the API
-                    User.sync(_this);
-                })
+                this.changeCreditCard = false;
+                User.createStripeCustomer(_this, payload, (err, response) => {
+                    if (err) return console.log(err);
+                    console.log(response);
+                });
             },
             retrieveCardInfo() {
                 let _this = this;
@@ -174,12 +246,43 @@
                     if (err) console.log(err);
                     _this.cardInfo = result;
                 })
+            },
+            updateCreditCard() {
+                this.changeCreditCard = true;
+                this.buttonMessage = 'Update Card';
+            },
+            updateCustomerCreditCard(token) {
+                let _this = this;
+                User.updateCardInfo(this, { token: token }, cardupdate => {
+                    _this.changeCreditCard = false;
+                    _this.retrieveCardInfo();
+                })
             }
         }
     }
 
 </script>
 
-<style lang="css">
-
+<style lang="css" scoped>
+    .StripeElement {
+        background-color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+    
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+    
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+    
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
 </style>

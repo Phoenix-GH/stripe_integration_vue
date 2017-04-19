@@ -1,8 +1,23 @@
 <template lang="html">
     <div class="page__block">
+        <transition name="fadet">
+            <div class="loading__overlay" v-if="showSpinner">
+                <div class="loader"><span></span></div>
+            </div>
+        </transition>
+
+
+        <!-- Alert -->
+        <div class="alert2" :class="{shouldHide: shouldHideAlert}">
+            Get unlimited on-demand access for only $149/year!
+            <a href="javascript:;" @click="upgradeAccount">Upgrade Now!</a>
+            <svg @click="hideAlert" class="icon-close">
+                <use xlink:href="#icon-close"></use>
+            </svg>
+        </div>
 
         <!-- ===== MAIN NAVIGATION ===== -->
-        <div>
+        <div :class="{alertMargin: !shouldHideAlert}">
             <header class="header header__main wrapper">
                 <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
                 <div class="main__nav">
@@ -34,7 +49,7 @@
 
                                         <!-- NOTE: Display on 'All Accounts' -->
                                         <li id="navSaved" class="item">
-                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="user.savedCourses.length">Saved</router-link>
                                         </li>
                                         <!-- /NOTE -->
 
@@ -89,7 +104,7 @@
 
                                 <!-- NOTE: Display on 'Free Accounts' only -->
                                 <li id="navUpgrade" class="item" v-if="showUpgrade">
-                                    <button class="btn btn--primary is--affirmative">Upgrade</button>
+                                    <button class="btn btn--primary is--affirmative" @click="upgradeAccount">Upgrade</button>
                                 </li>
 
                                 <!-- /NOTE -->
@@ -255,7 +270,7 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
-
+            console.log(this.user.stripeSubscriptionId);
         },
         data: function () {
             return {
@@ -265,12 +280,14 @@
                 helperQuery: "",
                 showLoader: true,
                 showResultsList: false,
-                searchResults: []
+                searchResults: [],
+                stripeHandler: {},
+                closedAlert: false
             }
         },
         computed: {
             ...mapGetters([
-                'user', 'savedClasses', 'classesInProgress', 'userLoggedIn'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (!this.user.subscribed)) {
@@ -294,6 +311,12 @@
             },
             updateSearchResults() {
                 return this.searchResults;
+            },
+            shouldHideAlert() {
+                if (this.closedAlert) return true;
+                if (this.userLoggedIn && (this.user.stripeSubscriptionId != undefined)) return true;
+                if (!this.userLoggedIn) return true;
+                return false;
             }
         },
         watch: {
@@ -336,6 +359,7 @@
             },
             logOut() {
                 User.logout(this);
+                this.$router.push({ name: 'home' });
             },
             closeOverlay() {
                 $('body').removeClass('is--searching found--results');
@@ -365,12 +389,102 @@
                 this.closeOverlay();
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
+            },
+            hideAlert() {
+                this.closedAlert = true;
+            },
+            upgradeAccount() {
+                this.$router.push({ name: 'upgradeaccount' });
             }
         }
     }
 
 </script>
 
-<style>
-
+<style scoped>
+    .fadet-enter-active,
+    .fadet-leave-active {
+        transition: opacity .7s
+    }
+    
+    .fadet-enter,
+    .fadet-leave-to
+    /* .fade-leave-active in <2.1.8 */
+    
+    {
+        opacity: 0
+    }
+    
+    .shouldHide {
+        display: none;
+    }
+    
+    .alertMargin {
+        margin-top: 48px;
+    }
+    
+    .alert2 {
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        top: 0;
+        color: #FFFFFF;
+        text-align: left;
+        padding-left: 16px;
+        padding-right: 20%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow-x: auto;
+        background-color: #0086FF;
+        position: fixed;
+        z-index: 999;
+    }
+    
+    .alert2 .icon-close {
+        width: 18px;
+        height: 18px;
+        right: 16px;
+        top: 14px;
+        opacity: 0.6;
+        position: fixed;
+        z-index: 1;
+        -webkit-transition: all 0.1s ease-in-out;
+        transition: all 0.1s ease-in-out;
+    }
+    
+    .alert2 .icon-close:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+    
+    .alert2::after {
+        content: '';
+        height: 48px;
+        width: 40%;
+        display: block;
+        top: 0;
+        right: 0;
+        z-index: 0;
+        background: -webkit-linear-gradient(left, rgba(0, 134, 255, 0) 0%, #0086ff 100%);
+        background: linear-gradient(to right, rgba(0, 134, 255, 0) 0%, #0086ff 100%);
+        pointer-events: none;
+    }
+    
+    .alert2 a {
+        color: #FFFFFF;
+        margin-left: 16px;
+        font-weight: 600;
+        -webkit-transition: all 0.1s ease-in-out;
+        transition: all 0.1s ease-in-out;
+    }
+    
+    @media (min-width: 30em) {
+        .alert2 {
+            text-align: center;
+            padding-right: 0;
+        }
+        .alert2::after {
+            display: none;
+        }
+    }
 </style>

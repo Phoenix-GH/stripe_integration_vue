@@ -58,16 +58,16 @@
 
                                 <!-- SINGLE INVOICE (REFERRAL REWARD) -->
                                 <!-- NOTE: If the month was comp'd from a referral, the total is '$0.00' and the 'reward' icon is displayed. Additionally the 'View Receipt' link is disabled. -->
-                                <tr>
+                                <tr v-for="bill in updatedBills">
                                     <td>
-                                        <span class="ts--subtitle disp--block">Jan 17, 2017</span>
-                                        <span class="ts--body is--secondary">Monthly Membership</span>
+                                        <span class="ts--subtitle disp--block">{{ readableDate(bill.date) }}</span>
+                                        <span class="ts--body is--secondary">{{ bill.type }} Subscription</span>
                                     </td>
                                     <td class="align--right">
                                         <div class="disp--ib align--left">
                                             <!-- NOTE: Has a tooltip with the name of the person referred -->
                                             <span class="ts--subtitle disp--block" data-tooltip="Bruce Springclean" data-tip-pos="left">
-                                          $0.00
+                                          $ {{ (bill.amount/100).toFixed(2) }} 
                                           <svg class="icon-reward icon--s color--accent"><use xlink:href="#icon-reward"></use></svg>
                                       </span>
                                             <a class="link link--secondary is--disabled">View Reciept</a>
@@ -77,7 +77,7 @@
                                 <!-- SINGLE INVOICE (REFERRAL REWARD) -->
 
                                 <!-- SINGLE INVOICE (NORMAL) -->
-                                <tr>
+                                <!--<tr>
                                     <td>
                                         <span class="ts--subtitle disp--block">Dec 17, 2017</span>
                                         <span class="ts--body is--secondary">Monthly Membership</span>
@@ -90,7 +90,7 @@
                                             <a class="link link--secondary" href="#">View Reciept</a>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>-->
                                 <!-- SINGLE INVOICE (NORMAL) -->
 
                             </tbody>
@@ -120,11 +120,13 @@
 <script>
     import { User } from '../../api';
     import { mapGetters } from 'vuex';
+    import hdate from 'human-date';
     export default {
         data: function () {
             return {
                 topics: [],
-                nextInvoiceDate: ""
+                nextInvoiceDate: "",
+                bills: []
             }
         },
         computed: {
@@ -138,12 +140,25 @@
             isSubscribed() {
                 if (this.user.subscribed) return true;
                 return false;
+            },
+            updatedBills() {
+                return this.bills;
             }
         },
         methods: {
             updateInvoices() {
-
+                let _this = this;
+                User.billingInfo(this, info => {
+                    _this.bills = info;
+                })
+            },
+            readableDate(date) {
+                let newDate = hdate.prettyPrint(new Date(date * 1000));
+                return newDate;
             }
+        },
+        created() {
+            this.updateInvoices();
         }
     }
 

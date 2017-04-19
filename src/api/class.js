@@ -1,26 +1,55 @@
 //import and setup axios
 import axios from 'axios';
-//let BASE_URL = 'https://selfmademannewapi.herokuapp.com/v1/api/';
-let BASE_URL = 'http://localhost:4000/v1/api/';
-let API_TOKEN = localStorage.getItem('token');
-
-function headers() {
-    if (API_TOKEN != null && API_TOKEN.length > 0)
-        return { headers: { 'x-access-token': API_TOKEN } };
-    return { headers: {} };
-}
-
-function outputError(error) {
-    console.log(JSON.stringify(error));
-}
+import { headers, outputError, API_TOKEN, BASE_URL } from './token';
 
 export default {
+    //subscriptions to classes
+    unsubscribe(context, id) {},
+
+    updateCourseProgress(context, courseId, payload, callback) {
+        axios
+            .put(BASE_URL + `users/updatecourseprogress/${courseId}`, payload, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    getCourseProgress(context, courseId, callback) {
+        axios
+            .get(BASE_URL + `users/getcourseprogress/${courseId}`, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    //status of classes
+    //returns all classes in progress
+    inProgress(context) {
+        axios
+            .get(BASE_URL + `courses/coursesinprogress`, headers())
+            .then(response => {
+                context.$store.dispatch('updateClassesInProgress', response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    //returns all completed classes
+    completed(context) {
+        axios
+            .get(BASE_URL + `courses/coursescompleted`, headers())
+            .then(response => {
+                context.$store.dispatch('updateCompletedClasses', response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     classDetails(context, id) {
         axios
             .get(BASE_URL + 'courses/' + id, headers())
             .then(response => {
-                console.log(response.data.data);
-                // context.$store.dispatch('currentClass', response.data.data);
+                context.$store.dispatch('updateActiveCourse', response.data.data);
             })
             .catch(error => outputError(error));
     },
@@ -111,5 +140,12 @@ export default {
     editNoteForLesson(context, payload, callback) {},
 
     //Review Section
-    addReviewForClass(context, payload, callback) {}
+    addReviewForClass(context, payload, callback) {
+        axios
+            .post(BASE_URL + 'reviews', payload, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    }
 };
