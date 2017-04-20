@@ -21,6 +21,7 @@ import UpgradeAccount from '../components/UpgradeAccount.vue';
 import SearchResults from '../components/search/SearchResults.vue';
 import Home from '../components/Home.vue';
 import NotFoundComponent from '../components/NotFoundComponent.vue';
+import Earnings from '../components/other/Earnings.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -51,6 +52,7 @@ export default new Router({
         { path: '/privacypolicy', name: 'privacypolicy', component: PrivacyPolicy },
         { path: '/termsofuse', name: 'termsofuse', component: TermsOfUse },
         { path: '/faq', name: 'faq', component: FAQ },
+        { path: '/earnings', name: 'earnings', component: Earnings },
         {
             path: '/upgradeaccount',
             name: 'upgradeaccount',

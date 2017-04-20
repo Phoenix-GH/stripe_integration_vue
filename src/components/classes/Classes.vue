@@ -120,7 +120,7 @@
         <!-- /CATEGORIES NAV (MOBILE)-->
 
         <!-- CLASS LIST -->
-        <div class="content__section row container container--fw container--s">
+        <div class="content__section row container container--fw">
 
             <div class="wrapper heading">
                 <div class="wrapper__inner fontSize--m">
@@ -141,7 +141,8 @@
             </span>
                 </div>
                 <div class="wrapper__inner align--right" v-if="selectedCategory.length > 0">
-                    <button v-if="userLoggedIn" class="btn btn--secondary">Follow</button>
+                    <button @click="followTopic" v-if="!followingTopic" class="btn btn--secondary">Follow</button>
+                    <button @click="unFollowTopic" v-if="followingTopic" class="btn btn--secondary">Unfollow</button>
                 </div>
             </div>
 
@@ -180,7 +181,6 @@
 </template>
 
 <script>
-    import Slick from 'vue-slick';
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import { eventBus } from '../../main';
@@ -192,35 +192,7 @@
                 currentSort: 'Newest First',
                 currentResults: [],
                 selectedCategory: '',
-                slickOptions: {
-                    lazyLoad: 'ondemand',
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        }
-                    ]
-                },
             }
-        },
-        components: {
-            Slick
         },
         computed: {
             ...mapGetters([
@@ -243,11 +215,43 @@
             },
             currentResults() {
                 return this.currentResults;
+            },
+            followingTopic() {
+                if (!this.userLoggedIn) return false;
+                let filteredTopic = this.user.followedTopics.filter(topic => {
+                    if (topic == this.toTitleCase(this.selectedCategory)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(topic => { return topic; });
+                console.log(filteredTopic);
+                if (filteredTopic.length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         },
         methods: {
             toTitleCase(str) {
                 return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+            },
+            followTopic() {
+                let _selectedCategory = this.toTitleCase(this.selectedCategory);
+                let _userTopics = this.user.followedTopics;
+                let topicSet = new Set(_userTopics);
+                topicSet.add(_selectedCategory);
+                let newArray = Array.from(topicSet);
+                User.updateUser(this, { followedTopics: newArray });
+            },
+            unFollowTopic() {
+                let _selectedCategory = this.toTitleCase(this.selectedCategory);
+                let _userTopics = this.user.followedTopics;
+                let topicSet = new Set(_userTopics);
+                topicSet.delete(_selectedCategory);
+                let newArray = Array.from(topicSet);
+                User.updateUser(this, { followedTopics: newArray });
             },
             catClicked(topic) {
 

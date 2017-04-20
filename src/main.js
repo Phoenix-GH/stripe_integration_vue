@@ -8,8 +8,8 @@ import VueScript2 from 'vue-script2';
 Vue.use(VueScript2);
 import VideoPlayer from 'vue-video-player';
 Vue.use(VideoPlayer);
-import vmodal from 'vue-js-modal';
-Vue.use(vmodal);
+import Vodal from 'vodal';
+Vue.component(Vodal.name, Vodal);
 
 // hls plugin
 require('videojs-contrib-hls/dist/videojs-contrib-hls');

@@ -100,15 +100,18 @@
                     <!-- /PROFILE FORM -->
 
                     <!-- MEMBERSHIP -->
-                    <div clas="panel__section" v-if="isSubscribed">
+                    <div clas="panel__section" v-if="user.subscriptionType!='free'">
                         <div class="well">
                             <div class="wrapper">
                                 <div class="wrapper__inner">
-                                    <span class="ts--subtitle">Membership</span>
-                                    <span class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
+                                    <span v-if="user.subscriptionType!='paused'" class="ts--subtitle">Membership</span>
+                                    <span v-if="user.subscriptionType=='paused'" class="ts--subtitle">Membership Paused</span>
+                                    <span v-if="user.subscriptionType!='paused'" class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
+                                    <span v-if="user.subscriptionType=='paused'" class="ts--body is--secondary disp--block">Will Cancel On: {{ subscriptionRenewal }}</span>
                                 </div>
                                 <div class="wrapper__inner align--right">
-                                    <button class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
+                                    <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
+                                    <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary" @click="activateRenewal">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -143,6 +146,7 @@
     import { mapGetters } from 'vuex';
     import { uploadToS3 } from '../../api/uploader';
     import { eventBus } from '../../main';
+
     var hdate = require('human-date');
 
     export default {
@@ -158,7 +162,8 @@
                 uploadingText: 'Upload Photo',
                 width: '192px',
                 uploadState: 0,
-                subDate: ''
+                subDate: '',
+                subType: ''
             }
         },
         computed: {
@@ -188,7 +193,7 @@
                 return true;
             },
             isSubscribed() {
-                if (this.user.subscribed) return true;
+                if (this.user.subscriptionType != 'free') return true;
                 return false;
             },
             subscriptionRenewal() {
@@ -204,6 +209,7 @@
             this.lastName = this.user.lastName;
 
             User.subscriptionInfo(this, info => {
+                this.subType = info.items.data[0].plan.id;
                 let newDate = hdate.prettyPrint(new Date(info.current_period_end * 1000));
                 this.$store.dispatch('updateLastRenewal', newDate);
             })
@@ -248,7 +254,16 @@
                 this.image = '';
             },
             pauseRenewal() {
-                console.log('pausing');
+                User.pauseRenewal(this);
+            },
+            activateRenewal() {
+                if (this.subType == 'monthlysmm') {
+                    User.activateMonthly(this);
+                } else if (this.subType == 'annualsmm') {
+                    User.activateAnnual(this);
+                } else {
+                    console.log(this.subType);
+                }
             },
             saveUser() {
                 this.$store.dispatch('updateUser', this.updatePayload);
@@ -266,6 +281,6 @@
 
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 
 </style>

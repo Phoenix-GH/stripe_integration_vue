@@ -99,6 +99,9 @@
                             <li class="item">
                                 <router-link class="link link--secondary" :to="{ name: 'termsofuse' }">Terms of Use</router-link>
                             </li>
+                            <li class="item">
+                                <router-link class="link link--secondary" :to="{ name: 'earnings' }">Earnings Disclaimer</router-link>
+                            </li>
                         </ul>
                         <ul class="list list--inline list--social wrapper__inner align--right">
                             <li class="item">

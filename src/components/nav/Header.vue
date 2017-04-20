@@ -290,7 +290,7 @@
                 'user', 'classesInProgress', 'userLoggedIn', 'showSpinner'
             ]),
             showUpgrade() {
-                if ((this.userLoggedIn) && (!this.user.subscribed)) {
+                if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
                     return true;
                 } else {
                     return false;
@@ -314,7 +314,7 @@
             },
             shouldHideAlert() {
                 if (this.closedAlert) return true;
-                if (this.userLoggedIn && (this.user.stripeSubscriptionId != undefined)) return true;
+                if (this.userLoggedIn && (this.user.subscriptionType != 'free')) return true;
                 if (!this.userLoggedIn) return true;
                 return false;
             }
@@ -382,8 +382,10 @@
                 $('#searchResults .loader').fadeOut();
             },
             searchPage() {
+                let terms = this.searchTerms;
+                eventBus.$emit('updateSearchTerms', terms);
                 this.closeOverlay();
-                this.$router.push({ name: 'searchresults', query: { terms: this.searchTerms } });
+                this.$router.push({ name: 'searchresults', query: { terms: terms } });
             },
             openCourse(course) {
                 this.closeOverlay();

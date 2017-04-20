@@ -150,6 +150,36 @@ export default {
             .catch(error => outputError(error));
     },
 
+    pauseRenewal(context) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/pausesubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+            })
+            .catch(error => outputError(error));
+    },
+
+    activateMonthly(context) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/activatemonthlysubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+            })
+            .catch(error => outputError(error));
+    },
+
+    activateAnnual(context) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'users/activateannualsubscription', {}, headers())
+            .then(response => {
+                _this.sync(context);
+            })
+            .catch(error => outputError(error));
+    },
+
     billingInfo(context, callback) {
         axios
             .get(BASE_URL + 'users/billinghistory', headers())

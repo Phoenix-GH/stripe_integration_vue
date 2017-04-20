@@ -45,13 +45,14 @@ export default {
             .catch(error => outputError(error));
     },
 
-    classDetails(context, id) {
+    classDetails(context, id, cbErr, cb) {
         axios
             .get(BASE_URL + 'courses/' + id, headers())
             .then(response => {
                 context.$store.dispatch('updateActiveCourse', response.data.data);
+                cb(response.data.data);
             })
-            .catch(error => outputError(error));
+            .catch(error => cbErr(error));
     },
 
     searchClasses(context, terms, cb) {
