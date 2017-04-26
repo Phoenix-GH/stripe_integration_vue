@@ -132,7 +132,9 @@
                                 </li>
                             </ul>
                             <span class="divider divider--s"></span>
-                            <p class="ts--body">{{ activeCourse.description }}</p>
+
+                            <vue-markdown class="ts--body">{{ activeCourse.description }}</vue-markdown>
+                            <!--<p class="ts--body">{{ activeCourse.description }}</p>-->
 
                             <h3 class="ts--subtitle">What you will learn:</h3>
                             <ul class="list list--bulleted list--checks">
@@ -346,6 +348,7 @@
     import { mapGetters } from 'vuex';
     import { convertSecondsToReadableFormat } from '../../helpers/util';
     import { eventBus } from '../../main';
+    import VueMarkdown from 'vue-markdown';
 
     export default {
 
@@ -356,12 +359,12 @@
                     sources: [{
                         withCredentials: false,
                         type: "application/x-mpegURL",
-                        src: "https://d9iiow8rnlprs.cloudfront.net/johnwick2/encoded-Tue-Jan-2017-04-35-07/encoded-Tue-Jan-2017-04-35-07.m3u8"
+                        src: ""
                     }],
                     flash: { hls: { withCredentials: false } },
                     html5: { hls: { withCredentials: false } },
                     playbackRates: [0.5, 1, 1.5, 2],
-                    poster: "http://www.freemake.com/blog/wp-content/uploads/2015/06/videojs-logo.jpg"
+                    poster: ""
                 },
                 lessons: [],
                 reviews: [],
@@ -378,8 +381,10 @@
                 lastLessonValid: false
             }
         },
+        components: {
+            VueMarkdown
+        },
         created() {
-            //check params
             let _this = this;
             eventBus.$on('updateClassDetails', () => {
                 Class.classDetails(_this, _this.$route.params.id, error => {
@@ -391,13 +396,7 @@
             })
         },
         mounted() {
-            let _this = this;
-            Class.classDetails(this, this.$route.params.id, error => {
-                //there was an error here, redirect to classes page
-                _this.$router.replace({ name: 'classes' });
-            }, course => {
-                _this.initDetails();
-            });
+            this.updateDataSource();
         },
         beforeDestroy() {
             eventBus.$off('updateClassDetails');
@@ -477,15 +476,25 @@
                         return false;
                     }
                 }).map(note => { return note; });
-                console.log(_notes);
                 return _notes;
             }
         },
         methods: {
+            updateDataSource() {
+                let _this = this;
+                this.$store.dispatch('updateSpinner', true);
+                Class.classDetails(this, this.$route.params.id, error => {
+                    //there was an error here, redirect to classes page
+                    _this.$router.replace({ name: 'classes' });
+                    this.$store.dispatch('updateSpinner', false);
+                }, course => {
+                    _this.initDetails();
+                    this.$store.dispatch('updateSpinner', false);
+                });
+            },
             startedLesson(lessonId) {
                 if (this.lessonProgress[lessonId] != undefined) {
                     if (this.lessonProgress[lessonId].percentComplete >= 100) {
-                        console.log('lesson is complete');
                         return false;
                     } else {
                         if (this.lessonProgress[lessonId].lastPosition > 0) return true;
@@ -561,16 +570,16 @@
             playerReadied(player) {
                 this.player = player;
                 var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
-                player.tech_.hls.xhr.beforeRequest = function (options) {
-                    return options
+                if (player.tech_.hls != undefined) {
+                    player.tech_.hls.xhr.beforeRequest = function (options) {
+                        return options
+                    }
                 }
             },
             onPlayerPlay(event) {
-                console.log('started playing');
                 this.updateLastLesson();
             },
             onPlayerPause(event) {
-                console.log('player paused')
                 if (this.userLoggedIn) {
                     this.updateLastLesson();
                     Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
@@ -734,7 +743,6 @@
             },
             //this will jump to the position on the list bookmark
             playLessonMark(id, videoUrl, mark) {
-                console.log('this is the mark ' + mark);
                 if (!this.userLoggedIn) return;
                 let _this = this;
                 this.currentLessonId = id;
@@ -821,8 +829,5 @@
 </script>
 
 <style lang="css" scoped>
-    .textAreaNotes {
-        width: auto;
-        height: 100px;
-    }
+
 </style>

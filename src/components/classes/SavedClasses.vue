@@ -30,7 +30,8 @@
             <!-- /EMPTY STATE -->
 
             <!-- CLASSES - IN PROGRESS -->
-            <Slick class="carousel" ref="slick" :options="slickOptions">
+
+            <div class="row grid">
 
                 <!-- SINGLE CLASS -->
                 <div v-for="course in user.savedCourses" class="class" data-progress="0">
@@ -60,7 +61,8 @@
                 </div>
                 <!-- /SINGLE CLASS -->
 
-            </Slick>
+            </div>
+
             <!-- /CLASSES - IN PROGRESS -->
 
         </div>
@@ -73,62 +75,22 @@
 <script>
     import { mapGetters } from 'vuex';
 
-
-
-
-
-    import Slick from 'vue-slick';
-
     export default {
         data: function () {
             return {
-                savedClasses: [],
-                slickOptions: {
-                    lazyLoad: 'ondemand',
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        }
-                    ]
-                },
+                savedClasses: []
             }
-        },
-        components: {
-            Slick
         },
         computed: {
             ...mapGetters([
                 'user'
-            ]),
+            ])
         },
         methods: {
             openClasses() {
                 this.$router.push({ name: 'classes' });
             }
         }
-        // beforeCreate(){
-        // document.body.classList.add("has--banner");
-        // },
-        // beforeDestroy(){
-        //   document.body.classList.remove("has--banner");
-        // }
     }
 
 </script>

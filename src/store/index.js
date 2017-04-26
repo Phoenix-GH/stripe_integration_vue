@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
         selectedTopics: [],
         classes: [],
         activeCourse: {},
+        activePodcast: {},
         searchResults: [],
         featuredClasses: [],
         classesByTopic: {},
@@ -58,6 +59,9 @@ export const store = new Vuex.Store({
         },
         updateActiveCourse: ({ commit }, payload) => {
             commit('updateActiveCourse', payload);
+        },
+        updateActivePodcast: ({ commit }, payload) => {
+            commit('updateActivePodcast', payload);
         },
         updateSearchResults: ({ commit }, payload) => {
             commit('updateSearchResults', payload);
@@ -120,6 +124,9 @@ export const store = new Vuex.Store({
             state.activeCourse = payload;
             persist();
         },
+        updateActivePodcast: (state, payload) => {
+            state.activePodcast = payload;
+        },
         updateSearchResults: (state, payload) => {
             state.searchResults = payload;
             persist();
@@ -172,6 +179,9 @@ export const store = new Vuex.Store({
         activeCourse: state => {
             return state.activeCourse;
         },
+        activePodcast: state => {
+            return state.activePodcast;
+        },
         searchResults: state => {
             return state.searchResults;
         },
@@ -194,13 +204,11 @@ export const store = new Vuex.Store({
 });
 
 export const loadCache = () => {
-    //console.log('loading cache');
     let cache = JSON.parse(localStorage.getItem('state'));
     store.dispatch('updateCache', cache);
-    //console.log('loaded cache');
 };
 
 function persist() {
+    store.dispatch('updateSpinner', false);
     localStorage.setItem('state', JSON.stringify(store.state));
-    //console.log('persisted state');
 }

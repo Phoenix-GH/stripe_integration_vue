@@ -107,6 +107,24 @@ export default {
             .catch(error => outputError(error));
     },
 
+    listPodcasts(context, callback) {
+        axios
+            .get(BASE_URL + `courses/podcasts`)
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    podcastDetail(context, id, callback) {
+        axios
+            .get(BASE_URL + `courses/podcasts/${id}`)
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     //Meta
     updateViewCount(context, classId, callback) {
         axios

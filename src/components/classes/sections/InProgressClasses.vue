@@ -65,10 +65,6 @@
             thumbnail(url) {
                 return `${url}?w=388&h=193`;
             }
-        },
-        created() {
-            console.log('created this');
-            Class.inProgress(this);
         }
     }
 

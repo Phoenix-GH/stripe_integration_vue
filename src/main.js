@@ -4,12 +4,11 @@ import Vue from 'vue';
 import App from './App';
 import { store, loadCache } from './store/index';
 import router from './router';
-import VueScript2 from 'vue-script2';
-Vue.use(VueScript2);
 import VideoPlayer from 'vue-video-player';
 Vue.use(VideoPlayer);
-import Vodal from 'vodal';
-Vue.component(Vodal.name, Vodal);
+import SocialSharing from 'vue-social-sharing';
+Vue.use(SocialSharing);
+Vue.use(require('vue-script2'));
 
 // hls plugin
 require('videojs-contrib-hls/dist/videojs-contrib-hls');
@@ -17,29 +16,9 @@ Vue.config.productionTip = false;
 
 //event bus
 export const eventBus = new Vue();
-console.log('created event bus');
 
 //load the cache
 loadCache();
-
-(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-        return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = '//connect.facebook.net/en_US/sdk.js';
-    fjs.parentNode.insertBefore(js, fjs);
-})(document, 'script', 'facebook-jssdk');
-
-window.fbAsyncInit = function() {
-    FB.init({
-        appId: '263766374079183',
-        xfbml: true,
-        version: 'v2.8'
-    });
-};
 
 /* eslint-disable no-new */
 new Vue({

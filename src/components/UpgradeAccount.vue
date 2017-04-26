@@ -1,49 +1,72 @@
 <template>
-    <div class="content__section row container container--fw container--s">
-        <div class="flexContainer">
-            <div class="leftColumn">
-                <h1>Upgrade to Premium!</h1>
-                <br>
-                <div class="flex">
-                    <svg class="icon-check-circle">
-                        <use xlink:href="#icon-check-circle" />
-                    </svg>
-                    <p> Unlimited on-demand access </p>
+    <!-- CONTENT -->
+    <div class="content__section row container container--fw">
+        <div class="col col--9-of-12 col--centered">
+
+            <!-- PANEL -->
+            <div class="panel" style="overflow:hidden;">
+                <!-- PANEL HEADER -->
+                <div class="panel__head bg--black is--reversed bg--wood">
+                    <div class="wrapper">
+                        <div class="wrapper__inner">
+                            <span class="fontSize--s color--white-80">Start your learning journey today!</span>
+                            <h3 class="ts--headline">Upgrade to Premium</h3>
+                        </div>
+                        <div class="wrapper__inner align--right">
+                            <svg class="icon-star icon--l color--brand">
+                                <use xlink:href="#icon-star"></use>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex">
-                    <svg class="icon-check-circle">
-                        <use xlink:href="#icon-check-circle" />
-                    </svg>
-                    <p> One new video lesson per month </p>
+                <!-- /PANEL HEADER -->
+                <!-- PANEL BODY -->
+                <div class="panel__body">
+
+                    <div class="row">
+                        <div class="col col--5-of-8 col--am">
+                            <ul class="list list--bulleted list--checks fontSize--l">
+                                <li class="item">
+                                    Unlimited on-demand access
+                                </li>
+                                <li class="item">
+                                    One new video lesson per month
+                                </li>
+                                <li class="item">
+                                    Exclusive Mastery Course discounts
+                                </li>
+                                <li class="item">
+                                    Live webcast shows and Q&amp;A
+                                </li>
+                                <li class="item">
+                                    Invite-only annual events &amp; adventures
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col col--3-of-8 col--am align--center">
+                            <!-- UPGRADE BUTTONS -->
+                            <div class="panel__section divider--or">
+                                <div data-tooltip="Best Deal!" data-tip-pos="left">
+                                    <button @click="upgradeToAnnual(false)" class="btn btn--cta btn--block">$149.99 / Year</button>
+                                </div>
+                            </div>
+                            <button @click="upgradeToMonthly(false)" class="btn btn--secondary">$13.95 (Monthly Plan)</button>
+                            <!-- /UPGRADE BUTTONS -->
+                        </div>
+                    </div>
+
                 </div>
-                <div class="flex">
-                    <svg class="icon-check-circle">
-                        <use xlink:href="#icon-check-circle" />
-                    </svg>
-                    <p> Exclusive Mastery Course discounts </p>
-                </div>
-                <div class="flex">
-                    <svg class="icon-check-circle">
-                        <use xlink:href="#icon-check-circle" />
-                    </svg>
-                    <p> Live webcast shows and Q&A </p>
-                </div>
-                <div class="flex">
-                    <svg class="icon-check-circle">
-                        <use xlink:href="#icon-check-circle" />
-                    </svg>
-                    <p> Invite-only annual events & adventures </p>
-                </div>
+                <!-- /PANEL BODY -->
             </div>
-            <div class="rightColumn">
-                <button @click="upgradeToMonthly(false)" class="btn btn--primary topButton">$13.95/Month</button>
-                <br>
-                <p> -or- </p>
-                <br>
-                <button @click="upgradeToAnnual(false)" class="btn btn--primary bottomButton">$149.99/Year (Best Deal!)</button>
+            <!-- /PANEL -->
+
+            <div class="well align--center margin--m no--margin-lr no--margin-b">
+                <a class="link" @click="goBack">No thanks, I'll upgrade later.</a>
             </div>
+
         </div>
     </div>
+    <!-- /CONTENT -->
 </template>
 
 <script>
@@ -55,7 +78,7 @@
             let _this = this;
             this.stripeHandler = StripeCheckout.configure({
                 key: 'pk_test_hz7Ftxjb7anZasP8PFtcFwQv',
-                image: '',
+                image: 'https://s3.amazonaws.com/selfmademan/webassets/smmlogo.jpg',
                 locale: 'auto',
                 token: function (token) {
                     User.createStripeCustomer(_this, { token: token.id }, (err, response) => {
@@ -86,10 +109,16 @@
             ]),
         },
         methods: {
+            goBack() {
+                console.log('will go back');
+                this.$router.go(-1);
+            },
             upgradeToMonthly(skip) {
                 if (skip) {
                     let _this = this;
+                    this.$store.dispatch('updateSpinner', true);
                     User.purchaseMonthlySubscription(this, (err, response) => {
+                        this.$store.dispatch('updateSpinner', false);
                         if (err != null) return alert(JSON.stringify(err));
                         _this.$router.push({ name: 'account' })
                     });
@@ -97,24 +126,43 @@
                     if (this.user.stripeSubscriptionId != undefined) return alert('You already have an active subscription!');
                     if (this.user.hasCustomerId) { //go ahead and update subscription
                         let _this = this;
+                        this.$store.dispatch('updateSpinner', true);
                         User.purchaseMonthlySubscription(this, (err, response) => {
+                            this.$store.dispatch('updateSpinner', false);
                             if (err != null) return alert(JSON.stringify(err));
                             _this.$router.push({ name: 'account' })
                         });
                     } else { //must create it first
-                        this.targetMembership = 'monthly';
-                        this.stripeHandler.open({
-                            name: 'Self Made Man',
-                            description: 'Monthly Membership',
-                            amount: 1395
-                        });
+                        let email = this.user.email || '';
+                        if (email.length > 0) {
+                            this.targetMembership = 'monthly';
+                            this.stripeHandler.open({
+                                name: 'Self Made Man',
+                                description: 'Monthly Membership',
+                                amount: 1395,
+                                email: email,
+                                'allow-remember-me': false
+                            });
+                        } else {
+                            this.targetMembership = 'monthly';
+                            this.stripeHandler.open({
+                                name: 'Self Made Man',
+                                description: 'Monthly Membership',
+                                amount: 1395,
+                                'allow-remember-me': false
+                            });
+                        }
+
                     }
                 }
             },
             upgradeToAnnual(skip) {
+
                 if (skip) {
                     let _this = this;
+                    this.$store.dispatch('updateSpinner', true);
                     User.purchaseAnnualSubscription(this, (err, response) => {
+                        this.$store.dispatch('updateSpinner', false);
                         if (err != null) return alert(JSON.stringify(err));
                         _this.$router.push({ name: 'account' })
                     });
@@ -122,17 +170,33 @@
                     if (this.user.stripeSubscriptionId != undefined) return alert('You already have an active subscription!');
                     if (this.user.hasCustomerId) { //go ahead and update subscription
                         let _this = this;
+                        this.$store.dispatch('updateSpinner', true);
                         User.purchaseAnnualSubscription(this, (err, response) => {
+                            this.$store.dispatch('updateSpinner', false);
                             if (err != null) return alert(JSON.stringify(err));
                             _this.$router.push({ name: 'account' })
                         });
                     } else { //must create it first
-                        this.targetMembership = 'annual';
-                        this.stripeHandler.open({
-                            name: 'Self Made Man',
-                            description: 'Annual Membership',
-                            amount: 14999
-                        });
+                        let email = this.user.email || '';
+                        if (email.length > 0) {
+                            this.targetMembership = 'annual';
+                            this.stripeHandler.open({
+                                name: 'Self Made Man',
+                                description: 'Annual Membership',
+                                amount: 14999,
+                                email: email,
+                                'allow-remember-me': false
+                            });
+                        } else {
+                            this.targetMembership = 'annual';
+                            this.stripeHandler.open({
+                                name: 'Self Made Man',
+                                description: 'Annual Membership',
+                                amount: 14999,
+                                'allow-remember-me': false
+                            });
+                        }
+
                     }
                 }
             }
