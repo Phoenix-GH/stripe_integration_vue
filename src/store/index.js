@@ -21,9 +21,13 @@ export const store = new Vuex.Store({
         classesByTopic: {},
         lastRenewal: '',
         lastLesson: {},
-        showSpinner: false
+        showSpinner: false,
+        reviewStatusType: 'good'
     },
     actions: {
+        updateReviewStatusType: ({ commit }, payload) => {
+            commit('updateReviewStatusType', payload);
+        },
         updateLastLesson: ({ commit }, payload) => {
             commit('updateLastLesson', payload);
         },
@@ -80,6 +84,9 @@ export const store = new Vuex.Store({
         }
     },
     mutations: {
+        updateReviewStatusType: (state, payload) => {
+            state.reviewStatusType = payload;
+        },
         loadCache: (state, payload) => {
             Object.assign(state, payload);
         },
@@ -152,6 +159,9 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
+        reviewStatusType: state => {
+            return state.reviewStatusType;
+        },
         user: state => {
             return state.user;
         },

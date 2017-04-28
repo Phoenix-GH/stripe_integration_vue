@@ -253,8 +253,6 @@
         <!-- ===== /SEARCH DROPDOWN ===== -->
 
     </div>
-
-
 </template>
 
 <script>

@@ -61,11 +61,11 @@
                         <!--
                       NOTE: This div should always be here, even if empty.
                   -->
-                        <div v-if="lastLesson.course != undefined" class="well no--pad no--border margin--s no--margin-lr no--margin-t">
+                        <div v-if="lastLessonExists" class="well no--pad no--border margin--s no--margin-lr no--margin-t">
                             <span class="ts--title">Continue Watching:</span>
                         </div>
                         <!-- SINGLE CLASS -->
-                        <div v-if="lastLesson.course != undefined" class="class is--bookmarked" @click.stop="updateCurrentClass(lastLesson.course)">
+                        <div v-if="lastLessonExists" class="class is--bookmarked" @click.stop="updateCurrentClass(lastLesson.course)">
                             <a class="class__thumb">
                                 <span class="btn__play btn--m btn--secondary"></span>
                                 <img :src="activeCourse.thumbImageUrl" alt="">
@@ -75,7 +75,7 @@
                                 </div>
                                 <span class="image__cap">
                               <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                              {{readableCourseDuration(lastLesson.lesson.duration - lastLesson.progress.lastPosition)}} Left
+                              {{ leftOffMessage }}
                           </span>
                                 <span class="remove__link">
                               <ul class="list list--inline">
@@ -106,8 +106,8 @@
         <!-- CLASS LIST -->
         <div class="content__section row container container--fw">
             <inprogress />
-            <purchased />
-            <recommended />
+            <purchased v-if="false" />
+            <recommended v-if="false" />
             <!-- FEATURED CLASS -->
             <div class="content__row">
                 <div class="banner banner--m go go--bottom is--inline" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
@@ -161,6 +161,11 @@
     import { convertSecondsToReadableFormat } from '../helpers/util';
 
     export default {
+        data: function () {
+            return {
+                lastLessonExists: false
+            }
+        },
         components: {
             recommended: Rec,
             inprogress: InProgress,
@@ -180,6 +185,18 @@
                     let course = this.featuredClasses[0];
                     let str = course.topics.join(" ");
                     return str;
+                }
+            },
+            leftOffMessage() {
+                if (this.lastLesson.lesson != undefined) {
+                    if (this.lastLesson.progress.percentComplete == 100) {
+                        return 'Complete';
+                    } else {
+                        let durationDifference = this.readableCourseDuration(this.lastLesson.lesson.duration - this.lastLesson.progress.lastPosition);
+                        return `${durationDifference} Left`;
+                    }
+                } else {
+                    return '';
                 }
             }
         },
@@ -202,8 +219,13 @@
                 return convertSecondsToReadableFormat(duration);
             }
         },
-        created() {
+        mounted() {
             Class.featuredClasses(this);
+            Class.inProgress(this);
+            Class.completed(this);
+            if (this.lastLesson.course != undefined) {
+                this.lastLessonExists = true;
+            }
         }
 
     }
