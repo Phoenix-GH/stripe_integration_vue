@@ -45,7 +45,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
-
+    import { Class, User } from '../../api';
     import CompletedClasses from './sections/CompletedClasses.vue'
     import PurchasedClasses from './sections/PurchasedClasses.vue'
     import InProgress from './sections/InProgressClasses.vue'
@@ -65,6 +65,12 @@
             openClasses() {
                 this.$router.push({ name: 'classes' });
             }
+        },
+        mounted() {
+            //update in-progress, completed, and master classes now.
+            console.log('mounted');
+            Class.inProgress(this);
+            Class.completed(this);
         }
     }
 

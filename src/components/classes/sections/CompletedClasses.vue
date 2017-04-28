@@ -37,7 +37,6 @@
 </template>
 
 <script>
-    import Slick from 'vue-slick';
     import { Class, User } from '../../../api';
     import { mapGetters } from 'vuex';
     import { convertSecondsToReadableFormat } from '../../../helpers/util';
@@ -46,35 +45,8 @@
 
         data: function () {
             return {
-                slickOptions: {
-                    lazyLoad: 'ondemand',
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        }
-                    ]
-                },
+                toggle: {}
             }
-        },
-        components: {
-            Slick
         },
         computed: {
             ...mapGetters([
@@ -83,7 +55,6 @@
             updatedCompletedClasses() {
                 return this.completedClasses;
             }
-
         },
         methods: {
             readableCourseDuration(duration) {
@@ -93,10 +64,6 @@
                 this.$store.dispatch('updateCompletedClasses', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
             },
-        },
-        created() {
-            console.log('created this');
-            Class.completed(this);
         }
 
     }

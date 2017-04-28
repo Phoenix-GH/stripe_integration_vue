@@ -48,7 +48,7 @@
                       <button type="submit" class="btn btn--cta btn--block" data-loads @click="login">Log In</button>
                     </li>
                     <li class="item">
-                      <a class="link link--secondary modal--toggle" href="javascript:;" data-target="#modalForgotPassword">Forgot Password?</a>
+                      <a class="link link--secondary modal--toggle" href="javascript:;" @click="showForgotPassword">Forgot Password?</a>
                     </li>
                   </ul>
                 </div>
@@ -172,6 +172,10 @@
       showSignup() {
         this.$store.dispatch('updateHasModal', true);
         this.$store.dispatch('updateActiveModal', 'signup');
+      },
+      showForgotPassword() {
+        this.$store.dispatch('updateHasModal', true);
+        this.$store.dispatch('updateActiveModal', 'forgotpassword');
       }
     }
   }

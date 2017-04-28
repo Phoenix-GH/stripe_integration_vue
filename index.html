@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <title>Self Made Man</title>
+  <title></title>
   <meta name="description" content="">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   <script src="https://use.typekit.net/keu6yzv.js"></script>
@@ -12,12 +12,22 @@
     try { Typekit.load({ async: false }); } catch (e) { }
   </script>
   <script src="https://file.myfontastic.com/QmQbqPan3TCnSUCvJd2vcR/icons.js"></script>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" />
   <script src="https://checkout.stripe.com/checkout.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body class="has--banner">
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=263766374079183";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <div id="app"></div>
 </body>
 

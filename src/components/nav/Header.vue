@@ -161,13 +161,13 @@
                             </div>
                             <div class="results__list">
                                 <!-- EMPTY RESULTS -->
-                                <div class="well is--empty align--center hide remove">
+                                <div v-if="foundClasses.length == 0" class="well is--empty align--center">
                                     No matching classes...
                                 </div>
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <div v-for="course in updateSearchResults" class="result is--class">
+                                <div v-for="course in foundClasses" class="result is--class">
                                     <div class="meta" @click="openCourse(course)">
                                         <div class="thumb" :style="{ 'background-image': 'url(' + course.thumbImageUrl + ')' }">
                                             <svg class="icon-play">
@@ -191,7 +191,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button class="btn btn--secondary btn--block is--link" data-target="/templates/search-results">More Results ({{ updateSearchResults.length }})</button>
+                                    <button class="btn btn--secondary btn--block is--link">More Results ({{ foundClasses.length }})</button>
                                 </div>
 
                             </div>
@@ -207,23 +207,23 @@
 
                             <div class="results__list">
                                 <!-- EMPTY RESULTS -->
-                                <div class="well is--empty align--center">
+                                <div v-if="foundPodcasts.length == 0" class="well is--empty align--center">
                                     No matching podcasts...
                                 </div>
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <!--<div class="result is--podcast">
-                                    <div class="meta">
-                                        <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-2.png')">
+                                <div v-for="podcast in foundPodcasts" class="result is--podcast">
+                                    <div class="meta" @click="openPodcast(podcast)">
+                                        <div class="thumb" :style="{ 'background-image': 'url(' + podcast.thumbImageUrl + ')' }">
                                             <svg class="icon-podcast">
                                                 <use xlink:href="#icon-podcast"></use>
                                             </svg>
                                         </div>
-                                        <span class="ts--title truncate link">EP61 &mdash; How to Make, Keep and Grow Your Money</span>
+                                        <span class="ts--title truncate link">{{ podcast.title }}</span>
                                         <ul class="list list--inline list--divided">
                                             <li class="item has--icon">
-                                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                                Daymond John
+                                                <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + podcast.instructor.profileImage + ')' }"></span>                                                {{ podcast.instructor.name }}
                                             </li>
                                             <li class="item has--icon">
                                                 <svg class="icon-date">
@@ -233,12 +233,12 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>-->
+                                </div>
                                 <!-- /SINGLE RESULT -->
 
-                                <!--<div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button class="btn btn--secondary btn--block">More Results (3)</button>
-                                </div>-->
+                                <div class="well no--border-lr no--border-b no--radius no--pad-lr">
+                                    <button class="btn btn--secondary btn--block">More Results ({{foundPodcasts.length}})</button>
+                                </div>
 
                             </div>
 
@@ -270,7 +270,6 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
-            console.log(this.user.stripeSubscriptionId);
         },
         data: function () {
             return {
@@ -290,7 +289,7 @@
                 'user', 'classesInProgress', 'userLoggedIn', 'showSpinner'
             ]),
             showUpgrade() {
-                if ((this.userLoggedIn) && (!this.user.subscribed)) {
+                if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
                     return true;
                 } else {
                     return false;
@@ -314,9 +313,29 @@
             },
             shouldHideAlert() {
                 if (this.closedAlert) return true;
-                if (this.userLoggedIn && (this.user.stripeSubscriptionId != undefined)) return true;
+                if (this.userLoggedIn && (this.user.subscriptionType != 'free')) return true;
                 if (!this.userLoggedIn) return true;
                 return false;
+            },
+            foundClasses() {
+                let _classes = this.searchResults.filter(result => {
+                    if (result.type == 'Class') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(result => { return result; });
+                return _classes;
+            },
+            foundPodcasts() {
+                let _podcasts = this.searchResults.filter(result => {
+                    if (result.type == 'Podcast') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(result => { return result; });
+                return _podcasts;
             }
         },
         watch: {
@@ -330,6 +349,7 @@
                     Class.searchClasses(this, val, result => {
                         if (result.status == 'success') {
                             _this.searchResults = result.data;
+                            console.log(JSON.stringify(_this.searchResults));
                             _this.foundResults();
                         } else {
                             _this.searchResults = [];
@@ -382,13 +402,19 @@
                 $('#searchResults .loader').fadeOut();
             },
             searchPage() {
+                let terms = this.searchTerms;
+                eventBus.$emit('updateSearchTerms', terms);
                 this.closeOverlay();
-                this.$router.push({ name: 'searchresults', query: { terms: this.searchTerms } });
+                this.$router.push({ name: 'searchresults', query: { terms: terms } });
             },
             openCourse(course) {
                 this.closeOverlay();
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
+            },
+            openPodcast(podcast) {
+                this.closeOverlay();
+                this.$router.push({ name: 'singlepodcast', params: { id: podcast._id } });
             },
             hideAlert() {
                 this.closedAlert = true;

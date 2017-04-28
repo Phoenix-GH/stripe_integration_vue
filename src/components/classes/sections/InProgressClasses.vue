@@ -40,42 +40,11 @@
 </template>
 
 <script>
-    import Slick from 'vue-slick';
     import { Class, User } from '../../../api';
     import { mapGetters } from 'vuex';
     import { convertSecondsToReadableFormat } from '../../../helpers/util';
 
     export default {
-        data: function () {
-            return {
-                dummyImage: "https://images.contentful.com/neuh3uvg7bz8/B0MsoNowSswcmQ40OAWQO/5bcb769cfb465c345b98a86a5427cbfe/XMENDOFP1.png",
-                slickOptions: {
-                    lazyLoad: 'ondemand',
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        }
-                    ]
-                },
-            }
-        },
         computed: {
             ...mapGetters([
                 'user', 'classesInProgress', 'userLoggedIn'
@@ -84,9 +53,6 @@
                 return this.classesInProgress;
             }
 
-        },
-        components: {
-            slick: Slick
         },
         methods: {
             readableCourseDuration(duration) {
@@ -99,13 +65,6 @@
             thumbnail(url) {
                 return `${url}?w=388&h=193`;
             }
-        },
-        created() {
-            console.log('created this');
-
-        },
-        mounted() {
-            Class.inProgress(this);
         }
     }
 

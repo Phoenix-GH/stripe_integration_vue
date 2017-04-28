@@ -138,7 +138,7 @@
                 return true;
             },
             isSubscribed() {
-                if (this.user.subscribed) return true;
+                if (this.user.subscriptionType != 'free') return true;
                 return false;
             },
             updatedBills() {

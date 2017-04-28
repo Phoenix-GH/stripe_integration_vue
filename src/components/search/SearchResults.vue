@@ -14,7 +14,7 @@
         <span class="divider divider--s"></span>
       </div>
       <div class="well border--light is--empty align--center">
-        <span class="ts--title">Try searching for something else, or <button class="btn btn--cta margin--s no--margin-tb no--margin-r" href="#">Browse Classes</button></span>
+        <span class="ts--title">Try searching for something else, or <button class="btn btn--cta margin--s no--margin-tb no--margin-r" @click="browseClasses">Browse Classes</button></span>
       </div>
     </div>
     <!-- /EMPTY STATE -->
@@ -59,28 +59,28 @@
 
           <!-- SINGLE RESULT -->
           <div v-for="course in classes" class="result is--class">
-            <div class="meta">
-              <div class="thumb" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png')">
+            <div class="meta" @click="openCourse(course)">
+              <div class="thumb" :style="{ 'background-image': 'url(' + course.thumbImageUrl + ')' }">
                 <svg class="icon-play">
                   <use xlink:href="#icon-play"></use>
                 </svg>
               </div>
-              <span class="ts--title truncate link">How to Build a Team That Works and Gets Results Longer Title</span>
+              <span class="ts--title truncate link">{{ course.title }}</span>
               <ul class="list list--inline list--divided">
                 <li class="item has--icon">
-                  <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                  Daymond John
+                  <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>                  {{ course.instructor.name }}
                 </li>
                 <li class="item has--icon">
                   <svg class="icon-thumbs-up">
                     <use xlink:href="#icon-thumbs-up"></use>
                   </svg>
-                  <a class="link link--secondary" href="#">1.2K</a>
+                  {{ course.positiveReviewCount ? course.positiveReviewCount : 0 }}
                 </li>
                 <li class="item has--icon">
                   <svg class="icon-time">
                     <use xlink:href="#icon-time"></use>
                   </svg>
-                  <a class="link link--secondary" href="#">2h 53m</a>
+                  <a class="link link--secondary" href="javascript:;">{{ readableCourseDuration(course.duration) }}</a>
                 </li>
               </ul>
             </div>
@@ -139,6 +139,10 @@
 </template>
 
 <script>
+  import { User, Class } from '../../api';
+  import { mapGetters } from 'vuex';
+  import { eventBus } from '../../main';
+  import { convertSecondsToReadableFormat } from '../../helpers/util';
   export default {
     data() {
       return {
@@ -153,8 +157,54 @@
         return this.terms;
       }
     },
+    methods: {
+      search(terms) {
+        let _this = this;
+        Class.searchClasses(this, this.terms, result => {
+          if (result.status == 'success') {
+            _this.searchResults = result.data;
+            _this.classes = result.data.filter(object => {
+              if ((object.type == 'Class') || (object.type == 'Master')) {
+                return true;
+              } else {
+                return false;
+              }
+            }).map(object => { return object; });
+            _this.podcasts = result.data.filter(object => {
+              if (object.type == 'Podcast') {
+                return true;
+              } else {
+                return false;
+              }
+            }).map(object => { return object; });
+          } else {
+            _this.searchResults = [];
+            _this.podcasts = [];
+            _this.classes = [];
+          }
+        })
+      },
+      readableCourseDuration(duration) {
+        return convertSecondsToReadableFormat(duration);
+      },
+      openCourse(course) {
+        this.$store.dispatch('updateActiveCourse', course);
+        this.$router.push({ name: 'singleclass', params: { id: course._id } });
+      },
+      browseClasses() {
+        this.$router.push({ name: 'classes' });
+      }
+    },
     created() {
+      eventBus.$on('updateSearchTerms', terms => {
+        this.terms = terms;
+        this.search(this.terms);
+      })
       this.terms = this.$route.query.terms;
+      this.search(this.terms);
+    },
+    destroyed() {
+      eventBus.$off('updateSearchTerms');
     }
   }
 

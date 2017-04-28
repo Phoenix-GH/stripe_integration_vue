@@ -45,13 +45,14 @@ export default {
             .catch(error => outputError(error));
     },
 
-    classDetails(context, id) {
+    classDetails(context, id, cbErr, cb) {
         axios
             .get(BASE_URL + 'courses/' + id, headers())
             .then(response => {
                 context.$store.dispatch('updateActiveCourse', response.data.data);
+                cb(response.data.data);
             })
-            .catch(error => outputError(error));
+            .catch(error => cbErr(error));
     },
 
     searchClasses(context, terms, cb) {
@@ -101,6 +102,24 @@ export default {
             .get(BASE_URL + `lessons/course/${classId}`, headers())
             .then(response => {
                 //context.$store.dispatch('updateClasses', response.data.data);
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    listPodcasts(context, callback) {
+        axios
+            .get(BASE_URL + `courses/podcasts`)
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    podcastDetail(context, id, callback) {
+        axios
+            .get(BASE_URL + `courses/podcasts/${id}`)
+            .then(response => {
                 callback(response.data.data);
             })
             .catch(error => outputError(error));

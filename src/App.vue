@@ -8,6 +8,7 @@
       <loginModal></loginModal>
       <signupModal></signupModal>
       <reviewModal></reviewModal>
+      <forgotPasswordModal></forgotPasswordModal>
     </section>
     <appFooter></appFooter>
   </div>
@@ -22,6 +23,7 @@
   import Login from './components/modals/Login.vue'
   import Signup from './components/modals/Signup.vue'
   import Review from './components/modals/Review.vue'
+  import ForgotPassword from './components/modals/ForgotPassword.vue'
 
   //map getters from Vuex store
   import { mapGetters } from 'vuex';
@@ -42,7 +44,8 @@
       appFooter: Footer,
       loginModal: Login,
       signupModal: Signup,
-      reviewModal: Review
+      reviewModal: Review,
+      forgotPasswordModal: ForgotPassword
     },
     data: function () {
       return {
@@ -69,14 +72,6 @@
       $(document).click(function (e) {
         eventBus.$emit('closeMenu');
       });
-
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: '263766374079183',
-          xfbml: true,
-          version: 'v2.8'
-        });
-      };
 
     }
   }

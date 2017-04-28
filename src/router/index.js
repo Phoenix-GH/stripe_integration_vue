@@ -16,11 +16,13 @@ import EmailNotifications from '../components/settings/EmailNotifications.vue';
 import Password from '../components/settings/Password.vue';
 import Payments from '../components/settings/Payments.vue';
 import Referrals from '../components/settings/Referrals.vue';
-import Podcasts from '../components/Podcasts.vue';
+import Podcasts from '../components/podcasts/Podcasts.vue';
+import PodcastDetail from '../components/podcasts/PodcastDetail.vue';
 import UpgradeAccount from '../components/UpgradeAccount.vue';
 import SearchResults from '../components/search/SearchResults.vue';
 import Home from '../components/Home.vue';
 import NotFoundComponent from '../components/NotFoundComponent.vue';
+import Earnings from '../components/other/Earnings.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -43,6 +45,7 @@ export default new Router({
         { path: '/', name: 'landing', component: Landing, beforeEnter: checkLoggedIn },
         { path: '/home', name: 'home', component: Home },
         { path: '/podcasts', name: 'podcasts', component: Podcasts },
+        { path: '/podcasts/:id', name: 'singlepodcast', component: PodcastDetail },
         { path: '/classes', name: 'classes', component: Classes },
         { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
         { path: '/myclasses', name: 'myclasses', component: MyClasses, beforeEnter: checkLoggedIn },
@@ -51,6 +54,7 @@ export default new Router({
         { path: '/privacypolicy', name: 'privacypolicy', component: PrivacyPolicy },
         { path: '/termsofuse', name: 'termsofuse', component: TermsOfUse },
         { path: '/faq', name: 'faq', component: FAQ },
+        { path: '/earnings', name: 'earnings', component: Earnings },
         {
             path: '/upgradeaccount',
             name: 'upgradeaccount',

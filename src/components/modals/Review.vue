@@ -3,7 +3,11 @@
         <div class="modal__wrapper modal__wrapper--transition no--pad">
             <div class="modal__body">
                 <div class="well no--border">
-
+                    <a href="javascript:;" class="modal__close" @click="close">
+                        <svg class="icon-close icon--s">
+                            <use xlink:href="#icon-close"></use>
+                        </svg>
+                    </a>
                     <!-- PANEL BODY -->
                     <div class="panel__body">
                         <form id="formSubmitReview" class="form" @submit.prevent="">
@@ -123,8 +127,11 @@
                 }
                 let _this = this;
                 Class.addReviewForClass(this, payload, review => {
-                    Class.classDetails(this, this.activeCourse._id);
-                    _this.close();
+                    Class.classDetails(this, this.activeCourse._id, error => {
+                        _this.close();
+                    }, course => {
+                        _this.close();
+                    });
                 })
             },
             selectedLike(liked) {
