@@ -509,7 +509,7 @@
                             <div class="well is--empty align--center" v-if="reviews.length == 0">
                                 <span class="ts--subtitle">No one has reviewed this class yet...</span>
                                 <span class="divider divider--s"></span>
-                                <button class="btn btn--cta modal--toggle" data-target="#modalReviewClass">Be the first to review it</button>
+                                <button class="btn btn--cta modal--toggle" @click="addReview('good')">Be the first to review it</button>
                             </div>
                             <!-- /EMPTY STATE -->
 
@@ -632,7 +632,6 @@
             });
             this.player.on('ready', () => {
                 _this.player.on('timeupdate', function (player) {
-                    console.log(_this.player.currentTime());
                     const currentTime = _this.player.currentTime();
                     if (currentTime > 0) {
                         _this.currentTime = currentTime;
@@ -645,12 +644,10 @@
                     }
                 });
                 _this.player.on('play', () => {
-                    console.log('player started playing');
                     _this.updateLastLesson();
                     _this.isPlaying = true;
                 });
                 _this.player.on('pause', () => {
-                    console.log('player paused');
                     if (_this.userLoggedIn) {
                         _this.updateLastLesson();
                         Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
@@ -659,7 +656,6 @@
                     _this.isPlaying = false;
                 });
                 _this.player.on('ended', () => {
-                    console.log('player ended');
                     _this.lessonProgress[_this.currentLessonId].completionDate = Date.now();
                     if (_this.userLoggedIn) {
                         _this.updateLastLesson();
@@ -683,7 +679,7 @@
             eventBus.$off('closeMenu');
             this.updateLastLesson();
             window.removeEventListener('keyup', event => {
-                console.log('removing event listener');
+                console.log('removing keyup event listener');
             })
             this.player.dispose();
             this.player = {};
@@ -740,6 +736,8 @@
                 return false;
             },
             percentComplete() {
+                if (this.lessons == undefined) return 0;
+                if (this.lessonProgress == undefined) return 0;
                 let numberCompleted = 0;
                 let numberOfLessons = this.lessons.length;
                 Object.keys(this.lessonProgress).forEach(key => {
@@ -866,6 +864,7 @@
                 });
             },
             startedLesson(lessonId) {
+                if (this.lessonProgress == undefined) return false;
                 if (this.lessonProgress[lessonId] != undefined) {
                     if (this.lessonProgress[lessonId].percentComplete >= 100) {
                         return false;
@@ -892,19 +891,29 @@
                 }
             },
             initDetails() {
+
                 this.currentCourseData = {};
                 this.lessonProgress = {};
 
                 //set the last lesson
-                this.tempLastLesson = this.lastLesson;
+                if (this.lastLesson != undefined) {
+                    this.tempLastLesson = this.lastLesson;
+                }
 
                 //set local lessons array to the course lessons
-                this.lessons = this.activeCourse.lessons;
+                if (this.activeCourse.lessons != undefined) {
+                    this.lessons = this.activeCourse.lessons;
+                }
+
 
                 //get course progress
                 Class.getCourseProgress(this, this.activeCourse._id, data => {
+                    console.log(JSON.stringify(data));
                     this.currentCourseData = data;
-                    this.lessonProgress = data.lessonProgress;
+                    if (data.lessonProgress != undefined) {
+                        this.lessonProgress = data.lessonProgress;
+                    }
+
                     this.currentLessonId = this.lessons[0]._id;
                     if (!this.lessonProgress[this.currentLessonId]) {
                         this.lessonProgress[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null };
@@ -919,9 +928,9 @@
                     Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
                         this.currentCourseData = result;
                         this.lessonProgress = result.lessonProgress;
-                        // if (this.percentComplete == 100) {
-                        //     this.courseComplete = true;
-                        // }
+                        if (this.percentComplete == 100) {
+                            this.courseComplete = true;
+                        }
                     });
                 })
 
@@ -947,6 +956,10 @@
             },
             //this is to determine the icon state to the left of the lesson
             checkStatus(lesson) {
+
+                if (lesson == undefined) return {};
+                if (this.lessonProgress == undefined) return {};
+                if (this.lessonProgress[lesson._id] == undefined) return {};
                 if (this.userLoggedIn) {
                     let lessonProgress = this.lessonProgress[lesson._id];
                     if (lessonProgress != undefined) {
@@ -971,6 +984,7 @@
             },
             //this is to determine the circular progress bar
             offsetCalc(lesson) {
+                if (this.lessonProgress == undefined) return {};
                 let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.percentComplete >= 100) {
@@ -985,6 +999,7 @@
             },
             //method for calculating time for the tooltip
             tooltipString(lesson) {
+                if (this.lessonProgress == undefined) return '';
                 let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
                     if (lessonProgress.percentComplete >= 100) {
@@ -1047,7 +1062,6 @@
                 }
                 // if (this.currentCourseData.state == 0) {
                 //     this.currentCourseData.state = 1;
-                //     console.log(JSON.stringify(this.currentCourseData));
                 //     Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
                 //         this.currentCourseData = result;
                 //         this.lessonProgress = result.lessonProgress;
@@ -1134,6 +1148,7 @@
                 }
             },
             updateLastLesson() {
+                if (this.lessonProgress == undefined) return;
                 if (this.lastLessonValid) {
                     this.tempLastLesson.course = this.activeCourse;
                     this.tempLastLesson.lesson = this.currentLesson();
@@ -1174,6 +1189,8 @@
             },
             shareClass() {
                 console.log('will share class');
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'share');
             },
             saveForLater() {
                 console.log('will save for later');

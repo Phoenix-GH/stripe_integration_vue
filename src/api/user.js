@@ -209,5 +209,106 @@ export default {
                 callback(response.data.data);
             })
             .catch(error => outputError(error));
+    },
+
+    //ADMIN
+
+    //this will list all the students/users in the system
+    studentList(context, callback) {
+        axios
+            .get(BASE_URL + 'users/allstudents', headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    //this should delete a student/user from the system
+    //this is a dangerous process
+    deleteStudent(context, studentId, callback) {
+        axios
+            .delete(BASE_URL + 'users/' + studentId, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(err => {
+                outputError(err);
+            });
+    },
+
+    reviewList(context, callback) {
+        //this should list all reviews
+        axios
+            .get(BASE_URL + 'reviews/allreviews', headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    //this should delete the review
+    //reviews are self contained object so it should be simple
+    deleteReview(context, reviewId, callback) {
+        axios
+            .delete(BASE_URL + 'reviews/' + reviewId, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(err => {
+                outputError(err);
+            });
+    },
+
+    //this should delete the review
+    //reviews are self contained object so it should be simple
+    approveReview(context, reviewId, callback) {
+        axios
+            .put(BASE_URL + 'reviews/' + reviewId, { approved: 'true' }, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(err => {
+                outputError(err);
+            });
+    },
+
+    //this will create a course_user instance for the specific master class selected for the user
+    //the user must be a paid member, the user will not be shown unless the user is a paid member
+    enrollStudentInMasterClass(context, payload) {
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'courses/addusertomasterclass', payload, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(err => {
+                    reject(err.response.data.message);
+                });
+        });
+        return promise;
+    },
+
+    //this will create an invite ticket to a master class
+    inviteStudentToMasterClass(context, payload) {
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'courses/inviteusertomasterclass', payload, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(err => {
+                    reject(err.response.data.message);
+                });
+        });
+        return promise;
+    },
+
+    searchUsers(context, payload, callback) {
+        axios
+            .get(BASE_URL + 'users/search?terms=' + payload, headers())
+            .then(response => {
+                callback(response.data.data);
+            })
+            .catch(error => outputError(error));
     }
 };

@@ -31,7 +31,7 @@
                                 <router-link class="link" :to="{ name: 'account' }">Profile &amp; Security</router-link>
                             </li>
                             <li class="item">
-                                <router-link class="link" :to="{ name: 'settings' }">Settings</router-link>
+                                <router-link class="link" :to="{ name: 'account' }">Settings</router-link>
                             </li>
                             <li class="item">
                                 <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>

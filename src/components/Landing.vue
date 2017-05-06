@@ -110,7 +110,7 @@
             <recommended v-if="false" />
             <!-- FEATURED CLASS -->
             <div class="content__row">
-                <div class="banner banner--m go go--bottom is--inline" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
+                <div class="banner banner--m go go--bottom is--inline" :style="{ 'background-image': 'url(' + validBannerImage + ')' }">
                     <div class="banner__content is--reversed">
                         <div class="wrapper">
                             <div class="banner__text wrapper__inner width--60 align--bottom">
@@ -178,6 +178,18 @@
             updateFeaturedClass() {
                 if (this.featuredClasses.length > 0) {
                     return this.featuredClasses[0];
+                }
+            },
+            validBannerImage() {
+                if (this.featuredClasses.length > 0) {
+                    let fclass = this.featuredClasses[0];
+                    if (fclass.bannerImageUrl != undefined) {
+                        return fclass.bannerImageUrl;
+                    } else {
+                        return '';
+                    }
+                } else {
+                    return '';
                 }
             },
             topicList() {

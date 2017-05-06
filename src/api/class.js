@@ -166,5 +166,15 @@ export default {
                 callback(response.data.data);
             })
             .catch(error => outputError(error));
+    },
+
+    //master classes
+    recentMasterClasses(context, cb) {
+        axios
+            .get(BASE_URL + 'courses/master', headers())
+            .then(response => {
+                cb(response.data.data);
+            })
+            .catch(error => outputError(error));
     }
 };
