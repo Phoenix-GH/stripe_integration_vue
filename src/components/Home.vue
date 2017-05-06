@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>Home</h1>
-        <button @click="testShowSpinner">SHOW SPINNER</button>
     </div>
 </template>
 

@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
+import CryptoJS from 'crypto-js';
+
 //create the store
 export const store = new Vuex.Store({
     state: {
@@ -21,9 +23,13 @@ export const store = new Vuex.Store({
         classesByTopic: {},
         lastRenewal: '',
         lastLesson: {},
-        showSpinner: false
+        showSpinner: false,
+        reviewStatusType: 'good'
     },
     actions: {
+        updateReviewStatusType: ({ commit }, payload) => {
+            commit('updateReviewStatusType', payload);
+        },
         updateLastLesson: ({ commit }, payload) => {
             commit('updateLastLesson', payload);
         },
@@ -80,6 +86,9 @@ export const store = new Vuex.Store({
         }
     },
     mutations: {
+        updateReviewStatusType: (state, payload) => {
+            state.reviewStatusType = payload;
+        },
         loadCache: (state, payload) => {
             Object.assign(state, payload);
         },
@@ -152,6 +161,9 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
+        reviewStatusType: state => {
+            return state.reviewStatusType;
+        },
         user: state => {
             return state.user;
         },
@@ -204,11 +216,18 @@ export const store = new Vuex.Store({
 });
 
 export const loadCache = () => {
-    let cache = JSON.parse(localStorage.getItem('state'));
-    store.dispatch('updateCache', cache);
+    if (localStorage.getItem('state') != undefined) {
+        let encryptedString = localStorage.getItem('state');
+        let decryptedString = CryptoJS.AES.decrypt(encryptedString.toString(), 'selfmademan123');
+        let plainState = decryptedString.toString(CryptoJS.enc.Utf8);
+        let cache = JSON.parse(plainState);
+        store.dispatch('updateCache', cache);
+    }
 };
 
 function persist() {
     store.dispatch('updateSpinner', false);
-    localStorage.setItem('state', JSON.stringify(store.state));
+    let storeState = JSON.stringify(store.state);
+    let encryptedState = CryptoJS.AES.encrypt(storeState, 'selfmademan123');
+    localStorage.setItem('state', encryptedState);
 }
