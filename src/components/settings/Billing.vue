@@ -23,6 +23,12 @@
                 <li class="item">
                     <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
                 </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                </li>
             </ul>
         </div>
         <!-- /LEFT SIDEBAR -->
@@ -148,9 +154,11 @@
         methods: {
             updateInvoices() {
                 let _this = this;
-                User.billingInfo(this, info => {
-                    _this.bills = info;
-                })
+                if (this.user.stripeCustomerId != undefined) {
+                    User.billingInfo(this, info => {
+                        _this.bills = info;
+                    })
+                }
             },
             readableDate(date) {
                 let newDate = hdate.prettyPrint(new Date(date * 1000));

@@ -4,7 +4,7 @@
   <div class="container container--fw">
 
     <!-- EMPTY STATE -->
-    <div id="emptyResults" class="">
+    <div id="emptyResults" v-if="showEmpty">
       <div class="well no--border no--pad align--center">
         <svg class="icon-search icon--l margin--l">
           <use xlink:href="#icon-search"></use>
@@ -149,7 +149,8 @@
         terms: "",
         searchResults: [],
         classes: [],
-        podcasts: []
+        podcasts: [],
+        showEmpty: false
       }
     },
     computed: {
@@ -177,10 +178,12 @@
                 return false;
               }
             }).map(object => { return object; });
+            _this.showEmpty = false;
           } else {
             _this.searchResults = [];
             _this.podcasts = [];
             _this.classes = [];
+            _this.showEmpty = true;
           }
         })
       },

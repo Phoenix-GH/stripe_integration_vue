@@ -23,6 +23,13 @@
                 <li class="item">
                     <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
                 </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                </li>
+
             </ul>
         </div>
         <!-- /LEFT SIDEBAR -->
@@ -208,11 +215,16 @@
             this.firstName = this.user.firstName;
             this.lastName = this.user.lastName;
 
-            User.subscriptionInfo(this, info => {
-                this.subType = info.items.data[0].plan.id;
-                let newDate = hdate.prettyPrint(new Date(info.current_period_end * 1000));
-                this.$store.dispatch('updateLastRenewal', newDate);
-            })
+            if (this.user.subscribed) {
+                User.subscriptionInfo(this, info => {
+                    this.subType = info.items.data[0].plan.id;
+                    let newDate = hdate.prettyPrint(new Date(info.current_period_end * 1000));
+                    this.$store.dispatch('updateLastRenewal', newDate);
+                })
+            }
+
+
+            console.log(JSON.stringify(this.user));
 
         },
         methods: {

@@ -23,6 +23,12 @@
                 <li class="item">
                     <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
                 </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                </li>
+                <li class="item" v-if="user.role == 2">
+                    <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                </li>
             </ul>
         </div>
         <!-- /LEFT SIDEBAR -->

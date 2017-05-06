@@ -28,13 +28,13 @@
                                 <span class="ts--title disp--ib margin--s no--margin-tb no--margin-l">Would you recommend this class?</span>
                                 <div class="control__group is--inline disp--ib no--margin-b" style="transform:translateY(-2px);">
                                     <label class="control control__radio control__icon no--margin-b">
-                                    <input type="radio" name="radioGroup" required @click="selectedLike(true)">
+                                    <input :checked="checkUp" type="radio" name="radioGroup" required @click="selectedLike(true)">
                                     <div class="control__indicator">
                                         <svg class="icon-thumbs-up-fill"><use xlink:href="#icon-thumbs-up-fill"></use></svg>
                                     </div>
                                 </label>
                                     <label class="control control__radio control__icon">
-                                    <input type="radio" name="radioGroup" @click="selectedLike(false)">
+                                    <input :checked="checkDown" type="radio" name="radioGroup" @click="selectedLike(false)">
                                     <div class="control__indicator">
                                         <svg class="icon-thumbs-down-fill"><use xlink:href="#icon-thumbs-down-fill"></use></svg>
                                     </div>
@@ -45,7 +45,7 @@
 
                             <!-- REVIEW TEXT -->
                             <div class="input input--textarea input--m">
-                                <textarea v-model="reviewBody" class="input__field" :class="{'not--empty': reviewBody.length > 0}" maxlength="500" required>{{ reviewBody }}</textarea>
+                                <textarea v-model="reviewBody" class="input__field not--empty" maxlength="500" required>{{ reviewBody }}</textarea>
                                 <label for="reviewText">Tell us about it...</label>
                                 <span class="input__counter"><span>0</span>/500</span>
                             </div>
@@ -71,7 +71,7 @@
 
     export default {
         created() {
-
+            this.likedClass = this.reviewStatusType;
         },
         data: function () {
             return {
@@ -82,7 +82,7 @@
         },
         computed: {
             ...mapGetters([
-                'hasModal', 'activeModal', 'activeCourse', 'user'
+                'hasModal', 'activeModal', 'activeCourse', 'user', 'reviewStatusType'
             ]),
             active() {
                 if ((this.hasModal) && (this.activeModal == 'review')) {
@@ -103,6 +103,20 @@
                     return 'All fields are required.';
                 } else {
                     return 'Tell us about your experience!';
+                }
+            },
+            checkDown() {
+                if (this.reviewStatusType == 'good') {
+                    return "";
+                } else {
+                    return "checked";
+                }
+            },
+            checkUp() {
+                if (this.reviewStatusType == 'good') {
+                    return "checked";
+                } else {
+                    return "";
                 }
             }
         },

@@ -5,7 +5,6 @@ import PrivacyPolicy from '../components/PrivacyPolicy.vue';
 import TermsOfUse from '../components/TermsOfUse.vue';
 import FAQ from '../components/Faq.vue';
 import Settings from '../components/settings/Settings.vue';
-import Course from '../components/classes/Course.vue';
 import Classes from '../components/classes/Classes.vue';
 import ClassDetail from '../components/classes/ClassDetail.vue';
 import MyClasses from '../components/classes/MyClasses.vue';
@@ -23,6 +22,8 @@ import SearchResults from '../components/search/SearchResults.vue';
 import Home from '../components/Home.vue';
 import NotFoundComponent from '../components/NotFoundComponent.vue';
 import Earnings from '../components/other/Earnings.vue';
+import ReviewList from '../components/admin/ReviewList.vue';
+import StudentList from '../components/admin/StudentList.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -37,6 +38,14 @@ function checkLoggedIn(to, from, next) {
     } else {
         next();
     }
+}
+
+function checkAdminUser(to, from, next) {
+    //if (store.state.user.role == 2) {
+    next();
+    //} else {
+    //    console.log('what?');
+    //}
 }
 
 export default new Router({
@@ -101,6 +110,18 @@ export default new Router({
                     path: 'referrals',
                     name: 'referrals',
                     component: Referrals
+                },
+                {
+                    path: 'students',
+                    name: 'students',
+                    component: StudentList,
+                    beforeEnter: checkAdminUser
+                },
+                {
+                    path: 'reviews',
+                    name: 'reviews',
+                    component: ReviewList,
+                    beforeEnter: checkAdminUser
                 }
             ]
         },
