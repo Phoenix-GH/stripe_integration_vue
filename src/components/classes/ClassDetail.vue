@@ -19,7 +19,7 @@
                                             Share
                                         </a>
                                     </li>
-                                    <li class="item" v-if="1 == 0">
+                                    <li class="item" v-if="showSavedForLater">
                                         <a @click="saveForLater" class="link">Save for Later</a>
                                     </li>
                                 </ul>
@@ -108,7 +108,7 @@
                         </div>
 
 
-                        <div id="previewCTA" class="video__state is--reversed" v-if="showPreviewCTAOverlay">
+                        <div id="previewCTA" class="video__state is--reversed" v-if="currentOverlay == 'preview'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
                             <div class="wrapper">
                                 <div class="wrapper__inner align--center">
@@ -128,26 +128,27 @@
                         </div>
 
 
-                        <div id="bookmarkedLesson" class="video__state is--reversed" v-if="showBookmarkOverlay">
+                        <div id="bookmarkedLesson" class="video__state is--reversed" v-if="currentOverlay == 'bookmark'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
                             <div class="wrapper">
                                 <div class="wrapper__inner align--center padding--xxl no--pad-tb">
                                     <svg class="icon-bookmark icon--l color--accent margin--m no--margin-t no--margin-lr">
                                         <use xlink:href="#icon-bookmark"></use>
                                     </svg>
-                                    <span class="ts--headline">4. Another Great Lesson Name That Is Really Really Obnoxiously Long <wbr><span class="fontSize--xxs">(24m&nbsp;17s)</span></span>
+                                    <span class="ts--headline">{{ currentLessonInProgress.lesson.title }}<wbr><span class="fontSize--xxs"></span></span>
                                     <div class="divider divider--s"></div>
                                     <span class="ts--subtitle">Continue Watching:</span>
                                     <br>
                                     <ul class="list list--inline">
                                         <li class="item">
-                                            <button class="btn btn--secondary is--reversed">
+                                            <button @click="playLesson(currentLessonInProgress.lesson)" class="btn btn--secondary is--reversed">
                                     <svg class="icon-restart icon--s"><use xlink:href="#icon-restart"></use></svg>
                                     Start Over
                                 </button>
                                         </li>
                                         <li class="item">
-                                            <button class="btn btn--secondary is--reversed">
+                                            <button @click="playLessonMark(currentLessonInProgress.lesson._id, currentLessonInProgress.lesson.cloudUrl, lessonProgress[currentLessonInProgress.lesson._id].lastPosition)"
+                                                class="btn btn--secondary is--reversed">
                                     <svg class="icon-bookmark icon--s"><use xlink:href="#icon-bookmark"></use></svg>
                                     Where I Left Off
                                 </button>
@@ -157,7 +158,7 @@
                             </div>
                         </div>
 
-                        <div id="completeLesson" class="video__state is--reversed" v-if="showCompleteLessonOverlay">
+                        <div id="completeLesson" class="video__state is--reversed" v-if="currentOverlay == 'lesson'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
                             <div class="wrapper">
                                 <div class="wrapper__inner align--center padding--xxl no--pad-tb">
@@ -167,21 +168,21 @@
                                             <circle cx="16" cy="16" r="15" class="progress__bar" :style="courseProgressBar" />
                                         </svg>
                                     </div>
-                                    <span class="ts--headline">You're doing great, Steve!</span>
+                                    <span class="ts--headline">You're doing great, {{ user.firstName }}!</span>
                                     <div class="divider divider--s"></div>
                                     <span class="ts--subtitle">
-                            <span class="fontWeight--2">'Another Great Lesson Name'</span>                                    will begin playing in...
+                            <span class="fontWeight--2">{{ currentLesson().title }}</span>                                    will begin playing in...
                                     <span id="lessonCountdown" class="fontSize--m">{{ transitionTimer }}s</span>
                                     </span>
                                     <br>
                                     <ul class="list list--inline">
                                         <li class="item">
-                                            <button class="btn btn--secondary is--reversed" style="width:128px;">
+                                            <button @click="replayLesson" class="btn btn--secondary is--reversed" style="width:128px;">
                                     <svg class="icon-restart icon--s"><use xlink:href="#icon-restart"></use></svg>
                                     Replay
                                 </button>
                                         </li>
-                                        <li class="item">
+                                        <li @click.stop="playNextLesson" class="item">
                                             <button class="btn btn--secondary is--reversed" style="width:128px;">
                                     Next
                                     <svg class="icon-next icon--s" style="margin-left:8px;"><use xlink:href="#icon-next"></use></svg>
@@ -192,7 +193,7 @@
                             </div>
                         </div>
 
-                        <div id="completeClass" class="video__state is--reversed" v-if="showCompleteClassOverlay">
+                        <div id="completeClass" class="video__state is--reversed" v-if="currentOverlay == 'class'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
                             <div class="wrapper">
                                 <div class="wrapper__inner align--center padding--xxl no--pad-tb">
@@ -566,7 +567,9 @@
     import VueMarkdown from 'vue-markdown';
 
     export default {
-
+        //-----------------------------------
+        // DATA
+        //-----------------------------------
         data() {
             return {
                 lessons: [],
@@ -574,6 +577,7 @@
                 notes: [],
                 currentCourseData: {},
                 lessonProgress: {},
+                currentLessonInProgress: {},
                 currentLessonId: "",
                 popOverIsActive: false,
                 currentActiveTab: 'About',
@@ -588,20 +592,24 @@
                 courseComplete: false,
                 showNotepad: false,
                 transitionTimer: 10,
-                showPreviewCTAOverlay: false,
-                showBookmarkOverlay: false,
-                showCompleteClassOverlay: false,
-                showCompleteLessonOverlay: false
+                currentOverlay: '',
+                timer: {},
+                courseWasReset: false
             }
         },
+        //-----------------------------------
+        // COMPONENTS
+        //-----------------------------------
         components: {
             VueMarkdown
         },
+        //-----------------------------------
+        // LIFECYCLE METHODS
+        //-----------------------------------
         created() {
             let _this = this;
             eventBus.$on('updateClassDetails', () => {
                 Class.classDetails(_this, _this.$route.params.id, error => {
-                    //there was an error here, redirect to classes page
                     _this.$router.replace({ name: 'classes' });
                 }, course => {
                     _this.initDetails();
@@ -644,6 +652,11 @@
                     }
                 });
                 _this.player.on('play', () => {
+                    if (!this.currentLesson().free) {
+                        console.log('not free');
+                        this.removedSavedForLater();
+                    }
+                    _this.currentOverlay = '';
                     _this.updateLastLesson();
                     _this.isPlaying = true;
                 });
@@ -656,34 +669,45 @@
                     _this.isPlaying = false;
                 });
                 _this.player.on('ended', () => {
-                    _this.lessonProgress[_this.currentLessonId].completionDate = Date.now();
                     if (_this.userLoggedIn) {
+                        _this.lessonProgress[_this.currentLessonId].completionDate = Date.now();
+                        let _nextLesson = this.nextLesson();
+                        _this.currentLessonId = _nextLesson._id;
                         _this.updateLastLesson();
                         Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
                         });
                     }
                     _this.isPlaying = false;
+                    _this.checkOverlays();
                 });
                 _this.player.src({
                     type: "application/x-mpegURL",
-                    src: "https://d9iiow8rnlprs.cloudfront.net/logan/758294637291.m3u8",
+                    src: "",
                     withCredentials: false
                 });
             })
 
-            //this.checkOverlays();
-
         },
         beforeDestroy() {
+            clearInterval(this.timer);
             eventBus.$off('updateClassDetails');
             eventBus.$off('closeMenu');
-            this.updateLastLesson();
+            if (this.userLoggedIn) {
+                if (!this.courseWasReset) {
+                    this.updateLastLesson();
+                    Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                    });
+                }
+            }
             window.removeEventListener('keyup', event => {
                 console.log('removing keyup event listener');
             })
             this.player.dispose();
             this.player = {};
         },
+        //-----------------------------------
+        // COMPUTED PROPERTIES
+        //-----------------------------------
         computed: {
             ...mapGetters([
                 'user', 'activeCourse', 'userLoggedIn', 'lastLesson'
@@ -716,7 +740,11 @@
                 let payload = {
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
-                    state: this.currentCourseData.state
+                    state: this.currentCourseData.state,
+                    lastLesson: {
+                        lesson: this.tempLastLesson.lesson,
+                        progress: this.tempLastLesson.progress
+                    }
                 }
                 return payload;
             },
@@ -749,7 +777,6 @@
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
             },
-            //lessons
             currentLessons() {
                 return this.lessons;
             },
@@ -765,7 +792,6 @@
                     return _lessons[0];
                 }
             },
-            //notes
             selectedNotes() {
                 let _notes = this.notes.filter(note => {
                     if (note.lesson == this.currentLessonId) {
@@ -784,47 +810,14 @@
                 }
             }
         },
+        //-----------------------------------
+        // METHODS
+        //-----------------------------------
         methods: {
-            checkOverlays() {
-                // if (this.lastLesson.lesson != undefined) {
-                //     console.log('there is a last lesson');
-                //     if (this.lastLesson.progress.percentComplete == 100) {
-                //         this.showPreviewCTAOverlay = false,
-                //             this.showBookmarkOverlay = false,
-                //             this.showCompleteClassOverlay = true,
-                //             this.showCompleteLessonOverlay = false
-                //     } else {
-                //         this.showPreviewCTAOverlay = false,
-                //             this.showBookmarkOverlay = true,
-                //             this.showCompleteClassOverlay = false,
-                //             this.showCompleteLessonOverlay = false
-                //     }
-                // } else {
-                //     this.showPreviewCTAOverlay = false,
-                //         this.showBookmarkOverlay = false,
-                //         this.showCompleteClassOverlay = false,
-                //         this.showCompleteLessonOverlay = false
-                // }
-            },
-            switchMode() {
-                let _this = this;
-                this.showFlash = true;
-                if (this.isTheaterMode == true) {
-                    setTimeout(() => {
-                        _this.showFlash = false;
-                    }, 300);
-                    setTimeout(() => {
-                        _this.isTheaterMode = false;
-                    }, 100);
-                } else {
-                    setTimeout(() => {
-                        _this.showFlash = false;
-                    }, 300);
-                    setTimeout(() => {
-                        _this.isTheaterMode = true;
-                    }, 100);
-                }
-            },
+
+            //-----------------------------------
+            // NOTES
+            //-----------------------------------
             toggleNotepad() {
                 if (this.showNotepad == true) {
                     this.showNotepad = false;
@@ -844,18 +837,164 @@
                 this.addNoteToLesson();
                 this.showNotepad = false;
             },
+
+            //-----------------------------------
+            // VIDEO/PLAYBACK
+            //-----------------------------------
             changeVideoSource(url) {
-                this.player.src({
-                    type: "application/x-mpegURL",
-                    src: url,
-                    withCredentials: false
-                });
+                if (this.player != undefined) {
+                    this.player.src({
+                        type: "application/x-mpegURL",
+                        src: url,
+                        withCredentials: false
+                    });
+                }
             },
+            playLesson(lesson) {
+                this.currentOverlay = '';
+                this.courseComplete = false;
+                if ((!this.userLoggedIn) && (!lesson.free)) {
+                    return;
+                }
+                let _this = this;
+                this.currentLessonId = lesson._id;
+
+                if ((this.currentCourseData.state == 0) && (!lesson.free)) {
+                    //update course progress
+                    Class.updateCourseProgress(this, this.activeCourse._id, { state: 1 }, result => {
+                        _this.currentCourseData = result;
+                        _this.lessonProgress = result.lessonProgress;
+                        _this.popOverIsActive = false;
+                    });
+                }
+
+                if (!this.lessonProgress[lesson._id]) {
+                    this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
+                }
+                this.changeVideoSource(lesson.cloudUrl);
+                setTimeout(() => {
+                    if (_this.player != undefined) {
+                        _this.player.play();
+                    }
+
+                }, 150);
+            },
+            jumpToPosition(note) {
+                this.currentOverlay = '';
+                this.courseComplete = false;
+                if (!this.userLoggedIn) return;
+                let _this = this;
+                setTimeout(() => {
+                    if (_this.player != undefined) {
+                        _this.player.currentTime(note.ts);
+                        _this.player.play();
+                    }
+
+                }, 150);
+            },
+            previousLesson() {
+                //get index of current lesson
+                console.log('checking next Lesson');
+                let _currentLesson = this.currentLesson();
+                let index = this.lessons.map(function (lesson) { return lesson._id; }).indexOf(_currentLesson._id);
+                let nextIndex = index - 1;
+                if (nextIndex < 0) { //end of lessons
+                    return this.lessons[0];
+                } else { //still not the end
+                    return this.lessons[nextIndex];
+                }
+            },
+            currentLesson() {
+                let _lessons = this.lessons.filter(lesson => {
+                    if (lesson._id == this.currentLessonId) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(lesson => { return lesson; });
+                if (_lessons.length > 0) {
+                    return _lessons[0];
+                }
+            },
+            nextLesson() {
+                //get index of current lesson
+                console.log('checking next Lesson');
+                let _currentLesson = this.currentLesson();
+                let index = this.lessons.map(function (lesson) { return lesson._id; }).indexOf(_currentLesson._id);
+                let nextIndex = index + 1;
+                if (nextIndex >= (this.lessons.length - 1)) {
+                    nextIndex = (this.lessons.length - 1);
+                }
+                return this.lessons[nextIndex];
+            },
+            onLastLesson() {
+                let _currentLesson = this.currentLesson();
+                let index = this.lessons.map(function (lesson) { return lesson._id; }).indexOf(_currentLesson._id);
+                let nextIndex = index + 1;
+                if (nextIndex >= (this.lessons.length - 1)) { //end of lessons
+                    return true;
+                } else { //still not the end
+                    return false;
+                }
+            },
+            playNextLesson() {
+                clearInterval(this.timer);
+                this.currentOverlay = '';
+                let lesson = this.currentLesson();
+                this.playLesson(lesson);
+            },
+            playLessonMark(id, videoUrl, mark) {
+                this.currentOverlay = '';
+                this.courseComplete = false;
+                if (!this.userLoggedIn) return;
+                let _this = this;
+                this.currentLessonId = id;
+                this.changeVideoSource(videoUrl);
+                setTimeout(() => {
+                    if (_this.player != undefined) {
+                        _this.player.currentTime(mark);
+                        _this.player.play();
+                    }
+                }, 150);
+            },
+            playbackState(lesson) {
+
+                let lessonProgress = this.lessonProgress[lesson._id];
+                if (lessonProgress != undefined) {
+                    if (lessonProgress.percentComplete >= 100) {
+                        return {
+                            'is-complete': true
+                        }
+                    } else {
+                        return {
+                            'is--complete': false
+                        }
+                    }
+                } else {
+                    return {
+                        'is--complete': false
+                    }
+                }
+            },
+            activateTimer() {
+                this.transitionTimer = 10;
+                let _this = this;
+                this.timer = setInterval(() => {
+                    _this.transitionTimer = _this.transitionTimer - 1;
+                    if (_this.transitionTimer == 0) {
+                        clearInterval(_this.timer);
+                        _this.playNextLesson();
+                    }
+                }, 1000);
+            },
+
+            //-----------------------------------
+            // DATA SOURCE
+            //-----------------------------------
             updateDataSource() {
                 let _this = this;
                 this.$store.dispatch('updateSpinner', true);
                 Class.classDetails(this, this.$route.params.id, error => {
-                    //there was an error here, redirect to classes page
                     _this.$router.replace({ name: 'classes' });
                     this.$store.dispatch('updateSpinner', false);
                 }, course => {
@@ -863,6 +1002,69 @@
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
+            initDetails() {
+
+                this.currentCourseData = {};
+                this.lessonProgress = {};
+
+                //check login
+                if (this.userLoggedIn) {
+                    //set the last lesson
+                    if (this.lastLesson != undefined) {
+                        this.tempLastLesson = this.lastLesson;
+                    }
+                    //get course progress
+                    Class.getCourseProgress(this, this.activeCourse._id, data => {
+                        //console.log(JSON.stringify(data));
+                        this.currentCourseData = data;
+                        if (data.lessonProgress != undefined) {
+                            this.lessonProgress = data.lessonProgress;
+                        }
+
+                        this.currentLessonId = this.lessons[0]._id;
+                        if (!this.lessonProgress[this.currentLessonId]) {
+                            this.lessonProgress[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null };
+                        }
+                        for (var index = 0; index < this.lessons.length; index++) {
+                            let lesson = this.lessons[index];
+                            if (!this.lessonProgress[lesson._id]) {
+                                this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
+                            }
+                        }
+                        Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                            this.currentCourseData = result;
+                            this.lessonProgress = result.lessonProgress;
+                            this.currentLessonInProgress = result.lastLesson;
+                            if (this.percentComplete == 100) {
+                                this.courseComplete = true;
+                            }
+                            this.checkCourseProgress();
+                            this.checkQuery();
+                        });
+                    })
+                    this.updateClassNotes(this.activeCourse._id);
+                    //update view count
+                    Class.updateViewCount(this, this.activeCourse._id, count => { })
+                }
+
+                //set local lessons array to the course lessons
+                if (this.activeCourse.lessons != undefined) {
+                    this.lessons = this.activeCourse.lessons;
+                }
+
+                //set local reviews array to the course reviews
+                this.reviews = this.activeCourse.reviews;
+
+                //setup of video
+                this.changeVideoSource(this.lessons[0].cloudUrl);
+
+                //last lesson is valid
+                this.lastLessonValid = true;
+            },
+
+            //-----------------------------------
+            // VISUAL
+            //-----------------------------------
             startedLesson(lessonId) {
                 if (this.lessonProgress == undefined) return false;
                 if (this.lessonProgress[lessonId] != undefined) {
@@ -884,83 +1086,23 @@
                 let action = this.$route.query.action;
                 if (action == 'new') {
                     //play last lesson new
+                    this.currentOverlay = '';
                     this.playLesson(this.lastLesson.lesson);
                 } else if (action == 'last') {
                     //play last lesson from last progress point
+                    this.currentOverlay = '';
                     this.playLessonMark(this.lastLesson.lesson._id, this.lastLesson.lesson.cloudUrl, this.lastLesson.progress.lastPosition);
                 }
-            },
-            initDetails() {
-
-                this.currentCourseData = {};
-                this.lessonProgress = {};
-
-                //set the last lesson
-                if (this.lastLesson != undefined) {
-                    this.tempLastLesson = this.lastLesson;
-                }
-
-                //set local lessons array to the course lessons
-                if (this.activeCourse.lessons != undefined) {
-                    this.lessons = this.activeCourse.lessons;
-                }
-
-
-                //get course progress
-                Class.getCourseProgress(this, this.activeCourse._id, data => {
-                    console.log(JSON.stringify(data));
-                    this.currentCourseData = data;
-                    if (data.lessonProgress != undefined) {
-                        this.lessonProgress = data.lessonProgress;
-                    }
-
-                    this.currentLessonId = this.lessons[0]._id;
-                    if (!this.lessonProgress[this.currentLessonId]) {
-                        this.lessonProgress[this.currentLessonId] = { lastPosition: 0, percentComplete: 0, completionDate: null };
-                    }
-                    for (var index = 0; index < this.lessons.length; index++) {
-                        let lesson = this.lessons[index];
-                        if (!this.lessonProgress[lesson._id]) {
-                            this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
-                        }
-                    }
-                    this.checkQuery();
-                    Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
-                        this.currentCourseData = result;
-                        this.lessonProgress = result.lessonProgress;
-                        if (this.percentComplete == 100) {
-                            this.courseComplete = true;
-                        }
-                    });
-                })
-
-                //set local reviews array to the course reviews
-                this.reviews = this.activeCourse.reviews;
-
-                //get updated notes
-                if (this.userLoggedIn) {
-                    this.updateClassNotes(this.activeCourse._id);
-                }
-
-                //update view count
-                Class.updateViewCount(this, this.activeCourse._id, count => { })
-
-                //setup of video
-                this.changeVideoSource(this.lessons[0].cloudUrl);
-
-                //last lesson is valid
-                this.lastLessonValid = true;
             },
             convertLessonDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
             },
-            //this is to determine the icon state to the left of the lesson
             checkStatus(lesson) {
 
-                if (lesson == undefined) return {};
-                if (this.lessonProgress == undefined) return {};
-                if (this.lessonProgress[lesson._id] == undefined) return {};
                 if (this.userLoggedIn) {
+                    if (lesson == undefined) return {};
+                    if (this.lessonProgress == undefined) return {};
+                    if (this.lessonProgress[lesson._id] == undefined) return {};
                     let lessonProgress = this.lessonProgress[lesson._id];
                     if (lessonProgress != undefined) {
                         if (lessonProgress.percentComplete >= 100) {
@@ -982,7 +1124,6 @@
                 }
 
             },
-            //this is to determine the circular progress bar
             offsetCalc(lesson) {
                 if (this.lessonProgress == undefined) return {};
                 let lessonProgress = this.lessonProgress[lesson._id];
@@ -997,7 +1138,6 @@
                     return {};
                 }
             },
-            //method for calculating time for the tooltip
             tooltipString(lesson) {
                 if (this.lessonProgress == undefined) return '';
                 let lessonProgress = this.lessonProgress[lesson._id];
@@ -1013,128 +1153,6 @@
                     return 'Not Started';
                 }
             },
-            //methods for handling tab changing
-            tappedOnAboutTab() {
-                this.currentActiveTab = 'About'
-            },
-            tappedOnNotesTab() {
-                if (!this.userLoggedIn) return;
-                this.currentActiveTab = 'Notes'
-            },
-            tappedOnReviewsTab() {
-                if (!this.userLoggedIn) return;
-                this.currentActiveTab = 'Reviews'
-            },
-            //methods for handling popovermenu selections
-            tappedOnUnEnroll() {
-                this.popOverIsActive = false;
-            },
-            tappedOnResetProgress() {
-                this.popOverIsActive = false;
-            },
-            tappedOnMarkComplete() {
-                this.popOverIsActive = false;
-            },
-            //open popover openMenu
-            openMenu() {
-                if (!this.userLoggedIn) return;
-                if (this.popOverIsActive) {
-                    this.popOverIsActive = false;
-                } else {
-                    this.popOverIsActive = true;
-                }
-            },
-            //lesson playback handling
-            //this will playback a lesson from the beginning
-            playLesson(lesson) {
-
-                this.courseComplete = false;
-
-                //check if user is logged in
-                if (!this.userLoggedIn) {
-                    return;
-                }
-
-                let _this = this;
-                this.currentLessonId = lesson._id;
-                if (!this.lessonProgress[lesson._id]) {
-                    this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
-                }
-                // if (this.currentCourseData.state == 0) {
-                //     this.currentCourseData.state = 1;
-                //     Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
-                //         this.currentCourseData = result;
-                //         this.lessonProgress = result.lessonProgress;
-                //         if (this.percentComplete == 100) {
-                //             this.courseComplete = true;
-                //         }
-                //     });
-                // }
-
-                this.changeVideoSource(lesson.cloudUrl);
-                setTimeout(() => {
-                    _this.player.play();
-                }, 150);
-            },
-            //this will jump to the position in the current lesson from a note
-            jumpToPosition(note) {
-
-                this.courseComplete = false;
-
-                if (!this.userLoggedIn) return;
-                let _this = this;
-                let currentLesson = this.currentLesson();
-                setTimeout(() => {
-                    _this.player.currentTime(note.ts);
-                    _this.player.play();
-                }, 150);
-            },
-            //this gets the current lesson for use with jump to position
-            currentLesson() {
-                let _lessons = this.lessons.filter(lesson => {
-                    if (lesson._id == this.currentLessonId) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }).map(lesson => { return lesson; });
-                if (_lessons.length > 0) {
-                    return _lessons[0];
-                }
-            },
-            //this will jump to the position on the list bookmark
-            playLessonMark(id, videoUrl, mark) {
-                this.courseComplete = false;
-                if (!this.userLoggedIn) return;
-                let _this = this;
-                this.currentLessonId = id;
-                this.changeVideoSource(videoUrl);
-                setTimeout(() => {
-                    _this.player.currentTime(mark);
-                    _this.player.play();
-                }, 150);
-            },
-            //this will determine the playback state of the lesson
-            playbackState(lesson) {
-
-                let lessonProgress = this.lessonProgress[lesson._id];
-                if (lessonProgress != undefined) {
-                    if (lessonProgress.percentComplete >= 100) {
-                        return {
-                            'is-complete': true
-                        }
-                    } else {
-                        return {
-                            'is--complete': false
-                        }
-                    }
-                } else {
-                    return {
-                        'is--complete': false
-                    }
-                }
-            },
-            //this will determin the %complete of the lesson progress
             percentComplete(lesson) {
                 let lessonProgress = this.lessonProgress[lesson._id];
                 if (lessonProgress != undefined) {
@@ -1147,6 +1165,112 @@
                     return 'Not Started';
                 }
             },
+            checkOverlays() {
+                //check login status
+                if (this.userLoggedIn) {
+                    let lesson = this.currentLesson();
+                    if (lesson == undefined) {
+                        this.currentOverlay = '';
+                    } else {
+                        if (lesson.free) {
+                            if (this.user.subscribed) {
+                                if (this.onLastLesson()) {
+                                    this.currentOverlay = 'class';
+                                } else {
+                                    this.currentOverlay = 'lesson';
+                                    this.activateTimer();
+                                }
+                            } else {
+                                this.currentOverlay = 'preview';
+                            }
+                        } else {
+                            if (this.percentComplete < 100) {
+                                this.currentOverlay = 'lesson';
+                                this.activateTimer();
+                            } else {
+                                this.currentOverlay = 'class';
+                            }
+                        }
+                    }
+                } else {
+                    this.currentOverlay = 'preview';
+                }
+
+            },
+            checkCourseProgress() {
+                if (this.currentLessonInProgress != undefined) {
+                    if (this.currentLessonInProgress.progress != undefined) {
+                        if ((this.currentLessonInProgress.progress.percentComplete < 100) && (this.currentLessonInProgress.progress.percentComplete != 0)) {
+                            this.currentOverlay = 'bookmark'
+                        }
+                    }
+                }
+            },
+
+            //-----------------------------------
+            // ACTIONS
+            //-----------------------------------
+            tappedOnAboutTab() {
+                this.currentActiveTab = 'About'
+            },
+            tappedOnNotesTab() {
+                if (!this.userLoggedIn) return;
+                this.currentActiveTab = 'Notes'
+            },
+            tappedOnReviewsTab() {
+                if (!this.userLoggedIn) return;
+                this.currentActiveTab = 'Reviews'
+            },
+            tappedOnUnEnroll() {
+                this.popOverIsActive = false;
+                this.resetClass();
+            },
+            tappedOnResetProgress() {
+                this.popOverIsActive = false;
+                //get current lesson
+                let lesson = this.currentLesson();
+                if (lesson != undefined) {
+                    if (this.lessonProgress != undefined) {
+                        if (this.lessonProgress[lesson._id] != undefined) {
+                            this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
+                            let _this = this;
+                            Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                                _this.currentCourseData = result;
+                                _this.lessonProgress = result.lessonProgress;
+                                _this.courseComplete = false;
+                                _this.popOverIsActive = false;
+                            });
+                        }
+                    }
+                }
+
+            },
+            tappedOnMarkComplete() {
+                this.popOverIsActive = false;
+                //get current lesson
+                let lesson = this.currentLesson();
+                if (lesson != undefined) {
+                    if (this.lessonProgress != undefined) {
+                        if (this.lessonProgress[lesson._id] != undefined) {
+                            this.lessonProgress[lesson._id] = { lastPosition: lesson.duration, percentComplete: 100, completionDate: Date.now() };
+                            let _this = this;
+                            Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                                _this.currentCourseData = result;
+                                _this.lessonProgress = result.lessonProgress;
+                                _this.popOverIsActive = false;
+                            });
+                        }
+                    }
+                }
+            },
+            openMenu() {
+                if (!this.userLoggedIn) return;
+                if (this.popOverIsActive) {
+                    this.popOverIsActive = false;
+                } else {
+                    this.popOverIsActive = true;
+                }
+            },
             updateLastLesson() {
                 if (this.lessonProgress == undefined) return;
                 if (this.lastLessonValid) {
@@ -1156,15 +1280,12 @@
                     this.$store.dispatch('updateLastLesson', this.tempLastLesson);
                 }
             },
-            //notes
-            //this will update notes in the list, API
             updateClassNotes(id) {
                 let _this = this;
                 Class.classNotes(this, id, notes => {
                     _this.notes = notes;
                 })
             },
-            //this will add a note to the list, API
             addNoteToLesson() {
                 const message = this.noteDraft;
                 this.noteDraft = "";
@@ -1180,7 +1301,6 @@
                     _this.updateClassNotes(this.activeCourse._id);
                 })
             },
-            //this will open the review modal
             addReview(type) {
                 if (!this.userLoggedIn) return;
                 this.$store.dispatch('updateReviewStatusType', type);
@@ -1192,29 +1312,78 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
             },
-            saveForLater() {
-                console.log('will save for later');
-            },
             startOver() {
-                console.log('will start over');
                 this.resetClass();
             },
             replayLesson() {
+                clearInterval(this.timer);
+                this.currentOverlay = '';
                 this.courseComplete = false;
-                this.playLesson(this.currentLesson());
-                console.log('replay lesson');
+                this.playLesson(this.previousLesson());
             },
             resetClass() {
+
+                this.currentOverlay = '';
+                this.courseWasReset = true;
+
                 for (var index = 0; index < this.lessons.length; index++) {
                     let lesson = this.lessons[index];
                     this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
                 }
+
                 let _this = this;
-                Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
-                    _this.currentCourseData = result;
-                    _this.lessonProgress = result.lessonProgress;
-                    _this.courseComplete = false;
+                User.resetCourseProgress(this, this.activeCourse._id).then(result => {
+                    _this.$store.dispatch('updateLastLesson', {});
+                    _this.$router.push({ name: 'classes' });
+                }).catch(err => {
+                    console.log(err);
                 });
+
+            },
+            switchMode() {
+                let _this = this;
+                this.showFlash = true;
+                if (this.isTheaterMode == true) {
+                    setTimeout(() => {
+                        _this.showFlash = false;
+                    }, 300);
+                    setTimeout(() => {
+                        _this.isTheaterMode = false;
+                    }, 100);
+                } else {
+                    setTimeout(() => {
+                        _this.showFlash = false;
+                    }, 300);
+                    setTimeout(() => {
+                        _this.isTheaterMode = true;
+                    }, 100);
+                }
+            },
+
+            //-----------------------------------
+            // SAVE FOR LATER
+            //-----------------------------------
+            saveForLater() {
+                let courseId = this.activeCourse._id;
+                if (courseId != undefined) {
+                    Class.addSavedForLater(this, { course: courseId });
+                }
+            },
+            removedSavedForLater() {
+                let courseId = this.activeCourse._id;
+                if (courseId != undefined) {
+                    console.log(courseId);
+                    Class.removeSavedForLater(this, courseId);
+                }
+            },
+            showSavedForLater() {
+                if ((this.userLoggedIn) && (this.currentCourseData.state != undefined)) {
+                    if (this.currentCourseData.state == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             }
         }
     }

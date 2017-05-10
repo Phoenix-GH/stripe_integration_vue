@@ -68,7 +68,6 @@
         },
         mounted() {
             //update in-progress, completed, and master classes now.
-            console.log('mounted');
             Class.inProgress(this);
             Class.completed(this);
         }

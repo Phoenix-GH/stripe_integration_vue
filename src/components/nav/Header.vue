@@ -49,7 +49,7 @@
 
                                         <!-- NOTE: Display on 'All Accounts' -->
                                         <li id="navSaved" class="item">
-                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="user.savedCourses.length">Saved</router-link>
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
                                         </li>
                                         <!-- /NOTE -->
 
@@ -284,7 +284,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {

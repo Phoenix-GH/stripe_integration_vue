@@ -260,7 +260,9 @@
                 if (this.selectedCategory.length > 0) {
                     //if there is an existing topic cached, use that
                     let searchTopic = this.toTitleCase(topic);
-                    this.currentResults = this.classesByTopic[searchTopic];
+                    if (this.classesByTopic[searchTopic].length > 0) {
+                        this.currentResults = this.classesByTopic[searchTopic];
+                    }
                     let _this = this;
                     Class.classesByTopic(this, searchTopic, (data) => {
                         _this.currentResults = data;
@@ -309,6 +311,8 @@
                     this.catClicked(cat);
                 }
             }
+            Class.inProgress(this);
+            Class.completed(this);
         }
     }
 

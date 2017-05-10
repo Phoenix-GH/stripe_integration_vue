@@ -176,5 +176,36 @@ export default {
                 cb(response.data.data);
             })
             .catch(error => outputError(error));
+    },
+
+    //saved for later
+    getSavedForLater(context) {
+        axios
+            .get(BASE_URL + 'courses/savedforlater', headers())
+            .then(response => {
+                console.log(JSON.stringify(response.data.data));
+                context.$store.dispatch('updateSavedClasses', response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    addSavedForLater(context, payload) {
+        let _this = this;
+        axios
+            .post(BASE_URL + 'courses/addsavedforlater', payload, headers())
+            .then(response => {
+                _this.getSavedForLater(context);
+            })
+            .catch(error => outputError(error));
+    },
+
+    removeSavedForLater(context, courseId) {
+        let _this = this;
+        axios
+            .delete(BASE_URL + 'courses/removesavedforlater/' + courseId, headers())
+            .then(response => {
+                _this.getSavedForLater(context);
+            })
+            .catch(error => outputError(error));
     }
 };

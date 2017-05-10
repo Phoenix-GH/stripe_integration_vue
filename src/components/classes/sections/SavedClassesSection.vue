@@ -2,12 +2,12 @@
     <!-- CLASSES - IN PROGRESS -->
     <div class="content__row">
 
-        <h2 v-if="classesInProgress.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="classesInProgress.length">In Progress</h2>
+        <h2 v-if="savedClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="savedClasses.length">Saved Classes</h2>
 
         <div class="row grid">
 
             <!-- SINGLE CLASS -->
-            <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+            <div v-for="course in savedClasses" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
                     <img :src="course.thumbImageUrl" alt="">
                     <span class="btn__play btn--s btn--secondary"></span>
@@ -47,10 +47,10 @@
     export default {
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn'
+                'user', 'savedClasses', 'userLoggedIn'
             ]),
-            updatedClassesInProgress() {
-                return this.classesInProgress;
+            updatedSavedClasses() {
+                return this.savedClasses;
             }
 
         },

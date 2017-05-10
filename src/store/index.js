@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
         masterClasses: [],
         completedClasses: [],
         classesInProgress: [],
+        savedClasses: [],
         hasModal: false,
         activeModal: '',
         userLoggedIn: false,
@@ -63,6 +64,9 @@ export const store = new Vuex.Store({
         updateClasses: ({ commit }, payload) => {
             commit('updateClasses', payload);
         },
+        updateSavedClasses: ({ commit }, payload) => {
+            commit('updateSavedClasses', payload);
+        },
         updateActiveCourse: ({ commit }, payload) => {
             commit('updateActiveCourse', payload);
         },
@@ -113,6 +117,10 @@ export const store = new Vuex.Store({
         },
         updateCompletedClasses: (state, payload) => {
             state.completedClasses = payload;
+            persist();
+        },
+        updateSavedClasses: (state, payload) => {
+            state.savedClasses = payload;
             persist();
         },
         updateHasModal: (state, payload) => {
@@ -175,6 +183,9 @@ export const store = new Vuex.Store({
         },
         completedClasses: state => {
             return state.completedClasses;
+        },
+        savedClasses: state => {
+            return state.savedClasses;
         },
         hasModal: state => {
             return state.hasModal;
