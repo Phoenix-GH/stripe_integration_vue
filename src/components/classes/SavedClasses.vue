@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <!-- BANNER -->
         <div class="banner bg--black bg--wood">
@@ -11,62 +12,31 @@
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->
                     <div class="wrapper__inner align--right">
-                        <button class="btn btn--cta" @click="openClasses">Browse Classes</button>
+                        <button @click="openClasses" class="btn btn--cta">Browse Classes</button>
                     </div>
                     <!-- /BROWSE CLASSES -->
                 </div>
             </div>
         </div>
         <!-- /BANNER -->
-
         <!-- CLASS LIST -->
-        <div class="content__section container container--fw">
+        <div class="content__section row container container--fw">
 
-            <div class="well is--empty align--center padding--xxl border--medium" v-if="user.savedCourses.length == 0">
+            <!-- EMPTY STATE -->
+            <!--
+            NOTE: Display only if the user hasn't enrolled in any classes.
+        -->
+            <div class="well is--empty align--center padding--xxl border--medium" v-if="savedClasses.length <= 0">
                 <span class="ts--title">You haven't saved any classes yet!</span>
                 <div class="divider divider--s" style="margin-left:auto; margin-right:auto;"></div>
-                <button class="btn btn--cta" @click="openClasses">Browse Classes</button>
+                <button @click="openClasses" class="btn btn--cta">Browse Classes</button>
             </div>
             <!-- /EMPTY STATE -->
 
-            <!-- CLASSES - IN PROGRESS -->
-
-            <div class="row grid">
-
-                <!-- SINGLE CLASS -->
-                <div v-for="course in user.savedCourses" class="class" data-progress="0">
-                    <a class="class__thumb" href="/templates/classes/class">
-                        <img src="https://s3.amazonaws.com/selfmademan/assets/img/placeholder/class-thumb-1.png" alt="">
-                        <span class="btn__play btn--s btn--secondary"></span>
-                        <span class="image__cap">
-                            <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                            2h 16m
-                        </span>
-                        <span class="remove__link link link--secondary">Remove</span>
-                    </a>
-                    <div class="class__info">
-                        <a class="link" href="#">The Power of Being Broke</a>
-                        <ul class="class__meta list list--inline">
-                            <li class="item has--icon">
-                                <span class="avatar avatar-s" style="background-image:url('https://s3.amazonaws.com/selfmademan/assets/img/placeholder/instructor-daymond.jpg');"></span>                                Daymond John
-                            </li>
-                            <li class="item has--icon">
-                                <svg class="icon-thumbs-up">
-                                    <use xlink:href="#icon-thumbs-up"></use>
-                                </svg>
-                                <a class="link link--secondary" href="#">1.2k</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /SINGLE CLASS -->
-
-            </div>
-
-            <!-- /CLASSES - IN PROGRESS -->
+            <!-- /CLASS LIST -->
+            <savedClassesSection />
 
         </div>
-        <!-- /CLASS LIST -->
 
     </div>
 
@@ -74,22 +44,24 @@
 
 <script>
     import { mapGetters } from 'vuex';
-
+    import { Class, User } from '../../api';
+    import SavedClassesSection from './sections/SavedClassesSection.vue'
     export default {
-        data: function () {
-            return {
-                savedClasses: []
-            }
-        },
         computed: {
             ...mapGetters([
-                'user'
+                'user', 'savedClasses'
             ])
+        },
+        components: {
+            savedClassesSection: SavedClassesSection
         },
         methods: {
             openClasses() {
                 this.$router.push({ name: 'classes' });
             }
+        },
+        mounted() {
+            Class.getSavedForLater(this);
         }
     }
 

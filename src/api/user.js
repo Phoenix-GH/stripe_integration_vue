@@ -310,5 +310,20 @@ export default {
                 callback(response.data.data);
             })
             .catch(error => outputError(error));
+    },
+
+    resetCourseProgress(context, courseId) {
+        console.log(courseId);
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'users/resetcourseprogress/' + courseId, {}, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+        return promise;
     }
 };
