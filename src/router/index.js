@@ -7,6 +7,7 @@ import FAQ from '../components/Faq.vue';
 import Settings from '../components/settings/Settings.vue';
 import Classes from '../components/classes/Classes.vue';
 import ClassDetail from '../components/classes/ClassDetail.vue';
+import MasterClassDetail from '../components/classes/MasterClassDetail.vue';
 import MyClasses from '../components/classes/MyClasses.vue';
 import SavedClasses from '../components/classes/SavedClasses.vue';
 import Account from '../components/settings/Account.vue';
@@ -24,6 +25,7 @@ import NotFoundComponent from '../components/NotFoundComponent.vue';
 import Earnings from '../components/other/Earnings.vue';
 import ReviewList from '../components/admin/ReviewList.vue';
 import StudentList from '../components/admin/StudentList.vue';
+import ResetPassword from '../components/other/PasswordReset.vue';
 import { store } from '../store';
 
 Vue.use(Router);
@@ -34,6 +36,18 @@ function checkLoggedIn(to, from, next) {
             path: '/home',
             name: 'home',
             component: Home
+        });
+    } else {
+        next();
+    }
+}
+
+function checkLoggedInReset(to, from, next) {
+    if (store.state.userLoggedIn) {
+        next({
+            path: '/settings/password',
+            name: 'password',
+            component: Password
         });
     } else {
         next();
@@ -57,6 +71,7 @@ export default new Router({
         { path: '/podcasts/:id', name: 'singlepodcast', component: PodcastDetail },
         { path: '/classes', name: 'classes', component: Classes },
         { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
+        { path: '/classes/masterclasses/:id', name: 'masterclass', component: MasterClassDetail },
         { path: '/myclasses', name: 'myclasses', component: MyClasses, beforeEnter: checkLoggedIn },
         { path: '/saved', name: 'saved', component: SavedClasses, beforeEnter: checkLoggedIn },
         { path: '/searchresults', name: 'searchresults', component: SearchResults },
@@ -64,6 +79,12 @@ export default new Router({
         { path: '/termsofuse', name: 'termsofuse', component: TermsOfUse },
         { path: '/faq', name: 'faq', component: FAQ },
         { path: '/earnings', name: 'earnings', component: Earnings },
+        {
+            path: '/resetpassword',
+            name: 'resetpassword',
+            component: ResetPassword,
+            beforeEnter: checkLoggedInReset
+        },
         {
             path: '/upgradeaccount',
             name: 'upgradeaccount',

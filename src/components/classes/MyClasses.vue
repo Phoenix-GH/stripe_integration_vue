@@ -34,8 +34,7 @@
 
             <!-- /CLASS LIST -->
             <inprogress v-if="classesInProgress.length > 0" />
-            <!--<purchased />-->
-            <completed-classes v-if="completedClasses.length > 0" />
+            <purchased v-if="masterClasses.length > 0" />
 
         </div>
 
@@ -58,7 +57,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'completedClasses'
+                'user', 'classesInProgress', 'completedClasses', 'masterClasses'
             ]),
         },
         methods: {
@@ -70,6 +69,7 @@
             //update in-progress, completed, and master classes now.
             Class.inProgress(this);
             Class.completed(this);
+            Class.masterClasses(this);
         }
     }
 

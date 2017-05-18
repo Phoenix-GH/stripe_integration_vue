@@ -31,7 +31,7 @@
 
                         <!-- RESET PASSWORD -->
                         <div class="panel__section">
-                            <form id="formReset" class="form" action="">
+                            <form class="form" @submit.prevent="">
                                 <div class="input input--text">
                                     <input v-model="email" type="email" class="input__field" required>
                                     <label for="emailAddress">Email Address</label>
@@ -39,7 +39,7 @@
                                 <div class <div class="align--center">
                                     <ul class="list list--buttons">
                                         <li class="item">
-                                            <button type="submit" class="btn btn--primary btn--block">Reset Password</button>
+                                            <button @click="resetPassword" class="btn btn--primary btn--block">Reset Password</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,9 +63,6 @@
     import { mapGetters } from 'vuex';
 
     export default {
-        created() {
-
-        },
         data: function () {
             return {
                 email: '',
@@ -91,6 +88,8 @@
         },
         methods: {
             close() {
+                this.showError = false;
+                this.showSuccess = false;
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
             },
@@ -98,18 +97,19 @@
                 if (this.email.length == 0) {
                     return;
                 }
-                let rating = 0;
-                if (this.likedClass) {
-                    rating = 1;
-                }
                 let payload = {
-                    email: email
+                    email: this.email
                 }
                 let _this = this;
-                User.resetPassword(this, payload, err => {
-                    console.log(err);
-                }, success => {
-                    console.log(success);
+                User.requestPasswordReset(this, payload).then(response => {
+                    console.log(JSON.stringify(response));
+                    console.log('success!!!!');
+                    _this.showError = false;
+                    _this.showSuccess = true;
+                }).catch(err => {
+                    console.log(JSON.stringify(err));
+                    _this.showSuccess = false;
+                    _this.showError = true;
                 })
             }
         }

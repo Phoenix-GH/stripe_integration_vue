@@ -35,6 +35,16 @@ export default {
             .catch(error => outputError(error));
     },
 
+    //returns all master classes in progress
+    masterClasses(context) {
+        axios
+            .get(BASE_URL + `courses/masterclassesforuser`, headers())
+            .then(response => {
+                context.$store.dispatch('updateMasterClasses', response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     //returns all completed classes
     completed(context) {
         axios
@@ -176,6 +186,21 @@ export default {
                 cb(response.data.data);
             })
             .catch(error => outputError(error));
+    },
+
+    purchaseMasterClass(context, courseId) {
+        let _this = this;
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'courses/purchasemasterclass', { course: courseId }, headers())
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+        return promise;
     },
 
     //saved for later

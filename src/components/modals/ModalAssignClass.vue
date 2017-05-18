@@ -91,13 +91,14 @@
                     user: this.student._id,
                     course: this.selectedMasterClass
                 }
-                console.log(params);
+
                 User.inviteStudentToMasterClass(this, params).then(response => {
-                    console.log(response);
+                    console.log(JSON.stringify(response));
                     _this.errorMessage = '';
                     _this.selectedMasterClass = '';
                     _this.closeModal();
                 }).catch(err => {
+                    console.log('there has been an error');
                     console.log(JSON.stringify(err));
                     _this.showErrorMessage(err);
                 })

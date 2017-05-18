@@ -11,7 +11,7 @@
                                 <router-link class="link" :to="{ name: 'home' }">About</router-link>
                             </li>
                             <li class="item">
-                                <div v-if="!userSubscribed" class="link" @click="checkPremium">Premium</div>
+                                <div v-if="showPremium" class="link" @click="checkPremium">Premium</div>
                             </li>
                             <li class="item">
                                 <router-link class="link" :to="{ name: 'podcasts' }">Podcasts</router-link>
@@ -20,7 +20,7 @@
                                 <router-link class="link" :to="{ name: 'faq' }">FAQ</router-link>
                             </li>
                             <li class="item">
-                                <div class="link" @click="openSupport">Support</div>
+                                <router-link class="link" :to="{ name: 'faq' }">Support</router-link>
                             </li>
                         </ul>
                     </div>
@@ -149,11 +149,20 @@
     export default {
         computed: {
             ...mapGetters([
-                'user'
+                'user', 'userLoggedIn'
             ]),
             userSubscribed() {
                 if (this.user.subscribed == null) return false;
                 return this.user.subscribed;
+            },
+            showPremium() {
+                //check if user is logged in
+                if (this.userLoggedIn) {
+                    if (this.user.subscriptionType == 'free') return true;
+                    return false;
+                } else {
+                    return false;
+                }
             }
         },
         methods: {
@@ -163,9 +172,7 @@
             },
             checkPremium() {
                 //check for premium membership
-            },
-            openSupport() {
-                //navigate to support website here
+                this.$router.push({ name: 'upgradeaccount' });
             }
         }
     }
