@@ -14,6 +14,16 @@
         <div class="well panel no--border">
           <!-- PANEL BODY -->
           <div class="panel__body">
+
+            <!-- ERROR MESSAGE -->
+            <div v-if="errorMessage.length > 0" class="well bg--light-negative border--negative align--center color--negative">
+              <svg class="icon-lock icon--s margin--xs no--margin-tb no--margin-l">
+                <use xlink:href="#icon-lock"></use>
+              </svg>
+              {{ errorMessage }}
+            </div>
+            <!-- /ERROR MESSAGE -->
+
             <!-- FACEBOOK LOGIN -->
             <div class="panel__section divider--or">
               <button @click="loginWithFacebook" class="btn btn--cta btn--block is--facebook">Continue with Facebook</button>
@@ -101,6 +111,16 @@
         this.$store.dispatch('updateActiveModal', '');
       },
       signup() {
+        if (this.password.length < 8) {
+          console.log('password not long enough.');
+          this.errorMessage = 'Please enter a password 8 characters or more.'
+          return;
+        }
+        if (this.email.length == 0) {
+          console.log('email not long enough');
+          this.errorMessage = 'Please enter a valid email address'
+          return;
+        }
         User.signup(this, this.loginPayload);
       },
       loginWithFacebook() {
