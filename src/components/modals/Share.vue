@@ -23,8 +23,8 @@
                         <!-- /SHARE CONTENT -->
 
                         <!-- REFERRAL URL -->
-                        <div class="input input--text" data-tooltip="Click to copy" data-tip-pos="right" style="width:100%; max-width:440px; margin-right:auto; margin-left:auto;">
-                            <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID" value="http://smm.co/J3ki80a">
+                        <div @click="addToClipboard" class="input input--text" data-tooltip="Click to copy" data-tip-pos="right" style="width:100%; max-width:440px; margin-right:auto; margin-left:auto;">
+                            <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID2" :value="shareUrl">
                             <label for="inputID">Referral URL</label>
                         </div>
                         <!-- /REFERRAL URL -->
@@ -70,6 +70,8 @@
             if (window.FB) {
                 window.FB.XFBML.parse();
             }
+
+            console.log('hey');
         },
         computed: {
             ...mapGetters([
@@ -83,7 +85,7 @@
                 }
             },
             shareUrl() {
-                return `https://smm.co/getstarted/${this.user.referralId}`;
+                return `https://smm.co?ref=${this.user.referralId}`;
             },
             twitterShareUrl() {
                 return `https://twitter.com/intent/tweet?url=${this.shareUrl}`;
@@ -94,8 +96,10 @@
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
             },
-            copyShare() {
-
+            addToClipboard() {
+                console.log('added to clipboard');
+                document.querySelector('#inputID2').select();
+                document.execCommand('copy');
             }
         }
     }

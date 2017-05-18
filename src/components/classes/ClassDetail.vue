@@ -327,7 +327,7 @@
                                 <div class="wrapper">
                                     <div class="wrapper__inner padding--m no--pad-l no--pad-tb">
                                         <div class="input input--text" data-tooltip="Click to copy" data-tip-pos="right">
-                                            <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID" value="http://smm.co/J3ki80a">
+                                            <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID" :value="shareUrl">
                                             <label for="inputID">Referral URL</label>
                                         </div>
                                     </div>
@@ -808,6 +808,9 @@
                 } else {
                     return false;
                 }
+            },
+            shareUrl() {
+                return `https://smm.co?ref=${this.user.referralId}`;
             }
         },
         //-----------------------------------
