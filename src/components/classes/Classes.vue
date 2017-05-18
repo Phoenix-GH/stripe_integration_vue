@@ -312,6 +312,7 @@
                 }
             }
             Class.inProgress(this);
+            Class.masterClasses(this);
             Class.completed(this);
         }
     }

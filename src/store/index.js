@@ -67,6 +67,9 @@ export const store = new Vuex.Store({
         updateSavedClasses: ({ commit }, payload) => {
             commit('updateSavedClasses', payload);
         },
+        updateMasterClasses: ({ commit }, payload) => {
+            commit('updateMasterClasses', payload);
+        },
         updateActiveCourse: ({ commit }, payload) => {
             commit('updateActiveCourse', payload);
         },
@@ -117,6 +120,10 @@ export const store = new Vuex.Store({
         },
         updateCompletedClasses: (state, payload) => {
             state.completedClasses = payload;
+            persist();
+        },
+        updateMasterClasses: (state, payload) => {
+            state.masterClasses = payload;
             persist();
         },
         updateSavedClasses: (state, payload) => {
@@ -180,6 +187,9 @@ export const store = new Vuex.Store({
         },
         classesInProgress: state => {
             return state.classesInProgress;
+        },
+        masterClasses: state => {
+            return state.masterClasses;
         },
         completedClasses: state => {
             return state.completedClasses;

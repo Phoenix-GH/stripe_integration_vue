@@ -107,6 +107,40 @@ export default {
             });
     },
 
+    requestPasswordReset(context, payload) {
+        let _this = this;
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'users/requestnewpassword', payload, headers())
+                .then(response => {
+                    console.log('successful response');
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.log('there has been an error');
+                    reject(error);
+                });
+        });
+        return promise;
+    },
+
+    resetPasswordWithToken(context, payload) {
+        let _this = this;
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'users/resetpassword', payload, headers())
+                .then(response => {
+                    console.log('successful response');
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.log('there has been an error');
+                    reject(error);
+                });
+        });
+        return promise;
+    },
+
     //this will create a stripe customer
     createStripeCustomer(context, payload, callback) {
         let _this = this;

@@ -255,6 +255,13 @@
 
                     <div class="lessons__layout">
 
+                        <div class="lessons__sharing" v-if="!currentMasterCourse.unlocked">
+                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                                <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant access for <span class="underlined">${{currentMasterCourse.course.amount}}</span></span>
+                                <button @click="purchaseMasterCourse" class="btn btn--cta is--reversed">Purchase Masterclass</button>
+                            </div>
+                        </div>
+
                         <ol class="lessons__list">
 
 
@@ -385,14 +392,6 @@
                             </div>
                             <!-- /INFO BAR LEFT -->
 
-                            <!-- INFO BAR RIGHT - FREE USER -->
-                            <!-- NOTE: This should only be displayed for a free user -->
-                            <div class="wrapper__inner align--center" style=" vertical-align:top;" v-if="showUpgrade">
-                                <span class="ts--subtitle margin--s no--margin-t no--margin-lr">Get instant on-demand access!</span>
-                                <button class="btn btn--primary is--affirmative">Upgrade to Premium</button>
-                            </div>
-                            <!-- /INFO BAR RIGHT - ENROLLED USER -->
-
                         </div>
 
                         <!-- CLASS TABS -->
@@ -405,6 +404,9 @@
                             </li>
                             <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
+                            </li>
+                            <li class="item" :class="{'is--active': challengeActive}" @click="tappedOnChallengeTab">
+                                <span class="has--badge badge--alert badge--text" data-badge="Special Offer!">Completion Challenge</span>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->
@@ -549,6 +551,21 @@
                         </div>
                         <!-- /REVIEWS TAB -->
 
+                        <!-- COMPLETION CHALLENGE TAB -->
+                        <div id="completionChallenge" class="tab__content" :class="{'hide': !challengeActive, 'remove': !challengeActive}">
+
+                            <div class="well card">
+                                <h3 class="ts--title">Take the Completion Challenge!</h3>
+                                <br>
+                                <p class="ts--body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sapien arcu, mattis nec augue
+                                    eu, tristique consequat arcu. Donec quis ante posuere, interdum dolor at, fermentum diam.
+                                    Maecenas ullamcorper, dolor id accumsan viverra, urna nisl auctor risus, quis bibendum
+                                    ipsum leo vel nibh.</p>
+                            </div>
+
+                        </div>
+                        <!-- /COMPLETION CHALLENGE TAB -->
+
                     </div>
                     <!-- /CLASS CONTENT -->
 
@@ -594,7 +611,8 @@
                 transitionTimer: 10,
                 currentOverlay: '',
                 timer: {},
-                courseWasReset: false
+                courseWasReset: false,
+                masterCourse: {}
             }
         },
         //-----------------------------------
@@ -687,6 +705,8 @@
                 });
             })
 
+            console.log('momo' + JSON.stringify(this.currentMasterCourse));
+
         },
         beforeDestroy() {
             clearInterval(this.timer);
@@ -710,7 +730,7 @@
         //-----------------------------------
         computed: {
             ...mapGetters([
-                'user', 'activeCourse', 'userLoggedIn', 'lastLesson'
+                'user', 'activeCourse', 'userLoggedIn', 'lastLesson', 'masterClasses'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
@@ -718,6 +738,9 @@
                 } else {
                     return false;
                 }
+            },
+            shareUrl() {
+                return `https://smm.co?ref=${this.user.referralId}`;
             },
             willShowFlash() {
                 return this.showFlash;
@@ -763,6 +786,10 @@
                 if (this.currentActiveTab == 'Reviews') return true;
                 return false;
             },
+            challengeActive() {
+                if (this.currentActiveTab == 'Challenge') return true;
+                return false;
+            },
             percentComplete() {
                 if (this.lessons == undefined) return 0;
                 if (this.lessonProgress == undefined) return 0;
@@ -779,6 +806,18 @@
             },
             currentLessons() {
                 return this.lessons;
+            },
+            currentMasterCourse() {
+                let _masterClasses = this.masterClasses.filter(masterClass => {
+                    if (masterClass.course._id == this.activeCourse._id) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(masterClass => { return masterClass; });
+                if (_masterClasses.length > 0) {
+                    return _masterClasses[0];
+                }
             },
             selectedLesson() {
                 let _lessons = this.lessons.filter(lesson => {
@@ -808,9 +847,6 @@
                 } else {
                     return false;
                 }
-            },
-            shareUrl() {
-                return `https://smm.co?ref=${this.user.referralId}`;
             }
         },
         //-----------------------------------
@@ -1003,6 +1039,14 @@
                 }, course => {
                     _this.initDetails();
                     this.$store.dispatch('updateSpinner', false);
+                });
+            },
+            purchaseMasterCourse() {
+                console.log('will purchase master course');
+                Class.purchaseMasterClass(this, this.activeCourse._id).then(response => {
+                    console.log('there was success ' + response);
+                }).catch(err => {
+                    console.log('there was an error ' + err);
                 });
             },
             initDetails() {
@@ -1223,6 +1267,10 @@
             tappedOnReviewsTab() {
                 if (!this.userLoggedIn) return;
                 this.currentActiveTab = 'Reviews'
+            },
+            tappedOnChallengeTab() {
+                if (!this.userLoggedIn) return;
+                this.currentActiveTab = 'Challenge'
             },
             tappedOnUnEnroll() {
                 this.popOverIsActive = false;

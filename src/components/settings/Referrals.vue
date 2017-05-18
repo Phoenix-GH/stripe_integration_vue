@@ -203,7 +203,7 @@
                 return false;
             },
             shareUrl() {
-                return `https://smm.co/getstarted/${this.user.referralId}`;
+                return `https://smm.co?ref=${this.user.referralId}`;
             },
             twitterShareUrl() {
                 return `https://twitter.com/intent/tweet?url=${this.shareUrl}`;
