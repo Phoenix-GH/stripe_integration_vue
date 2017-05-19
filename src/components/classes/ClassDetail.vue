@@ -373,7 +373,7 @@
                                         <svg class="icon-thumbs-up">
                                             <use xlink:href="#icon-thumbs-up"></use>
                                         </svg>
-                                        <a class="link link--secondary">{{ activeCourse.positiveReviewCount }} Positive</a>
+                                        <a @click="tappedOnReviewsTab" class="link link--secondary">{{ activeCourse.positiveReviewCount }} Positive</a>
                                     </li>
                                     <li class="item has--icon">
                                         <svg class="icon-show">

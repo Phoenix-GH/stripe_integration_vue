@@ -32,20 +32,19 @@
 
             <!-- SIGN IN WITH EMAIL -->
             <div class="panel__section">
-              <form id="formLogin" class="form" @submit.prevent="">
+              <form class="form" @submit.prevent="">
                 <div class="input input--text">
-                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" required>
+                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" required>
                   <label for="emailAddress">Email Address</label>
                 </div>
                 <div class="input input--password">
-                  <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass"
-                    required>
+                  <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" required>
                   <label for="createPass">Password</label>
                 </div>
                 <div class="align--center">
                   <ul class="list list--buttons">
                     <li class="item">
-                      <button type="submit" class="btn btn--cta btn--block" data-loads @click="login">Log In</button>
+                      <button type="submit" class="btn btn--cta btn--block" @click="login">Log In</button>
                     </li>
                     <li class="item">
                       <a class="link link--secondary modal--toggle" href="javascript:;" @click="showForgotPassword">Forgot Password?</a>
@@ -134,6 +133,16 @@
         this.$store.dispatch('updateActiveModal', '');
       },
       login() {
+        if (this.email.length == 0) {
+          console.log('email not long enough');
+          this.errorMessage = 'Please enter a valid email address'
+          return;
+        }
+        if (this.password.length < 1) {
+          console.log('password not long enough.');
+          this.errorMessage = 'Please enter a password 8 characters or more.'
+          return;
+        }
         User.login(this, this.loginPayload);
       },
       loginWithFacebook() {
