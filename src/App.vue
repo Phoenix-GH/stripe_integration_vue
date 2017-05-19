@@ -9,7 +9,6 @@
       <signupModal></signupModal>
       <reviewModal></reviewModal>
       <forgotPasswordModal></forgotPasswordModal>
-      <shareModal></shareModal>
     </section>
     <appFooter></appFooter>
   </div>

@@ -101,6 +101,7 @@ export default {
         axios
             .get(BASE_URL + 'courses', headers())
             .then(response => {
+                console.log(response.data.data);
                 context.$store.dispatch('updateClasses', response.data.data);
                 cb(response.data.data);
             })

@@ -72,11 +72,11 @@
                                     <td class="align--right">
                                         <div class="disp--ib align--left">
                                             <!-- NOTE: Has a tooltip with the name of the person referred -->
-                                            <span class="ts--subtitle disp--block" data-tooltip="Bruce Springclean" data-tip-pos="left">
+                                            <span class="ts--subtitle disp--block" data-tooltip="" data-tip-pos="left">
                                           $ {{ (bill.amount/100).toFixed(2) }} 
                                           <svg class="icon-reward icon--s color--accent"><use xlink:href="#icon-reward"></use></svg>
                                       </span>
-                                            <a class="link link--secondary is--disabled">View Reciept</a>
+                                            <a class="link link--secondary is--disabled">View Receipt</a>
                                         </div>
                                     </td>
                                 </tr>
