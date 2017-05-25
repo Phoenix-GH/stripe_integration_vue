@@ -1,0 +1,64 @@
+[class^="icon-"], [class*=" icon-"] {
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-right:$spacing-xs;
+    &.icon--xs{
+        height:12px;
+        width:12px;
+        transform: translateY(-2px);
+    }
+    &.icon--s{
+        height:16px;
+        width:16px;
+        margin-right:$spacing-xxs;
+        transform: translateY(-2px);
+    }
+    &.icon--m{
+        height:32px;
+        width:32px;
+    }
+    &.icon--l{
+        height:48px;
+        width:48px;
+    }
+}
+
+.logo{
+    display:block;
+}
+
+.cc__icon{
+    width:35px;
+    height:25px;
+    display:inline-block;
+    vertical-align: middle;
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &.icon--s{
+        width:20px;
+        height:14px;
+    }
+    &.icon--l{
+        width:70px;
+        height:50px;
+    }
+    &.is--visa{
+        background-image:url('./assets/img/cc-visa.svg');
+    }
+    &.is--mastercard{
+        background-image:url('./assets/img/cc-mastercard.svg');
+    }
+    &.is--amex{
+        background-image:url('./assets/img/cc-amex.svg');
+    }
+    &.is--diners-club{
+        background-image:url('./assets/img/cc-diners-club.svg');
+    }
+    &.is--discover{
+        background-image:url('./assets/img/cc-discover.svg');
+    }
+}

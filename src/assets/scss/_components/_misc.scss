@@ -1,0 +1,12 @@
+//=== Podcast Subscription Providers
+//==================================
+.sub__providers{
+    margin-top:$spacing-l;
+    text-align: left;
+}
+@media #{$mq-xsmall} {
+    .sub__providers{
+        margin-top:0;
+        text-align: center;
+    }
+}

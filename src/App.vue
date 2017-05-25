@@ -81,9 +81,6 @@
 
 </script>
 
-<style>
-  @import "./assets/css/main.css";
-  .hideElement {
-    display: none
-  }
+<style lang="scss">
+  @import "./assets/scss/main.scss";
 </style>

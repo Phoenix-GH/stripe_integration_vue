@@ -1,0 +1,128 @@
+//=======================//
+//===== Breakpoints =====//
+//=======================//
+
+$bp-xsmall: 30em; // 480px
+$bp-small: 48em; // 768px
+$bp-medium: 64em; // 1024px
+$bp-large: 85.375em; // 1366px
+$bp-xlarge: 120em; // 1920px
+$bp-xxlarge: 160em; // 2560px
+
+// Media Queries
+$mq-xsmall: "(min-width: #{$bp-xsmall})";
+$mq-small: "(min-width: #{$bp-small})";
+$mq-medium: "(min-width: #{$bp-medium})";
+$mq-large: "(min-width: #{$bp-large})";
+$mq-xlarge: "(min-width: #{$bp-xlarge})";
+$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+$mq-retina: "(-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi)";
+
+// Max Width
+$maxWidthSmall: 1180px;
+$maxWidth: 1440px;
+$maxWidthLarge: 1600px;
+
+
+//==================//
+//===== Colors =====//
+//==================//
+
+$snow:              #F9F9F9;
+$fog:               #EFF1F4;
+$silver:            #DEE3EA;
+$stainless:         #D0D9E5;
+
+$white:             #FFFFFF;
+$white-80:          rgba($white, 0.8);
+$white-60:          rgba($white, 0.6);
+$white-40:          rgba($white, 0.4);
+$white-20:          rgba($white, 0.2);
+$white-15:          rgba($white, 0.15);
+$white-10:          rgba($white, 0.1);
+
+$black:             #2F2F2F;
+$black-80:          rgba($black, 0.8);
+$black-60:          rgba($black, 0.6);
+$black-40:          rgba($black, 0.4);
+$black-20:          rgba($black, 0.2);
+$black-15:          rgba($black, 0.15);
+$black-10:          rgba($black, 0.1);
+$black-true:        #111;
+
+$light-brand:       #FFC942;
+$brand:             #FFA300;
+$bright-brand:      #FED04C;
+
+$light-accent:      #C0DFFF;
+$accent:            #0086FF;
+
+$light-positive:    #D4ECE3;
+$positive:          #289F75;
+$bright-positive:   #10AD6F;
+
+$light-negative:    #FEDED5;
+$negative:          #FB592D;
+
+$code:              #00979D;
+
+$box-shadow: 		0px 0px 5px 0px $black-15;
+
+$overlay:           rgba($black, .8);
+
+$facebook:          #4267B2;
+
+
+//======================//
+//===== Typography =====//
+//======================//
+
+$primary-font: 'proxima-nova', sans-serif;
+$secondary-font: 'brandon-grotesque', sans-serif;
+
+//=== Font-Size
+$base-font-size: 0.875em;
+
+//=== Line-Height
+$base-line-height: 1.5;
+$header-line-height: 1.25;
+
+//=== Spacing
+$base-spacing: $base-font-size;
+
+//=== Sizes
+$fs-xxl: 2.625em;
+$lh-xxl: 56px;
+
+$fs-xl: 2em;
+$lh-xl: 48px;
+
+$fs-l: 1.375em;
+$lh-l: 32px;
+
+$fs-m: 1.125em;
+$lh-m: 24px;
+
+$fs-s: 1em;
+$lh-s: 24px;
+
+$fs-xs: 0.875em;
+$lh-xs: 16px;
+
+$fs-xxs: 0.75em;
+$lh-xxs: 16px;
+
+
+//===================//
+//===== Spacing =====//
+//===================//
+
+$spacing-xxxs: 2px;
+$spacing-xxs: 4px;
+$spacing-xs: 8px;
+$spacing-s: 16px;
+$spacing-m: 24px;
+$spacing-l: 32px;
+$spacing-xl: 40px;
+$spacing-xxl: 48px;
+$spacing-xxxl: 56px;

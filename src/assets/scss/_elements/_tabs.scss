@@ -1,0 +1,124 @@
+.tab__group{
+    width:100%;
+    display:flex;
+    .item{
+        white-space: nowrap;
+        flex-grow:1;
+        flex-basis:0;
+        position:relative;
+        padding:$spacing-m $spacing-xs;
+        text-align: center;
+        border-left:1px solid $silver;
+        font-family:$secondary-font;
+        font-size:$base-font-size*0.6;
+        text-transform:uppercase;
+        font-weight:900;
+        transition:background 0.1s ease-in-out;
+        &:first-child{
+            border-left:none;
+        }
+        svg{
+            fill:$black-40;
+            transition:all 0.1s ease-in-out;
+            &.icon--m{
+                width:24px;
+                height:24px;
+                margin-right:0;
+            }
+        }
+        .tab__title{
+            display:block;
+            margin-top:$spacing-s;
+            .tab__close{
+                position: absolute;
+                opacity:0.6;
+                top:$spacing-s;
+                right:$spacing-xs;
+                &:hover{
+                    opacity:1;
+                }
+            }
+        }
+        .tab__close{
+            display:none;
+        }
+        &:hover{
+            cursor:pointer;
+            svg{
+                fill:$black;
+            }
+        }
+        &::after{
+            top: calc(100% - 10px);
+            left: 50%;
+            border: solid transparent;
+            content: '';
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(0, 0, 0, 0);
+            border-top-color: $white;
+            border-width: 10px;
+            margin-left: -10px;
+            opacity:0;
+            transition: all 0.1s ease-in-out;
+        }
+        &:hover{
+            &::after{
+                top: calc(100% - 4px);
+                opacity:1;
+            }
+        }
+        &.is--active{
+            border-left-color:$bright-brand;
+            background-color:$bright-brand;
+            color:$black;
+            svg{
+                fill:$black;
+            }
+            + .item{
+                border-left-color:$bright-brand;
+            }
+            &::after{
+                top: 100%;
+                opacity:1;
+                border-top-color: $bright-brand;
+            }
+            .tab__close{
+                display:inline;
+            }
+        }
+    }
+}
+
+//=== Category Tabs
+
+#categoryTabs{
+    display:none;
+}
+#categoryDropdown{
+    padding:$spacing-s 5%;
+    background-color:$white;
+}
+
+
+//===== MEDIA QUERIES
+//===================
+
+@media #{$mq-medium}{
+    #categoryTabs{
+        display:flex;
+    }
+    #categoryDropdown{
+        display:none;
+    }
+}
+
+@media #{$mq-large}{
+    .tab__group{
+        .item{
+            font-size:$base-font-size*0.7;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+.cf{
+    &::after{
+        content:'';
+        visibility:hidden;
+        display:block;
+        height:0;
+        clear:both;
+    }
+}
+
+.hide{
+    display:none !important;
+}
+
+.truncate{
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+//Aspect Ratios
+.aspectRatio{
+    height:0;
+    background-position:center;
+    background-size:contain;
+    &.aspectRatio--1-1{
+        width:100%;
+        padding-top:100%;
+    }
+}

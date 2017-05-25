@@ -1,0 +1,202 @@
+$sidebarWidth: 260px;
+
+.lsg{
+    position:relative;
+    background-color:$white;
+
+}
+
+.lsg__sidebar{
+    width:$sidebarWidth;
+    height:100%;
+    border-right:1px solid $silver;
+    position:fixed;
+    top:0;
+    left:0;
+    overflow-y: auto;
+    background-color:$white;
+    .lsg__sidebar-head{
+        height:$sidebarWidth;
+        border-bottom:1px solid $silver;
+    }
+    .lsg__logo{
+        display:block;
+        text-decoration: none;
+        &::after{
+            display:none;
+        }
+        img{
+            width:120px;
+            display:block;
+            margin:0 auto 10px auto;
+        }
+        .lsg__title{
+            font-size:14px;
+            color:$black-60;
+        }
+    }
+    .lsg__menu{
+        width:100%;
+        margin:0;
+        padding:0;
+        list-style: none;
+        .lsg__menu-item{
+            border-bottom:1px solid $silver;
+            position:relative;
+            font-size:18px;
+            &:hover{
+                cursor:pointer;
+            }
+            &::after{
+                content:'\25B6';
+                position:absolute;
+                right:15px;
+                top:18px;
+                font-size:8px;
+                color:$silver;
+            }
+            .lsg__submenu{
+                max-height:0;
+                overflow:hidden;
+                list-style: none;
+                background-color:$snow;
+                box-shadow:inset 0 1px 0px 0 rgba(0,0,0,0.1);
+                .lsg__submenu-item{
+                    padding:5px 0 5px $spacing-l;
+                    font-size:16px;
+                    &:first-child{
+                        padding-top:10px;
+                    }
+                    &:last-child{
+                        padding-bottom:10px;
+                    }
+                    a{
+                        color:$black-60;
+                        text-decoration: none;
+                        transition: all 0.1s ease-in-out;
+                        &:hover{
+                            color:$accent;
+                        }
+                        &.active{
+                            color:$accent;
+                        }
+                    }
+                }
+            }
+            &.--open{
+                padding-bottom:0;
+                &::after{
+                    transform: rotate(90deg);
+                }
+                .lsg__submenu{
+                    max-height:9999em;
+                    padding:10px 0;
+                }
+            }
+        }
+    }
+}
+
+.lsg__content{
+    width:calc(100% - #{$sidebarWidth});
+    max-width:1600px;
+    min-width:768px;
+    padding:60px 80px;
+    box-sizing: border-box;
+    position:absolute;
+    left:$sidebarWidth;
+}
+
+// Colors
+.lsg__color-group{
+    width:144px;
+    display:block;
+    margin-right:16px;
+    border-radius:5px;
+    overflow:hidden;
+    float:left;
+    .lsg__color{
+        padding:16px;
+        box-sizing: content-box;
+        color:$white;
+        position:relative;
+        .lsg__color-hex{
+            display:block;
+            font-size:$fs-xs;
+            text-transform: uppercase;
+        }
+        &.bg--white{
+            border:1px solid $silver;
+        }
+        &::before{
+            content:'Click to Copy';
+            width:100%;
+            height:100%;
+            display:block;
+            padding:28px 0;
+            border-radius:5px;
+            position:absolute;
+            top:0;
+            left:0;
+            color:$white;
+            font-weight:bold;
+            text-align:center;
+            opacity:0;
+            box-sizing: border-box;
+            background-color:$black-80;
+            transition:all 0.1s ease-in-out;
+        }
+        &:hover{
+            &::before{
+                opacity:1;
+                cursor:pointer;
+            }
+        }
+        &:first-child{
+            &::before{
+                border-radius:5px 5px 0 0;
+            }
+        }
+        &:last-child{
+            &::before{
+                border-radius:0 0 5px 5px;
+            }
+        }
+    }
+    &:last-child{
+        margin-right:0;
+    }
+}
+
+// Lists
+.lsg__type-list{
+    &.list--inline{
+        margin-bottom:16px;
+        li{
+            width:24px;
+            margin-right:8px !important;
+        }
+        &:last-child{
+            margin-bottom:0;
+        }
+    }
+}
+
+// Icons/Glyphs
+
+.glyphs{
+    li{
+        float:left;
+        margin-right:$spacing-m;
+        margin-bottom:$spacing-m;
+        svg{
+            margin-right:$spacing-xs;
+        }
+        input{
+            vertical-align: middle;
+            padding:6px;
+            border-radius:2px;
+            border:1px solid $stainless;
+        }
+    }
+}

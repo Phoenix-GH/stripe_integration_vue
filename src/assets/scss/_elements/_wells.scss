@@ -1,0 +1,96 @@
+.well{
+    $well-padding: $spacing-m;
+    border:1px solid $silver;
+    border-radius:3px;
+    box-sizing: border-box;
+    padding: $well-padding;
+    margin-bottom:$spacing-xxl;
+    overflow-x: auto;
+    &:last-child{
+        margin-bottom:0;
+    }
+    &.well--sectioned{
+        padding:0;
+        .well__row{
+            .well__section{
+                display:block;
+                overflow:auto;
+            }
+        }
+    }
+    .well__title{
+        margin-bottom:$spacing-s;
+    }
+    .well__section{
+        padding: $well-padding;
+        border-bottom:1px solid $silver;
+        &:last-child{
+            border-bottom:none;
+        }
+    }
+    .well__row{
+        width:100%;
+        display:table;
+        border-bottom:1px solid $silver;
+        &:last-child{
+            border-bottom:none;
+        }
+        .well__section{
+            display:table-cell;
+            border-bottom:none;
+            border-right:1px solid $silver;
+            box-sizing: border-box;
+            &:last-child{
+                border:none;
+            }
+            &.is--halved{
+                width:50%;
+            }
+            &.is--thirds{
+                width:33.333333%;
+            }
+            &.is--quartered{
+                width:25%;
+            }
+            // .truncate{
+            //     width: calc(100% - (#{$well-padding}*3));
+            // }
+        }
+        .well--code{
+            padding:0;
+            code{
+                border-top:1px solid $silver;
+                padding:$spacing-s !important;
+                background-color:$snow;
+            }
+        }
+    }
+    .list{
+        &:last-child{
+            margin:0;
+        }
+    }
+    &.well--dark{
+        border-color:$black;
+        .well__section{
+            border-color:$white-20;
+            background-color:$black;
+        }
+    }
+    &.is--empty{
+        border-color:$stainless;
+        border-style:dashed;
+    }
+}
+
+h1,h2,h3,h4,h5,h6{
+    &+ .well{
+        margin-top:$spacing-m;
+    }
+}
+
+.is--reversed{
+    .well{
+        border-color:$white-20;
+    }
+}
