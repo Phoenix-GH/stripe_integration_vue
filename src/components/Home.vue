@@ -1,21 +1,10 @@
 <template>
     <div>
-        <h1>Home</h1>
+        <img src="../assets/img/home-mockup.jpg" alt="" style="width:100%;">
     </div>
 </template>
 
 <script>
-    export default {
-        methods: {
-            testShowSpinner() {
-                let _this = this;
-                this.$store.dispatch('updateSpinner', true);
-                setTimeout(() => {
-                    _this.$store.dispatch('updateSpinner', false);
-                }, 3000);
-            }
-        }
-    }
 
 </script>
 

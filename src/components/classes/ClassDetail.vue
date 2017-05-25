@@ -262,7 +262,7 @@
                                 <div class="wrapper__inner">
                                     <ul class="list list--inline list--divided">
 
-                                        <li class="item">
+                                        <li v-if="percentComplete > 0" class="item">
                                             <div class="progress show--count"><span class="progress__counter">{{ percentComplete }}%</span>
                                                 <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                                                     <circle cx="16" cy="16" r="15" class="progress__bg" />
@@ -366,7 +366,7 @@
                                 <ul class="class__meta list list--inline list--divided">
                                     <li class="item has--icon">
                                         <!-- NOTE: Instructors name should open the 'About Class' tab and scroll to the instructor card -->
-                                        <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>                                        with <a class="link link--secondary">{{ activeCourse.instructor.name }}</a>
+                                        <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>                                        with <a href="#instructor" class="link link--secondary">{{ activeCourse.instructor.name }}</a>
                                     </li>
                                     <li class="item has--icon">
                                         <!-- NOTE: Feedback link should open the 'Reviews' tab. -->
@@ -436,7 +436,7 @@
                             <h3 class="ts--subtitle">About the Instructor</h3>
                             <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
                             <span class="divider divider--s"></span>
-                            <div class="well disp--ib">
+                            <div id="instructor" class="well disp--ib">
                                 <ul class="list list--inline">
                                     <li class="item">
                                         <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
@@ -819,6 +819,13 @@
         // METHODS
         //-----------------------------------
         methods: {
+
+            scrollToInstructor() {
+                let target = this.$refs.instructor;
+                $('html,body').animate({
+                    scrollTop: target.offset().top
+                }, 1000);
+            },
 
             //-----------------------------------
             // Upgrade Account
@@ -1430,6 +1437,10 @@
 </script>
 
 <style lang="css" scoped>
+    body {
+        scroll-behavior: smooth;
+    }
+
     .fadet-enter-active {
         transition: opacity 0.0s
     }

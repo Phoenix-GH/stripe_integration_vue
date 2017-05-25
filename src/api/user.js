@@ -5,7 +5,7 @@ import { eventBus } from '../main';
 
 export default {
     //user signup, login, and token management
-    signup(context, payload) {
+    signup(context, payload, cb) {
         let _this = this;
         axios
             .post(BASE_URL + 'users/signup', payload)
@@ -16,10 +16,12 @@ export default {
             .then(() => {
                 _this.sync(context);
             })
-            .catch(error => outputError(error));
+            .catch(error => {
+                cb(error);
+            });
     },
 
-    login(context, payload) {
+    login(context, payload, cb) {
         let _this = this;
         axios
             .post(BASE_URL + 'users/login', payload)
@@ -30,7 +32,9 @@ export default {
             .then(() => {
                 _this.sync(context);
             })
-            .catch(error => outputError(error));
+            .catch(error => {
+                cb(error);
+            });
     },
 
     loginFacebook(context, payload) {
