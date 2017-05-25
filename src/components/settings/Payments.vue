@@ -65,7 +65,7 @@
                                 <div class="wrapper__inner">
                                     <ul class="list list--inline list--divided">
                                         <li class="item no--pad-l">
-                                            <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'Mastercard'}"></span>
+                                            <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'Mastercard', 'is--amex': updatedCardInfo.cardType == 'American Express', 'is--discover': updatedCardInfo.cardType == 'Discover', 'is--diners-club': updatedCardInfo.cardType == 'Diners Club'}"></span>
                                         </li>
                                         <li class="item">
                                             <span class="ts--subtitle disp--block">{{ updatedCardInfo.cardType }} ending in {{ updatedCardInfo.last4 }}</span>
@@ -279,15 +279,15 @@
         -webkit-transition: box-shadow 150ms ease;
         transition: box-shadow 150ms ease;
     }
-    
+
     .StripeElement--focus {
         box-shadow: 0 1px 3px 0 #cfd7df;
     }
-    
+
     .StripeElement--invalid {
         border-color: #fa755a;
     }
-    
+
     .StripeElement--webkit-autofill {
         background-color: #fefde5 !important;
     }

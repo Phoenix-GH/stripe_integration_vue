@@ -11,7 +11,7 @@
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->
                     <div class="wrapper__inner align--right">
-                        <button class="btn btn--cta" @click="openClasses">Browse Classes</button>
+                        <button v-if="classesInProgress.length > 0" class="btn btn--cta" @click="openClasses">Browse Classes</button>
                     </div>
                     <!-- /BROWSE CLASSES -->
                 </div>

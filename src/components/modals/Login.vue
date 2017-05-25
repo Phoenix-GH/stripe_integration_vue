@@ -129,6 +129,12 @@
     },
     methods: {
       close() {
+        this.email = '';
+        this.password = '';
+        this.facebookId = '';
+        this.profileImageUrl = '';
+        this.errorMessage = '';
+        this.name = '';
         this.$store.dispatch('updateHasModal', false);
         this.$store.dispatch('updateActiveModal', '');
       },
@@ -143,7 +149,13 @@
           this.errorMessage = 'Please enter a password 8 characters or more.'
           return;
         }
-        User.login(this, this.loginPayload);
+        let _this = this;
+        User.login(this, this.loginPayload, error => {
+          if (error) {
+            console.log(error.response.data.message);
+            _this.errorMessage = error.response.data.message;
+          }
+        })
       },
       loginWithFacebook() {
         let _this = this;

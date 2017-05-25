@@ -107,6 +107,12 @@
     },
     methods: {
       close() {
+        this.email = '';
+        this.password = '';
+        this.facebookId = '';
+        this.profileImageUrl = '';
+        this.errorMessage = '';
+        this.name = '';
         this.$store.dispatch('updateHasModal', false);
         this.$store.dispatch('updateActiveModal', '');
       },
@@ -121,7 +127,12 @@
           this.errorMessage = 'Please enter a valid email address'
           return;
         }
-        User.signup(this, this.loginPayload);
+        let _this = this;
+        User.signup(this, this.loginPayload, error => {
+          if (error) {
+            _this.errorMessage = error.response.data.message;
+          }
+        })
       },
       loginWithFacebook() {
         let _this = this;

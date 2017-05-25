@@ -341,9 +341,13 @@
                     this.catClicked(cat);
                 }
             }
-            Class.inProgress(this);
-            Class.masterClasses(this);
-            Class.completed(this);
+
+            if (this.userLoggedIn) {
+                Class.inProgress(this);
+                Class.masterClasses(this);
+                Class.completed(this);
+            }
+
         }
     }
 

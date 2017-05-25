@@ -38,7 +38,7 @@
                             <ul id="userNav" class="list list--inline list--divided">
 
                                 <!-- LOGGED IN NAV -->
-                                <li id="navClasses" class="item" v-if="userLoggedIn">
+                                <li v-if="showClassLinks" id="navClasses" class="item">
                                     <ul class="list list--inline">
 
                                         <!-- NOTE: Display on 'Paid Account' -->
@@ -288,6 +288,13 @@
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            showClassLinks() {
+                if ((this.userLoggedIn) && (this.user.subscriptionType != 'free')) {
                     return true;
                 } else {
                     return false;
