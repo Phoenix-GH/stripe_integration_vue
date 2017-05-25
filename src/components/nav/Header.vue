@@ -297,7 +297,7 @@
                 if ((this.userLoggedIn) && (this.user.profileImageUrl)) {
                     return this.user.profileImageUrl;
                 } else {
-                    return "";
+                    return "http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg";
                 }
             },
             willShowLoader() {
@@ -430,23 +430,23 @@
     .fadet-leave-active {
         transition: opacity .7s
     }
-    
+
     .fadet-enter,
     .fadet-leave-to
     /* .fade-leave-active in <2.1.8 */
-    
+
     {
         opacity: 0
     }
-    
+
     .shouldHide {
         display: none;
     }
-    
+
     .alertMargin {
         margin-top: 48px;
     }
-    
+
     .alert2 {
         width: 100%;
         height: 48px;
@@ -463,7 +463,7 @@
         position: fixed;
         z-index: 999;
     }
-    
+
     .alert2 .icon-close {
         width: 18px;
         height: 18px;
@@ -475,12 +475,12 @@
         -webkit-transition: all 0.1s ease-in-out;
         transition: all 0.1s ease-in-out;
     }
-    
+
     .alert2 .icon-close:hover {
         cursor: pointer;
         opacity: 1;
     }
-    
+
     .alert2::after {
         content: '';
         height: 48px;
@@ -493,7 +493,7 @@
         background: linear-gradient(to right, rgba(0, 134, 255, 0) 0%, #0086ff 100%);
         pointer-events: none;
     }
-    
+
     .alert2 a {
         color: #FFFFFF;
         margin-left: 16px;
@@ -501,7 +501,7 @@
         -webkit-transition: all 0.1s ease-in-out;
         transition: all 0.1s ease-in-out;
     }
-    
+
     @media (min-width: 30em) {
         .alert2 {
             text-align: center;

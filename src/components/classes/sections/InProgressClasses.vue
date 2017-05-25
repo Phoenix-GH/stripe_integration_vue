@@ -24,7 +24,7 @@
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
-                            <a class="link link--secondary">{{ course.positiveReviewCount }}</a>
+                            <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
                         </li>
                     </ul>
                 </div>
@@ -55,6 +55,13 @@
 
         },
         methods: {
+            courseReviewCount(course) {
+                if (course.positiveReviewCount == null) {
+                    return "No reviews yet.";
+                } else {
+                    return `${course.positiveReviewCount}`;
+                }
+            },
             readableCourseDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
             },

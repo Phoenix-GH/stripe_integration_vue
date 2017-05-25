@@ -117,12 +117,12 @@
                                     </svg>
                                     <span class="ts--headline">Get immediate access to the full class!</span>
                                     <div class="divider divider--s"></div>
-                                    <button class="btn btn--cta margin--m no--margin-t no--margin-lr">Upgrade to Premium</button>
+                                    <button @click.stop="upgradeAccount" class="btn btn--cta margin--m no--margin-t no--margin-lr">Upgrade to Premium</button>
                                     <br>
-                                    <button class="btn btn--secondary is--reversed">
-                            <svg class="icon-restart icon--s"><use xlink:href="#icon-restart"></use></svg>
-                            Replay Preview
-                        </button>
+                                    <button @click.stop="replayLesson" class="btn btn--secondary is--reversed">
+                                        <svg class="icon-restart icon--s"><use xlink:href="#icon-restart"></use></svg>
+                                        Replay Preview
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -334,12 +334,12 @@
                                     <div class="wrapper__inner" style="width:190px; transform: translateY(-4px);">
 
                                         <!-- FACBOOK SHARE -->
-                                        <div class="fb-share-button" data-href="https://selfmademan.com/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
+                                        <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
                                         <!-- /FACEBOOK SHARE -->
 
                                         <!-- TWITTER SHARE -->
                                         <div class="disp--ib" style="transform:translateY(7px);">
-                                            <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false">Tweet</a>
+                                            <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" :data-url="shareUrl">Tweet</a>
                                         </div>
                                         <!-- /TWITTER SHARE -->
 
@@ -389,7 +389,7 @@
                             <!-- NOTE: This should only be displayed for a free user -->
                             <div class="wrapper__inner align--center" style=" vertical-align:top;" v-if="showUpgrade">
                                 <span class="ts--subtitle margin--s no--margin-t no--margin-lr">Get instant on-demand access!</span>
-                                <button class="btn btn--primary is--affirmative">Upgrade to Premium</button>
+                                <button @click.stop="upgradeAccount" class="btn btn--primary is--affirmative">Upgrade to Premium</button>
                             </div>
                             <!-- /INFO BAR RIGHT - ENROLLED USER -->
 
@@ -672,8 +672,10 @@
                     if (_this.userLoggedIn) {
                         _this.lessonProgress[_this.currentLessonId].completionDate = Date.now();
                         let _nextLesson = this.nextLesson();
-                        _this.currentLessonId = _nextLesson._id;
-                        _this.updateLastLesson();
+                        if (this.canPlayVideo(_nextLesson)) {
+                            _this.currentLessonId = _nextLesson._id;
+                            _this.updateLastLesson();
+                        }
                         Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
                         });
                     }
@@ -819,6 +821,13 @@
         methods: {
 
             //-----------------------------------
+            // Upgrade Account
+            //-----------------------------------
+            upgradeAccount() {
+                this.$router.push({ name: 'upgradeaccount' });
+            },
+
+            //-----------------------------------
             // NOTES
             //-----------------------------------
             toggleNotepad() {
@@ -844,6 +853,23 @@
             //-----------------------------------
             // VIDEO/PLAYBACK
             //-----------------------------------
+            canPlayVideo(lesson) {
+                //if user is not logged in
+                if (this.userLoggedIn) {
+                    if (this.user.subscriptionType == 'free') {
+                        if (!lesson.free) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    return true;
+                } else {
+                    if (!lesson.free) {
+                        return false;
+                    }
+                    return true;
+                }
+            },
             changeVideoSource(url) {
                 if (this.player != undefined) {
                     this.player.src({
@@ -856,9 +882,11 @@
             playLesson(lesson) {
                 this.currentOverlay = '';
                 this.courseComplete = false;
-                if ((!this.userLoggedIn) && (!lesson.free)) {
+
+                if (!this.canPlayVideo(lesson)) {
                     return;
                 }
+
                 let _this = this;
                 this.currentLessonId = lesson._id;
 
@@ -1105,18 +1133,26 @@
                 if (this.userLoggedIn) {
                     if (lesson == undefined) return {};
                     if (this.lessonProgress == undefined) return {};
-                    if (this.lessonProgress[lesson._id] == undefined) return {};
-                    let lessonProgress = this.lessonProgress[lesson._id];
-                    if (lessonProgress != undefined) {
-                        if (lessonProgress.percentComplete >= 100) {
-                            return { 'is--playing': false, 'is--complete': true };
+                    if (this.user.subscriptionType == 'free') {
+                        if (!lesson.free) {
+                            return { 'is--locked': true };
+                        } else {
+                            if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                        }
+                    } else {
+                        if (this.lessonProgress[lesson._id] == undefined) return {};
+                        let lessonProgress = this.lessonProgress[lesson._id];
+                        if (lessonProgress != undefined) {
+                            if (lessonProgress.percentComplete >= 100) {
+                                return { 'is--playing': false, 'is--complete': true };
+                            } else {
+                                if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                                return { 'is--playing': false, 'is--complete': false };
+                            }
                         } else {
                             if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
                             return { 'is--playing': false, 'is--complete': false };
                         }
-                    } else {
-                        if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
-                        return { 'is--playing': false, 'is--complete': false };
                     }
                 } else {
                     if (!lesson.free) {
@@ -1397,15 +1433,15 @@
     .fadet-enter-active {
         transition: opacity 0.0s
     }
-    
+
     .fadet-leave-active {
         transition: opacity 0.7s
     }
-    
+
     .fadet-enter,
     .fadet-leave-to
     /* .fade-leave-active in <2.1.8 */
-    
+
     {
         opacity: 0
     }

@@ -63,7 +63,7 @@
                                 <div class="wrapper__inner">
                                     <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'"></div>
                                     <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
-                                    Updated: 2 days ago
+                                    {{ lastUpdatedPhoto }}
                                 </div>
                                 <div class="wrapper__inner align--right">
                                     <ul class="list list--inline">
@@ -153,6 +153,7 @@
     import { mapGetters } from 'vuex';
     import { uploadToS3 } from '../../api/uploader';
     import { eventBus } from '../../main';
+    import { timeSince } from '../../helpers/util';
 
     var hdate = require('human-date');
 
@@ -160,7 +161,7 @@
         data: function () {
             return {
                 photoIsUploaded: false,
-                profileImageUrl: '',
+                profileImageUrl: 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg',
                 email: '',
                 firstName: '',
                 lastName: '',
@@ -180,6 +181,10 @@
             shouldHide() {
                 if ((this.email != this.user.email) || (this.firstName != this.user.firstName) || (this.lastName != this.user.lastName)) return false;
                 return true;
+            },
+            lastUpdatedPhoto() {
+                let date = new Date(this.user.updatedAt);
+                return `Updated: ${timeSince(date)} ago`;
             },
             updatePayload() {
                 return {
@@ -210,7 +215,12 @@
         created() {
 
             //set initial values
-            this.profileImageUrl = this.user.profileImageUrl;
+            if (this.user.profileImageUrl.length > 0) {
+                this.profileImageUrl = this.user.profileImageUrl;
+            } else {
+                this.profileImageUrl = "http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg";
+            }
+
             this.email = this.user.email;
             this.firstName = this.user.firstName;
             this.lastName = this.user.lastName;

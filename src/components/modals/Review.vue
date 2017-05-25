@@ -18,7 +18,7 @@
 
                             <!-- ERROR MESSAGE -->
                             <!-- NOTE: Possible responses separated by '||' Let us know if you'd recommend this class! || Tell us about your experience! || All fields are required. -->
-                            <div class="well bg--light align--center" :class="{'color--negative border--negative bg--light-negative': checkErrorMessage}">
+                            <div v-if="errorMessage.length > 0" class="well bg--light align--center" :class="{'color--negative border--negative bg--light-negative': checkErrorMessage}">
                                 {{ toolMessage }}
                             </div>
                             <!-- /ERROR MESSAGE -->
@@ -46,8 +46,8 @@
                             <!-- REVIEW TEXT -->
                             <div class="input input--textarea input--m">
                                 <textarea v-model="reviewBody" class="input__field not--empty" maxlength="500" required>{{ reviewBody }}</textarea>
-                                <label for="reviewText">Tell us about it...</label>
-                                <span class="input__counter"><span>0</span>/500</span>
+                                <label v-if="reviewBody.length == 0">Tell us about it...</label>
+                                <span class="input__counter"><span>{{ reviewBody.length }}</span>/500</span>
                             </div>
                             <!-- /REVIEW TEXT -->
 
@@ -100,9 +100,7 @@
             },
             toolMessage() {
                 if (this.checkErrorMessage) {
-                    return 'All fields are required.';
-                } else {
-                    return 'Tell us about your experience!';
+                    return this.errorMessage;
                 }
             },
             checkDown() {
@@ -122,6 +120,8 @@
         },
         methods: {
             close() {
+                this.reviewBody = '';
+                this.errorMessage = '';
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
             },
@@ -140,12 +140,14 @@
                     course: this.activeCourse._id
                 }
                 let _this = this;
-                Class.addReviewForClass(this, payload, review => {
+                Class.addReviewForClass(this, payload).then(response => {
                     Class.classDetails(this, this.activeCourse._id, error => {
-                        _this.close();
+                        _this.errorMessage = `${error.response.data.message}`
                     }, course => {
                         _this.close();
                     });
+                }).catch(error => {
+                    _this.errorMessage = `${error.response.data.message}`
                 })
             },
             selectedLike(liked) {

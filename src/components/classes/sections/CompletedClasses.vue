@@ -57,6 +57,13 @@
             }
         },
         methods: {
+            courseReviewCount(course) {
+                if (course.positiveReviewCount == null) {
+                    return "No reviews yet.";
+                } else {
+                    return `${course.positiveReviewCount}`;
+                }
+            },
             readableCourseDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
             },

@@ -44,55 +44,57 @@
                     <svg class="icon-mindset icon--m">
                         <use xlink:href="#icon-mindset"></use>
                     </svg>
-                    <span class="tab__title">Mindset</span>
+                    <span class="tab__title">Mindset<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'productivity'}" @click="catClicked('productivity')">
                     <svg class="icon-productivity icon--m">
                         <use xlink:href="#icon-productivity"></use>
                     </svg>
-                    <span class="tab__title">Productivity</span>
+                    <span class="tab__title">Productivity<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'entrepreneurship'}" @click="catClicked('entrepreneurship')">
                     <svg class="icon-entrepreneurship icon--m">
                         <use xlink:href="#icon-entrepreneurship"></use>
                     </svg>
-                    <span class="tab__title">Entrepreneurship</span>
+                    <span class="tab__title">Entrepreneurship<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'money'}" @click="catClicked('money')">
                     <svg class="icon-money icon--m">
                         <use xlink:href="#icon-money"></use>
                     </svg>
-                    <span class="tab__title">Money</span>
+                    <span class="tab__title">Money<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'giving'}" @click="catClicked('giving')">
                     <svg class="icon-giving icon--m">
                         <use xlink:href="#icon-giving"></use>
                     </svg>
-                    <span class="tab__title">Giving</span>
+                    <span class="tab__title">Giving
+                        <span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span>
+                    </span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'fitness'}" @click="catClicked('fitness')">
                     <svg class="icon-health-fitness icon--m">
                         <use xlink:href="#icon-health-fitness"></use>
                     </svg>
-                    <span class="tab__title">Health &amp; Fitness</span>
+                    <span class="tab__title">Health &amp; Fitness<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'defense'}" @click="catClicked('defense')">
                     <svg class="icon-defense icon--m">
                         <use xlink:href="#icon-defense"></use>
                     </svg>
-                    <span class="tab__title">Defense</span>
+                    <span class="tab__title">Defense<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'lifestyle'}" @click="catClicked('lifestyle')">
                     <svg class="icon-lifestyle icon--m">
                         <use xlink:href="#icon-lifestyle"></use>
                     </svg>
-                    <span class="tab__title">Lifestyle</span>
+                    <span class="tab__title">Lifestyle<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
                 <li class="item" :class="{'is--active': selectedCategory == 'relationships'}" @click="catClicked('relationships')">
                     <svg class="icon-relationships icon--m">
                         <use xlink:href="#icon-relationships"></use>
                     </svg>
-                    <span class="tab__title">Relationships</span>
+                    <span class="tab__title">Relationships<span class="tab__close"><svg class="icon-close icon--xs"><use xlink:href="#icon-close"></use></svg></span></span>
                 </li>
             </ul>
         </div>
@@ -142,7 +144,7 @@
                 </div>
                 <div class="wrapper__inner align--right" v-if="selectedCategory.length > 0">
                     <button @click="followTopic" v-if="!followingTopic" class="btn btn--secondary">Follow</button>
-                    <button @click="unFollowTopic" v-if="followingTopic" class="btn btn--secondary">Unfollow</button>
+                    <button @click="unFollowTopic" v-if="followingTopic" class="btn btn--secondary">Following</button>
                 </div>
             </div>
 
@@ -156,7 +158,7 @@
                         <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>{{ readableCourseDuration(course.duration) }}</span>
                     </a>
                     <div class="class__info">
-                        <a class="link" href="#">{{ course.title }}</a>
+                        <a class="link" @click.stop="updateCurrentClass(course)">{{ course.title }}</a>
                         <ul class="class__meta list list--inline">
                             <li class="item has--icon">
                                 <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
@@ -166,7 +168,7 @@
                                 <svg class="icon-thumbs-up">
                                     <use xlink:href="#icon-thumbs-up"></use>
                                 </svg>
-                                <a class="link link--secondary">{{ course.positiveReviewCount }}</a>
+                                <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
                             </li>
                         </ul>
                     </div>
@@ -225,7 +227,6 @@
                         return false;
                     }
                 }).map(topic => { return topic; });
-                console.log(filteredTopic);
                 if (filteredTopic.length > 0) {
                     return true;
                 } else {
@@ -234,6 +235,13 @@
             }
         },
         methods: {
+            courseReviewCount(course) {
+                if (course.positiveReviewCount == null) {
+                    return "No reviews yet.";
+                } else {
+                    return `${course.positiveReviewCount}`;
+                }
+            },
             toTitleCase(str) {
                 return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
             },
@@ -253,6 +261,21 @@
                 let newArray = Array.from(topicSet);
                 User.updateUser(this, { followedTopics: newArray });
             },
+            sortByNewest() {
+                Class.recentClasses(this, (data) => {
+                    this.currentResults = data;
+                });
+            },
+            sortByViewCount() {
+                Class.mostPopular(this, (data) => {
+                    this.currentResults = data;
+                });
+            },
+            sortByRating() {
+                Class.highestRated(this, (data) => {
+                    this.currentResults = data;
+                });
+            },
             catClicked(topic) {
 
                 //highlight or clear topic selection
@@ -260,13 +283,17 @@
                 if (this.selectedCategory.length > 0) {
                     //if there is an existing topic cached, use that
                     let searchTopic = this.toTitleCase(topic);
-                    if (this.classesByTopic[searchTopic].length > 0) {
-                        this.currentResults = this.classesByTopic[searchTopic];
-                    }
-                    let _this = this;
-                    Class.classesByTopic(this, searchTopic, (data) => {
-                        _this.currentResults = data;
-                    })
+                    //filter this.classes into current results
+                    let _filterClasses = this.classes.filter(fClass => {
+                        if (fClass.topics.indexOf(searchTopic) > -1) {
+                            //In the array!
+                            return true;
+                        } else {
+                            //Not in the array
+                            return false;
+                        }
+                    }).map(fClass => { return fClass; });
+                    this.currentResults = _filterClasses;
                 } else {
                     this.currentResults = this.classes;
                 }
@@ -276,12 +303,15 @@
                 switch (search) {
                     case 'newest':
                         this.currentSort = 'Newest First';
+                        this.sortByNewest();
                         break;
                     case 'popular':
                         this.currentSort = 'Most Popular';
+                        this.sortByViewCount();
                         break;
                     case 'highest':
                         this.currentSort = 'Highest Rated';
+                        this.sortByRating();
                         break;
                     default:
                         this.currentSort = 'Newest First';

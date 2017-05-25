@@ -76,6 +76,7 @@ export default {
     },
 
     classesByTopic(context, topic, cb) {
+        console.log('getting classes by topic');
         axios
             .get(BASE_URL + 'courses/topics/' + topic, headers())
             .then(response => {
@@ -100,6 +101,28 @@ export default {
     recentClasses(context, cb) {
         axios
             .get(BASE_URL + 'courses', headers())
+            .then(response => {
+                console.log(response.data.data);
+                context.$store.dispatch('updateClasses', response.data.data);
+                cb(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    highestRated(context, cb) {
+        axios
+            .get(BASE_URL + 'courses/highestrated', headers())
+            .then(response => {
+                console.log(response.data.data);
+                context.$store.dispatch('updateClasses', response.data.data);
+                cb(response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
+    mostPopular(context, cb) {
+        axios
+            .get(BASE_URL + 'courses/mostpopular', headers())
             .then(response => {
                 console.log(response.data.data);
                 context.$store.dispatch('updateClasses', response.data.data);
@@ -170,13 +193,19 @@ export default {
     editNoteForLesson(context, payload, callback) {},
 
     //Review Section
-    addReviewForClass(context, payload, callback) {
-        axios
-            .post(BASE_URL + 'reviews', payload, headers())
-            .then(response => {
-                callback(response.data.data);
-            })
-            .catch(error => outputError(error));
+    addReviewForClass(context, payload) {
+        let _this = this;
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'reviews', payload, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+        return promise;
     },
 
     //master classes
@@ -209,7 +238,6 @@ export default {
         axios
             .get(BASE_URL + 'courses/savedforlater', headers())
             .then(response => {
-                console.log(JSON.stringify(response.data.data));
                 context.$store.dispatch('updateSavedClasses', response.data.data);
             })
             .catch(error => outputError(error));

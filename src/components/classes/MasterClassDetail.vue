@@ -341,12 +341,12 @@
                                     <div class="wrapper__inner" style="width:190px; transform: translateY(-4px);">
 
                                         <!-- FACBOOK SHARE -->
-                                        <div class="fb-share-button" data-href="https://selfmademan.com/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
+                                        <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
                                         <!-- /FACEBOOK SHARE -->
 
                                         <!-- TWITTER SHARE -->
                                         <div class="disp--ib" style="transform:translateY(7px);">
-                                            <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false">Tweet</a>
+                                            <a href="https://twitter.com/share" class="twitter-share-button" :data-url="shareUrl" data-show-count="false">Tweet</a>
                                         </div>
                                         <!-- /TWITTER SHARE -->
 
@@ -1445,15 +1445,15 @@
     .fadet-enter-active {
         transition: opacity 0.0s
     }
-    
+
     .fadet-leave-active {
         transition: opacity 0.7s
     }
-    
+
     .fadet-enter,
     .fadet-leave-to
     /* .fade-leave-active in <2.1.8 */
-    
+
     {
         opacity: 0
     }
