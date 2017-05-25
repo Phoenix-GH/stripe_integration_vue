@@ -12,6 +12,7 @@
                     <img :src="course.thumbImageUrl" alt="">
                     <span class="btn__play btn--s btn--secondary"></span>
                     <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>{{ readableCourseDuration(course.duration) }}</span>
+                    <span @click.stop="removeClass(course)" class="remove__link link link--secondary">Remove</span>
                 </a>
                 <div class="class__info">
                     <a class="link" href="#">{{ course.title }}</a>
@@ -24,7 +25,7 @@
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
-                            <a class="link link--secondary">{{ course.positiveReviewCount }}</a>
+                            <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
                         </li>
                     </ul>
                 </div>
@@ -55,16 +56,25 @@
 
         },
         methods: {
+            courseReviewCount(course) {
+                if (course.positiveReviewCount == null) {
+                    return "No reviews yet.";
+                } else {
+                    return `${course.positiveReviewCount}`;
+                }
+            },
             readableCourseDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
             },
             updateCurrentClass(course) {
-                console.log(course);
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
             },
             thumbnail(url) {
                 return `${url}?w=388&h=193`;
+            },
+            removeClass(course) {
+                Class.removeSavedForLater(this, course._id);
             }
         }
     }

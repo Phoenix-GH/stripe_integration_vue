@@ -131,13 +131,16 @@
             // Logged into your app and Facebook.
             let __this = _this;
             FB.api('/me', function (response) {
-              __this.facebookId = response.id;
-              __this.name = response.name;
-              __this.profileImageUrl = `https://graph.facebook.com/${response.id}/picture?type=large`
-              if (response.email) {
-                __this.email = response.email;
+
+              let params = {
+                facebookId: response.id,
+                name: response.name,
+                profileImageUrl: `https://graph.facebook.com/${response.id}/picture?type=large`
               }
-              __this.createFacebookAccount();
+              if (response.email) {
+                params.email = response.email;
+              }
+              __this.createFacebookAccount(params);
             });
           } else {
             // The person is not logged into this app or we are unable to tell.
@@ -145,9 +148,9 @@
           }
         }, { scope: 'public_profile, email' });
       },
-      createFacebookAccount() {
-        let payload = this.facebookLoginPayload;
-        if (this.name.length > 0) {
+      createFacebookAccount(params) {
+        let payload = params;
+        if (payload.name.length > 0) {
           let res = this.name.split(" ");
           if (res.length > 0) {
             payload.firstName = res[0];

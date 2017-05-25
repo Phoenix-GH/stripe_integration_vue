@@ -5,7 +5,7 @@
             <div class="banner__content container container--fw container--l is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
-                        <iframe width="640" height="120" scrolling="yes" frameborder="no" :src="activePodcast.podcastUrl"></iframe>
+                        <iframe width="640" height="120" scrolling="no" frameborder="no" :src="embedCode"></iframe>
                     </div>
                 </div>
             </div>
@@ -153,12 +153,16 @@
             VueMarkdown
         },
         mounted() {
-            this.updatePodcast();
+            console.log("updating active podcast" + this.activePodcast);
+            //this.updatePodcast();
         },
         computed: {
             ...mapGetters([
                 'user', 'userLoggedIn', 'activePodcast'
             ]),
+            embedCode() {
+                return `${this.activePodcast.podcastUrl}`
+            },
             currentViewCount() {
                 return `${this.activePodcast.viewCount}`;
             },
