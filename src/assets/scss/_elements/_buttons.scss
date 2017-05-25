@@ -1,0 +1,338 @@
+.btn{
+    display:inline-block;
+    border:none;
+    border-radius:$spacing-xxxs;
+    box-sizing: border-box;
+    font-family:$secondary-font;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight:900;
+    transition:all 0.1s ease-in-out;
+    z-index: 1;
+    .btn--inner{
+        display: inline-block;
+        text-align: right;
+        white-space: nowrap;
+        transition: all 0.2s ease-in-out;
+        .checkmark{
+            transform:translateY(-4px);
+        }
+    }
+    &:focus{
+        outline:none;
+    }
+    [class^="icon-"], [class*=" icon-"]{
+        margin-right:$spacing-xs;
+    }
+    &.btn--block{
+        width:100%;
+        display:block;
+    }
+    &.btn--icon{
+        width:$spacing-xxl;
+        height:$spacing-xxl;
+        padding:0 !important;
+        position: relative;
+        svg{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+        &.btn--s{
+            width:$spacing-xl;
+            height:$spacing-xl;
+            svg{
+                width:16px;
+                height:16px;
+            }
+        }
+        &.btn--toggle{
+            &.is--off{
+                svg:first-child{
+                    visibility: visible;
+                }
+                svg:last-child{
+                    visibility: hidden;
+                }
+            }
+            &.is--on{
+                svg:first-child{
+                    visibility: hidden;
+                }
+                svg:last-child{
+                    visibility: visible;
+                }
+            }
+        }
+    }
+    &.btn--circle{
+        border-radius:50%;
+    }
+    &.btn--primary{
+        line-height:40px;
+        padding:0 $spacing-l;
+        font-size:12px;
+        color:$white;
+        letter-spacing: 3px;
+        background-color:$black;
+        &:hover{
+            cursor:pointer;
+            transform: translateY(-1px);
+            box-shadow: 0 $spacing-xxs 8px 0 $black-20;
+        }
+        &:active{
+            transform: translateY(0);
+            box-shadow: 0;
+        }
+        &[disabled]{
+            color:$black-40;
+            background-color:$silver;
+            &:hover{
+                cursor:not-allowed;
+                transform: translateY(0);
+                box-shadow: none;
+            }
+        }
+        &.has--loader{
+            .btn--inner{
+                transform: translateX(-8px);
+            }
+        }
+        &.is--warning{
+            background-color:$negative;
+        }
+        &.is--affirmative{
+            background-color:$positive;
+            &:hover{
+                background-color:$bright-positive;
+            }
+        }
+        &.is--accent{
+            background-color:$accent;
+        }
+        &.is--reversed{
+            background-color:$white-40;
+            &:hover{
+                background-color:$white-60;
+            }
+            &.is--on{
+                background-color:$white;
+                &:hover{
+                    background-color:$white;
+                }
+                svg{
+                    fill: $black;
+                }
+            }
+        }
+        &.is--facebook{
+            &::before{
+                width:16px;
+                height:16px;
+            }
+        }
+    }
+    &.btn--secondary{
+        height:32px;
+        padding:0 $spacing-m;
+        position: relative;
+        border:2px solid $black;
+        font-size:13px;
+        color:$black;
+        font-weight:400;
+        background:none;
+        overflow: visible;
+        &::after{
+            content:'';
+            width:100%;
+            height:100%;
+            display:block;
+            position:absolute;
+            top:0;
+            left:0;
+            background-color:$black-20;
+            opacity:0;
+            transition: all 0.1s ease-in-out;
+        }
+        &:hover{
+            cursor:pointer;
+            transform: translate(-$spacing-xxxs, -$spacing-xxxs);
+            box-shadow: $spacing-xxxs $spacing-xxxs 0 0 $black-20;
+            &::after{
+                opacity:1;
+                top:$spacing-xxxs;
+                left:$spacing-xxxs;
+            }
+        }
+        &:active{
+            transform: translate(0, 0);
+            box-shadow:none;
+            &::after{
+                top:0;
+                left:0;
+            }
+        }
+        &[disabled]{
+            color:$stainless;
+            font-weight:700;
+            border-color:$stainless;
+            &::after{
+                display:none;
+            }
+            &:hover{
+                cursor:not-allowed;
+                transform: translateY(0);
+                box-shadow: none;
+            }
+        }
+        &.is--warning{
+            color:$negative;
+            border-color:$negative;
+            font-weight:700;
+            &:hover{
+                box-shadow: $spacing-xxxs $spacing-xxxs 0 0 rgba($negative, 0.1);
+            }
+            &::after{
+                background-color:rgba($negative, 0.1);
+            }
+        }
+        &.is--affirmative{
+            color:$positive;
+            border-color:$positive;
+            font-weight:700;
+            &:hover{
+                box-shadow: $spacing-xxxs $spacing-xxxs 0 0 rgba($positive, 0.1);
+            }
+            &::after{
+                background-color:rgba($positive, 0.1);
+            }
+        }
+        &.is--reversed{
+            color:$white;
+            border-color:$white-40;
+            &::after{
+                background-color:$white-20;
+            }
+            &:hover{
+                border-color:$white-60;
+                box-shadow: $spacing-xxxs $spacing-xxxs 0 0 $white-20;
+            }
+            [class^="icon-"], [class*=" icon-"]{
+                fill:$white;
+            }
+        }
+    }
+    &.btn--cta{
+        line-height:56px;
+        padding:0 $spacing-l;
+        font-size:15px;
+        color:$white;
+        letter-spacing: 3px;
+        background-color:$positive;
+        &:hover{
+            cursor:pointer;
+            transform: translateY(-$spacing-xxxs);
+            box-shadow: 0 $spacing-xxs 10px 0 $black-20;
+            background-color:$bright-positive;
+        }
+        &:active{
+            transform: translateY(0);
+            box-shadow: 0;
+        }
+        &.is--accent{
+            background-color:$accent;
+        }
+        &.is--reversed{
+            color:$positive;
+            background-color:$white;
+            &:hover{
+                color:$bright-positive;
+            }
+        }
+        &.btn--s{
+            height:40px;
+            // padding:0 $spacing-l;
+            font-size:12px;
+        }
+    }
+    &.btn--share{
+        line-height:20px;
+        padding:0 7px;
+        border-radius:3px;
+        font-family: $primary-font;
+        text-transform: none;
+        font-weight:700;
+        text-decoration: none;
+        letter-spacing: normal;
+        font-size:12px;
+        color:$white;
+        transform:translateY(1px);
+        &.is--email{
+            background-color:$black-40;
+            &::before{
+                content:'';
+                width:12px;
+                height:9px;
+                margin-right:5px;
+                display:inline-block;
+                background-image:url('./assets/img/email-share-icon.svg');
+                transform:translateY(1px);
+            }
+            &:hover{
+                background-color:$black-60;
+            }
+        }
+    }
+    &.is--facebook{
+        background-color:$facebook !important;
+        &::before{
+            content:'';
+            width:24px;
+            height:24px;
+            margin-right:$spacing-s;
+            transform:translateY(-2px);
+            display:inline-block;
+            vertical-align: middle;
+            background-image:url('./assets/img/facebook-white.svg');
+            background-size: cover;
+        }
+    }
+}
+
+.btn__play{
+    width:64px;
+    height:64px;
+    display:inline-block;
+    border-radius:50%;
+    font-size:0px;
+    background:rgba($white, 0.2) url('./assets/img/play-white.svg') 55% center no-repeat;
+    background-size:20px;
+    box-shadow: 0 0 12px $black-40;
+    transition:all 0.3s ease-in-out;
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+        background-color:$bright-brand !important;
+    }
+    &.btn--m{
+        width:80px;
+        height:80px;
+        background-size:24px;
+    }
+    &.btn--l{
+        width:96px;
+        height:96px;
+        background-size:32px;
+    }
+    &.btn--secondary{
+        background-color:$white-40;
+        &:hover{
+            background-color:$white-60;
+        }
+    }
+    &.is--podcast{
+        background:rgba($white, 0.2) url('./assets/img/podcast-white.svg') 51% center no-repeat;
+        background-size:50%;
+    }
+}

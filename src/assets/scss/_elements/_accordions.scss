@@ -1,0 +1,38 @@
+.accordion{
+    .accordion__item{
+        margin-bottom:$spacing-s;
+        input[type="radio"]{
+            visibility: hidden;
+            position: absolute;
+            top:-9999em;
+            left:-9999em;
+        }
+        label{
+            width:100%;
+            display: block;
+            padding:$spacing-xs $spacing-s;
+            border-radius:2px;
+            border:1px solid $stainless;
+            font-size: $fs-m;
+            &:hover{
+                cursor: pointer;
+                color:$accent;
+            }
+        }
+        .accordion__content{
+            height:0;
+            padding:0 $spacing-s;
+            overflow: hidden;
+            transform:scaleY(0);
+            transform-origin: top;
+            transition: all 0.2s ease-in-out;
+            opacity:0;
+        }
+        input[type="radio"]:checked + .accordion__content{
+            height:auto;
+            padding:$spacing-s;
+            transform:scaleY(1);
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,311 @@
+// Unordered Lists
+
+.list{
+    .item{
+        position:relative;
+        [class^="icon-"], [class*=" icon-"]{
+            fill:$accent;
+        }
+    }
+    &.list--bulleted{
+        list-style: disc;
+        font-size: $base-font-size*1.2;
+        margin-top:$spacing-s;
+        margin-bottom:$spacing-m;
+        .item{
+            margin-left:$spacing-xxs;
+            margin-bottom:$spacing-xs;
+        }
+        &:last-child{
+            margin-bottom:0;
+        }
+        &.list--checks{
+            list-style:none;
+            .item{
+                &::before{
+                    content:'';
+                    width:16px;
+                    height:16px;
+                    margin-right:$spacing-xs;
+                    display:inline-block;
+                    background-image: url('./assets/img/bullet-check.png');
+                    background-size:cover;
+                    background-position: center;
+                    transform: translateY(1px);
+                }
+            }
+        }
+    }
+    &.list--truncated{
+        .item{
+            white-space: nowrap;
+        }
+    }
+    &.list--inline{
+        li.item{
+            display:inline-block;
+            vertical-align: middle;
+            margin-right:$spacing-m;
+            &:last-child{
+                margin-right:0 !important;
+            }
+            &.has--icon{
+                [class^="icon-"], [class*=" icon-"], .avatar{
+                    margin-right:$spacing-xs;
+                    transform:translateY(-1px);
+                }
+                .link{
+                    &::before{
+                        left:36px;
+                    }
+                    &:hover{
+                        &::before{
+                            width:calc(100% - 36px);
+                        }
+                    }
+                }
+            }
+        }
+        &.list--tight{
+            li.item{
+                margin-right:$spacing-xs;
+            }
+        }
+        &.list--social{
+            li.item{
+                margin-right:$spacing-xxs;
+                .link{
+                    &::before{
+                        display:none;
+                    }
+                }
+            }
+        }
+    }
+    &.list--divided{
+        display:table;
+        li.item{
+            display:table-cell;
+            padding:0 $spacing-m;
+            border-right:1px solid $black-10;
+            &:first-child{
+                padding-left:0;
+            }
+            &:last-child{
+                margin-right:0;
+                padding-right:0;
+                border-right:none;
+            }
+        }
+        .list--inline{
+            display: table;
+            vertical-align: middle;
+            li.item{
+                display: table-cell;
+                padding-right:0;
+                padding-left:$spacing-m;
+                border:none;
+                &:first-child{
+                    padding-left:0;
+                }
+            }
+        }
+    }
+    &.list--nav{
+        margin-top:$spacing-m;
+        .item{
+            margin-bottom:$spacing-s;
+            &:last-child{
+                margin-bottom:0;
+            }
+            .link{
+                color:$black-60;
+                &:hover{
+                    color:$black;
+                }
+                &.is--active{
+                    color:$black;
+                }
+            }
+        }
+    }
+    &.list--tabs{
+        .item{
+            height:$spacing-xxl;
+            display:inline-block;
+            margin-top:$spacing-l;
+            margin-right:$spacing-l;
+            box-shadow:inset 0 0 0  $accent;
+            font-weight:500;
+            transition:all 0.1s ease-in-out;
+            color:$black;
+            &.is--active{
+                box-shadow:inset 0 -4px 0  $accent;
+                &:hover{
+                    cursor: default;;
+                    color:$black;
+                }
+            }
+            &:hover{
+                cursor: pointer;
+                color:$accent;
+            }
+        }
+    }
+    &.list--buttons{
+        margin-top:$spacing-m;
+        .item{
+            margin-bottom:$spacing-s;
+        }
+    }
+    &.list--box{
+        padding:$spacing-s $spacing-l;
+        border-radius:4px;
+        background-color:$white-20;
+    }
+    &.is--reversed{
+        li.item{
+            color:$white;
+        }
+        &.list--divided{
+            li.item{
+                border-right-color: $white-40;
+            }
+        }
+        &.list--nav{
+            .item{
+                .link{
+                    color:$white-80;
+                    &:hover{
+                        color:$white;
+                    }
+                    &.is--active{
+                        color:$white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.has--dropdown, .has--popover{
+    position:relative;
+    .list{
+        min-width:168px;
+        padding:$spacing-xs 0;
+        z-index: 10;
+        position:absolute;
+        left:50%;
+        border-radius:3px;
+        box-shadow:0 6px 30px $black-60;
+        text-align:left;
+        background-color:$white;
+        visibility: hidden;
+        transform:translate(-50%, 0px);
+        transition:transform 0.1s ease-in-out;
+        &::after{
+            bottom: 100%;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #ffffff;
+            border-width: 8px;
+            margin-left: -8px;
+        }
+        li.item{
+            height:auto !important;
+            margin-right:0;
+            margin-bottom:0 !important;
+            padding:0;
+            border:none;
+            display:block;
+            overflow:hidden;
+            a{
+                width:100%;
+                display:block;
+                padding: $spacing-xs $spacing-s;
+                color:$black;
+                text-decoration: none;
+                font-size:$fs-s !important;
+                font-weight: 400;
+                &:hover{
+                    color:$white;
+                    background-color:$accent;
+                    [class^="icon-"], [class*=" icon-"]{
+                        fill:$white;
+                    }
+                }
+            }
+        }
+    }
+    &.is--inline{
+        .list{
+            margin-top:0;
+            transform:translate(-50%, 24px);
+            &::before{
+                content:'';
+                width:100%;
+                height:$spacing-s;
+                display:block;
+                position: absolute;
+                top:-$spacing-s;
+            }
+        }
+    }
+}
+
+.has--dropdown{
+    &.is--inline{
+        &:hover{
+            .list{
+                transform:translate(-50%, 16px);
+            }
+        }
+    }
+    &:hover{
+        .list{
+            visibility: visible;
+            transform:translate(-50%, -8px);
+        }
+        .link--dropdown{
+            &::before{
+                width:calc(100%);
+                background-color:$brand;
+            }
+        }
+    }
+}
+
+.has--popover{
+    &:hover{
+        cursor:pointer;
+        [class^="icon-"], [class*=" icon-"]{
+            fill:$accent !important;
+        }
+    }
+    &.is--active{
+        [class^="icon-"], [class*=" icon-"]{
+            fill:$accent !important;
+        }
+        .list{
+            visibility: visible;
+            transform:translate(-50%, -8px);
+        }
+        .link--dropdown{
+            &::before{
+                width:calc(100%);
+                background-color:$brand;
+            }
+        }
+        &.is--inline{
+            .list{
+                transform:translate(-50%, 16px);
+            }
+        }
+    }
+}

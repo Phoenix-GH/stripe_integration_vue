@@ -1,0 +1,494 @@
+//===============================//
+//===== Universal Overrides =====//
+//===============================//
+
+//=== Visibility
+.starts--hidden{
+    display:none;
+}
+.is--hidden{
+    display:none !important;
+}
+.is--visible{
+    display:block !important;
+}
+
+//=== Display Overrides
+.disp--block{
+    display:block !important;
+}
+.disp--ib{
+    display:inline-block !important;
+}
+.disp--inline{
+    display:inline !important;
+}
+
+//=== Overflow Overrides
+.of--visible{
+    overflow: visible;
+}
+
+//=== Percentage Width
+.width--100{ width:100% !important; }
+.width--95{ width:95% !important; }
+.width--90{ width:90% !important; }
+.width--85{ width:85% !important; }
+.width--80{ width:80% !important; }
+.width--75{ width:75% !important; }
+.width--70{ width:70% !important; }
+.width--65{ width:65% !important; }
+.width--60{ width:60% !important; }
+.width--55{ width:55% !important; }
+.width--50{ width:50% !important; }
+.width--45{ width:45% !important; }
+.width--40{ width:40% !important; }
+.width--35{ width:35% !important; }
+.width--30{ width:30% !important; }
+.width--25{ width:25% !important; }
+.width--20{ width:20% !important; }
+.width--15{ width:15% !important; }
+.width--10{ width:10% !important; }
+.width--5{ width:5% !important; }
+
+
+//=============================//
+//===== Background Colors =====//
+//=============================//
+
+//=== Brand
+.bg--light-brand{
+    background-color: $light-brand !important;
+};
+.bg--bright-brand{
+    background-color: $bright-brand !important;
+};
+.bg--brand{
+    background-color: $brand !important;
+};
+
+//=== Accent
+.bg--light-accent{
+    background-color: $light-accent !important;
+};
+.bg--accent{
+    background-color: $accent !important;
+};
+
+//=== positive
+.bg--light-positive{
+    background-color: $light-positive !important;
+};
+.bg--positive{
+    background-color: $positive !important;
+};
+
+//=== Negative
+.bg--light-negative{
+    background-color: $light-negative !important;
+};
+.bg--negative{
+    background-color: $negative !important;
+};
+
+//=== Gray
+.bg--snow{
+    background-color: $snow !important;
+};
+.bg--fog{
+    background-color:$fog !important;
+};
+.bg--silver{
+    background-color: $silver !important;
+};
+.bg--stainless{
+    background-color: $stainless !important;
+};
+
+//=== White
+.bg--white{
+    background-color: $white !important;
+};
+.bg--white-80{
+    background-color: $white-80 !important;
+};
+.bg--white-60{
+    background-color: $white-60 !important;
+};
+.bg--white-40{
+    background-color: $white-40 !important;
+};
+.bg--white-20{
+    background-color: $white-20 !important;
+};
+.bg--white-10{
+    background-color: $white-10 !important;
+};
+
+//=== Black
+.bg--black{
+    background-color: $black !important;
+};
+.bg--black-80{
+    background-color: $black-80 !important;
+};
+.bg--black-60{
+    background-color: $black-60 !important;
+};
+.bg--black-40{
+    background-color: $black-40 !important;
+};
+.bg--black-20{
+    background-color: $black-20 !important;
+};
+.bg--black-10{
+    background-color: $black-10 !important;
+};
+.bg--black-true{
+    background-color: $black-true !important;
+}
+
+//=== Patterns
+.bg--wood{
+    background-image:url('./assets/img/bg-wood-50.png') !important;
+    background-size:396px !important;
+    background-repeat:repeat !important;
+    background-position: top center !important;
+    background-blend-mode: multiply !important;
+}
+
+//=======================//
+//===== Text Colors =====//
+//=======================//
+
+//=== Brand
+.color--light-brand{
+    color: $light-brand !important;
+    fill: $light-brand !important;
+}
+.color--brand{
+    color: $brand !important;
+    fill: $brand !important;
+}
+
+//=== Accent
+.color--light-accent{
+    color: $light-accent !important;
+    fill: $light-accent !important;
+}
+.color--accent{
+    color: $accent !important;
+    fill: $accent !important;
+}
+
+//=== positive
+.color--light-positive{
+    color: $light-positive !important;
+    fill: $light-positive !important;
+}
+.color--positive{
+    color: $positive !important;
+    fill: $positive !important;
+}
+
+//=== Negative
+.color--light-negative{
+    color: $light-negative !important;
+    fill: $light-negative !important;
+}
+.color--negative{
+    color: $negative !important;
+    fill: $negative !important;
+}
+
+//=== White
+.color--white{
+    color: $white !important;
+    fill: $white !important;
+}
+.color--white-80{
+    color: $white-80 !important;
+    fill: $white-80 !important;
+}
+.color--white-60{
+    color: $white-60 !important;
+    fill: $white-60 !important;
+}
+.color--white-40{
+    color: $white-40 !important;
+    fill: $white-40 !important;
+}
+.color--white-20{
+    color: $white-20 !important;
+    fill: $white-20 !important;
+}
+
+//=== Tints
+.color--snow{
+    color: $snow !important;
+    fill: $snow !important;
+}
+.color--fog{
+    color:$fog !important;
+    fill:$fog !important;
+}
+.color--silver{
+    color: $silver !important;
+    fill: $silver !important;
+}
+.color--stainless{
+    color: $stainless !important;
+    fill: $stainless !important;
+}
+
+//=== Black
+.color--black{
+    color: $black !important;
+    fill: $black !important;
+}
+.color--black-80{
+    color: $black-80 !important;
+    fill: $black-80 !important;
+}
+.color--black-60{
+    color: $black-60 !important;
+    fill: $black-60 !important;
+}
+.color--black-40{
+    color: $black-40 !important;
+    fill: $black-40 !important;
+}
+.color--black-20{
+    color: $black-20 !important;
+    fill: $black-20 !important;
+}
+
+
+//======================//
+//===== Text Sizes =====//
+//======================//
+
+.fontSize--xxs{
+    font-size: $fs-xxs !important;
+    line-height: $lh-xxs !important;
+}
+.fontSize--xs{
+    font-size: $fs-xs !important;
+    line-height: $lh-xs !important;
+}
+.fontSize--s{
+    font-size: $fs-s !important;
+    line-height: $lh-s !important;
+}
+.fontSize--m{
+    font-size: $fs-m !important;
+    line-height: $lh-m !important;
+}
+.fontSize--l{
+    font-size: $fs-l !important;
+    line-height: $lh-l !important;
+}
+.fontSize--xl{
+    font-size: $fs-xl !important;
+    line-height: $lh-xl !important;
+}
+.fontSize--xxl{
+    font-size: $fs-xxl !important;
+    line-height: $lh-xxl !important;
+}
+
+
+//=======================//
+//===== Text Styles =====//
+//=======================//
+
+//=== Text Styles
+.textStyle--caps{
+    text-transform: uppercase !important;
+}
+
+//=== Font Weights
+.fontWeight--1{
+    font-weight:400;
+}
+.fontWeight--2{
+    font-weight:500;
+}
+.fontWeight--3{
+    font-weight:700;
+}
+
+.font--secondary{
+    &.fontWeight--2{
+        font-weight: 700 !important;
+    }
+    &.fontWeight--3{
+        font-weight: 900 !important;
+    }
+}
+
+
+//=================//
+//===== Fonts =====//
+//=================//
+
+.font--primary{
+    font-family: $primary-font !important;
+}
+.font--secondary{
+    font-family: $secondary-font !important;
+}
+
+
+//===================//
+//===== Borders =====//
+//===================//
+
+//=== No Border
+.no--border {
+    border:none !important;
+}
+.no--border-lr {
+    border-right:none !important;
+    border-left:none !important;
+    border-left-width:0 !important;
+    border-right-width:0 !important;
+}
+.no--border-tb {
+    border-top:none !important;
+    border-bottom:none !important;
+    border-top-width:0 !important;
+    border-bottom-width:0 !important;
+}
+.no--border-t {
+    border-top:none !important;
+    border-top-width:0 !important;
+}
+.no--border-b {
+    border-bottom:none !important;
+    border-bottom-width:0 !important;
+}
+.no--border-l {
+    border-left:none !important;
+    border-left-width:0 !important;
+}
+.no--border-r {
+    border-right:none !important;
+    border-right-width:0 !important;
+}
+.no--radius{
+    border-radius:0 !important;
+}
+
+//=== Border Widths
+.border--1{
+    border-width:1px;
+}
+.border--2{
+    border-width:2px;
+}
+
+//=== Border Styles
+.border--solid{
+    border-style:solid !important;
+}
+.border--dashed{
+    border-style:dashed !important;
+}
+
+//=== Border Colors
+.border--lightest{
+    border-color:$black-10 !important;
+}
+.border--light{
+    border-color:$black-20 !important;
+}
+.border--medium{
+    border-color:$black-40 !important;
+}
+.border--dark{
+    border-color:$black-60 !important;
+}
+.border--darkest{
+    border-color:$black-80 !important;
+}
+.border--brand{
+    border-color:$brand !important;
+}
+.border--accent{
+    border-color:$accent !important;
+}
+.border--positive{
+    border-color:$positive !important;
+}
+.border--negative{
+    border-color:$negative !important;
+}
+.is--reversed{
+    .border--lightest{
+        border-color:$white-10 !important;
+    }
+    .border--light{
+        border-color:$white-20 !important;
+    }
+    .border--medium{
+        border-color:$white-40 !important;
+    }
+    .border--dark{
+        border-color:$white-60 !important;
+    }
+    .border--darkest{
+        border-color:$white-80 !important;
+    }
+}
+
+//=== Border Sides
+.border--t{
+    border-bottom:none !important;
+    border-right:none !important;
+    border-left:none !important;
+}
+.border--r{
+    border-bottom:none !important;
+    border-left:none !important;
+    border-top:none !important;
+}
+.border--b{
+    border-left:none !important;
+    border-top:none !important;
+    border-right:none !important;
+}
+.border--l{
+    border-top:none !important;
+    border-right:none !important;
+    border-bottom:none !important;
+}
+.border--tb{
+    border-left:none !important;
+    border-right:none !important;
+}
+.border--lr{
+    border-top:none !important;
+    border-bottom:none !important;
+}
+
+
+//===================//
+//===== Shadows =====//
+//===================//
+
+.shadow--m{
+    box-shadow:0 0 5px $black-10;
+}
+.shadow--l{
+    box-shadow:0 0 24px $black-80;
+}
+
+
+//===========================//
+//===== Text Decoration =====//
+//===========================//
+
+.underlined{
+    text-decoration: underline !important;
+}

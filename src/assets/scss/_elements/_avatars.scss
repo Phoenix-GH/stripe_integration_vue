@@ -1,0 +1,30 @@
+.avatar{
+    width:24px;
+    height:24px;
+    display:inline-block;
+    vertical-align: middle;
+    margin-right:$spacing-xs;
+    border-radius:50%;
+    background-color:$fog;
+    background-image:url('./assets/img/avatar-default.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    transform: translateY(-1px);
+    &.avatar--m{
+        width:32px;
+        height:32px;
+    }
+    &.avatar--l{
+        width:56px;
+        height:56px;
+    }
+    &.avatar--xl{
+        width:72px;
+        height:72px;
+    }
+    &.avatar--xxl{
+        width:88px;
+        height:88px;
+    }
+}

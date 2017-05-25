@@ -1,0 +1,190 @@
+.loading__overlay{
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	background-color:#fff;
+	z-index: 10000;
+	.loader{
+		position:fixed;
+		top:50%;
+		left:50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.loader {
+	line-height:40px;
+	text-align: center;
+	display:inline-block;
+	vertical-align: middle;
+	span{
+		width: 11em;
+		height: 11em;
+		display:block;
+		border-radius: 50%;
+		background: $brand;
+		background: linear-gradient(to right, $brand 10%, rgba($brand, 0) 42%);
+		position: relative;
+		animation: load3 1.4s infinite linear;
+		transform: translateZ(0);
+		&:before {
+			width: 50%;
+			height: 50%;
+			background: $white;
+			border-radius: 100% 0 0 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: '';
+		}
+		&:after {
+			content: '';
+			width: 75%;
+			height: 75%;
+			margin: auto;
+			border-radius: 50%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: $white;
+		}
+	}
+	&.loader--s{
+		span{
+			width:$spacing-m;
+			height:$spacing-m;
+		}
+	}
+	&.loader--m{
+		span{
+			width:$spacing-l;
+			height:$spacing-l;
+		}
+	}
+	&.loader--l{
+		span{
+			width:$spacing-xl;
+			height:$spacing-xl;
+		}
+	}
+	&.color--fog{
+		span{
+			&:before, &:after{
+				background:$fog;
+			}
+		}
+	}
+}
+@-webkit-keyframes load3 {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@keyframes load3 {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+//=== Buttons with Loaders
+.btn{
+	.loader{
+		max-width:0px;
+		opacity:0;
+		transition:opacity 0.5s ease-in-out, max-width 0.3s ease-in-out;
+	}
+	&.has--loader{
+		.loader{
+			opacity:1;
+		}
+	}
+}
+
+.btn--primary{
+	.loader {
+		transform:translate(-16px, -2px);
+		span{
+			width: 22px;
+			height: 22px;
+			&:before {
+				background: $black;
+			}
+			&:after {
+				background: $black;
+			}
+		}
+	}
+	&.has--loader{
+		.loader{
+			max-width:24px;
+			margin-left:6px;
+			transform:translate(0, -2px);
+		}
+	}
+}
+
+.btn--cta{
+	.loader {
+		transform:translate(-16px, -2px);
+		span{
+			width: 24px;
+			height: 24px;
+			background: $white;
+			background: linear-gradient(to right, $white 10%, rgba($white, 0) 42%);
+			&:before {
+				background: $bright-positive;
+			}
+			&:after {
+				background: $bright-positive;
+			}
+		}
+	}
+	&.has--loader{
+		background-color:$bright-positive;
+		.loader{
+			max-width:24px;
+			margin-left:6px;
+			transform:translate(0, -2px);
+		}
+	}
+}
+
+
+//=== Checkmark
+.checkmark {
+    display: block;
+    position: relative;
+    &::after {
+        width: 9px;
+        height: 14px;
+        transform: scaleX(-1) rotate(135deg);
+        transform-origin: left top;
+        border-right: 3px solid $white;
+        border-top: 3px solid $white;
+        border-radius:2px;
+        content: '';
+        display: inline-block;
+        position: absolute;
+        animation: check 0.6s;
+    }
+}
+@keyframes check {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    33.3333% {
+        width: 9px;
+        height: 0;
+    }
+}

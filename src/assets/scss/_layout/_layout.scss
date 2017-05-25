@@ -1,0 +1,236 @@
+//==================//
+//===== Layout =====//
+//==================//
+
+html,
+body{
+    height:100%;
+    background-color:$fog;
+    overflow-x: hidden;
+}
+
+.page__wrapper{
+    width:100%;
+    height:100%;
+    display:table;
+    table-layout: fixed;
+    overflow:hidden;
+    .page__block{
+        height:1px;
+        display:table-row;
+        &.is--push{
+            height:auto;
+        }
+    }
+}
+
+.content{
+    padding:32px 0;
+    .content__section{
+        padding-top:32px;
+        &.has--sidebar{
+            padding-top:0;
+            display:flex;
+            &::before, &::after{
+                content:'';
+                flex-grow: 1;
+            }
+            &.sidebar--l{
+                &::before{
+                    // border-right:1px solid $fog;
+                    background-color:$fog;
+                }
+                &::after{
+                    background-color:$white;
+                }
+            }
+            &.sidebar--r{
+                &::before{
+                    background-color:$white;
+                }
+                &::after{
+                    background-color:$fog;
+                }
+                .sidebar{
+                    box-shadow:inset 3px 0px 10px rgba(0,0,0,0.05);
+                }
+            }
+            .container{
+                background-color: $white;
+            }
+        }
+    }
+    .content__row{
+        &:last-child{
+            margin-bottom:0;
+            padding-bottom:0;
+            border-bottom:none;
+        }
+    }
+}
+
+.container{
+    width:100%;
+    margin:0 auto;
+    padding-right:$spacing-m;
+    padding-left:$spacing-m;
+    box-sizing: border-box;
+    &.container--fw{
+        max-width:$maxWidth;
+        &.container--s{
+            max-width:$maxWidthSmall;
+        }
+        &.container--l{
+            max-width:$maxWidthLarge;
+        }
+    }
+}
+
+body.has--banner{
+    .content{
+        padding:0 0 32px 0;
+    }
+}
+
+//=== Grid Overrides/Modifiers
+.row{
+    &.row--full-height{
+        height:100%;
+        display:flex;
+        .col{
+            padding-top:64px;
+            padding-bottom:64px;
+            margin-right:0;
+        }
+    }
+}
+
+//=== Vertically Centered Containers
+.wrapper{
+    width:100%;
+    height:100%;
+    display:table;
+    .wrapper__inner{
+        display:table-cell;
+        vertical-align: middle;
+        &.align--bottom{
+            vertical-align: bottom;
+        }
+    }
+    &.heading{
+        margin-bottom:$spacing-m;
+    }
+    &.wrapper__split{
+        .wrapper__inner{
+            padding-right: $spacing-xs;
+            padding-left: $spacing-xs;
+            &:first-child{
+                padding-left:0;
+            }
+            &:last-child{
+                padding-right:0;
+            }
+        }
+    }
+}
+
+//=== Width Divisions
+.is--halved{
+    width:50%;
+}
+.is--thirds{
+    width:33.333333%;
+}
+.is--quartered{
+    width:25%;
+}
+
+//=== Dividers
+.divider{
+    height:2px;
+    display:block;
+    background-color:$black-40;
+    &.divider--s{
+        width:48px;
+        margin:$spacing-m 0 $spacing-l 0;
+    }
+    &.align--center{
+        margin-right:auto;
+        margin-left:auto;
+    }
+    &.align--center{
+        margin-right:auto !important;
+        margin-left:auto !important;
+    }
+}
+.align--center{
+    .divider{
+        margin-right:auto;
+        margin-left:auto;
+    }
+}
+.is--reversed{
+    .divider{
+        background-color:$white-20;
+    }
+}
+
+
+
+//===== MEDIA QUERIES
+//===================
+
+@media #{$mq-xsmall} {
+    html,
+    body{
+        overflow-x: auto;
+    }
+}
+
+@media #{$mq-xsmall} {
+    .container{
+        padding-right:$spacing-l;
+        padding-left:$spacing-l;
+    }
+}
+
+@media #{$mq-large} {
+    .container{
+        padding-right:$spacing-xl;
+        padding-left:$spacing-xl;
+        &.container--fw{
+            max-width:$maxWidth;
+            &.container--s{
+                max-width:$maxWidthSmall;
+            }
+            &.container--l{
+                max-width:$maxWidthLarge;
+            }
+        }
+    }
+    .content{
+        padding:64px 0;
+        .content__section{
+            padding-top:64px;
+        }
+    }
+    body.has--banner{
+        .content{
+            padding:0 0 64px 0;
+        }
+    }
+}
+
+@media #{$mq-xlarge} {
+    .content{
+        padding:96px 0;
+        .content__section{
+            padding-top:96px;
+        }
+    }
+    body.has--banner{
+        .content{
+            padding:0 0 96px 0;
+        }
+    }
+}
