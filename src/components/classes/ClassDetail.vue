@@ -263,10 +263,10 @@
                                     <ul class="list list--inline list--divided">
 
                                         <li v-if="percentComplete > 0" class="item">
-                                            <div class="progress show--count"><span class="progress__counter">{{ percentComplete }}%</span>
+                                            <div class="progress progress--s show--count"><span class="progress__counter">{{ percentComplete }}%</span>
                                                 <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                    <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                    <circle cx="16" cy="16" r="15" class="progress__bar" :style="courseProgressBar" />
+                                                    <circle cx="16" cy="16" r="14" class="progress__bg" />
+                                                    <circle cx="16" cy="16" r="14" class="progress__bar" :style="courseProgressBar" />
                                                 </svg>
                                             </div>
                                         </li>
