@@ -33,13 +33,13 @@
             <!-- SIGN IN WITH EMAIL -->
             <div class="panel__section">
               <form class="form" @submit.prevent="">
-                <div class="input input--text">
+                <div class="input input--text" :class="{'has--error': emailError}">
                   <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" required>
-                  <label for="emailAddress">Email Address</label>
+                  <label for="emailAddress">{{ emailLabel }}</label>
                 </div>
-                <div class="input input--password">
+                <div class="input input--password" :class="{'has--error': passwordError}">
                   <input v-model="password" type="password" class="input__field" :class="{'not--empty': password.length > 0}" required>
-                  <label for="createPass">Password</label>
+                  <label for="createPass">{{ passwordLabel }}</label>
                 </div>
                 <div class="align--center">
                   <ul class="list list--buttons">
@@ -89,7 +89,9 @@
         facebookId: '',
         errorMessage: '',
         profileImageUrl: '',
-        name: ''
+        name: '',
+        emailLabel: 'Email Address',
+        passwordLabel: 'Password'
       }
     },
     computed: {
@@ -125,6 +127,12 @@
         } else {
           return false;
         }
+      },
+      emailError() {
+        return false;
+      },
+      passwordError() {
+        return false;
       }
     },
     methods: {

@@ -689,6 +689,24 @@
                 });
             })
 
+
+            //referrals
+            $('[data-copy]').click(function () {
+                var text = $(this).data('copy'),
+                    alert = '<span class="field__alert">' + text + '</span>',
+                    par = $(this).closest('.input'),
+                    dur = 300;
+                $(this).select();
+                document.execCommand('copy');
+                $(alert).hide().appendTo(par).fadeIn(dur).css({ 'transform': 'translateY(-5px)', 'opacity': '0' }).promise().done(function () {
+                    $(this).fadeTo(50, 0, function () {
+                        setTimeout(function () {
+                            $('.field__alert').remove();
+                        }, 200)
+                    })
+                });
+            })
+
         },
         beforeDestroy() {
             clearInterval(this.timer);

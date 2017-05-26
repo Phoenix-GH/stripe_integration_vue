@@ -71,10 +71,10 @@
     },
     created() {
 
-      // $(document).click(function (e) {
-      //   console.log('will close menu');
-      //   eventBus.$emit('closeMenu');
-      // });
+      $(document).click(function (e) {
+        console.log('will close menu');
+        eventBus.$emit('closeMenu');
+      });
 
     }
   }

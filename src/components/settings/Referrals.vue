@@ -72,11 +72,13 @@
                                 </div>
                                 <div class="wrapper__inner" style="width:190px; transform: translateY(-4px);">
 
-                                    <div class="fb-share-button" data-href="https://selfmademan.com/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
+                                    <!-- FACBOOK SHARE -->
+                                    <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
                                     <!-- /FACEBOOK SHARE -->
 
+                                    <!-- TWITTER SHARE -->
                                     <div class="disp--ib" style="transform:translateY(7px);">
-                                        <a class="twitter-share-button" :href="twitterShareUrl" text="">Tweet</a>
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" :data-url="shareUrl">Tweet</a>
                                     </div>
                                     <!-- /TWITTER SHARE -->
 
