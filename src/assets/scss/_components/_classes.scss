@@ -1,6 +1,6 @@
 .grid{
     .class{
-        margin-bottom:$spacing-xxl;
+        margin-bottom:72px;
     }
     .class:nth-child(4n+1):nth-last-child(-n+4), .class:nth-child(4n+1):nth-last-child(-n+4) ~ .class {
         // margin-bottom:0;
@@ -561,6 +561,13 @@
     width:100%;
     max-width:100% !important;
     margin-left:0;
+    .class__info{
+        padding:$spacing-m;
+        padding-bottom:112px;
+        .class__title{
+            font-size:1.75em;
+        }
+    }
 }
 .video_container, .class__info, .class__lessons{
     box-sizing:border-box;
@@ -608,13 +615,6 @@
         width:40%;
         min-width:240px;
         bottom:60px;
-    }
-}
-.class__info{
-    padding:$spacing-m;
-    padding-bottom:112px;
-    .class__title{
-        font-size:1.75em;
     }
 }
 .class__tabs{
@@ -707,6 +707,13 @@
     .class__container{
         width:88.42%;
         margin-left:11.58%;
+        .class__info{
+            width:56.78%;
+            float:left;
+            .class__title{
+                font-size:1.5em;
+            }
+        }
     }
     .video__container{
         width:56.78%;
@@ -739,13 +746,6 @@
     .class__lessons{
         padding-top:$spacing-m;
         padding-bottom:112px;
-    }
-    .class__info{
-        width:56.78%;
-        float:left;
-        .class__title{
-            font-size:1.5em;
-        }
     }
     .class__tabs{
         padding-right:$spacing-xxl;
