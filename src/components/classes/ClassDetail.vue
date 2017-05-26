@@ -25,7 +25,7 @@
                                 </ul>
                             </div>
                             <div class="wrapper__inner align--right">
-                                <div class="has--popover disp--ib" :class="{'is--active': showPopover}" @click.stop="openMenu">
+                                <div class="has--popover disp--ib">
                                     <svg class="icon-more color--white no--margin">
                                         <use xlink:href="#icon-more"></use>
                                     </svg>
@@ -468,7 +468,7 @@
                                 <ul class="list">
 
                                     <!-- SINGLE NOTES -->
-                                    <li @click="jumpToPosition(note)" v-for="note in selectedNotes" class="item well" style="overflow:visible;">
+                                    <li @click.stop="jumpToPosition(note)" v-for="note in selectedNotes" class="item well" style="overflow:visible;">
                                         <div class="well__title wrapper">
                                             <div class="wrapper__inner color--black">
                                                 <svg class="icon-time icon--s">
@@ -711,6 +711,9 @@
                     })
                 });
             })
+
+            //popovers
+            this.managePopovers();
 
         },
         beforeDestroy() {
@@ -1291,12 +1294,29 @@
             //-----------------------------------
             // ACTIONS
             //-----------------------------------
+            managePopovers() {
+                var target;
+                $('.has--popover').unbind('click');
+                $('.has--popover').click(function (e) {
+                    console.log('clicking on popover');
+                    target = $(this);
+                    var e = window.event || e;
+                    if (!($(target).hasClass('is--active'))) {
+                        $('.input--dropdown').removeClass('is--active')
+                        $(target).addClass("is--active");
+                        e.stopPropagation();
+                    } else {
+                        $(target).removeClass("is--active");
+                    }
+                });
+            },
             tappedOnAboutTab() {
                 this.currentActiveTab = 'About'
             },
             tappedOnNotesTab() {
                 if (!this.userLoggedIn) return;
                 this.currentActiveTab = 'Notes'
+                this.managePopovers();
             },
             tappedOnReviewsTab() {
                 if (!this.userLoggedIn) return;
