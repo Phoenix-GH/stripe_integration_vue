@@ -49,11 +49,14 @@
                             <div><b>{{ student.firstName }} {{ student.lastName }}</b></div>
                             <div>email: <i>{{ student.email }}</i></div>
                             <div>subscription: <i>{{ student.subscriptionType }}</i></div>
+                            <div v-if="student.facebookId != undefined"><i>facebook user</i></div>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; padding-bottom: 20px 0px 20px 0px">
                         <button class="btn btn--primary is--affirmative" @click="enrollStudent(student)">Enroll In Masterclass</button>
                         <div style="width: 15px"></div>
+                        <button v-if="student.facebookId == undefined" class="btn btn--primary" @click="resetPassword(student.email)">Reset Password</button>
+                        <div v-if="student.facebookId == undefined" style="width: 15px"></div>
                         <button class="btn btn--primary" @click="deleteStudent(student)">Delete</button>
                     </div>
                 </div>
@@ -130,6 +133,22 @@
             closeModal() {
                 this.modalConfig.show = false;
             },
+            resetPassword(email) {
+                if (email.length == 0) {
+                    return;
+                }
+                let payload = {
+                    email: email
+                }
+                let _this = this;
+                User.requestPasswordReset(this, payload).then(response => {
+                    console.log(JSON.stringify(response));
+                    console.log('success!!!!');
+                    alert("password reset email sent!");
+                }).catch(err => {
+                    console.log(JSON.stringify(err));
+                })
+            },
             searchUsers() {
                 console.log(this.searchTerms);
                 let _this = this;
@@ -173,7 +192,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .modal-container {
         min-width: 50vw;
         max-width: 80vw;
@@ -184,21 +203,21 @@
         transition: all .3s ease;
         overflow: auto;
     }
-    
+
     .modal-body {
         margin: 20px 0;
     }
-    
+
     .modal-enter,
     .modal-leave {
         opacity: 0;
     }
-    
+
     .modal-enter .modal-container,
     .modal-leave .modal-container {
         transform: scale(1.1);
     }
-    
+
     label {
         display: block;
         margin-bottom: 20px;
