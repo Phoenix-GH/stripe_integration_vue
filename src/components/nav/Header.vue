@@ -269,18 +269,6 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
-            // let _this = this;
-            // $(document).ready(() => {
-            //     $("#hidebanner").click(() => {
-            //         console.log('clicked banner');
-            //         $("#upgradebanner").animate({
-            //             height: "0px"
-            //         }, 500, function () {
-            //             _this.hideAlert();
-            //             console.log('executed');
-            //         });
-            //     })
-            // })
         },
         data: function () {
             return {
