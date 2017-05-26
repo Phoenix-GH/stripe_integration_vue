@@ -2,6 +2,12 @@
     &.badge--cap{
         text-transform: capitalize;
     }
+    &.is--affirmative{
+        &::after{
+            color:$white;
+            background-color:$positive;
+        }
+    }
 }
 
 .badge{

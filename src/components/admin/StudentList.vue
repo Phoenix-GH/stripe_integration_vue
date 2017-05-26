@@ -54,7 +54,7 @@
                     <div class="wrapper__inner">
                         <div class="ts--subtitle">
                             {{ student.firstName }} {{ student.lastName }}
-                            <span class="has--badge badge--text badge--cap" :data-badge="student.subscriptionType"></span>
+                            <span class="has--badge badge--text badge--cap" :class="{'badge--alert': student.subscriptionType == 'paused', 'is--affirmative': student.subscriptionType == 'annual'||student.subscriptionType == 'monthly'}" :data-badge="student.subscriptionType"></span>
                         </div>
                         <div><i>{{ student.email }}</i></div>
                     </div>
