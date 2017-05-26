@@ -44,7 +44,7 @@
                 <div class="align--center">
                   <ul class="list list--buttons">
                     <li class="item">
-                      <button type="submit" class="btn btn--cta btn--block" @click="login">Log In</button>
+                      <button type="submit" class="btn btn--cta btn--block" @click="login" data-loads>Log In</button>
                     </li>
                     <li class="item">
                       <a class="link link--secondary modal--toggle" href="javascript:;" @click="showForgotPassword">Forgot Password?</a>
@@ -74,13 +74,75 @@
 </template>
 
 <script>
+  import $ from 'jquery';
   import { User } from '../../api';
   import { mapGetters } from 'vuex';
   import { eventBus } from '../../main';
 
   export default {
     created() {
+      $(document).ready(() => {
+        Array.prototype.forEach.apply(
+          document.querySelectorAll(".btn"),
+          [function (button) {
+            "use strict";
+            var span1 = document.createElement("span"),
+              span2 = document.createElement("span"),
+              span3 = document.createElement("span"),
+              time = button.getAttribute("click-material-time") || "",
+              timeUnit,
+              isAnimate = false;
+            time = time.toLowerCase();
+            if (/(^[0-9]+\.[0-9]+s\s*$)|(^\s*[0-9]+s\s*$)/.test(time)) {
+              time = +time.match(/([0-9]+\.[0-9]+)|([0-9]+)/g)[0];
+              timeUnit = "s";
+            } else if (/(^[0-9]+\.[0-9]+ms\s*$)|(^\s*[0-9]+ms\s*$)/.test(time)) {
+              time = +time.match(/([0-9]+\.[0-9]+)|([0-9]+)/g)[0];
+              timeUnit = "ms";
+            } else {
+              time = 0.5;
+              timeUnit = "s";
+            }
+            button.style.overflow = "hidden";
+            span1.setAttribute(
+              "style",
+              "position:absolute;width:0;height:0;" +
+              "transform:translate(-50%,-50%);border-radius:100%;" +
+              "border:solid 0 rgba(255,255,255,0.2);"
+            );
+            span3.setAttribute(
+              "style",
+              "position:absolute;left:0;top:0;" +
+              "width:100%;height:100%;z-index:1000000;"
+            );
+            span2.style.position = button.style.position = "relative";
+            span2.innerHTML = button.innerHTML;
+            button.innerHTML = "";
+            button.appendChild(span1);
+            button.appendChild(span2);
+            button.appendChild(span3);
 
+            button.addEventListener("mousedown", function (e) {
+              if (isAnimate) { return; }
+              isAnimate = true;
+              span1.style.left = e.offsetX + "px";
+              span1.style.top = e.offsetY + "px";
+              span1.style.transition = "ease-in-out border " + time + timeUnit;
+              span1.style.borderColor = "transparent";
+              span1.style.borderWidth =
+                Math.sqrt(
+                  Math.pow(button.clientWidth, 2) + Math.pow(button.clientHeight, 2)
+                ) + "px";
+              setTimeout(function () {
+                span1.style.transition = "none ease-in-out";
+                span1.style.borderWidth = "0";
+                span1.style.borderColor = "rgba(255,255,255,0.2)";
+                isAnimate = false;
+              }, time * (timeUnit === "ms" ? 1 : 1e3));
+            }, true);
+          }]
+        );
+      })
     },
     data: function () {
       return {
