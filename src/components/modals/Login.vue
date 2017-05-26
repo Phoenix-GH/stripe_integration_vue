@@ -7,9 +7,6 @@
         </svg>
       </a>
       <div class="modal__body">
-        <div class="modal__head bg--black bg--wood is--reversed">
-          <span class="ts--headline">Welcome Back!</span>
-        </div>
         <div class="well panel no--border">
 
           <!-- PANEL BODY -->
