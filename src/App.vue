@@ -73,6 +73,7 @@
     created() {
 
       $(document).click(function (e) {
+        console.log('close menu');
         eventBus.$emit('closeMenu');
       });
 
