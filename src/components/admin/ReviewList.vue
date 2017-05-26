@@ -37,24 +37,35 @@
         <!-- SETTINGS PANEL -->
         <div class="col col--7-of-12">
             <div>
-                <div v-for="review in reviews" style="margin-bottom: 25px; background-color: white; padding: 10px; width: auto">
-                    <div style="display: inline-flex">
-                        <div style="width:auto; padding: 15px">
-                            <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + user.profileImageUrl + ')' }"></span>
+
+                <!-- SINGLE -->
+                <div v-for="review in reviews" class="well wrapper bg--white margin--s no--margin-lr">
+                    <div class="wrapper__inner">
+                        <div class="ts--subtitle">
+                            {{ review.course.title }}
                         </div>
-                        <div style="width:auto; background-color: white; margin-left: 25px; padding: 15px;">
-                            <div>title: <b>{{ review.course.title }}</b></div>
-                            <div>email: <i>{{ review.user.email }}</i></div>
-                            <div>rating: <i>{{ ratingText(review) }}</i></div>
-                            <div style="padding: 10px 0px 10px 0px">{{ review.body }}</div>
-                        </div>
+                        <ul class="list list--inline">
+                            <li class="item has--icon">
+                                <svg v-if="ratingText(review) == 'positive'" class="icon-thumbs-up-fill icon--s color--accent"><use xlink:href="#icon-thumbs-up-fill"></use></svg>
+                                <svg v-if="ratingText(review) == 'negative'" class="icon-thumbs-down-fill icon--s color--negative"><use xlink:href="#icon-thumbs-down-fill"></use></svg>
+                                {{ user.firstName }} {{ user.lastName }} (<i>{{ user.email }}</i>)
+                            </li>
+                        </ul>
+                        <div class="well bg--snow padding--s margin--s no--margin-lr no--margin-b">{{ review.body }}</div>
                     </div>
-                    <div style="display: flex; justify-content: center; padding-bottom: 20px 0px 20px 0px">
-                        <button class="btn btn--primary is--affirmative" @click="approveReview(review)">Approve</button>
-                        <div style="width: 15px"></div>
-                        <button class="btn btn--primary" @click="deleteReview(review)">Delete</button>
+                    <div class="wrapper__inner align--right" style="min-width:260px; width:30%;">
+                        <ul class="list list--inline list--tight">
+                            <li class="item">
+                                <button class="btn btn--secondary is--affirmative" @click="approveReview(review)">Approve</button>
+                            </li>
+                            <li class="item">
+                                <button class="btn btn--secondary is--warning" @click="deleteReview(review)">Delete</button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <!-- /SINGLE-->
+
             </div>
         </div>
         <!-- /SETTINGS PANEL -->
