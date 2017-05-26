@@ -8,7 +8,7 @@
                 <div class="video__container">
 
                     <div class="video__player">
-                        <div class="video__nav wrapper">
+                        <div v-if="userLoggedIn" class="video__nav wrapper">
                             <div class="wrapper__inner">
                                 <ul class="list list--inline list--divided is--reversed">
                                     <li class="item has--icon">
@@ -1390,6 +1390,7 @@
                 console.log('will share class');
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
+                eventBus.$emit('refreshSocial');
             },
             startOver() {
                 this.resetClass();

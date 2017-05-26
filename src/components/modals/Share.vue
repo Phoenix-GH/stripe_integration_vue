@@ -30,7 +30,7 @@
                         <!-- /REFERRAL URL -->
 
                         <!-- SHARE BUTTONS -->
-                        <div style="width:190px; transform: translateY(-4px); margin:0 auto;">
+                        <div v-if="active" style="width:190px; transform: translateY(-4px); margin:0 auto;">
 
                             <!-- FACBOOK SHARE -->
                             <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
@@ -58,8 +58,10 @@
 </template>
 
 <script>
+    import $ from 'jquery';
     import { User, Class } from '../../api';
     import { mapGetters } from 'vuex';
+    import { eventBus } from '../../main';
 
     export default {
         data: function () {
@@ -72,8 +74,22 @@
             if (window.FB) {
                 window.FB.XFBML.parse();
             }
-
-            console.log('hey');
+            //referrals
+            $('[data-copy]').click(function () {
+                var text = $(this).data('copy'),
+                    alert = '<span class="field__alert">' + text + '</span>',
+                    par = $(this).closest('.input'),
+                    dur = 300;
+                $(this).select();
+                document.execCommand('copy');
+                $(alert).hide().appendTo(par).fadeIn(dur).css({ 'transform': 'translateY(-5px)', 'opacity': '0' }).promise().done(function () {
+                    $(this).fadeTo(50, 0, function () {
+                        setTimeout(function () {
+                            $('.field__alert').remove();
+                        }, 200)
+                    })
+                });
+            })
         },
         computed: {
             ...mapGetters([
@@ -81,6 +97,12 @@
             ]),
             active() {
                 if ((this.hasModal) && (this.activeModal == 'share')) {
+                    this.$nextTick(() => {
+                        twttr.widgets.load();
+                        if (window.FB) {
+                            window.FB.XFBML.parse();
+                        }
+                    })
                     return true;
                 } else {
                     return false;
@@ -99,7 +121,6 @@
                 this.$store.dispatch('updateActiveModal', '');
             },
             addToClipboard() {
-                console.log('added to clipboard');
                 document.querySelector('#inputID2').select();
                 document.execCommand('copy');
             }
