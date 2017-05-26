@@ -221,9 +221,20 @@
                 this.profileImageUrl = "http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg";
             }
 
-            this.email = this.user.email;
-            this.firstName = this.user.firstName;
-            this.lastName = this.user.lastName;
+            if (this.user.email != undefined) {
+                this.email = this.user.email;
+            }
+
+            if (this.user.firstName != undefined) {
+                this.firstName = this.user.firstName;
+            }
+
+            if (this.user.lastName != undefined) {
+                this.lastName = this.user.lastName;
+            }
+
+
+
 
             if (this.user.subscribed) {
                 User.subscriptionInfo(this, info => {
