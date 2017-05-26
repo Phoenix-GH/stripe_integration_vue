@@ -38,17 +38,17 @@
                             <ul id="userNav" class="list list--inline list--divided">
 
                                 <!-- LOGGED IN NAV -->
-                                <li v-if="showClassLinks" id="navClasses" class="item">
+                                <li id="navClasses" class="item">
                                     <ul class="list list--inline">
 
                                         <!-- NOTE: Display on 'Paid Account' -->
-                                        <li id="navClasses" class="item">
+                                        <li v-if="showClassLinks" id="navClasses" class="item">
                                             <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
                                         </li>
                                         <!-- /NOTE -->
 
                                         <!-- NOTE: Display on 'All Accounts' -->
-                                        <li id="navSaved" class="item">
+                                        <li v-if="userLoggedIn" id="navSaved" class="item">
                                             <router-link class="link has--badge is--primary" :to="{ name: 'saved' }" :data-badge="savedClasses.length">Saved</router-link>
                                         </li>
                                         <!-- /NOTE -->
