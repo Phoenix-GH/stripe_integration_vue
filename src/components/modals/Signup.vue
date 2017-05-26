@@ -7,10 +7,6 @@
         </svg>
       </a>
       <div class="modal__body">
-        <div class="modal__head bg--black bg--wood is--reversed">
-          <span class="ts--headline">Join the Community</span>
-          <p class="ts--subtitle">Get started today and become the best you can be.</p>
-        </div>
         <div class="well panel no--border">
           <!-- PANEL BODY -->
           <div class="panel__body">
@@ -38,7 +34,7 @@
                   <label for="emailAddress">Email Address</label>
                 </div>
                 <div class="input input--password">
-                  <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" v-model="password"
+                  <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" v-model="password" autocomplete="new-password"
                     required>
                   <label for="createPass">Password</label>
                   <div class="input__link">Must be at least 8 characters.</div>

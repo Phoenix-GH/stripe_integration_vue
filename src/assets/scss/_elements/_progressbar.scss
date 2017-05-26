@@ -44,4 +44,43 @@
             transform:translateX(-50%);
         }
     }
+    &.progress--s{
+        svg{
+            height: 32px;
+            width: 32px;
+            display: inline-block;
+            vertical-align: middle;
+            transform: rotate(-90deg);
+            .progress__bg {
+                fill: none;
+                stroke: $stainless;
+                stroke-width: 4;
+            }
+            .progress__bar {
+                fill: none;
+                stroke: $brand;
+                stroke-dasharray: 100 100;
+                stroke-dashoffset: 100;
+                stroke-linecap: round;
+                stroke-width: 5;
+                transition: stroke-dashoffset 1s ease-in-out;
+            }
+        }
+        .progress__counter{
+            display:inline-block;
+            margin-left:$spacing-xs;
+            position: static;
+            vertical-align: middle;
+            transform:translateX(0);
+            font-family: $primary-font;
+            font-weight:500;
+            font-size:1em;
+            color:$black;
+        }
+        &.show--count{
+            &::after{
+                display:none;
+            }
+        }
+    }
 }

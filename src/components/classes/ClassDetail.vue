@@ -255,6 +255,15 @@
 
                     <div class="lessons__layout">
 
+                        <!-- UPGRADE CTA - FREE USER -->
+                        <div class="lessons__sharing" v-if="showUpgrade">
+                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                                <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant on-demand access!</span>
+                                <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
+                            </div>
+                        </div>
+                        <!-- /UPGRADE CTA - FREE USER -->
+
                         <ol class="lessons__list" :class="{'is--started': percentComplete > 0}">
 
 
@@ -262,12 +271,13 @@
                                 <div class="wrapper__inner">
                                     <ul class="list list--inline list--divided">
 
-                                        <li v-if="percentComplete > 0" class="item">
-                                            <div class="progress show--count"><span class="progress__counter">{{ percentComplete }}%</span>
+                                        <li class="item">
+                                            <div class="progress progress--s show--count">
                                                 <svg data-progress="0.8" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
-                                                    <circle cx="16" cy="16" r="15" class="progress__bg" />
-                                                    <circle cx="16" cy="16" r="15" class="progress__bar" :style="courseProgressBar" />
+                                                    <circle cx="16" cy="16" r="14" class="progress__bg" />
+                                                    <circle cx="16" cy="16" r="14" class="progress__bar" :style="courseProgressBar" />
                                                 </svg>
+                                                <span class="progress__counter">{{ percentComplete }}%</span>
                                             </div>
                                         </li>
 
@@ -384,14 +394,6 @@
                                 </ul>
                             </div>
                             <!-- /INFO BAR LEFT -->
-
-                            <!-- INFO BAR RIGHT - FREE USER -->
-                            <!-- NOTE: This should only be displayed for a free user -->
-                            <div class="wrapper__inner align--center" style=" vertical-align:top;" v-if="showUpgrade">
-                                <span class="ts--subtitle margin--s no--margin-t no--margin-lr">Get instant on-demand access!</span>
-                                <button @click.stop="upgradeAccount" class="btn btn--primary is--affirmative">Upgrade to Premium</button>
-                            </div>
-                            <!-- /INFO BAR RIGHT - ENROLLED USER -->
 
                         </div>
 
