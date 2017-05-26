@@ -2,7 +2,7 @@
     <div id="mt">
 
         <!-- BANNER -->
-        <div class="banner banner--m go go--bottom" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
+        <div v-if="featuredClasses.length > 0" class="banner banner--m go go--bottom" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
             <div class="banner__content container container--fw container--l is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">

@@ -109,7 +109,7 @@
             <purchased v-if="false" />
             <recommended v-if="false" />
             <!-- FEATURED CLASS -->
-            <div class="content__row">
+            <div v-if="featuredClasses.length > 0" class="content__row">
                 <div class="banner banner--m go go--bottom is--inline" :style="{ 'background-image': 'url(' + validBannerImage + ')' }">
                     <div class="banner__content is--reversed">
                         <div class="wrapper">
