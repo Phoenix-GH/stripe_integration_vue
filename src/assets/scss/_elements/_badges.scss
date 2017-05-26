@@ -1,0 +1,32 @@
+.has--badge{
+    &.badge--cap{
+        text-transform: capitalize;
+    }
+    &.is--affirmative{
+        &::after{
+            color:$white;
+            background-color:$positive;
+        }
+    }
+}
+
+.badge{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    position: relative;
+    box-sizing: content-box;
+    &.badge--fb{
+        border:2px solid $white;
+        background-color:$facebook;
+        svg{
+            width:11px;
+            height:12px;
+            fill:white;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+        }
+    }
+}

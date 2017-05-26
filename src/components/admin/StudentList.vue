@@ -37,29 +37,50 @@
         <!-- SETTINGS PANEL -->
         <div class="col col--7-of-12">
             <div>
-                <div class="input input--search">
-                    <input @keyup.enter="searchUsers" v-model="searchTerms" type="text" placeholder="Search for users by name and email...">
-                </div>
-                <div v-for="student in students" style="margin-bottom: 25px; background-color: white; padding: 10px; width: auto">
-                    <div style="display: inline-flex">
-                        <div style="width:auto; padding: 15px">
-                            <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + student.profileImageUrl + ')' }"></span>
-                        </div>
-                        <div style="width:auto; background-color: white; margin-left: 25px; padding: 15px;">
-                            <div><b>{{ student.firstName }} {{ student.lastName }}</b></div>
-                            <div>email: <i>{{ student.email }}</i></div>
-                            <div>subscription: <i>{{ student.subscriptionType }}</i></div>
-                            <div v-if="student.facebookId != undefined"><i>facebook user</i></div>
-                        </div>
-                    </div>
-                    <div style="display: flex; justify-content: center; padding-bottom: 20px 0px 20px 0px">
-                        <button class="btn btn--primary is--affirmative" @click="enrollStudent(student)">Enroll In Masterclass</button>
-                        <div style="width: 15px"></div>
-                        <button v-if="student.facebookId == undefined" class="btn btn--primary" @click="resetPassword(student.email)">Reset Password</button>
-                        <div v-if="student.facebookId == undefined" style="width: 15px"></div>
-                        <button class="btn btn--primary" @click="deleteStudent(student)">Delete</button>
+
+                <div class="well">
+                    <div class="input input--search">
+                        <input @keyup.enter="searchUsers" v-model="searchTerms" type="text" placeholder="Search for users by name and email...">
                     </div>
                 </div>
+
+                <!-- SINGLE STUDENT -->
+                <div v-for="student in students" class="well wrapper bg--white margin--s no--margin-lr">
+                    <div class="wrapper__inner" style="width:112px;">
+                        <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + student.profileImageUrl + ')' }">
+                            <div v-if="student.facebookId != undefined" class="badge badge--fb"><svg class="icon-social-facebook"><use xlink:href="#icon-social-facebook"></use></svg></div>
+                        </span>
+                    </div>
+                    <div class="wrapper__inner">
+                        <div class="ts--subtitle">
+                            {{ student.firstName }} {{ student.lastName }}
+                            <span class="has--badge badge--text badge--cap" :class="{'badge--alert': student.subscriptionType == 'paused', 'is--affirmative': student.subscriptionType == 'annual'||student.subscriptionType == 'monthly'}" :data-badge="student.subscriptionType"></span>
+                        </div>
+                        <div><i>{{ student.email }}</i></div>
+                    </div>
+                    <div class="wrapper__inner align--right">
+                        <ul class="list list--inline list--buttons">
+                            <li class="item">
+                                <button class="btn btn--secondary is--affirmative btn--s" @click="enrollStudent(student)">Enroll</button>
+                            </li>
+                            <li class="item">
+                                <div class="has--popover disp--ib">
+                                    <svg class="icon-more icon--s color--black no--margin"><use xlink:href="#icon-more"></use></svg></a>
+                                    <ul class="list">
+                                        <li class="item" v-if="student.facebookId == undefined">
+                                            <a @click="resetPassword(student.email)">Reset Password</a>
+                                        </li>
+                                        <li class="item" v-if="student.facebookId == undefined">
+                                            <a @click="deleteStudent(student)">Delete User</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /SINGLE STUDENT -->
+
             </div>
         </div>
         <!-- /SETTINGS PANEL -->
