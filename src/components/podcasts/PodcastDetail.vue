@@ -33,13 +33,13 @@
                                     <svg class="icon-thumbs-up">
                                         <use xlink:href="#icon-thumbs-up"></use>
                                     </svg>
-                                    January 17, 2017
+                                    {{ podcastTime(activePodcast) }}
                                 </li>
                                 <li class="item has--icon">
                                     <svg class="icon-play-count">
                                         <use xlink:href="#icon-play-count"></use>
                                     </svg>
-                                    42.K Plays
+                                    {{ activePodcast.viewCount }}
                                 </li>
                             </ul>
                             <!-- /EPISODE INFO -->
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+    import { timeSince } from '../../helpers/util';
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import VueMarkdown from 'vue-markdown';
@@ -157,6 +158,7 @@
             element.scrollIntoView({ block: "end", behavior: "smooth" });
             console.log("updating active podcast" + this.activePodcast._id);
             this.updatePodcast();
+
         },
         computed: {
             ...mapGetters([
@@ -189,12 +191,22 @@
             }
         },
         methods: {
+            podcastTime(podcast) {
+                let airDate = podcast.airDate;
+                if (airDate != undefined) {
+                    let date = new Date(airDate);
+                    return `${timeSince(date)} ago`;
+                } else {
+                    return '';
+                }
+            },
             updatePodcast() {
                 let _this = this;
                 this.$store.dispatch('updateSpinner', true);
                 Class.podcastDetail(this, this.$route.params.id, podcast => {
                     _this.$store.dispatch('updateActivePodcast', podcast);
                     _this.$store.dispatch('updateSpinner', false);
+                    Class.updateViewCount(_this, podcast._id, count => { console.log('updated count ' + count) })
                 }, error => {
                     _this.$store.dispatch('updateSpinner', false);
                     _this.$router.replace({ name: 'podcasts' });
