@@ -1,5 +1,5 @@
 <template>
-  <div class="page__wrapper">
+  <div class="page__wrapper" id="topdoc">
     <appHeader></appHeader>
     <section class="page__block is--push">
       <div class="content">
@@ -72,7 +72,6 @@
     created() {
 
       $(document).click(function (e) {
-        console.log('will close menu');
         eventBus.$emit('closeMenu');
       });
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="mt">
 
         <!-- BANNER -->
         <div class="banner banner--m go go--bottom" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
@@ -183,10 +183,12 @@
 </template>
 
 <script>
+    import $ from 'jquery';
     import { Class, User } from '../../api';
     import { mapGetters } from 'vuex';
     import { eventBus } from '../../main';
     import { convertSecondsToReadableFormat } from '../../helpers/util';
+
 
     export default {
         data: function () {
