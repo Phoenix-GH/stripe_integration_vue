@@ -161,6 +161,7 @@ export default {
 
     //Meta
     updateViewCount(context, classId, callback) {
+        console.log('updating view count......');
         axios
             .post(BASE_URL + `courses/updateviewcount/${classId}`, {}, headers())
             .then(response => {

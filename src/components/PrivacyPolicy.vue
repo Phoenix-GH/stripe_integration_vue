@@ -19,7 +19,7 @@
                     committed to protecting it through tis compliance with this policy. This policy describes the types of
                     information we may collect from you or that you may provide when you visit (a) <a class="link link--secondary"
                         href="http://mikedillard.com">http://mikedillard.com</a>, (b) <a class="link link--secondary" href="https://selfmademan.com">https://selfmademan.com</a>,
-                    and/or (c) <a class="link link--secondary" href="https://selfmademansociety.com">https://selfmademansociety.com</a>                    (including any content, functionality and services offered on or through such websites, whether as a
+                    and/or (c) <a class="link link--secondary" href="http://selfmademansociety.com">http://selfmademansociety.com</a>                    (including any content, functionality and services offered on or through such websites, whether as a
                     guest or a registered user), and our practices for collecting, using, maintaining, protecting and disclosing
                     that information. As used herein, “<strong>Website</strong>” shall refer to each of the aforementioned
                     websites, or any combination of them.</p>
@@ -155,7 +155,8 @@
                     including for billing and collection purposes; or (c) if we believe disclosure is necessary or appropriate
                     to protect the rights, property, or safety of the Company, our customers or others (this includes exchanging
                     information with other companies and organizations for the purposes of fraud protection and credit risk
-                    reduction).</p>
+                    reduction).
+                </p>
                 <p class="ts--body">Except as otherwise stated herein, we will NEVER share your personally identifiable information with third
                     parties unless you have given us explicit permission to do so, such as in order to fulfill a third party
                     offer that you have accepted from us. However, by permitting us to collect this information, you will
@@ -199,8 +200,9 @@
                     parties that received your Personal Information for marketing purposes during the preceding year.</p>
                 <p class="ts--body">If you are a California resident and want to request information about how to exercise your third party disclosure
                     choices, you must send a request to the following address with a preference on how our response to your
-                    request should be sent (email or postal mail). Please send an email to the Privacy Administrator at support@mikedillard.com,
-                    or you may contact us via regular mail at:</p>
+                    request should be sent (email or postal mail). Please send an email to the Privacy Administrator at
+                    <a class="link link--secondary" href="mailto:support@mikedillard.com">support@mikedillard.com</a>, or
+                    you may contact us via regular mail at:</p>
                 <p class="ts--body">
                     Mike Dillard Media LLC<br> 3736 Bee Cave Road, #1-162<br> Westlake Hills, Texas 78746
                 </p>
@@ -241,7 +243,8 @@
                     or send us a letter at: 3736 Bee Cave Road, #1-162, Westlake Hills, Texas 78746.</p>
                 <p class="ts--body">We strive to provide excellent products, along with equally excellent customer service. If you have any questions
                     about this Privacy Policy or our practices, please feel free to contact us using one of the methods listed
-                    above.</p>
+                    above.
+                </p>
             </div>
         </div>
         <!-- /CONTENT -->

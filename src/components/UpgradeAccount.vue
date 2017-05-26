@@ -94,7 +94,9 @@
 
             // Close Checkout on page navigation:
             window.addEventListener('popstate', function () {
-                this.stripeHandler.close();
+                if (this.stripeHandler != undefined) {
+                    this.stripeHandler.close();
+                }
             });
         },
         data: function () {

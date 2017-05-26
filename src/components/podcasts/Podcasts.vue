@@ -59,7 +59,7 @@
                 <svg class="icon-thumbs-up">
                   <use xlink:href="#icon-thumbs-up"></use>
                 </svg>
-                Jan 17
+                {{ podcastTime(podcast) }}
               </li>
             </ul>
           </div>
@@ -86,6 +86,7 @@
   import { Class, User } from '../../api';
   import { uploadToS3 } from '../../api/uploader';
   import { eventBus } from '../../main';
+  import { timeSince } from '../../helpers/util';
 
   export default {
     data: function () {
@@ -113,6 +114,18 @@
       }
     },
     methods: {
+      podcastTime(podcast) {
+        let airDate = podcast.airDate;
+        console.log(airDate);
+        let date = new Date(airDate);
+        console.log(date);
+        if (airDate != undefined) {
+          return `${timeSince(date)} ago`;
+        } else {
+          return '';
+        }
+
+      },
       updatePodcasts() {
         let _this = this;
         this.isLoading = true;

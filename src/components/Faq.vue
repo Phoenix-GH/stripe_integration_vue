@@ -31,8 +31,7 @@
                                 <input type="radio" id="faq1" name="faq">
                                 <div class="accordion__content">
                                     When Self Made Man is offering a Masterclass, we will personally invite users through a direct email invite. Make sure your
-                                    <a class="link link--secondary" href="#">email preferences</a> are set up so we can notify
-                                    you.
+                                    <router-link class="link link--secondary" :to="{ name: 'emailnotifications' }">email preferences</router-link> are set up so we can notify you.
                                 </div>
                             </li>
 
@@ -58,8 +57,9 @@
                                 <input type="radio" id="faq3" name="faq">
                                 <div class="accordion__content">
                                     Yes, share a referral code with your friends and you’ll both receive a free month of Premium when they sign up. Your unique
-                                    referral URLs can be found in your <a class="link link--secondary"
-                                        href="#">account settings</a> and also on individual classes.
+                                    referral URLs can be found in your
+                                    <router-link class="link link--secondary"
+                                        :to="{ name: 'referrals' }">account settings</router-link> and also on individual classes.
                                 </div>
                             </li>
 
@@ -77,8 +77,7 @@
                                 <input type="radio" id="faq5" name="faq">
                                 <div class="accordion__content">
                                     We automatically track your progress and bookmark lessons so you can easily resume right where you left off. Visit your
-                                    <a class="link link--secondary" href="#">dashboard</a> anytime you want to resume playing
-                                    an interupted lesson.
+                                    <router-link class="link link--secondary" :to="{ name: 'landing' }">dashboard</router-link> anytime you want to resume playing an interupted lesson.
                                 </div>
                             </li>
 
