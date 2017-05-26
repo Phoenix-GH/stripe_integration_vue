@@ -124,30 +124,30 @@
         <!-- CLASS LIST -->
         <div class="content__section row container container--fw">
 
-            <div class="wrapper heading">
-                <div class="wrapper__inner fontSize--m">
+            <div class="well wrapper heading">
+                <div class="wrapper__inner fontSize--m" style="line-height:32px !important;">
                     Sort by:
                     <span class="link link--dropdown has--dropdown is--inline">
-                {{ currentSort }}
-                <ul class="list list--nav">
-                    <li class="item" @click="sortClasses('newest')">
-                        <a>Newest First</a>
-                    </li>
-                    <li class="item" @click="sortClasses('highest')">
-                        <a>Highest Rated</a>
-                    </li>
-                    <li class="item" @click="sortClasses('popular')">
-                        <a>Most Popular</a>
-                    </li>
-                </ul>
-            </span>
+                        {{ currentSort }}
+                        <ul class="list list--nav">
+                            <li class="item" @click="sortClasses('newest')">
+                                <a>Newest First</a>
+                            </li>
+                            <li class="item" @click="sortClasses('highest')">
+                                <a>Highest Rated</a>
+                            </li>
+                            <li class="item" @click="sortClasses('popular')">
+                                <a>Most Popular</a>
+                            </li>
+                        </ul>
+                    </span>
                 </div>
                 <div class="wrapper__inner align--right" v-if="selectedCategory.length > 0">
                     <button @click="followTopic" v-if="!followingTopic" class="btn btn--secondary">Follow</button>
                     <button @click="unFollowTopic" v-if="followingTopic" class="btn btn--secondary">Following</button>
                 </div>
             </div>
-
+            <br>
             <div class="row grid">
 
                 <!-- SINGLE CLASS -->
