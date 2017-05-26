@@ -255,6 +255,15 @@
 
                     <div class="lessons__layout">
 
+                        <!-- UPGRADE CTA - FREE USER -->
+                        <div class="lessons__sharing" v-if="showUpgrade">
+                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                                <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant on-demand access!</span>
+                                <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
+                            </div>
+                        </div>
+                        <!-- /UPGRADE CTA - FREE USER -->
+
                         <ol class="lessons__list">
 
 
@@ -384,14 +393,6 @@
                                 </ul>
                             </div>
                             <!-- /INFO BAR LEFT -->
-
-                            <!-- INFO BAR RIGHT - FREE USER -->
-                            <!-- NOTE: This should only be displayed for a free user -->
-                            <div class="wrapper__inner align--center" style=" vertical-align:top;" v-if="showUpgrade">
-                                <span class="ts--subtitle margin--s no--margin-t no--margin-lr">Get instant on-demand access!</span>
-                                <button @click.stop="upgradeAccount" class="btn btn--primary is--affirmative">Upgrade to Premium</button>
-                            </div>
-                            <!-- /INFO BAR RIGHT - ENROLLED USER -->
 
                         </div>
 
