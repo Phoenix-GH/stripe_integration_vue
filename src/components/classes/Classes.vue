@@ -13,7 +13,7 @@
                         <ul class="list list--inline list--divided list--box">
                             <li class="item has--icon">
                                 <span class="avatar avatar--m" :style="{ 'background-image': 'url(' + updateFeaturedClass.instructor.profileImage + ')' }"></span>
-                                <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.instructor.name }}</a>
+                                <a @click="updateCurrentClassToInstructor(updateFeaturedClass)" class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.instructor.name }}</a>
                             </li>
                             <li class="item has--icon">
                                 <svg class="icon-thumbs-up color--white">
@@ -320,6 +320,10 @@
             updateCurrentClass(course) {
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
+            },
+            updateCurrentClassToInstructor(course) {
+                this.$store.dispatch('updateActiveCourse', course);
+                this.$router.push({ name: 'singleclass', params: { id: course._id }, query: { action: "instructor" } });
             },
             readableCourseDuration(duration) {
                 return convertSecondsToReadableFormat(duration);

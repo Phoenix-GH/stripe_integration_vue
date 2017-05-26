@@ -255,7 +255,7 @@
 
                     <div class="lessons__layout">
 
-                        <ol class="lessons__list">
+                        <ol class="lessons__list" :class="{'is--started': percentComplete > 0}">
 
 
                             <li class="heading wrapper">
@@ -1130,6 +1130,9 @@
                     //play last lesson from last progress point
                     this.currentOverlay = '';
                     this.playLessonMark(this.lastLesson.lesson._id, this.lastLesson.lesson.cloudUrl, this.lastLesson.progress.lastPosition);
+                } else if (action == 'instructor') {
+                    var element = document.getElementById("instructor");
+                    element.scrollIntoView({ block: "end", behavior: "smooth" });
                 }
             },
             convertLessonDuration(duration) {
@@ -1191,12 +1194,17 @@
                     if (lessonProgress.percentComplete >= 100) {
                         return `Completed`;
                     } else if (lessonProgress.lastPosition == 0) {
-                        return 'Not Started';
+                        if (this.user.subscriptionType == 'free') {
+                            return 'Upgrade to Unlock';
+                        } else {
+                            return 'Not Started';
+                        }
+
                     } else {
                         return `${lessonProgress.percentComplete}%`;
                     }
                 } else {
-                    return 'Not Started';
+                    return 'Sign in to Unlock';
                 }
             },
             percentComplete(lesson) {

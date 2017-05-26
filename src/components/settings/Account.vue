@@ -69,7 +69,7 @@
                                     <ul class="list list--inline">
                                         <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
                                         <li class="item" v-if="user.profileImageUrl">
-                                            <a class="link link--secondary fontSize--xs" href="#">Delete</a>
+                                            <a class="link link--secondary fontSize--xs" @click="removeImage">Delete</a>
                                         </li>
                                         <li class="item">
                                             <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
@@ -270,10 +270,12 @@
                     _this.completeUpload();
                     _this.profileImageUrl = imageUrl;
                     _this.$store.dispatch('updateUser', { profileImageUrl: imageUrl });
+                    User.updateUser(_this, _this.updatePayload);
                 });
             },
             removeImage() {
-                this.image = '';
+                this.profileImageUrl = 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg';
+                User.updateUser(this, this.updatePayload);
             },
             pauseRenewal() {
                 User.pauseRenewal(this);
