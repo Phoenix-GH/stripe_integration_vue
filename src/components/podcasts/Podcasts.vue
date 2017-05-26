@@ -56,8 +56,8 @@
                 podcast.instructor.name }}
               </li>
               <li class="item has--icon">
-                <svg class="icon-thumbs-up">
-                  <use xlink:href="#icon-thumbs-up"></use>
+                <svg class="icon-date">
+                  <use xlink:href="#icon-date"></use>
                 </svg>
                 {{ podcastTime(podcast) }}
               </li>

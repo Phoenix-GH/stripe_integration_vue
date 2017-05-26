@@ -237,7 +237,7 @@
                     color:$white;
                     background-color:$accent;
                     [class^="icon-"], [class*=" icon-"]{
-                        fill:$white;
+                        fill:$white !important;
                     }
                 }
             }
