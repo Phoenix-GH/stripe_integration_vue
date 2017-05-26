@@ -94,7 +94,9 @@
 
             // Close Checkout on page navigation:
             window.addEventListener('popstate', function () {
-                this.stripeHandler.close();
+                if (this.stripeHandler != undefined) {
+                    this.stripeHandler.close();
+                }
             });
         },
         data: function () {
@@ -120,7 +122,7 @@
                     User.purchaseMonthlySubscription(this, (err, response) => {
                         this.$store.dispatch('updateSpinner', false);
                         if (err != null) return alert(JSON.stringify(err));
-                        _this.$router.push({ name: 'account' })
+                        _this.$router.go(-1);
                     });
                 } else {
                     if (this.user.stripeSubscriptionId != undefined) return alert('You already have an active subscription!');
@@ -130,7 +132,7 @@
                         User.purchaseMonthlySubscription(this, (err, response) => {
                             this.$store.dispatch('updateSpinner', false);
                             if (err != null) return alert(JSON.stringify(err));
-                            _this.$router.push({ name: 'account' })
+                            _this.$router.go(-1);
                         });
                     } else { //must create it first
                         let email = this.user.email || '';
@@ -164,7 +166,7 @@
                     User.purchaseAnnualSubscription(this, (err, response) => {
                         this.$store.dispatch('updateSpinner', false);
                         if (err != null) return alert(JSON.stringify(err));
-                        _this.$router.push({ name: 'account' })
+                        _this.$router.go(-1);
                     });
                 } else {
                     if (this.user.stripeSubscriptionId != undefined) return alert('You already have an active subscription!');
@@ -174,7 +176,7 @@
                         User.purchaseAnnualSubscription(this, (err, response) => {
                             this.$store.dispatch('updateSpinner', false);
                             if (err != null) return alert(JSON.stringify(err));
-                            _this.$router.push({ name: 'account' })
+                            _this.$router.go(-1);
                         });
                     } else { //must create it first
                         let email = this.user.email || '';
@@ -218,13 +220,13 @@
         background-color: #ffffff;
         flex-wrap: wrap;
     }
-    
+
     .flex {
         display: flex;
         flex-flow: row;
         width: 100%;
     }
-    
+
     .container {
         width: 100%;
         height: 70vh;
@@ -233,7 +235,7 @@
         justify-content: center;
         flex-flow: column;
     }
-    
+
     .rightColumn {
         display: flex;
         flex-flow: column;
@@ -241,7 +243,7 @@
         justify-content: space-around;
         height: 30%;
     }
-    
+
     .leftColumn {
         display: flex;
         flex-flow: column;
@@ -249,18 +251,18 @@
         justify-content: space-around;
         height: 60%;
     }
-    
+
     .topButton {
         background-color: #ffffff;
         color: #2d2d2d;
         border: 2px solid #2d2d2d;
         width: 20rem;
     }
-    
+
     .bottomButton {
         width: 20rem;
     }
-    
+
     .formStyle {
         width: 20rem;
         background-color: #ffffff;

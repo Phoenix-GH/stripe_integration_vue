@@ -8,7 +8,7 @@
                 <div class="video__container">
 
                     <div class="video__player">
-                        <div class="video__nav wrapper">
+                        <div v-if="userLoggedIn" class="video__nav wrapper">
                             <div class="wrapper__inner">
                                 <ul class="list list--inline list--divided is--reversed">
                                     <li class="item has--icon">
@@ -264,7 +264,7 @@
                         </div>
                         <!-- /UPGRADE CTA - FREE USER -->
 
-                        <ol class="lessons__list">
+                        <ol class="lessons__list" :class="{'is--started': percentComplete > 0}">
 
 
                             <li class="heading wrapper">
@@ -622,6 +622,9 @@
         },
         mounted() {
 
+            var element = document.getElementById("topdoc");
+            element.scrollIntoView({ block: "end", behavior: "smooth" });
+
             twttr.widgets.load();
             if (window.FB) {
                 window.FB.XFBML.parse();
@@ -687,6 +690,24 @@
                     type: "application/x-mpegURL",
                     src: "",
                     withCredentials: false
+                });
+            })
+
+
+            //referrals
+            $('[data-copy]').click(function () {
+                var text = $(this).data('copy'),
+                    alert = '<span class="field__alert">' + text + '</span>',
+                    par = $(this).closest('.input'),
+                    dur = 300;
+                $(this).select();
+                document.execCommand('copy');
+                $(alert).hide().appendTo(par).fadeIn(dur).css({ 'transform': 'translateY(-5px)', 'opacity': '0' }).promise().done(function () {
+                    $(this).fadeTo(50, 0, function () {
+                        setTimeout(function () {
+                            $('.field__alert').remove();
+                        }, 200)
+                    })
                 });
             })
 
@@ -1131,7 +1152,14 @@
                     //play last lesson from last progress point
                     this.currentOverlay = '';
                     this.playLessonMark(this.lastLesson.lesson._id, this.lastLesson.lesson.cloudUrl, this.lastLesson.progress.lastPosition);
+                } else if (action == 'instructor') {
+                    var element = document.getElementById("instructor");
+                    element.scrollIntoView({ block: "end", behavior: "smooth" });
                 }
+            },
+            scrollToTop() {
+                var element = document.getElementById("topdoc");
+                element.scrollIntoView({ block: "end", behavior: "smooth" });
             },
             convertLessonDuration(duration) {
                 return convertSecondsToReadableFormat(duration);
@@ -1192,12 +1220,17 @@
                     if (lessonProgress.percentComplete >= 100) {
                         return `Completed`;
                     } else if (lessonProgress.lastPosition == 0) {
-                        return 'Not Started';
+                        if (this.user.subscriptionType == 'free') {
+                            return 'Upgrade to Unlock';
+                        } else {
+                            return 'Not Started';
+                        }
+
                     } else {
                         return `${lessonProgress.percentComplete}%`;
                     }
                 } else {
-                    return 'Not Started';
+                    return 'Sign in to Unlock';
                 }
             },
             percentComplete(lesson) {
@@ -1358,6 +1391,7 @@
                 console.log('will share class');
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
+                eventBus.$emit('refreshSocial');
             },
             startOver() {
                 this.resetClass();

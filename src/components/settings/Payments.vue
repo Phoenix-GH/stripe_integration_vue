@@ -65,7 +65,7 @@
                                 <div class="wrapper__inner">
                                     <ul class="list list--inline list--divided">
                                         <li class="item no--pad-l">
-                                            <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'Mastercard', 'is--amex': updatedCardInfo.cardType == 'American Express', 'is--discover': updatedCardInfo.cardType == 'Discover', 'is--diners-club': updatedCardInfo.cardType == 'Diners Club'}"></span>
+                                            <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'MasterCard', 'is--amex': updatedCardInfo.cardType == 'American Express', 'is--discover': updatedCardInfo.cardType == 'Discover', 'is--diners-club': updatedCardInfo.cardType == 'Diners Club'}"></span>
                                         </li>
                                         <li class="item">
                                             <span class="ts--subtitle disp--block">{{ updatedCardInfo.cardType }} ending in {{ updatedCardInfo.last4 }}</span>

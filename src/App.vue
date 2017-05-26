@@ -1,5 +1,5 @@
 <template>
-  <div class="page__wrapper">
+  <div class="page__wrapper" id="topdoc">
     <appHeader></appHeader>
     <section class="page__block is--push">
       <div class="content">
@@ -9,6 +9,7 @@
       <signupModal></signupModal>
       <reviewModal></reviewModal>
       <forgotPasswordModal></forgotPasswordModal>
+      <shareModal></shareModal>
     </section>
     <appFooter></appFooter>
   </div>
@@ -71,10 +72,9 @@
     },
     created() {
 
-      // $(document).click(function (e) {
-      //   console.log('will close menu');
-      //   eventBus.$emit('closeMenu');
-      // });
+      $(document).click(function (e) {
+        eventBus.$emit('closeMenu');
+      });
 
     }
   }
