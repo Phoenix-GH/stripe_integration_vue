@@ -621,6 +621,9 @@
         },
         mounted() {
 
+            var element = document.getElementById("topdoc");
+            element.scrollIntoView({ block: "end", behavior: "smooth" });
+
             twttr.widgets.load();
             if (window.FB) {
                 window.FB.XFBML.parse();
@@ -1152,6 +1155,10 @@
                     var element = document.getElementById("instructor");
                     element.scrollIntoView({ block: "end", behavior: "smooth" });
                 }
+            },
+            scrollToTop() {
+                var element = document.getElementById("topdoc");
+                element.scrollIntoView({ block: "end", behavior: "smooth" });
             },
             convertLessonDuration(duration) {
                 return convertSecondsToReadableFormat(duration);

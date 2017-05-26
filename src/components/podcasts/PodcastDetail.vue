@@ -153,8 +153,10 @@
             VueMarkdown
         },
         mounted() {
-            console.log("updating active podcast" + this.activePodcast);
-            //this.updatePodcast();
+            var element = document.getElementById("topdoc");
+            element.scrollIntoView({ block: "end", behavior: "smooth" });
+            console.log("updating active podcast" + this.activePodcast._id);
+            this.updatePodcast();
         },
         computed: {
             ...mapGetters([
