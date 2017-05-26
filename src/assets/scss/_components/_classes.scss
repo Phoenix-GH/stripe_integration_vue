@@ -126,6 +126,15 @@
             font-weight:700;
             background-color: $white-40;
         }
+        .progress{
+            position:absolute;
+            top:$spacing-xs;
+            left:$spacing-xs;
+            z-index:1;
+            .progress__bg{
+                stroke: $white-20;
+            }
+        }
         &:hover{
             .btn__play{
                 background-color:$bright-brand;
