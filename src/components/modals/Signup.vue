@@ -68,6 +68,7 @@
 <script>
   import { User } from '../../api';
   import { mapGetters } from 'vuex';
+
   export default {
     data: function () {
       return {
@@ -117,6 +118,7 @@
         this.$store.dispatch('updateActiveModal', '');
       },
       signup() {
+
         if (this.password.length < 8) {
           console.log('password not long enough.');
           this.errorMessage = 'Please enter a password 8 characters or more.'

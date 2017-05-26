@@ -90,9 +90,16 @@ export const store = new Vuex.Store({
         },
         updateSpinner: ({ commit }, payload) => {
             commit('updateSpinner', payload);
+        },
+        purgeState: ({ commit }, payload) => {
+            commit('purgeState', payload);
         }
     },
     mutations: {
+        purgeState: (state, payload) => {
+            console.log('state has been purged');
+            state = payload;
+        },
         updateReviewStatusType: (state, payload) => {
             state.reviewStatusType = payload;
         },
@@ -244,6 +251,32 @@ export const loadCache = () => {
         let cache = JSON.parse(plainState);
         store.dispatch('updateCache', cache);
     }
+};
+
+export const purgeAll = () => {
+    let payload = {
+        user: {},
+        masterClasses: [],
+        completedClasses: [],
+        classesInProgress: [],
+        savedClasses: [],
+        hasModal: false,
+        activeModal: '',
+        userLoggedIn: false,
+        selectedTopics: [],
+        classes: [],
+        activeCourse: {},
+        activePodcast: {},
+        searchResults: [],
+        featuredClasses: [],
+        classesByTopic: {},
+        lastRenewal: '',
+        lastLesson: {},
+        showSpinner: false,
+        reviewStatusType: 'good'
+    };
+    localStorage.clear();
+    store.dispatch('purgeState', payload);
 };
 
 function persist() {

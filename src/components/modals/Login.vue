@@ -147,6 +147,7 @@
         this.$store.dispatch('updateActiveModal', '');
       },
       login() {
+
         if (this.email.length == 0) {
           console.log('email not long enough');
           this.errorMessage = 'Please enter a valid email address'

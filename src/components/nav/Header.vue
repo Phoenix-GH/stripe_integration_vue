@@ -256,6 +256,7 @@
 </template>
 
 <script>
+    import { purgeAll } from '../../store/index';
     import { User, Class } from '../../api';
     import { mapGetters } from 'vuex';
 
@@ -375,15 +376,19 @@
                 }
             },
             showLogin() {
+                purgeAll();
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'login');
+
             },
             showSignup() {
+                purgeAll();
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'signup');
             },
             logOut() {
                 User.logout(this);
+                purgeAll();
                 this.$router.push({ name: 'home' });
             },
             closeOverlay() {
