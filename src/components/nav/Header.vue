@@ -8,7 +8,7 @@
 
 
         <!-- Alert -->
-        <div class="alert2" :class="{shouldHide: shouldHideAlert}">
+        <div class="alert2" :class="{'shouldHide': shouldHideAlert}">
             Get unlimited on-demand access for only $149/year!
             <a href="javascript:;" @click="upgradeAccount">Upgrade Now!</a>
             <svg @click="hideAlert" class="icon-close">
@@ -17,7 +17,7 @@
         </div>
 
         <!-- ===== MAIN NAVIGATION ===== -->
-        <div :class="{alertMargin: !shouldHideAlert}">
+        <div :class="{alertMargin: !shouldHideAlert, noAlertMargin: shouldHideAlert}">
             <header class="header header__main wrapper">
                 <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
                 <div class="main__nav">
@@ -269,6 +269,18 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
             })
+            // let _this = this;
+            // $(document).ready(() => {
+            //     $("#hidebanner").click(() => {
+            //         console.log('clicked banner');
+            //         $("#upgradebanner").animate({
+            //             height: "0px"
+            //         }, 500, function () {
+            //             _this.hideAlert();
+            //             console.log('executed');
+            //         });
+            //     })
+            // })
         },
         data: function () {
             return {
@@ -457,6 +469,12 @@
 
     .alertMargin {
         margin-top: 48px;
+        transition: 200ms linear all
+    }
+
+    .noAlertMargin {
+        margin-top: 0px;
+        transition: 200ms linear all
     }
 
     .alert2 {
