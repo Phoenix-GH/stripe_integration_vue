@@ -57,7 +57,7 @@
                                 </li>
 
                                 <!-- NOTE: Display on 'All Accounts' -->
-                                <li id="navAccount" class="item has--icon has--popover" :class="{'is--active': profileMenuVisible}" v-if="userLoggedIn" @click.stop="showProfileMenu">
+                                <li id="navAccount" class="item has--popover" :class="{'is--active': profileMenuVisible}" v-if="userLoggedIn" @click.stop="showProfileMenu">
                                     <div class="avatar avatar--m" :style="{ 'background-image': 'url(' + profileImage + ')' }"></div>
                                     <a class="link link--dropdown"><span class="mobile--hide">{{ user ? user.firstName : "" }}</span></a>
                                     <ul class="list list--nav list--dropdown">
