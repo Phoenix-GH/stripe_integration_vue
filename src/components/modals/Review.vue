@@ -68,6 +68,7 @@
 <script>
     import { User, Class } from '../../api';
     import { mapGetters } from 'vuex';
+    import { eventBus } from '../../main';
 
     export default {
         created() {
@@ -124,6 +125,7 @@
                 this.errorMessage = '';
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
+                eventBus.$emit('updateClassDetails');
             },
             submitReview() {
                 if (this.reviewBody.length == 0) {
