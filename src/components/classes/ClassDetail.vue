@@ -25,7 +25,7 @@
                                 </ul>
                             </div>
                             <div class="wrapper__inner align--right">
-                                <div class="has--popover disp--ib">
+                                <div @click.stop="openMenu" class="has--popover disp--ib" :class="{'is--active': popOverIsActive }">
                                     <svg class="icon-more color--white no--margin">
                                         <use xlink:href="#icon-more"></use>
                                     </svg>
@@ -477,8 +477,8 @@
                                                 {{ convertLessonDuration(note.ts) }}
                                             </div>
                                             <div class="wrapper__inner align--right">
-                                                <div class="has--popover disp--ib">
-                                                    <svg class="icon-more icon--s color--black no--margin">
+                                                <div @click.stop="openMenuNote(note)" class="has--popover disp--ib" :class="{'is--active': currentNoteEdit.length > 0 && currentNoteEdit == note._id }">
+                                                    <svg class=" icon-more icon--s color--black no--margin ">
                                                         <use xlink:href="#icon-more"></use>
                                                     </svg>
                                                     </a>
@@ -505,19 +505,19 @@
                         <!-- /NOTES TAB -->
 
                         <!-- REVIEWS TAB -->
-                        <div id="reviews" class="tab__content" :class="{'hide': !reviewsActive, 'remove': !reviewsActive}">
+                        <div id="reviews " class="tab__content " :class="{ 'hide': !reviewsActive, 'remove': !reviewsActive} ">
 
                             <!-- EMPTY STATE -->
                             <!-- NOTE: Only displayed if there are no notes saved -->
-                            <div class="well is--empty align--center" v-if="reviews.length == 0">
-                                <span class="ts--subtitle">No one has reviewed this class yet...</span>
-                                <span class="divider divider--s"></span>
-                                <button class="btn btn--cta modal--toggle" @click="addReview('good')">Be the first to review it</button>
+                            <div class="well is--empty align--center " v-if="reviews.length==0 ">
+                                <span class="ts--subtitle ">No one has reviewed this class yet...</span>
+                                <span class="divider divider--s "></span>
+                                <button class="btn btn--cta modal--toggle " @click="addReview( 'good') ">Be the first to review it</button>
                             </div>
                             <!-- /EMPTY STATE -->
 
                             <!-- REVIEWS LIST -->
-                            <ul class="reviews" v-if="activeCourse.reviews.length > 0">
+                            <ul class="reviews " v-if="activeCourse.reviews.length> 0">
 
                                 <!-- REVIEW -->
                                 <li v-for="review in activeCourse.reviews" class="review" :class="{'is--positive': true, 'is--negative': false}">
@@ -595,6 +595,7 @@
                 showNotepad: false,
                 transitionTimer: 10,
                 currentOverlay: '',
+                currentNoteEdit: '',
                 timer: {},
                 courseWasReset: false
             }
@@ -619,6 +620,7 @@
             });
             eventBus.$on('closeMenu', () => {
                 this.popOverIsActive = false;
+                this.currentNoteEdit = '';
             });
         },
         mounted() {
@@ -711,9 +713,6 @@
                     })
                 });
             })
-
-            //popovers
-            this.managePopovers();
 
         },
         beforeDestroy() {
@@ -1294,21 +1293,13 @@
             //-----------------------------------
             // ACTIONS
             //-----------------------------------
-            managePopovers() {
-                var target;
-                $('.has--popover').unbind('click');
-                $('.has--popover').click(function (e) {
-                    console.log('clicking on popover');
-                    target = $(this);
-                    var e = window.event || e;
-                    if (!($(target).hasClass('is--active'))) {
-                        $('.input--dropdown').removeClass('is--active')
-                        $(target).addClass("is--active");
-                        e.stopPropagation();
-                    } else {
-                        $(target).removeClass("is--active");
-                    }
-                });
+            openMenuNote(note) {
+                console.log(note._id);
+                if (this.currentNoteEdit == note._id) {
+                    this.currentNoteEdit = '';
+                } else {
+                    this.currentNoteEdit = note._id;
+                }
             },
             tappedOnAboutTab() {
                 this.currentActiveTab = 'About'
@@ -1316,7 +1307,6 @@
             tappedOnNotesTab() {
                 if (!this.userLoggedIn) return;
                 this.currentActiveTab = 'Notes'
-                this.managePopovers();
             },
             tappedOnReviewsTab() {
                 if (!this.userLoggedIn) return;

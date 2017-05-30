@@ -54,7 +54,8 @@
                     <div class="wrapper__inner">
                         <div class="ts--subtitle">
                             {{ student.firstName }} {{ student.lastName }}
-                            <span class="has--badge badge--text badge--cap" :class="{'badge--alert': student.subscriptionType == 'paused', 'is--affirmative': student.subscriptionType == 'annual'||student.subscriptionType == 'monthly'}" :data-badge="student.subscriptionType"></span>
+                            <span class="has--badge badge--text badge--cap" :class="{'badge--alert': student.subscriptionType == 'paused', 'is--affirmative': student.subscriptionType == 'annual'||student.subscriptionType == 'monthly'}"
+                                :data-badge="student.subscriptionType"></span>
                         </div>
                         <div><i>{{ student.email }}</i></div>
                     </div>
@@ -64,8 +65,11 @@
                                 <button class="btn btn--secondary is--affirmative btn--s" @click="enrollStudent(student)">Enroll</button>
                             </li>
                             <li class="item">
-                                <div class="has--popover disp--ib">
-                                    <svg class="icon-more icon--s color--black no--margin"><use xlink:href="#icon-more"></use></svg></a>
+                                <div @click.stop="openMenuForStudent(student)" class="has--popover disp--ib" :class="{'is--active': currentMenuOpen.length > 0 && currentMenuOpen == student._id }">
+                                    <svg class="icon-more icon--s color--black no--margin">
+                                        <use xlink:href="#icon-more"></use>
+                                    </svg>
+                                    </a>
                                     <ul class="list">
                                         <li class="item" v-if="student.facebookId == undefined">
                                             <a @click="resetPassword(student.email)">Reset Password</a>
@@ -108,7 +112,8 @@
                 selectedMasterClass: '',
                 modalConfig: {
                     show: false
-                }
+                },
+                currentMenuOpen: ''
             }
         },
         components: {
@@ -138,6 +143,13 @@
             }
         },
         methods: {
+            openMenuForStudent(student) {
+                if (this.currentMenuOpen == student._id) {
+                    this.currentMenuOpen = '';
+                } else {
+                    this.currentMenuOpen = student._id;
+                }
+            },
             deleteStudent(student) {
                 let _this = this;
                 if (confirm('Are you sure you want to delete this student? The student will be removed from the system and will not be able to be recovered.')) {
@@ -194,7 +206,14 @@
         created() {
             this.refreshUsers();
             this.updateMasterClasses();
+            eventBus.$on('closeMenu', () => {
+                this.currentMenuOpen = '';
+            })
+        },
+        beforeDestroy() {
+            eventBus.$off('closeMenu');
         }
+
     }
 
 </script>
