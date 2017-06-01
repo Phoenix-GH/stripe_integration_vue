@@ -28,18 +28,19 @@
 
             <!-- SIGN UP WITH EMAIL -->
             <div class="panel__section">
-              <form id="formRegister" class="form" @submit.prevent="">
+              <form id="formRegister" class="form" @submit.prevent="signup">
                 <div class="input input--text">
-                  <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email" required>
+                  <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email" autofocus
+                    required pattern="[^ @]*@[^ @]*">
                   <label for="emailAddress">Email Address</label>
                 </div>
                 <div class="input input--password">
-                  <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" v-model="password" autocomplete="new-password"
-                    required>
+                  <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" v-model="password"
+                    autocomplete="new-password" required>
                   <label for="createPass">Password</label>
                   <div class="input__link">Must be at least 8 characters.</div>
                 </div>
-                <button @click="signup" type="submit" class="btn btn--cta btn--block" data-loads>Create Account</button>
+                <button type="submit" class="btn btn--cta btn--block" data-loads>Create Account</button>
               </form>
             </div>
             <!-- /SIGN UP WITH EMAIL -->
