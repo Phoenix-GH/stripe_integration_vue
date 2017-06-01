@@ -28,6 +28,7 @@ export default {
             .then(response => {
                 updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
+                eventBus.$emit('logincomplete');
             })
             .then(() => {
                 _this.sync(context);
@@ -38,12 +39,14 @@ export default {
     },
 
     loginFacebook(context, payload) {
+        console.log(JSON.stringify(payload));
         let _this = this;
         axios
             .post(BASE_URL + 'users/facebooklogin', payload)
             .then(response => {
                 updateAPIToken(response.data.data);
                 localStorage.setItem('token', API_TOKEN);
+                eventBus.$emit('logincomplete');
             })
             .then(() => {
                 _this.sync(context);

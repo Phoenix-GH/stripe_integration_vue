@@ -29,9 +29,9 @@
 
             <!-- SIGN IN WITH EMAIL -->
             <div class="panel__section">
-              <form class="form" @submit.prevent="">
+              <form class="form" @submit.prevent="login">
                 <div class="input input--text" :class="{'has--error': emailError}">
-                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" required>
+                  <input v-model="email" type="email" class="input__field" :class="{'not--empty': email.length > 0}" required pattern="[^ @]*@[^ @]*">
                   <label for="emailAddress">{{ emailLabel }}</label>
                 </div>
                 <div class="input input--password" :class="{'has--error': passwordError}">
@@ -41,7 +41,7 @@
                 <div class="align--center">
                   <ul class="list list--buttons">
                     <li class="item">
-                      <button type="submit" class="btn btn--cta btn--block" @click="login" data-loads>Log In</button>
+                      <button type="submit" class="btn btn--cta btn--block" data-loads>Log In</button>
                     </li>
                     <li class="item">
                       <a class="link link--secondary modal--toggle" href="javascript:;" @click="showForgotPassword">Forgot Password?</a>
@@ -253,7 +253,7 @@
       createFacebookAccount(params) {
         let payload = params;
         if (payload.name.length > 0) {
-          let res = this.name.split(" ");
+          let res = payload.name.split(" ");
           if (res.length > 0) {
             payload.firstName = res[0];
             payload.lastName = res[1];
