@@ -105,30 +105,23 @@
                         </ul>
                         <ul class="list list--inline list--social wrapper__inner align--right">
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://www.facebook.com/MikeDillardFanPage" target="_blank">
                                     <svg class="icon-social-facebook">
                                         <use xlink:href="#icon-social-facebook"></use>
                                     </svg>
                                 </a>
                             </li>
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://twitter.com/Mike_Dillard" target="_blank">
                                     <svg class="icon-social-twitter">
                                         <use xlink:href="#icon-social-twitter"></use>
                                     </svg>
                                 </a>
                             </li>
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://www.instagram.com/selfmademanofficial/" target="_blank">
                                     <svg class="icon-social-instagram">
                                         <use xlink:href="#icon-social-instagram"></use>
-                                    </svg>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a class="link" href="#">
-                                    <svg class="icon-social-pinterest">
-                                        <use xlink:href="#icon-social-pinterest"></use>
                                     </svg>
                                 </a>
                             </li>

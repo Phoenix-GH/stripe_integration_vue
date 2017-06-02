@@ -32,7 +32,7 @@
                         <div class="panel__section">
                             <div class="well bg--snow">
                                 <div class="input input--password">
-                                    <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="currentPassword" v-model="password">
+                                    <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="currentPassword" v-model="password" autocomplete="new-password">
                                     <label for="currentPassword">New Password</label>
                                     <div class="input__link"></div>
                                 </div>
