@@ -1,14 +1,58 @@
 <template>
-    <div class="panelz">
-        <h1>Reset Password</h1>
+    <div class="optionalPadding">
+        <div class="row content">
 
-        <div v-if="showError">
-            {{ errorMessage }}
-        </div>
-        <div class="panelz">
-            <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" v-model="password">
-            <input type="password" class="input__field" :class="{'not--empty': repeatpassword.length > 0}" v-model="repeatpassword">
-            <button @click="resetPassword">Reset Password</button>
+            <div v-if="showError">
+                {{ errorMessage }}
+            </div>
+
+            <!-- SETTINGS PANEL -->
+            <div class="col col--4-of-12 col--centered">
+                <div class="panel">
+                    <!-- PANEL HEADER -->
+                    <div class="panel__head">
+                        <div class="wrapper">
+                            <div class="wrapper__inner">
+                                <h3 class="ts--title">Set New Password</h3>
+                                <p class="ts--body is--secondary">Keep your account secure, and your information safe.</p>
+                            </div>
+                            <div class="wrapper__inner align--right">
+                                <svg class="icon-lock icon--l color--accent">
+                                    <use xlink:href="#icon-lock"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /PANEL HEADER -->
+
+                    <!-- PANEL BODY -->
+                    <div class="panel__body">
+
+                        <!-- PASSWORD FORM -->
+                        <div class="panel__section">
+                            <div class="well bg--snow">
+                                <div class="input input--password">
+                                    <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="currentPassword" v-model="password">
+                                    <label for="currentPassword">New Password</label>
+                                    <div class="input__link"></div>
+                                </div>
+                                <div class="input input--password">
+                                    <input type="password" class="input__field" :class="{'not--empty': repeatpassword.length > 0}" id="repeatPassword" v-model="repeatpassword" autocomplete="new-password">
+                                    <label for="repeatPassword">Type it Again</label>
+                                    <div class="input__link"></div>
+                                    <span class="input__helper">Must be at least 8 characters (case sensitive)</span>
+                                </div>
+                                <button class="btn btn--primary btn--block" @click="resetPassword">Reset Password</button>
+                            </div>
+                        </div>
+                        <!-- /PASSWORD FORM -->
+
+                    </div>
+                    <!-- /PANEL BODY -->
+                </div>
+            </div>
+            <!-- /SETTINGS PANEL -->
+
         </div>
     </div>
 </template>
