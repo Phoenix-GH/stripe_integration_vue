@@ -129,7 +129,7 @@
                                         </svg>
                                         <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.positiveReviewCount }}</a>
                                     </li>
-                                    <li class="item has--icon">
+                                    <li class="item has--icon color--white">
                                         <svg class="icon-users color--white">
                                             <use xlink:href="#icon-users"></use>
                                         </svg>
