@@ -32,9 +32,9 @@ function timeSince(date) {
     }
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
-        return interval + ' minutes';
+        return interval + ' mins';
     }
-    return Math.floor(seconds) + ' seconds';
+    return Math.floor(seconds) + ' secs';
 }
 
 module.exports = {

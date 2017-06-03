@@ -182,6 +182,44 @@ hr{
 }
 
 
+//=== Layouts
+@media #{$mq-medium}{
+    [class*="layout--"]{
+        .layout__col{
+            float:left;
+            padding:0 $spacing-m;
+        }
+    }
+    .layout--1-4{
+        .layout__col{
+            width:percentage(4/6);
+            &:first-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+    .layout--1-4-1{
+        .layout__col{
+            width:percentage(4/6);
+            &:first-child,
+            &:last-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+    .layout--4-1{
+        .layout__col{
+            width:percentage(4/6);
+            &:last-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+}
+
 
 //===== MEDIA QUERIES
 //===================

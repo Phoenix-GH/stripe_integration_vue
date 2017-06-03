@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -34,7 +34,39 @@
         <!-- /LEFT SIDEBAR -->
 
         <!-- MAIN CONTENT -->
-        <div class="col col--7-of-12">
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
 
             <div class="panel">
 
@@ -62,7 +94,7 @@
                         <table class="table" v-if="isSubscribed">
                             <tbody>
 
-                                <!-- SINGLE INVOICE (REFERRAL REWARD) -->
+                                <!-- SINGLE INVOICE -->
                                 <!-- NOTE: If the month was comp'd from a referral, the total is '$0.00' and the 'reward' icon is displayed. Additionally the 'View Receipt' link is disabled. -->
                                 <tr v-for="bill in updatedBills">
                                     <td>
@@ -73,31 +105,14 @@
                                         <div class="disp--ib align--left">
                                             <!-- NOTE: Has a tooltip with the name of the person referred -->
                                             <span class="ts--subtitle disp--block" data-tooltip="" data-tip-pos="left">
-                                          $ {{ (bill.amount/100).toFixed(2) }} 
+                                          $ {{ (bill.amount/100).toFixed(2) }}
                                           <svg class="icon-reward icon--s color--accent"><use xlink:href="#icon-reward"></use></svg>
                                       </span>
                                             <a class="link link--secondary is--disabled">View Receipt</a>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- SINGLE INVOICE (REFERRAL REWARD) -->
-
-                                <!-- SINGLE INVOICE (NORMAL) -->
-                                <!--<tr>
-                                    <td>
-                                        <span class="ts--subtitle disp--block">Dec 17, 2017</span>
-                                        <span class="ts--body is--secondary">Monthly Membership</span>
-                                    </td>
-                                    <td class="align--right">
-                                        <div class="disp--ib align--left">
-                                            <span class="ts--subtitle disp--block">
-                                          $14.95
-                                      </span>
-                                            <a class="link link--secondary" href="#">View Reciept</a>
-                                        </div>
-                                    </td>
-                                </tr>-->
-                                <!-- SINGLE INVOICE (NORMAL) -->
+                                <!-- SINGLE INVOICE -->
 
                             </tbody>
                         </table>

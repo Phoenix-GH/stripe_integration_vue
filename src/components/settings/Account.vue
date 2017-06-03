@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row content">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -29,13 +29,45 @@
                 <li class="item" v-if="user.role == 2">
                     <router-link class="link" :to="{ name: 'students' }">Students</router-link>
                 </li>
-
             </ul>
         </div>
         <!-- /LEFT SIDEBAR -->
 
-        <!-- SETTINGS PANEL -->
-        <div class="col col--7-of-12">
+        <!-- MAIN CONTENT -->
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
+
             <div class="panel">
                 <!-- PANEL HEADER -->
                 <div class="panel__head">
@@ -129,20 +161,18 @@
                 <!-- /PANEL BODY -->
             </div>
         </div>
-        <!-- /SETTINGS PANEL -->
+        <!-- /MAIN CONTENT -->
 
-        <!-- RIGHT SIDEBAR -->
-        <div class="col col--2-of-12 align--center" :class="{hide: shouldHide}">
-            <ul class="list list--buttons">
-                <li class="item">
-                    <button class="btn btn--primary" @click="saveUser">Save Changes</button>
-                </li>
-                <li class="item" @click="discardChanges">
-                    <a class="link link--secondary fontSize--xs">Discard Changes</a>
-                </li>
-            </ul>
+        <!-- CONTROL BAR -->
+        <div class="control__bar fixed--bottom wrapper bg--accent is--reversed" :class="{show: !shouldHide}">
+            <div class="wrapper__inner">
+                <a class="link link--secondary fontSize--xs" @click="discardChanges">Discard Changes</a>
+            </div>
+            <div class="wrapper__inner align--right">
+                <button class="btn btn--primary is--reversed" @click="saveUser">Save</button>
+            </div>
         </div>
-        <!-- / RIGHT SIDEBAR -->
+        <!-- /CONTROL BAR -->
 
     </div>
 
@@ -184,7 +214,7 @@
             },
             lastUpdatedPhoto() {
                 let date = new Date(this.user.updatedAt);
-                return `Updated: ${timeSince(date)} ago`;
+                return `${timeSince(date)} ago`;
             },
             updatePayload() {
                 return {

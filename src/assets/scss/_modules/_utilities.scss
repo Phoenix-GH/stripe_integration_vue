@@ -8,10 +8,6 @@
     }
 }
 
-.hide{
-    display:none !important;
-}
-
 .truncate{
     overflow:hidden;
     text-overflow: ellipsis;
@@ -26,5 +22,77 @@
     &.aspectRatio--1-1{
         width:100%;
         padding-top:100%;
+    }
+}
+
+//=== Hide @ Max
+$hide: none !important;
+
+.hide{
+    display:$hide;
+}
+
+@media (max-width: #{$bp-xsmall}){
+    .hide--xs{
+        display:$hide;
+    }
+}
+@media (max-width: #{$bp-small}){
+    .hide--s{
+        display:$hide;
+    }
+}
+@media (max-width: #{$bp-medium}){
+    .hide--m{
+        display:$hide;
+    }
+}
+@media (max-width: #{$bp-large}){
+    .hide--l{
+        display:$hide;
+    }
+}
+@media (max-width: #{$bp-xlarge}){
+    .hide--xl{
+        display:$hide;
+    }
+}
+@media (max-width: #{$bp-xxlarge}){
+    .hide--xxl{
+        display:$hide;
+    }
+}
+
+//=== Show @ Max
+$show: block !important;
+
+@media (max-width: #{$bp-xsmall}){
+    .show--xs{
+        display:$show;
+    }
+}
+@media (max-width: #{$bp-small}){
+    .show--s{
+        display:$show;
+    }
+}
+@media (max-width: #{$bp-medium}){
+    .show--m{
+        display:$show;
+    }
+}
+@media (max-width: #{$bp-large}){
+    .show--l{
+        display:$show;
+    }
+}
+@media (max-width: #{$bp-xlarge}){
+    .show--xl{
+        display:$show;
+    }
+}
+@media (max-width: #{$bp-xxlarge}){
+    .show--xxl{
+        display:$show;
     }
 }

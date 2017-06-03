@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -34,7 +34,39 @@
         <!-- /LEFT SIDEBAR -->
 
         <!-- MAIN CONTENT -->
-        <div class="col col--7-of-12">
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
 
             <div class="panel">
 
