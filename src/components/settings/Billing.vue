@@ -95,24 +95,28 @@
                             <tbody>
 
                                 <!-- SINGLE INVOICE -->
-                                <!-- NOTE: If the month was comp'd from a referral, the total is '$0.00' and the 'reward' icon is displayed. Additionally the 'View Receipt' link is disabled. -->
                                 <tr v-for="bill in updatedBills">
                                     <td>
-                                        <span class="ts--subtitle disp--block">{{ readableDate(bill.date) }}</span>
-                                        <span class="ts--body is--secondary">{{ bill.type }} Subscription</span>
+                                        <span class="ts--subtitle disp--block">
+                                            {{ readableDate(bill.date) }}
+                                        </span>
+                                        <span class="ts--body is--secondary">
+                                            {{ bill.type }} Subscription
+                                        </span>
                                     </td>
                                     <td class="align--right">
                                         <div class="disp--ib align--left">
-                                            <!-- NOTE: Has a tooltip with the name of the person referred -->
-                                            <span class="ts--subtitle disp--block" data-tooltip="" data-tip-pos="left">
-                                          $ {{ (bill.amount/100).toFixed(2) }}
-                                          <svg class="icon-reward icon--s color--accent"><use xlink:href="#icon-reward"></use></svg>
-                                      </span>
-                                            <a class="link link--secondary is--disabled">View Receipt</a>
+                                            <span class="ts--subtitle disp--block">
+                                                ${{ (bill.amount/100).toFixed(2) }}
+                                            </span>
+                                            <span class="ts--body is--secondary">
+                                                <!-- TODO: Link up to Stripe receipt permalink -->
+                                                <a class="link link--secondary" onclick="window.open('https://dashboard.stripe.com/emails/receipts/pmtrc_1AMMtoIrLCyyXiFCENddNEpj','winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,width=540,height=640');">View Receipt</a>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- SINGLE INVOICE -->
+                                <!-- /SINGLE INVOICE -->
 
                             </tbody>
                         </table>
