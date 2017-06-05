@@ -55,12 +55,6 @@
                 <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + podcast.instructor.profileImage + ')' }"></span>{{
                 podcast.instructor.name }}
               </li>
-              <li class="item has--icon">
-                <svg class="icon-date">
-                  <use xlink:href="#icon-date"></use>
-                </svg>
-                {{ podcastTime(podcast) }}
-              </li>
             </ul>
           </div>
         </div>
