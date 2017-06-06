@@ -9,51 +9,6 @@
                     <div class="col col--7-of-12 col--am col--m-2-of-2">
                         <h1 class="ts--display">Welcome back, {{ user.firstName }}</h1>
                         <p class="ts--title is--secondary">What will you learn today?</p>
-
-                        <div class="divider divider--s"></div>
-
-                        <ul class="list list--inline list--buttons list--tight" style="max-width:600px;">
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Mindset
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Productivity
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Entrepreneurship
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Money
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Giving
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Health &amp; Fitness
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Defense
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Relationships
-                          </button>
-                            </li>
-                        </ul>
                     </div>
 
                     <!-- CONTINUE WATCHING -->
