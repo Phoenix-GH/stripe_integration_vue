@@ -91,26 +91,21 @@
                     <!-- AVATAR -->
                     <div class="panel__section">
                         <div class="well">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
-                                    <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'"></div>
+                            <div class="row">
+                                <div class="col col--7-of-12 col--am">
+                                    <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'">
+                                        <div v-if="this.user.facebookId != undefined" class="badge badge--fb"><svg class="icon-social-facebook"><use xlink:href="#icon-social-facebook"></use></svg></div>
+                                    </div>
                                     <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
                                     {{ lastUpdatedPhoto }}
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <ul class="list list--inline">
-                                        <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
-                                        <li class="item" v-if="user.profileImageUrl">
-                                            <a class="link link--secondary fontSize--xs" @click="removeImage">Delete</a>
-                                        </li>
-                                        <li class="item">
-                                            <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
-                                            <button id="upload-button" class="btn btn--primary" :class="{'has--loader': hasLoader }" :style="styleObject" @click="uploadPhoto">
-                                                <div v-if="uploadState <= 1" class="btn--inner"><span class="text">{{ uploadingText }}</span><div class="loader"><span></span></div></div>
-                                                <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
-                                              </button>
-                                        </li>
-                                    </ul>
+                                <div class="col col--5-of-12 col--am align--right">
+                                    <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
+                                    <button id="upload-button" class="btn btn--primary btn--block" :class="{'has--loader': hasLoader }"  @click="uploadPhoto">
+                                        <div v-if="uploadState <= 1" class="btn--inner"><span class="text"><use xlink:href="#icon-upload-photo"></use></svg>{{ uploadingText }}</span><div class="loader"><span></span></div></div>
+                                        <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
+                                    </button>
+                                    <!-- <a class="link link--secondary fontSize--xs" @click="removeImage">Delete</a> -->
                                 </div>
                             </div>
                         </div>
@@ -127,7 +122,7 @@
                                 </div>
                                 <div class="input input--text">
                                     <input type="text" class="input__field" :class="{'not--empty': lastName.length > 0}" id="lastName" v-model="lastName">
-                                    <label for="lastName">Last Name (Optional)</label>
+                                    <label for="lastName">Last Name</label>
                                 </div>
                                 <div class="input input--text">
                                     <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email">
@@ -141,16 +136,16 @@
                     <!-- MEMBERSHIP -->
                     <div clas="panel__section" v-if="user.subscriptionType!='free'">
                         <div class="well">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
+                            <div class="row">
+                                <div class="col col--7-of-12 col--m-1-of-2 col--am">
                                     <span v-if="user.subscriptionType!='paused'" class="ts--subtitle">Membership</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--subtitle">Membership Paused</span>
                                     <span v-if="user.subscriptionType!='paused'" class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--body is--secondary disp--block">Will Cancel On: {{ subscriptionRenewal }}</span>
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
-                                    <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary" @click="activateRenewal">Activate</button>
+                                <div class="col col--5-of-12 col--m-1-of-2 col--am align--right">
+                                    <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary btn--block is--warning" @click="pauseRenewal">Pause Renewal</button>
+                                    <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary btn--block is--affirmative" @click="activateRenewal">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +186,7 @@
         data: function () {
             return {
                 photoIsUploaded: false,
-                profileImageUrl: 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg',
+                profileImageUrl: 'https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png',
                 email: '',
                 firstName: '',
                 lastName: '',
@@ -248,7 +243,7 @@
             if (this.user.profileImageUrl.length > 0) {
                 this.profileImageUrl = this.user.profileImageUrl;
             } else {
-                this.profileImageUrl = "http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg";
+                this.profileImageUrl = "https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png";
             }
 
             if (this.user.email != undefined) {
@@ -315,7 +310,7 @@
                 });
             },
             removeImage() {
-                this.profileImageUrl = 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg';
+                this.profileImageUrl = 'https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png';
                 User.updateUser(this, this.updatePayload);
             },
             pauseRenewal() {

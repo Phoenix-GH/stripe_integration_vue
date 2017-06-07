@@ -180,7 +180,11 @@ $toast-pulls: true !default;
         display: block;
         margin-left: 0;
         margin-right: 0;
+        margin-bottom:$spacing-s;
         width: auto;
+        &:last-child{
+            margin-bottom:0;
+        }
     }
 
     @media (max-width: $toast-breakpoint-medium) and (min-width: $toast-breakpoint-small) {

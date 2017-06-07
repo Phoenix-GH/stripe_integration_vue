@@ -18,6 +18,9 @@
     &.avatar--l{
         width:56px;
         height:56px;
+        .badge{
+            transform:translate(-20%, -20%);
+        }
     }
     &.avatar--xl{
         width:72px;

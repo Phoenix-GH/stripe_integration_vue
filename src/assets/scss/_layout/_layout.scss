@@ -72,8 +72,8 @@ body{
 .container{
     width:100%;
     margin:0 auto;
-    padding-right:$spacing-m;
-    padding-left:$spacing-m;
+    padding-right:$spacing-xs;
+    padding-left:$spacing-xs;
     box-sizing: border-box;
     &.container--fw{
         max-width:$maxWidth;
@@ -229,9 +229,13 @@ hr{
     body{
         overflow-x: auto;
     }
+    .container{
+        padding-right:$spacing-m;
+        padding-left:$spacing-m;
+    }
 }
 
-@media #{$mq-xsmall} {
+@media #{$mq-small} {
     .container{
         padding-right:$spacing-l;
         padding-left:$spacing-l;

@@ -93,8 +93,8 @@
                         <!-- PAYMENT METHOD -->
                         <!-- NOTE: Display only if Credit Card saved -->
                         <div class="well" v-if="hasStripeAccount">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
+                            <div class="row">
+                                <div class="col col--7-of-12 col--am">
                                     <ul class="list list--inline list--divided">
                                         <li class="item no--pad-l">
                                             <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'MasterCard', 'is--amex': updatedCardInfo.cardType == 'American Express', 'is--discover': updatedCardInfo.cardType == 'Discover', 'is--diners-club': updatedCardInfo.cardType == 'Diners Club'}"></span>
@@ -105,8 +105,8 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <button class="btn btn--secondary" @click="updateCreditCard">Change Method</button>
+                                <div class="col col--5-of-12 col--am align--right">
+                                    <button class="btn btn--secondary btn--block" @click="updateCreditCard">Change Method</button>
                                 </div>
                             </div>
                         </div>

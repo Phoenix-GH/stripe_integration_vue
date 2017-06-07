@@ -1,5 +1,5 @@
 .well{
-    $well-padding: $spacing-m;
+    $well-padding: $spacing-s;
     border:1px solid $silver;
     border-radius:3px;
     box-sizing: border-box;
@@ -52,9 +52,6 @@
             &.is--quartered{
                 width:25%;
             }
-            // .truncate{
-            //     width: calc(100% - (#{$well-padding}*3));
-            // }
         }
         .well--code{
             padding:0;
