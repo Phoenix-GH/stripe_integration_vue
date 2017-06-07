@@ -480,6 +480,11 @@
                                                     <svg class="icon-social-snapchat icon--s"><use xlink:href="#icon-social-snapchat"></use></svg>
                                                 </a>
                                             </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-website icon--s"><use xlink:href="#icon-social-website"></use></svg>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
