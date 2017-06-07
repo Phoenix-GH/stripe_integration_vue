@@ -10,7 +10,7 @@
                     </div>
                     <div class="wrapper__inner" style="width:300px;">
                         <div class="sub__providers">
-                            <span class="fontSize--xs color--white is--emphasis">Subscribe On:</span>
+                            <span class="fontSize--xs color--white is--emphasis">Subscribe for Free On:</span>
                             <ul class="list list--inline padding--s no--pad-lr no--pad-b margin--s no--margin-lr no--margin-b border--1 border--solid border--lightest no--border-lr no--border-b">
                                 <li class="item">
                                     <a href="http://www.stitcher.com/podcast/mikedillard/self-made-man" target="_blank">
