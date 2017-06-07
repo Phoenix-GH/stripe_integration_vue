@@ -29,12 +29,12 @@
                                 <li class="item has--icon">
                                     <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activePodcast.instructor.profileImage + ')' }"></span>                                    with {{ activePodcast.instructor.name }}
                                 </li>
-                                <li class="item has--icon">
-                                    <svg class="icon-thumbs-up">
-                                        <use xlink:href="#icon-thumbs-up"></use>
+                                <!-- <li class="item has--icon">
+                                    <svg class="icon-time">
+                                        <use xlink:href="#icon-time"></use>
                                     </svg>
                                     {{ podcastTime(activePodcast) }}
-                                </li>
+                                </li> -->
                                 <li class="item has--icon">
                                     <svg class="icon-play-count">
                                         <use xlink:href="#icon-play-count"></use>
