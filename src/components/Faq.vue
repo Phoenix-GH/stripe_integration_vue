@@ -77,7 +77,7 @@
                                     <label class="accordion" for="faq5">Can I bookmark my lesson progress?</label>
                                     <input type="radio" id="faq5" name="faq">
                                     <div class="accordion__content">
-                                        We automatically track your progress and bookmark lessons so you can easily resume right where you left off. Visit your
+                                        We automatically track your progress and bookmark chapters so you can easily resume right where you left off. Visit your
                                         <router-link class="link link--secondary" :to="{ name: 'landing' }">dashboard</router-link> anytime you want to resume playing an interupted lesson.
                                     </div>
                                 </li>

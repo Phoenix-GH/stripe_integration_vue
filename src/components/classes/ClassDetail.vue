@@ -282,7 +282,7 @@
                                         </li>
 
                                         <li class="item">
-                                            {{ lessons.length }} Lessons
+                                            {{ lessons.length }} Chapters
                                         </li>
                                     </ul>
                                 </div>
