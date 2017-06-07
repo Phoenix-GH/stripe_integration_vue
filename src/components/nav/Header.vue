@@ -9,7 +9,7 @@
 
         <!-- Alert -->
         <div class="alert2" :class="{'shouldHide': shouldHideAlert}">
-            Get unlimited on-demand access for only $149/year!
+            Get unlimited access to every lesson…
             <a href="javascript:;" @click="upgradeAccount">Upgrade Now!</a>
             <svg @click="hideAlert" class="icon-close">
                 <use xlink:href="#icon-close"></use>
