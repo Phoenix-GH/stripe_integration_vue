@@ -3,7 +3,7 @@
     <div>
 
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
+        <div class="banner bg--black">
             <div class="banner__content container container--fw container--l is--reversed">
                 <div class="row">
                     <div class="col col--7-of-12 col--am col--m-2-of-2">

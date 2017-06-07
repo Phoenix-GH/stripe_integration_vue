@@ -3,7 +3,7 @@
     <div id="modalForgotPassword" class="modal modal--s reversed--head" :class="{'is--visible': active}">
         <div class="modal__wrapper modal__wrapper--transition no--pad">
             <div class="modal__body">
-                <div class="modal__head bg--black bg--wood is--reversed">
+                <div class="modal__head bg--black is--reversed">
                     <span class="ts--headline">Forgot Password?</span>
                 </div>
                 <div class="well no--border">

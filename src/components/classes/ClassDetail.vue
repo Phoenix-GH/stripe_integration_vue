@@ -257,7 +257,7 @@
 
                         <!-- UPGRADE CTA - FREE USER -->
                         <div class="lessons__sharing" v-if="showUpgrade">
-                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                            <div class="well bg--positive align--center margin--xxl no--margin-lr no--margin-t no--border">
                                 <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant on-demand access!</span>
                                 <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
                             </div>

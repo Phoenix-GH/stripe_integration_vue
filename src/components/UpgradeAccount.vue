@@ -6,7 +6,7 @@
             <!-- PANEL -->
             <div class="panel" style="overflow:hidden;">
                 <!-- PANEL HEADER -->
-                <div class="panel__head bg--black is--reversed bg--wood">
+                <div class="panel__head bg--black is--reversed">
                     <div class="wrapper">
                         <div class="wrapper__inner">
                             <span class="fontSize--s color--white-80">Start your learning journey today!</span>

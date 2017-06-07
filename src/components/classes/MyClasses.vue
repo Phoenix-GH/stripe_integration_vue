@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
+        <div class="banner bg--black">
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
