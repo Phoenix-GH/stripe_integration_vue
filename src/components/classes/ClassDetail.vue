@@ -370,7 +370,7 @@
                                         {{ currentViewCount }} Views
                                     </li>
                                     <li class="item">
-                                        <div @click.stop="openMenu" class="has--popover disp--ib" :class="{'is--active': popOverIsActive }">
+                                        <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
                                             <svg class="icon-more no--margin color--black">
                                                 <use xlink:href="#icon-more"></use>
                                             </svg>
@@ -384,6 +384,9 @@
                                                 </li>
                                                 <li class="item" @click="switchMode">
                                                     <a>Switch Mode</a>
+                                                </li>
+                                                <li class="item" @click="addReview( 'good')">
+                                                    <a>Review Class</a>
                                                 </li>
                                                 <li class="item" @click="tappedOnUnEnroll">
                                                     <a>Leave Class</a>
@@ -512,7 +515,7 @@
                             <div class="well is--empty align--center " v-if="reviews.length==0 ">
                                 <span class="ts--subtitle ">No one has reviewed this class yet...</span>
                                 <span class="divider divider--s "></span>
-                                <button class="btn btn--cta modal--toggle " @click="addReview( 'good') ">Be the first to review it</button>
+                                <button class="btn btn--cta modal--toggle " @click="addReview( 'good')">Be the first to review it</button>
                             </div>
                             <!-- /EMPTY STATE -->
 
