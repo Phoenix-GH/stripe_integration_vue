@@ -5,7 +5,7 @@
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
-                        <h1 class="ts--headline">The Podcast</h1>
+                        <h1 class="ts--headline">The Self Made Man Podcast</h1>
                         <p class="ts--title is--secondary">Listen to the #1 Ranked Self-Help Podcast With Over 2.5 Million downloads.</p>
                     </div>
                     <div class="wrapper__inner" style="width:300px;">
