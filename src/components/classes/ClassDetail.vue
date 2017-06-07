@@ -24,28 +24,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="wrapper__inner align--right">
-                                <div @click.stop="openMenu" class="has--popover disp--ib" :class="{'is--active': popOverIsActive }">
-                                    <svg class="icon-more color--white no--margin">
-                                        <use xlink:href="#icon-more"></use>
-                                    </svg>
-                                    </a>
-                                    <ul class="list">
-                                        <li class="item" @click="tappedOnUnEnroll">
-                                            <a>Un-Enroll</a>
-                                        </li>
-                                        <li class="item" @click="tappedOnResetProgress">
-                                            <a>Reset Progress</a>
-                                        </li>
-                                        <li class="item" @click="tappedOnMarkComplete">
-                                            <a>Mark Complete</a>
-                                        </li>
-                                        <li class="item" @click="switchMode">
-                                            <a>Switch Mode</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- VIDEO STATES -->
@@ -390,6 +368,28 @@
                                             <use xlink:href="#icon-show"></use>
                                         </svg>
                                         {{ currentViewCount }} Views
+                                    </li>
+                                    <li class="item">
+                                        <div @click.stop="openMenu" class="has--popover disp--ib" :class="{'is--active': popOverIsActive }">
+                                            <svg class="icon-more no--margin color--black">
+                                                <use xlink:href="#icon-more"></use>
+                                            </svg>
+                                            </a>
+                                            <ul class="list">
+                                                <li class="item" @click="tappedOnResetProgress">
+                                                    <a>Reset Progress</a>
+                                                </li>
+                                                <li class="item" @click="tappedOnMarkComplete">
+                                                    <a>Mark Complete</a>
+                                                </li>
+                                                <li class="item" @click="switchMode">
+                                                    <a>Switch Mode</a>
+                                                </li>
+                                                <li class="item" @click="tappedOnUnEnroll">
+                                                    <a>Un-Enroll</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
