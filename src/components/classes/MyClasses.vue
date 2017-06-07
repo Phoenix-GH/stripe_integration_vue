@@ -33,8 +33,8 @@
             <!-- /EMPTY STATE -->
 
             <!-- /CLASS LIST -->
-            <inprogress v-if="classesInProgress.length > 0" />
             <purchased v-if="masterClasses.length > 0" />
+            <inprogress v-if="classesInProgress.length > 0" />
 
         </div>
 
