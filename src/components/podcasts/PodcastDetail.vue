@@ -67,8 +67,21 @@
                         <!-- INFO BAR RIGHT -->
                         <div class="wrapper__inner align--right">
                             <div class="sub__providers">
-                                <span class="fontSize--xs color--black is--emphasis">Subscribe On:</span>
+                                <span class="fontSize--xs color--black is--emphasis">Share this episode:</span>
                                 <ul class="list list--inline padding--s no--pad-lr no--pad-b margin--s no--margin-lr no--margin-b border--1 border--solid border--lightest no--border-lr no--border-b">
+                                    <li class="item">
+                                        <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="disp--ib">
+                                            <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" :data-url="shareUrl">Tweet</a>
+                                        </div>
+                                    </li>
+                                    <li class="item">
+                                        <a class="btn btn--share is--email" href="mailto:support@smm.co">Email</a>
+                                    </li>
+                                </ul>
+                                <!-- <ul class="list list--inline padding--s no--pad-lr no--pad-b margin--s no--margin-lr no--margin-b border--1 border--solid border--lightest no--border-lr no--border-b">
                                     <li class="item">
                                         <a href="http://www.stitcher.com/podcast/mikedillard/self-made-man" target="_blank">
                                             <img src="../../assets/img/logo-stitcher-c.png" alt="Subscribe on Stitcher" height="16px">
@@ -84,7 +97,7 @@
                                             <img src="../../assets/img/logo-spotify-c.png" alt="Subscribe on Spotify" height="16px">
                                         </a>
                                     </li>
-                                </ul>
+                                </ul> -->
                             </div>
                         </div>
                         <!-- /INFO BAR RIGHT -->

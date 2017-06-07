@@ -376,17 +376,17 @@
                                             </svg>
                                             </a>
                                             <ul class="list">
-                                                <li class="item" @click="tappedOnResetProgress">
-                                                    <a>Reset Progress</a>
-                                                </li>
                                                 <li class="item" @click="tappedOnMarkComplete">
                                                     <a>Mark Complete</a>
+                                                </li>
+                                                <li class="item" @click="tappedOnResetProgress">
+                                                    <a>Reset Progress</a>
                                                 </li>
                                                 <li class="item" @click="switchMode">
                                                     <a>Switch Mode</a>
                                                 </li>
                                                 <li class="item" @click="tappedOnUnEnroll">
-                                                    <a>Un-Enroll</a>
+                                                    <a>Leave Class</a>
                                                 </li>
                                             </ul>
                                         </div>
