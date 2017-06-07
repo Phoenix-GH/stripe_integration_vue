@@ -49,12 +49,12 @@
                                 <li @click="tappedOnAboutTab" class="item" :class="{'is--active': aboutActive}">
                                     About this Episode
                                 </li>
-                                <li @click="tappedOnNotesTab" class="item" :class="{'is--active': notesActive}">
+                                <!-- <li @click="tappedOnNotesTab" class="item" :class="{'is--active': notesActive}">
                                     Episode Notes
                                 </li>
                                 <li @click="tappedOnTranscriptTab" class="item" :class="{'is--active': transcriptActive}">
                                     Transcript
-                                </li>
+                                </li> -->
                                 <li @click="tappedOnCommentsTab" class="item has--badge" data-badge="0" :class="{'is--active': commentsActive}">
                                     Comments
                                 </li>
