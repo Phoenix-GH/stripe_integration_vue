@@ -79,6 +79,12 @@
                         display:none;
                     }
                 }
+                svg{
+                    fill: $black-80;
+                    &:hover{
+                        fill: $black;
+                    }
+                }
             }
         }
     }

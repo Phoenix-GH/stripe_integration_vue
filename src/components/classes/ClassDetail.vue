@@ -438,19 +438,51 @@
                                 </li>
                             </ul>
                             <br>
-                            <h3 class="ts--subtitle">About the Instructor</h3>
-                            <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
-                            <span class="divider divider--s"></span>
-                            <div id="instructor" class="well disp--ib">
-                                <ul class="list list--inline">
-                                    <li class="item">
-                                        <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
-                                    </li>
-                                    <li class="item">
-                                        <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
-                                        <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
-                                    </li>
-                                </ul>
+                            <h3 class="ts--subtitle">About the Instructor:</h3>
+                            <div id="instructor" class="well disp--ib no--pad" style="width:100%;">
+                                <div class="well__row">
+                                    <div class="well__section">
+                                        <ul class="list list--inline list--tight">
+                                            <li class="item">
+                                                <span class="avatar avatar--xl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
+                                            </li>
+                                            <li class="item">
+                                                <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
+                                                <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="well__row padding--m">
+                                    <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
+                                    <div class="align--right">
+                                        <ul class="list list--inline list--social disp--ib">
+                                            <li class="item is--emphasis fontSize--xxs">
+                                                Follow:
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-facebook icon--s"><use xlink:href="#icon-social-facebook"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-twitter icon--s"><use xlink:href="#icon-social-twitter"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-instagram icon--s"><use xlink:href="#icon-social-instagram"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-snapchat icon--s"><use xlink:href="#icon-social-snapchat"></use></svg>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /ABOUT TAB -->
