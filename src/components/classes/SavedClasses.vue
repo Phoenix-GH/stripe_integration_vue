@@ -2,8 +2,8 @@
 
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black">
-            <div class="banner__content container container--fw is--reversed">
+        <div class="banner bg--stainless jagged jagged--fog">
+            <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
                         <h1 class="ts--headline">Saved for Later</h1>
