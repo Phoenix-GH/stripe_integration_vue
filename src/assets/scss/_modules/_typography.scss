@@ -170,15 +170,19 @@ code{
     }
     h1{
         @extend .ts--headline;
+        margin-bottom:8px;
     }
     h2{
         @extend .ts--title;
+        margin-bottom:4px;
     }
     h3{
         @extend .ts--subtitle;
+        margin-bottom:4px;
     }
     p{
         @extend .ts--body;
+        margin-bottom:16px;
     }
     &.dropcap{
         p{
