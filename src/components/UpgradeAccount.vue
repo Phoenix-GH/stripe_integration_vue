@@ -9,8 +9,8 @@
                 <div class="panel__head bg--black is--reversed">
                     <div class="wrapper">
                         <div class="wrapper__inner">
-                            <span class="fontSize--s color--white-80">Start your learning journey today!</span>
-                            <h3 class="ts--headline">Upgrade to Premium</h3>
+                            <span class="fontSize--s color--white-80">You’re one lesson away from a better life…</span>
+                            <h3 class="ts--headline">Upgrade to Premium For Full Access</h3>
                         </div>
                         <div class="wrapper__inner align--right">
                             <svg class="icon-star icon--l color--brand">
@@ -24,33 +24,31 @@
                 <div class="panel__body">
 
                     <div class="row">
-                        <div class="col col--5-of-8 col--am">
+                        <div class="col col--7-of-12 col--am">
                             <ul class="list list--bulleted list--checks fontSize--l">
                                 <li class="item">
-                                    Unlimited on-demand access
+                                    Unlimited on-demand access to every lesson
                                 </li>
                                 <li class="item">
-                                    One new video lesson per month
-                                </li>
-                                <li class="item">
-                                    Exclusive Mastery Course discounts
-                                </li>
-                                <li class="item">
-                                    Live webcast shows and Q&amp;A
+                                    New lessons added every month to your library
                                 </li>
                                 <li class="item">
                                     Invite-only annual events &amp; adventures
                                 </li>
+                                <li class="item">
+                                    30-Day Money Back Guarantee
+                                </li>
                             </ul>
                         </div>
-                        <div class="col col--3-of-8 col--am align--center">
+                        <div class="col col--5-of-12 col--am align--center">
                             <!-- UPGRADE BUTTONS -->
                             <div class="panel__section divider--or">
-                                <div data-tooltip="Best Deal!" data-tip-pos="left">
-                                    <button @click="upgradeToAnnual(false)" class="btn btn--cta btn--block">$149.99 / Year</button>
-                                </div>
+                                <button @click="upgradeToMonthly(false)" class="btn btn--secondary">$19/Mo (billed monthly)</button>
                             </div>
-                            <button @click="upgradeToMonthly(false)" class="btn btn--secondary">$13.95 (Monthly Plan)</button>
+                            <div data-tooltip="Best Deal!" data-tip-pos="left">
+                                <button @click="upgradeToAnnual(false)" class="btn btn--cta">$8/Mo (billed annually)</button>
+                            </div>
+                            <span class="ts--caption margin--xs no--margin-lr no--margin-b">Just $97/Yr (Save 58%)</span>
                             <!-- /UPGRADE BUTTONS -->
                         </div>
                     </div>
@@ -141,7 +139,7 @@
                             this.stripeHandler.open({
                                 name: 'Self Made Man',
                                 description: 'Monthly Membership',
-                                amount: 1395,
+                                amount: 1900,
                                 email: email,
                                 'allow-remember-me': false
                             });
@@ -150,7 +148,7 @@
                             this.stripeHandler.open({
                                 name: 'Self Made Man',
                                 description: 'Monthly Membership',
-                                amount: 1395,
+                                amount: 1900,
                                 'allow-remember-me': false
                             });
                         }
@@ -185,7 +183,7 @@
                             this.stripeHandler.open({
                                 name: 'Self Made Man',
                                 description: 'Annual Membership',
-                                amount: 14999,
+                                amount: 9700,
                                 email: email,
                                 'allow-remember-me': false
                             });
@@ -194,7 +192,7 @@
                             this.stripeHandler.open({
                                 name: 'Self Made Man',
                                 description: 'Annual Membership',
-                                amount: 14999,
+                                amount: 9700,
                                 'allow-remember-me': false
                             });
                         }
