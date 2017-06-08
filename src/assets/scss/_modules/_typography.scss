@@ -154,3 +154,63 @@ code{
     letter-spacing: 1.4px;
     font-weight:900;
 }
+
+//=== Markdown Styled Text
+.is--md{
+    h1, h2, h3, p{
+        display:block;
+        color:$black;
+        &:last-child{
+            margin-bottom:0 !important;
+        }
+    }
+    h1, h2, h3{
+        margin-bottom:$spacing-s;
+        padding-bottom:$spacing-xs;
+    }
+    h1{
+        @extend .ts--headline;
+    }
+    h2{
+        @extend .ts--title;
+    }
+    h3{
+        @extend .ts--subtitle;
+    }
+    p{
+        @extend .ts--body;
+    }
+    &.dropcap{
+        p{
+            &:first-child::first-letter{
+                float: left;
+                line-height: 0.94;
+                margin-right: 0.12em;
+                font-family: $secondary-font;
+                font-size: 3.15em;
+                font-weight:600;
+            }
+        }
+    }
+    ul, ol{
+        @extend .ts--body;
+        margin-left:$spacing-xxs;
+        li{
+            line-height:1.4em;
+            margin-bottom:$spacing-xs;
+            a{
+                color:$black;
+                transition:all 0.1s ease-in-out;
+                &:hover{
+                    color:$accent;
+                }
+            }
+        }
+    }
+    ul{
+        list-style:inside disc;
+    }
+    ol{
+        list-style:inside decimal;
+    }
+}

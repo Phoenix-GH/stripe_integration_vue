@@ -113,32 +113,32 @@
                     <div id="episodeContent" class="col col--6-of-12 no--pad-l">
 
                         <!-- ABOUT TAB -->
-                        <div id="about" class="tab__content dropcap" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
+                        <div id="about" class="tab__content dropcap is--md" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
                             <vue-markdown :source="activePodcast.description"></vue-markdown>
                         </div>
 
                         <!-- /ABOUT TAB -->
 
                         <!-- EPISODE NOTES TAB -->
-                        <div id="episodeNotes" class="tab__content" :class="{'hide': !notesActive, 'remove': !notesActive}">
+                        <div id="episodeNotes" class="tab__content is--md" :class="{'hide': !notesActive, 'remove': !notesActive}">
                             <vue-markdown :source="activePodcast.episodenotes"></vue-markdown>
                         </div>
                         <!-- /EPISODE NOTES TAB -->
 
                         <!-- TRANSCRIPT TAB -->
-                        <div id="transcript" class="tab__content" :class="{'hide': !transcriptActive, 'remove': !transcriptActive}">
+                        <div id="transcript" class="tab__content is--md" :class="{'hide': !transcriptActive, 'remove': !transcriptActive}">
                             <vue-markdown :source="activePodcast.transcript"></vue-markdown>
                         </div>
                         <!-- /TRANSCRIPT TAB -->
 
                         <!-- COMMENTS TAB -->
-                        <div id="comments" class="tab__content" :class="{'hide': !commentsActive, 'remove': !commentsActive}">
+                        <div id="comments" class="tab__content is--md" :class="{'hide': !commentsActive, 'remove': !commentsActive}">
                             <div class="fb-comments" :data-href="$router.path" data-numposts="10"></div>
                         </div>
                         <!-- /COMMENTS TAB -->
 
                     </div>
-                    <div class="sidebar col col--5-of-12 col--push-1-of-12 bg--fog">
+                    <div class="sidebar col col--5-of-12 col--push-1-of-12 bg--fog is--md">
                         <vue-markdown :source="activePodcast.sidebar"></vue-markdown>
                     </div>
                 </div>
