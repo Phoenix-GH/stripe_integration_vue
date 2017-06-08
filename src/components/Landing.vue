@@ -2,106 +2,49 @@
 
     <div>
 
-        <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
-            <div class="banner__content container container--fw container--l is--reversed">
-                <div class="row">
-                    <div class="col col--7-of-12 col--am col--m-2-of-2">
+        <!-- BANNER (BASIC) -->
+        <div class="banner bg--positive jagged jagged jagged--fog" v-if="!lastLessonExists">
+            <div class="banner__content container container--fw is--reversed">
+                <div class="wrapper">
+                    <div class="wrapper__inner">
                         <h1 class="ts--display">Welcome back, {{ user.firstName }}</h1>
                         <p class="ts--title is--secondary">What will you learn today?</p>
-
-                        <div class="divider divider--s"></div>
-
-                        <ul class="list list--inline list--buttons list--tight" style="max-width:600px;">
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Mindset
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Productivity
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Entrepreneurship
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Money
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Giving
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Health &amp; Fitness
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Defense
-                          </button>
-                            </li>
-                            <li class="item">
-                                <button class="btn btn--secondary is--reversed">
-                              Relationships
-                          </button>
-                            </li>
-                        </ul>
                     </div>
-
-                    <!-- CONTINUE WATCHING -->
-                    <div class="col col--4-of-12 col--push-1-of-12 col--am col--m-2-of-2">
-                        <!--
-                      NOTE: This div should always be here, even if empty.
-                  -->
-                        <div v-if="lastLessonExists" class="well no--pad no--border margin--s no--margin-lr no--margin-t">
-                            <span class="ts--title">Continue Watching:</span>
-                        </div>
-                        <!-- SINGLE CLASS -->
-                        <div v-if="lastLessonExists" class="class is--bookmarked" @click.stop="updateCurrentClass(lastLesson.course)">
-                            <a class="class__thumb">
-                                <span class="btn__play btn--m btn--secondary"></span>
-                                <img :src="activeCourse.thumbImageUrl" alt="">
-                                <div class="class__title">
-                                    <span class="ts--subtitle">{{ lastLesson.course.title }}</span>
-                                    <span class="ts--headline truncate">{{ lastLesson.lesson.title }}</span>
-                                </div>
-                                <span class="image__cap">
-                              <svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>
-                              {{ leftOffMessage }}
-                          </span>
-                                <span class="remove__link">
-                              <ul class="list list--inline">
-                                  <li @click.stop="startLastLessonOver" class="item">
-                                      <span class="link link--secondary">
-                                          <svg class="icon-restart icon--s"><use xlink:href="#icon-restart"></use></svg>
-                                          Start Over
-                                      </span>
-                                </li>
-                                <li @click.stop="openLastLesson" class="item">
-                                    <span class="link link--secondary">
-                                          <svg class="icon-bookmark icon--s"><use xlink:href="#icon-bookmark"></use></svg>
-                                          Where I Left Off ({{ readableCourseDuration(lastLesson.progress.lastPosition) }})
-                                      </span>
-                                </li>
-                                </ul>
-                                </span>
-                            </a>
-                        </div>
-                        <!-- /SINGLE CLASS -->
+                    <div class="wrapper__inner align--right">
+                        <button class="btn btn--cta is--reversed">Browse Classes</button>
                     </div>
-                    <!-- /CONTINUE WATCHING -->
                 </div>
             </div>
         </div>
-        <!-- /BANNER -->
+        <!-- /BANNER (BASIC) -->
+
+        <!-- BANNER (CONTINUE) -->
+        <div class="banner banner--m bg--silver go go--bottom jagged jagged--fog" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }" v-if="lastLessonExists">
+            <div class="banner__content container container--fw is--reversed">
+                <div class="wrapper">
+                    <div class="wrapper__inner">
+                        <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
+                        <span class="ts--display truncate">{{ lastLesson.lesson.title }}</span>
+                        <span class="ts--title is--secondary">{{ lastLesson.course.title }} ({{ leftOffMessage }})</span>
+                        <div class="divider divider--s"></div>
+                        <ul class="list list--inline">
+                            <li class="item">
+                                <button class="btn btn--secondary is--reversed" @click.stop="startLastLessonOver">
+                                    <svg class="icon-restart icon--s color--white"><use xlink:href="#icon-restart"></use></svg>
+                                    Start Over
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="banner__play wrapper__inner align--center">
+                        <a @click.stop="openLastLesson" class="btn__play btn--l" href="javascript:;">Watch</a>
+                        <br><br>
+                        <span class="ts--title">Continue Watching</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /BANNER (CONTINUE) -->
 
         <!-- CLASS LIST -->
         <div class="content__section row container container--fw">
@@ -129,7 +72,7 @@
                                         </svg>
                                         <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.positiveReviewCount }}</a>
                                     </li>
-                                    <li class="item has--icon">
+                                    <li class="item has--icon color--white">
                                         <svg class="icon-users color--white">
                                             <use xlink:href="#icon-users"></use>
                                         </svg>

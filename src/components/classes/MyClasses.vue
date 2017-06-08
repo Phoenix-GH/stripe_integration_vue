@@ -1,8 +1,8 @@
 <template lang="html">
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
-            <div class="banner__content container container--fw is--reversed">
+        <div class="banner bg--stainless jagged jagged--fog">
+            <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
                         <h1 class="ts--headline">My Classes</h1>
@@ -33,8 +33,8 @@
             <!-- /EMPTY STATE -->
 
             <!-- /CLASS LIST -->
-            <inprogress v-if="classesInProgress.length > 0" />
             <purchased v-if="masterClasses.length > 0" />
+            <inprogress v-if="classesInProgress.length > 0" />
 
         </div>
 

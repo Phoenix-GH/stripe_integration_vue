@@ -43,6 +43,9 @@ body{
                 &::after{
                     background-color:$white;
                 }
+                .container{
+                    padding-left:0;
+                }
             }
             &.sidebar--r{
                 &::before{
@@ -53,6 +56,9 @@ body{
                 }
                 .sidebar{
                     box-shadow:inset 3px 0px 10px rgba(0,0,0,0.05);
+                }
+                .container{
+                    padding-right:0;
                 }
             }
             .container{
@@ -72,8 +78,8 @@ body{
 .container{
     width:100%;
     margin:0 auto;
-    padding-right:$spacing-m;
-    padding-left:$spacing-m;
+    padding-right:$spacing-xs;
+    padding-left:$spacing-xs;
     box-sizing: border-box;
     &.container--fw{
         max-width:$maxWidth;
@@ -182,6 +188,44 @@ hr{
 }
 
 
+//=== Layouts
+@media #{$mq-medium}{
+    [class*="layout--"]{
+        .layout__col{
+            float:left;
+            padding:0 $spacing-m;
+        }
+    }
+    .layout--1-4{
+        .layout__col{
+            width:percentage(4/6);
+            &:first-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+    .layout--1-4-1{
+        .layout__col{
+            width:percentage(4/6);
+            &:first-child,
+            &:last-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+    .layout--4-1{
+        .layout__col{
+            width:percentage(4/6);
+            &:last-child{
+                width:percentage(1/6);
+                padding:0;
+            }
+        }
+    }
+}
+
 
 //===== MEDIA QUERIES
 //===================
@@ -191,9 +235,13 @@ hr{
     body{
         overflow-x: auto;
     }
+    .container{
+        padding-right:$spacing-m;
+        padding-left:$spacing-m;
+    }
 }
 
-@media #{$mq-xsmall} {
+@media #{$mq-small} {
     .container{
         padding-right:$spacing-l;
         padding-left:$spacing-l;

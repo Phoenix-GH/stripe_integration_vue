@@ -256,7 +256,7 @@
                     <div class="lessons__layout">
 
                         <div class="lessons__sharing" v-if="!currentMasterCourse.unlocked">
-                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                            <div class="well bg--positive align--center margin--xxl no--margin-lr no--margin-t no--border">
                                 <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant access for <span class="underlined">${{currentMasterCourse.course.amount}}</span></span>
                                 <button @click="purchaseMasterCourse" class="btn btn--cta is--reversed">Purchase Masterclass</button>
                             </div>

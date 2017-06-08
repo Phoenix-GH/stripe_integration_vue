@@ -5,7 +5,7 @@
     position:relative;
     overflow: hidden;
     box-sizing: border-box;
-    background-position:60%;
+    background-position:center right;
     background-repeat: no-repeat;
     background-size:cover;
     z-index:1;
@@ -16,8 +16,9 @@
             height:120%;
             position: absolute;
             left:0;
-            opacity:0.9;
-            border-radius:4px;
+            opacity:0.8;
+            z-index: 1;
+            // border-radius:4px;
         }
         &.go--bottom{
             &::after{
@@ -45,34 +46,35 @@
         }
     }
     &.jagged{
-        &::after{
+        &::before{
             content:'';
             width:100%;
             height:16px;
             position: absolute;
             left:0;
             bottom:-1px;
+            z-index: 2;
             background-size:1520px;
             background-position:center bottom;
             background-repeat:repeat-x;
         }
         &.jagged--snow{
-            &::after{
+            &::before{
                 background-image:url('./assets/img/jagged-snow.png');
             }
         }
         &.jagged--fog{
-            &::after{
+            &::before{
                 background-image:url('./assets/img/jagged-fog.png');
             }
         }
         &.jagged--silver{
-            &::after{
+            &::before{
                 background-image:url('./assets/img/jagged-silver.png');
             }
         }
         &.jagged--stainless{
-            &::after{
+            &::before{
                 background-image:url('./assets/img/jagged-stainless.png');
             }
         }
@@ -90,7 +92,7 @@
         padding-bottom:$spacing-xl;
         position: relative;
         box-sizing: border-box;
-        z-index:1;
+        z-index:3;
         #mobilePlay{
             margin-bottom:$spacing-m;
         }
@@ -215,6 +217,11 @@
             height:22vw;
             max-height:500px;
             min-height:400px;
+        }
+        &.banner--l{
+            height:28vw;
+            max-height:600px;
+            min-height:500px;
         }
     }
 }

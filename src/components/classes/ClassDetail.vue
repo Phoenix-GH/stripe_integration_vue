@@ -24,28 +24,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="wrapper__inner align--right">
-                                <div @click.stop="openMenu" class="has--popover disp--ib" :class="{'is--active': popOverIsActive }">
-                                    <svg class="icon-more color--white no--margin">
-                                        <use xlink:href="#icon-more"></use>
-                                    </svg>
-                                    </a>
-                                    <ul class="list">
-                                        <li class="item" @click="tappedOnUnEnroll">
-                                            <a>Un-Enroll</a>
-                                        </li>
-                                        <li class="item" @click="tappedOnResetProgress">
-                                            <a>Reset Progress</a>
-                                        </li>
-                                        <li class="item" @click="tappedOnMarkComplete">
-                                            <a>Mark Complete</a>
-                                        </li>
-                                        <li class="item" @click="switchMode">
-                                            <a>Switch Mode</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- VIDEO STATES -->
@@ -257,7 +235,7 @@
 
                         <!-- UPGRADE CTA - FREE USER -->
                         <div class="lessons__sharing" v-if="showUpgrade">
-                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                            <div class="well bg--positive align--center margin--xxl no--margin-lr no--margin-t no--border">
                                 <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant on-demand access!</span>
                                 <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
                             </div>
@@ -282,7 +260,7 @@
                                         </li>
 
                                         <li class="item">
-                                            {{ lessons.length }} Lessons
+                                            {{ lessons.length }} Chapters
                                         </li>
                                     </ul>
                                 </div>
@@ -391,6 +369,31 @@
                                         </svg>
                                         {{ currentViewCount }} Views
                                     </li>
+                                    <li class="item">
+                                        <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
+                                            <svg class="icon-more no--margin color--black">
+                                                <use xlink:href="#icon-more"></use>
+                                            </svg>
+                                            </a>
+                                            <ul class="list">
+                                                <li class="item" @click="tappedOnMarkComplete">
+                                                    <a>Mark Complete</a>
+                                                </li>
+                                                <li class="item" @click="tappedOnResetProgress">
+                                                    <a>Reset Progress</a>
+                                                </li>
+                                                <li class="item" @click="switchMode">
+                                                    <a>Switch Mode</a>
+                                                </li>
+                                                <li class="item" @click="addReview( 'good')">
+                                                    <a>Review Class</a>
+                                                </li>
+                                                <li class="item" @click="tappedOnUnEnroll">
+                                                    <a>Leave Class</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- /INFO BAR LEFT -->
@@ -435,19 +438,56 @@
                                 </li>
                             </ul>
                             <br>
-                            <h3 class="ts--subtitle">About the Instructor</h3>
-                            <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
-                            <span class="divider divider--s"></span>
-                            <div id="instructor" class="well disp--ib">
-                                <ul class="list list--inline">
-                                    <li class="item">
-                                        <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
-                                    </li>
-                                    <li class="item">
-                                        <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
-                                        <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
-                                    </li>
-                                </ul>
+                            <h3 class="ts--subtitle">About the Instructor:</h3>
+                            <div id="instructor" class="well disp--ib no--pad" style="width:100%;">
+                                <div class="well__row">
+                                    <div class="well__section">
+                                        <ul class="list list--inline list--tight">
+                                            <li class="item">
+                                                <span class="avatar avatar--xl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
+                                            </li>
+                                            <li class="item">
+                                                <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
+                                                <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="well__row padding--m">
+                                    <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
+                                    <div class="align--right">
+                                        <ul class="list list--inline list--social disp--ib">
+                                            <li class="item is--emphasis fontSize--xxs">
+                                                Follow:
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-facebook icon--s"><use xlink:href="#icon-social-facebook"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-twitter icon--s"><use xlink:href="#icon-social-twitter"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-instagram icon--s"><use xlink:href="#icon-social-instagram"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-snapchat icon--s"><use xlink:href="#icon-social-snapchat"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-website icon--s"><use xlink:href="#icon-social-website"></use></svg>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /ABOUT TAB -->
@@ -512,7 +552,7 @@
                             <div class="well is--empty align--center " v-if="reviews.length==0 ">
                                 <span class="ts--subtitle ">No one has reviewed this class yet...</span>
                                 <span class="divider divider--s "></span>
-                                <button class="btn btn--cta modal--toggle " @click="addReview( 'good') ">Be the first to review it</button>
+                                <button class="btn btn--cta modal--toggle " @click="addReview( 'good')">Be the first to review it</button>
                             </div>
                             <!-- /EMPTY STATE -->
 

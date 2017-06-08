@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -34,7 +34,40 @@
         <!-- /LEFT SIDEBAR -->
 
         <!-- MAIN CONTENT -->
-        <div class="col col--7-of-12">
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
+
             <div class="panel">
 
                 <!-- PANEL HEADER -->
@@ -63,14 +96,14 @@
                             Share your unique referral code with your friends and you’ll both receive a free month of Premium when they sign up!
                         </p>
                         <div class="well bg--snow" style="overflow:visible;">
-                            <div class="wrapper">
-                                <div class="wrapper__inner padding--m no--pad-l no--pad-tb">
+                            <div class="row">
+                                <div class="col col--7-of-12 col--am">
                                     <div @click="addToClipboard" class="input input--text" data-tooltip="Click to copy" data-tip-pos="right">
                                         <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID" :value="shareUrl">
                                         <label for="inputID">Referral URL</label>
                                     </div>
                                 </div>
-                                <div class="wrapper__inner" style="width:190px; transform: translateY(-4px);">
+                                <div class="col col--5-of-12 col--am" style="transform:translateY(-4px);">
 
                                     <!-- FACBOOK SHARE -->
                                     <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
@@ -82,7 +115,7 @@
                                     </div>
                                     <!-- /TWITTER SHARE -->
 
-                                    <a class="btn btn--share is--email" href="mailto:support@smm.co">Email</a>
+                                    <a class="btn btn--share is--email" style="transform:translateY(7px);" href="mailto:support@smm.co">Email</a>
                                     <!-- /EMAIL SHARE -->
 
                                 </div>

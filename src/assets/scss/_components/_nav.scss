@@ -124,6 +124,11 @@ body.has--banner{
     }
 }
 
+//=== Mobile Menus
+.mobile__menu{
+    display:none;
+}
+
 
 
 //===== MEDIA QUERIES
@@ -144,6 +149,7 @@ body.has--banner{
                 position: static;
                 transform:none;
                 background:url('./assets/img/logo.svg') center no-repeat;
+                background-size:80%;
             }
             .main__nav{
                 display: table-cell;

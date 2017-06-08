@@ -301,8 +301,8 @@
 }
 
 .btn__play{
-    width:64px;
-    height:64px;
+    width:48px;
+    height:48px;
     display:inline-block;
     border-radius:50%;
     font-size:0px;
@@ -313,7 +313,7 @@
     &:hover{
         cursor: pointer;
         transform: scale(1.05);
-        background-color:$bright-brand !important;
+        background-color:$white-60 !important;
     }
     &.btn--m{
         width:80px;

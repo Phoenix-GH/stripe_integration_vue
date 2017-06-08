@@ -213,10 +213,22 @@
                 padding:$spacing-xs $spacing-s;
                 font-size:15px;
                 color:$black-80;
+                a, .link{
+                    transition:all 0s linear;
+                    font-weight:400;
+                    color:$black-80;
+                    &.is--active{
+                        font-weight:500;
+                        color:$accent;
+                    }
+                }
                 &:hover{
                     color:$white;
                     background-color:$accent;
                     cursor:pointer;
+                    a{
+                        color:$white;
+                    }
                 }
             }
         }

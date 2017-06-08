@@ -1,14 +1,17 @@
+//==================//
+//===== Panels =====//
+//==================//
+
 .panel{
-    // overflow: hidden;
     border-radius:4px;
     background-color:$white;
     .panel__head{
-        padding:$spacing-xxl;
+        padding:$spacing-m;
         border-bottom:1px solid $black-10;
     }
     .panel__body{
         min-height:360px;
-        padding:$spacing-xxxl $spacing-xxl;
+        padding:$spacing-l $spacing-m;
         .panel__section{
             position: relative;
             &::after{
@@ -40,6 +43,30 @@
                     background-color:$white;
                 }
             }
+        }
+    }
+}
+
+//=== Breakpoints
+
+@media #{$mq-medium}{
+    .panel{
+        .panel__head{
+            padding:$spacing-l;
+        }
+        .panel__body{
+            padding:$spacing-xl $spacing-l;
+        }
+    }
+}
+
+@media #{$mq-large}{
+    .panel{
+        .panel__head{
+            padding:$spacing-xxl;
+        }
+        .panel__body{
+            padding:$spacing-xxxl $spacing-xxl;
         }
     }
 }
