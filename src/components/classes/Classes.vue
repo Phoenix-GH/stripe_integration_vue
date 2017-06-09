@@ -105,7 +105,7 @@
         <!-- CATEGORIES NAV (MOBILE)-->
         <div id="categoryDropdown">
             <div class="input input--dropdown" data-name="categorySelector">
-                <!-- <label>Categories</label> -->
+                <label>Filter by Topic</label>
                 <span class="input__field">Make a Selection</span>
                 <ul class="dropdown__list">
                     <li class="item">All</li>

@@ -725,10 +725,11 @@
         // margin-left:11.58%;
         .class__info{
             width:56.78%;
+            padding:$spacing-l $spacing-xl;
             float:left;
             .class__title{
                 font-size:2.6em;
-                line-height:1.25em;
+                line-height:1em;
             }
         }
     }

@@ -99,7 +99,7 @@
     display:none;
 }
 #categoryDropdown{
-    padding:$spacing-s 5%;
+    padding:$spacing-s $spacing-l;
     background-color:$white;
 }
 
@@ -113,13 +113,5 @@
     }
     #categoryDropdown{
         display:none;
-    }
-}
-
-@media #{$mq-large}{
-    .tab__group{
-        .item{
-            font-size:$base-font-size*0.7;
-        }
     }
 }
