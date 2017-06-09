@@ -23,7 +23,7 @@
                     <!-- /BANNER -->
 
                 </div>
-                <div class="class__lessons">
+                <div class="class__lessons is--podcast">
 
                     <div class="lessons__layout">
 
@@ -70,7 +70,7 @@
                     </div>
 
                 </div>
-                <div class="class__info">
+                <div class="class__info is--podcast">
 
                     <!-- CLASS INFO -->
                     <div class="bar">

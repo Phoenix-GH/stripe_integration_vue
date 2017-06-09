@@ -725,7 +725,7 @@
         // margin-left:11.58%;
         .class__info{
             width:56.78%;
-            padding:$spacing-l $spacing-xl;
+            padding:$spacing-xl $spacing-xxxl;
             float:left;
             .class__title{
                 font-size:2.6em;
@@ -821,10 +821,16 @@
         }
         .class__info{
             padding-left:11.58%;
+            &.is--podcast{
+                padding-left:$spacing-xxxl;
+            }
         }
         .class__lessons{
             height:auto;
             padding-right:11.58%;
+            &.is--podcast{
+                padding-right:0;
+            }
         }
     }
 }

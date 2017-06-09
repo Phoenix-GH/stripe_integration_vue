@@ -308,7 +308,7 @@
                                 <svg class="icon-reward icon--m color--accent" style="float:right;">
                                     <use xlink:href="#icon-reward"></use>
                                 </svg>
-                                <span class="ts--title">Refer a Friend, Earn $25</span>
+                                <span class="ts--headline fontSize--l">Refer a Friend, Earn $25</span>
                                 <p class="ts--body">Earn $25 for every friend you refer.</p>
                                 <div class="wrapper">
                                     <div class="wrapper__inner padding--m no--pad-l no--pad-tb">
@@ -453,27 +453,27 @@
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-facebook icon--s"><use xlink:href="#icon-social-facebook"></use></svg>
+                                                    <svg class="icon-social-facebook "><use xlink:href="#icon-social-facebook"></use></svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-twitter icon--s"><use xlink:href="#icon-social-twitter"></use></svg>
+                                                    <svg class="icon-social-twitter "><use xlink:href="#icon-social-twitter"></use></svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-instagram icon--s"><use xlink:href="#icon-social-instagram"></use></svg>
+                                                    <svg class="icon-social-instagram "><use xlink:href="#icon-social-instagram"></use></svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-snapchat icon--s"><use xlink:href="#icon-social-snapchat"></use></svg>
+                                                    <svg class="icon-social-snapchat "><use xlink:href="#icon-social-snapchat"></use></svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-website icon--s"><use xlink:href="#icon-social-website"></use></svg>
+                                                    <svg class="icon-social-website "><use xlink:href="#icon-social-website"></use></svg>
                                                 </a>
                                             </li>
                                         </ul>
