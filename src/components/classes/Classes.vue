@@ -3,7 +3,7 @@
 
         <!-- BANNER -->
         <div v-if="featuredClasses.length > 0" class="banner banner--m go go--bottom jagged jagged--snow" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
-            <div class="banner__content container container--fw container--l is--reversed">
+            <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
@@ -29,7 +29,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="banner__play wrapper__inner align--center">
+                    <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click="updateCurrentClass(updateFeaturedClass)" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
                         <span class="ts--title">Start Learning</span>

@@ -36,7 +36,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="banner__play wrapper__inner align--center">
+                    <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click.stop="openLastLesson" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
                         <span class="ts--title">Continue Watching ({{ leftOffMessage }})</span>
