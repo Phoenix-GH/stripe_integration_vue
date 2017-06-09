@@ -6,6 +6,7 @@
     font-family:$tertiary-font;
     text-transform: uppercase;
     text-align: center;
+    text-decoration: none;
     font-weight:900;
     transition:all 0.1s ease-in-out;
     z-index: 1;
@@ -103,6 +104,7 @@
             background-color:$negative;
         }
         &.is--affirmative{
+            color:$white;
             background-color:$positive;
             &:hover{
                 background-color:$bright-positive;

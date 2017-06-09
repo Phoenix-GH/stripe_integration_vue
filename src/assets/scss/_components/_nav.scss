@@ -53,6 +53,8 @@
                 }
                 #navAccount{
                     position: relative;
+                    border-right:none;
+                    padding-right:0;
                     .avatar{
                         margin-right:0;
                     }
@@ -181,6 +183,8 @@ body.has--banner{
                         display:table-cell;
                     }
                     #navAccount{
+                        border-right:1px solid $fog;
+                        padding-right:$spacing-m;
                         .avatar{
                             margin-right:$spacing-xs;
                         }

@@ -11,7 +11,7 @@
                         <p class="ts--body is--secondary fontSize--l">What will you learn today?</p>
                     </div>
                     <div class="wrapper__inner align--right">
-                        <button class="btn btn--cta is--reversed">Browse Classes</button>
+                        <a class="btn btn--cta is--reversed" href="/classes">Browse Classes</a>
                     </div>
                 </div>
             </div>
