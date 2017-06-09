@@ -60,7 +60,7 @@
                                             <span @click="cancelNote" class="link link--secondary">Cancel</span>
                                         </li>
                                         <li class="item">
-                                            <button @click="saveNote" class="btn btn--primary" data-change="" data-loads>Save</button>
+                                            <button @click="saveNote" class="btn btn--primary is--affirmative" data-change="" data-loads>Save</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -149,7 +149,7 @@
                                     <span class="ts--headline">You're doing great, {{ user.firstName }}!</span>
                                     <div class="divider divider--s"></div>
                                     <span class="ts--subtitle">
-                            <span class="fontWeight--2">{{ currentLesson().title }}</span>                                    will begin playing in...
+                            <span class="fontWeight--3">'{{ currentLesson().title }}'</span> will begin playing in...
                                     <span id="lessonCountdown" class="fontSize--m">{{ transitionTimer }}s</span>
                                     </span>
                                     <br>
@@ -420,14 +420,7 @@
                     <div class="class__tabs">
 
                         <!-- ABOUT TAB -->
-                        <div id="about" class="tab__content" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
-                            <h3 class="ts--subtitle">Tagged with:</h3>
-                            <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
-                                <li v-for="tagName in activeCourse.tags" class="item">
-                                    <router-link class="tag" :to="{ name: 'searchresults', query: { terms: tagName }}">{{ tagName }}</router-link>
-                                </li>
-                            </ul>
-                            <span class="divider divider--s"></span>
+                        <div id="about" class="tab__content dropcap" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
 
                             <vue-markdown class="ts--body">{{ activeCourse.description }}</vue-markdown>
 
@@ -457,7 +450,7 @@
                                     <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
                                     <div class="align--right">
                                         <ul class="list list--inline list--social disp--ib">
-                                            <li class="item is--emphasis fontSize--xxs">
+                                            <li class="item is--emphasis fontSize--s">
                                                 Follow:
                                             </li>
                                             <li class="item">
@@ -489,6 +482,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <h3 class="ts--subtitle">Tagged with:</h3>
+                            <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
+                                <li v-for="tagName in activeCourse.tags" class="item">
+                                    <router-link class="tag" :to="{ name: 'searchresults', query: { terms: tagName }}">{{ tagName }}</router-link>
+                                </li>
+                            </ul>
                         </div>
                         <!-- /ABOUT TAB -->
 

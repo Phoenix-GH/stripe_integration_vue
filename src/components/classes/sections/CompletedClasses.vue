@@ -18,12 +18,12 @@
                         <li class="item has--icon">
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>                            {{ course.instructor.name }}
                         </li>
-                        <li class="item has--icon" style="float:right;">
+                        <!-- <li class="item has--icon" style="float:right;">
                             <svg class="icon-thumbs-up-fill">
                                 <use xlink:href="#icon-thumbs-up-fill"></use>
                             </svg>
                             Rated
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

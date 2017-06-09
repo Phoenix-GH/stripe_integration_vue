@@ -142,7 +142,8 @@
             margin-top:$spacing-l;
             margin-right:$spacing-l;
             box-shadow:inset 0 0 0  $accent;
-            font-weight:500;
+            font-family:$tertiary-font;
+            font-weight:600;
             transition:all 0.1s ease-in-out;
             color:$black;
             &.is--active{

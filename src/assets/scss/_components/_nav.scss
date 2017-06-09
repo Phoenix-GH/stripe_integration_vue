@@ -9,7 +9,7 @@
         background-color:$white;
         .logo{
             display:inline-block;
-            font-family:$secondary-font;
+            font-family:$tertiary-font;
             font-size:$fs-m;
             text-transform: uppercase;
             color:$black;
@@ -36,6 +36,11 @@
                             display:none;
                         }
                     }
+                }
+                .link{
+                    font-family:$tertiary-font;
+                    font-weight:700;
+                    font-size:1.125em;
                 }
             }
             #userNav{

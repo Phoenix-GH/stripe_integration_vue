@@ -8,7 +8,7 @@
                 <div class="wrapper">
                     <div class="wrapper__inner">
                         <h1 class="ts--display">Welcome back, {{ user.firstName }}</h1>
-                        <p class="ts--title is--secondary">What will you learn today?</p>
+                        <p class="ts--body is--secondary fontSize--l">What will you learn today?</p>
                     </div>
                     <div class="wrapper__inner align--right">
                         <button class="btn btn--cta is--reversed">Browse Classes</button>

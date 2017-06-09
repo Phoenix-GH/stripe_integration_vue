@@ -5,12 +5,12 @@
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
-                        <h1 class="ts--headline">The Self Made Man Podcast</h1>
-                        <p class="ts--title is--secondary">Listen to the #1 Ranked Self-Help Podcast With Over 2.5 Million downloads.</p>
+                        <h1 class="ts--display">The Self Made Man Podcast</h1>
+                        <p class="ts--body is--secondary fontSize--l">Listen to the #1 Ranked Self-Help Podcast With Over 2.5 Million downloads.</p>
                     </div>
                     <div class="wrapper__inner" style="width:300px;">
                         <div class="sub__providers">
-                            <span class="fontSize--xs is--emphasis color--white">Subscribe for Free On:</span>
+                            <span class="fontSize--m is--emphasis color--white">Subscribe for Free On:</span>
                             <ul class="list list--inline padding--s no--pad-lr no--pad-b margin--s no--margin-lr no--margin-b border--1 border--solid border--lightest no--border-lr no--border-b">
                                 <li class="item">
                                     <a href="http://www.stitcher.com/podcast/mikedillard/self-made-man" target="_blank">
