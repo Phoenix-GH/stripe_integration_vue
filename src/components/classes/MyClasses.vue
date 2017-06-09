@@ -5,8 +5,8 @@
             <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
-                        <h1 class="ts--headline">My Classes</h1>
-                        <p class="ts--title is--secondary">View a list of all your in progress and completed classes</p>
+                        <h1 class="ts--display">My Classes</h1>
+                        <p class="ts--body is--secondary fontSize--l">View a list of all your in progress and completed classes.</p>
                     </div>
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->

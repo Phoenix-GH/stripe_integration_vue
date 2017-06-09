@@ -8,10 +8,10 @@
                 <div class="wrapper">
                     <div class="wrapper__inner">
                         <h1 class="ts--display">Welcome back, {{ user.firstName }}</h1>
-                        <p class="ts--title is--secondary">What will you learn today?</p>
+                        <p class="ts--body is--secondary fontSize--l">What will you learn today?</p>
                     </div>
                     <div class="wrapper__inner align--right">
-                        <button class="btn btn--cta is--reversed">Browse Classes</button>
+                        <a class="btn btn--cta is--reversed" href="/classes">Browse Classes</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <div class="wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
                         <span class="ts--display truncate">{{ lastLesson.lesson.title }}</span>
-                        <span class="ts--title is--secondary">{{ lastLesson.course.title }} ({{ leftOffMessage }})</span>
+                        <span class="ts--title is--secondary">{{ lastLesson.course.title }}</span>
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline">
                             <li class="item">
@@ -36,10 +36,10 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="banner__play wrapper__inner align--center">
+                    <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click.stop="openLastLesson" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
-                        <span class="ts--title">Continue Watching</span>
+                        <span class="ts--title">Continue Watching ({{ leftOffMessage }})</span>
                     </div>
                 </div>
             </div>

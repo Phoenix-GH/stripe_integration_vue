@@ -105,7 +105,7 @@
                                         <div v-if="uploadState <= 1" class="btn--inner"><span class="text"><use xlink:href="#icon-upload-photo"></use></svg>{{ uploadingText }}</span><div class="loader"><span></span></div></div>
                                         <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
                                     </button>
-                                    <!-- <a class="link link--secondary fontSize--xs" @click="removeImage">Delete</a> -->
+                                    <a class="link link--secondary fontSize--xs margin--xs no--margin-b no--margin-lr" @click="removeImage">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -137,13 +137,13 @@
                     <div clas="panel__section" v-if="user.subscriptionType!='free'">
                         <div class="well">
                             <div class="row">
-                                <div class="col col--7-of-12 col--m-1-of-2 col--am">
+                                <div class="col col--8-of-12 col--m-1-of-2 col--am">
                                     <span v-if="user.subscriptionType!='paused'" class="ts--subtitle">Membership</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--subtitle">Membership Paused</span>
                                     <span v-if="user.subscriptionType!='paused'" class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--body is--secondary disp--block">Will Cancel On: {{ subscriptionRenewal }}</span>
                                 </div>
-                                <div class="col col--5-of-12 col--m-1-of-2 col--am align--right">
+                                <div class="col col--4-of-12 col--m-1-of-2 col--am align--right">
                                     <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary btn--block is--warning" @click="pauseRenewal">Pause Renewal</button>
                                     <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary btn--block is--affirmative" @click="activateRenewal">Activate</button>
                                 </div>

@@ -9,7 +9,7 @@
         background-color:$white;
         .logo{
             display:inline-block;
-            font-family:$secondary-font;
+            font-family:$tertiary-font;
             font-size:$fs-m;
             text-transform: uppercase;
             color:$black;
@@ -37,6 +37,11 @@
                         }
                     }
                 }
+                .link{
+                    font-family:$tertiary-font;
+                    font-weight:700;
+                    font-size:1.125em;
+                }
             }
             #userNav{
                 float:right;
@@ -48,6 +53,8 @@
                 }
                 #navAccount{
                     position: relative;
+                    border-right:none;
+                    padding-right:0;
                     .avatar{
                         margin-right:0;
                     }
@@ -176,6 +183,8 @@ body.has--banner{
                         display:table-cell;
                     }
                     #navAccount{
+                        border-right:1px solid $fog;
+                        padding-right:$spacing-m;
                         .avatar{
                             margin-right:$spacing-xs;
                         }

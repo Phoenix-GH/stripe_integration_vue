@@ -4,27 +4,27 @@
         <div class="banner bg--positive jagged jagged--fog">
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
-                    <div class="wrapper__inner">
-                        <h1 class="ts--headline">The Self Made Man Podcast</h1>
-                        <p class="ts--title is--secondary">Listen to the #1 Ranked Self-Help Podcast With Over 2.5 Million downloads.</p>
+                    <div class="wrapper__inner" style="padding-right:80px;">
+                        <h1 class="ts--display">The Self Made Man Podcast</h1>
+                        <p class="ts--body is--secondary fontSize--l">Listen to the #1 Ranked Self-Help Podcast With Over 2.5 Million downloads.</p>
                     </div>
                     <div class="wrapper__inner" style="width:300px;">
                         <div class="sub__providers">
-                            <span class="fontSize--xs is--emphasis color--white">Subscribe for Free On:</span>
+                            <span class="fontSize--m is--emphasis color--white">Subscribe for Free On:</span>
                             <ul class="list list--inline padding--s no--pad-lr no--pad-b margin--s no--margin-lr no--margin-b border--1 border--solid border--lightest no--border-lr no--border-b">
-                                <li class="item">
+                                <li class="item" style="transform:translateY(1px);">
                                     <a href="http://www.stitcher.com/podcast/mikedillard/self-made-man" target="_blank">
-                                        <img src="../../assets/img/logo-stitcher.png" alt="Subscribe on Stitcher" height="16px">
+                                        <img src="../../assets/img/logo-stitcher.png" alt="Subscribe on Stitcher" height="17px">
                                     </a>
                                 </li>
                                 <li class="item" style="transform:translateY(-3px);">
                                     <a href="https://itunes.apple.com/us/podcast/self-made-man/id982006298" target="_blank">
-                                        <img src="../../assets/img/logo-itunes.png" alt="Subscribe on iTunes" height="16px">
+                                        <img src="../../assets/img/logo-itunes.png" alt="Subscribe on iTunes" height="19px">
                                     </a>
                                 </li>
                                 <li class="item">
                                     <a href="https://open.spotify.com/show/0uXeh6eiLltvfDfZHD6kyc" target="_blank">
-                                        <img src="../../assets/img/logo-spotify.png" alt="Subscribe on Spotify" height="16px">
+                                        <img src="../../assets/img/logo-spotify.png" alt="Subscribe on Spotify" height="20px">
                                     </a>
                                 </li>
                             </ul>

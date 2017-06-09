@@ -37,14 +37,17 @@ body{
     &.has--badge{
         &::after{
             padding-top:1px;
-            padding-left:1px;
+            padding-right:1px;
             line-height:23px;
-            font-size:$base-font-size*0.6;
+            font-size:$base-font-size*1;
+            font-weight:700;
+
         }
     }
     &.is--title{
         margin-bottom:$spacing-s;
         padding-bottom:$spacing-xs;
+        font-weight:600;
     }
 }
 
@@ -63,8 +66,14 @@ body{
     }
 }
 
+.ts--display,
+.ts--headline,
+.ts--title{
+    font-family: $tertiary-font;
+}
+
 .ts--display{
-    font-size:2.625em;
+    font-size:3em;
     font-weight:700;
     &.link{
         font-weight:700;
@@ -73,7 +82,7 @@ body{
 
 .ts--headline{
     font-size:2em;
-    font-weight:500;
+    font-weight:600;
     &.link{
         font-weight:500;
     }
@@ -81,7 +90,7 @@ body{
 
 .ts--title{
     font-size:1.375em;
-    font-weight:500;
+    font-weight:700;
     &.link{
         font-weight:500;
     }
@@ -129,7 +138,7 @@ body{
             float: left;
             line-height: 0.94;
             margin-right: 0.12em;
-            font-family: $secondary-font;
+            font-family: $tertiary-font;
             font-size: 3.15em;
             font-weight:600;
         }
@@ -149,10 +158,10 @@ code{
 }
 
 .is--emphasis{
-    font-family:$secondary-font;
+    font-family:$tertiary-font;
     text-transform: uppercase;
     letter-spacing: 1.4px;
-    font-weight:900;
+    font-weight:700;
 }
 
 //=== Markdown Styled Text
@@ -190,7 +199,7 @@ code{
                 float: left;
                 line-height: 0.94;
                 margin-right: 0.12em;
-                font-family: $secondary-font;
+                font-family: $tertiary-font;
                 font-size: 3.15em;
                 font-weight:600;
             }

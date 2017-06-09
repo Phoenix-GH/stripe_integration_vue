@@ -50,9 +50,12 @@
                 margin-right:0 !important;
             }
             &.has--icon{
+                text-align:center;
                 [class^="icon-"], [class*=" icon-"], .avatar{
-                    margin-right:$spacing-xs;
+                    margin:0 auto $spacing-xxs auto;
                     transform:translateY(-1px);
+                    display:block;
+
                 }
                 .link{
                     &::before{
@@ -142,7 +145,8 @@
             margin-top:$spacing-l;
             margin-right:$spacing-l;
             box-shadow:inset 0 0 0  $accent;
-            font-weight:500;
+            font-family:$tertiary-font;
+            font-weight:600;
             transition:all 0.1s ease-in-out;
             color:$black;
             &.is--active{
@@ -311,6 +315,21 @@
         &.is--inline{
             .list{
                 transform:translate(-50%, 16px);
+            }
+        }
+    }
+}
+
+@media #{$mq-xsmall}{
+    .list{
+        &.list--inline{
+            li.item{
+                &.has--icon{
+                    [class^="icon-"], [class*=" icon-"], .avatar{
+                        margin:0 $spacing-xs 0 0;
+                        display:inline-block;
+                    }
+                }
             }
         }
     }

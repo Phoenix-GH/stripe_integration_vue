@@ -61,10 +61,10 @@
                                     <div class="avatar avatar--m" :style="{ 'background-image': 'url(' + profileImage + ')' }"></div>
                                     <a class="link link--dropdown"><span class="mobile--hide">{{ user ? user.firstName : "" }}</span></a>
                                     <ul class="list list--nav list--dropdown">
-                                        <li class="item mobile--only">
-                                            <a class="has--badge is--primary" data-badge="0" href="/my-classes">My Classes</a>
+                                        <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl">
+                                            <a class="has--badge is--primary" data-badge="0" href="/my-classes" v-if="showClassLinks">My Classes</a>
                                         </li>
-                                        <li class="item mobile--only">
+                                        <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl">
                                             <a class="has--badge" data-badge="0" href="/saved">Saved</a>
                                         </li>
                                         <li class="item has--icon">
@@ -103,7 +103,7 @@
                                 <!-- /NOTE -->
 
                                 <!-- NOTE: Display on 'Free Accounts' only -->
-                                <li id="navUpgrade" class="item" v-if="showUpgrade">
+                                <li id="navUpgrade" class="item hide--s" v-if="showUpgrade">
                                     <button class="btn btn--primary is--affirmative" @click="upgradeAccount">Upgrade</button>
                                 </li>
 
@@ -111,7 +111,7 @@
                                 <!-- /LOGGED IN NAV -->
 
                                 <!-- LOGGED OUT NAV -->
-                                <li id="navLoggedOut" class="item" v-if="!userLoggedIn">
+                                <li id="navLoggedOut" class="item hide--s" v-if="!userLoggedIn">
                                     <ul class="list list--inline">
                                         <li class="item" @click="showLogin">
                                             <a class="link modal--toggle" href="javascript:;">Log In</a>
@@ -120,6 +120,9 @@
                                             <button class="btn btn--primary is--affirmative modal--toggle">Sign Up</button>
                                         </li>
                                     </ul>
+                                </li>
+                                <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl" v-if="!userLoggedIn">
+                                    <a @click="showLogin" class="link" href="javascript:;">Log In</a>
                                 </li>
                                 <!-- /LOGGED OUT NAV -->
                             </ul>
@@ -130,6 +133,14 @@
                     </div>
                 </div>
             </header>
+        </div>
+
+        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white" @click="showSignup" v-if="!userLoggedIn">
+            Sign Up
+        </div>
+
+        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white" @click="upgradeAccount" v-if="showUpgrade">
+            Upgrade
         </div>
         <!-- ===== /MAIN NAVIGATION ===== -->
 
