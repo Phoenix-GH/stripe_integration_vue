@@ -308,10 +308,8 @@
                                 <svg class="icon-reward icon--m color--accent" style="float:right;">
                                     <use xlink:href="#icon-reward"></use>
                                 </svg>
-                                <span class="ts--subtitle">Give a month, earn a month!</span>
-                                <p class="ts--body">Share this class with your friends and you’ll both receive a free month of Premium when they
-                                    sign up.</p>
-                                <div class="divider divider--s"></div>
+                                <span class="ts--title">Refer a Friend, Earn $25</span>
+                                <p class="ts--body">Earn $25 for every friend you refer.</p>
                                 <div class="wrapper">
                                     <div class="wrapper__inner padding--m no--pad-l no--pad-tb">
                                         <div class="input input--text" data-tooltip="Click to copy" data-tip-pos="right">

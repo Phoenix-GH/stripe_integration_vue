@@ -25,7 +25,7 @@
                     <div class="wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
                         <span class="ts--display truncate">{{ lastLesson.lesson.title }}</span>
-                        <span class="ts--title is--secondary">{{ lastLesson.course.title }} ({{ leftOffMessage }})</span>
+                        <span class="ts--title is--secondary">{{ lastLesson.course.title }}</span>
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline">
                             <li class="item">
@@ -39,7 +39,7 @@
                     <div class="banner__play wrapper__inner align--center">
                         <a @click.stop="openLastLesson" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
-                        <span class="ts--title">Continue Watching</span>
+                        <span class="ts--title">Continue Watching ({{ leftOffMessage }})</span>
                     </div>
                 </div>
             </div>

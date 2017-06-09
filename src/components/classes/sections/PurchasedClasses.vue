@@ -2,7 +2,7 @@
     <!-- CLASSES - IN PROGRESS -->
     <div class="content__row">
 
-        <h2 v-if="masterClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="masterClasses.length">Master Classes</h2>
+        <h2 v-if="masterClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="masterClasses.length">Your Masterclasses</h2>
 
         <div class="row grid">
 

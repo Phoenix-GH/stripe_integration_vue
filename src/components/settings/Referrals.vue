@@ -91,10 +91,8 @@
 
                     <!-- SHARING -->
                     <div class="panel__section">
-                        <h4 class="ts--subtitle">Give a month, earn a month!</h4>
-                        <p class="ts--body is--secondary">
-                            Share your unique referral code with your friends and you’ll both receive a free month of Premium when they sign up!
-                        </p>
+                        <span class="ts--subtitle">Refer a Friend, Earn $25</span>
+                        <p class="ts--body is--secondary">Earn $25 for every friend you refer.</p>
                         <div class="well bg--snow" style="overflow:visible;">
                             <div class="row">
                                 <div class="col col--7-of-12 col--am">
