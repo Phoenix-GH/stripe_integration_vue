@@ -83,13 +83,11 @@
             display:none;
             height:27%;
             top:0;
-            border-radius:$class-border-radius $class-border-radius 0 0;
             background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
         }
         &::after{
             height:50%;
             bottom:0;
-            border-radius:0 0 $class-border-radius $class-border-radius;
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%);
         }
         .remove__link{
@@ -136,6 +134,7 @@
             }
         }
         &:hover{
+            cursor:pointer;
             .btn__play{
                 background-color:$white-60;
             }
@@ -190,7 +189,6 @@
                 display:block;
                 height:30%;
                 top:0;
-                // border-radius:$class-border-radius $class-border-radius 0 0;
                 background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
             }
             &::after{
@@ -234,7 +232,7 @@
 }
 
 .class__meta{
-    margin-top:$spacing-s;
+    margin-top:$spacing-m;
 }
 
 //=== Lessons
@@ -725,7 +723,7 @@
         // margin-left:11.58%;
         .class__info{
             width:56.78%;
-            padding:$spacing-xl $spacing-xxxl;
+            padding:$spacing-l $spacing-xl;
             float:left;
             .class__title{
                 font-size:2.6em;

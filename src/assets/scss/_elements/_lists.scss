@@ -50,9 +50,12 @@
                 margin-right:0 !important;
             }
             &.has--icon{
+                text-align:center;
                 [class^="icon-"], [class*=" icon-"], .avatar{
-                    margin-right:$spacing-xs;
+                    margin:0 auto $spacing-xxs auto;
                     transform:translateY(-1px);
+                    display:block;
+
                 }
                 .link{
                     &::before{
@@ -312,6 +315,21 @@
         &.is--inline{
             .list{
                 transform:translate(-50%, 16px);
+            }
+        }
+    }
+}
+
+@media #{$mq-xsmall}{
+    .list{
+        &.list--inline{
+            li.item{
+                &.has--icon{
+                    [class^="icon-"], [class*=" icon-"], .avatar{
+                        margin:0 $spacing-xs 0 0;
+                        display:inline-block;
+                    }
+                }
             }
         }
     }

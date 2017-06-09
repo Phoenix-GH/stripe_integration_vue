@@ -5,6 +5,7 @@
 .panel{
     border-radius:4px;
     background-color:$white;
+    box-shadow: 0 5px 15px rgba($black, 0.08);
     .panel__head{
         padding:$spacing-m;
         border-bottom:1px solid $black-10;

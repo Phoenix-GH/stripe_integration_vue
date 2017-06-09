@@ -44,9 +44,10 @@
             display:none;
         }
         &:hover{
+            color:$black;
             cursor:pointer;
             svg{
-                fill:$black;
+                fill:$accent;
             }
         }
         &::after{

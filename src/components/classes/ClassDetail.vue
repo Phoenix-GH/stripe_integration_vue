@@ -351,8 +351,9 @@
                                 <h1 class="class__title ts--headline">{{ activeCourse.title }}</h1>
                                 <ul class="class__meta list list--inline list--divided">
                                     <li class="item has--icon">
-                                        <!-- NOTE: Instructors name should open the 'About Class' tab and scroll to the instructor card -->
-                                        <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>                                        with <a href="#instructor" class="link link--secondary">{{ activeCourse.instructor.name }}</a>
+                                        <a href="#instructor" style="text-decoration:none; color:#666;">
+                                            <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span><span class="hide--s"> with <a  class="link link--secondary">{{ activeCourse.instructor.name }}</a></span>
+                                        </a>
                                     </li>
                                     <li class="item has--icon">
                                         <!-- NOTE: Feedback link should open the 'Reviews' tab. -->
@@ -365,7 +366,15 @@
                                         <svg class="icon-show">
                                             <use xlink:href="#icon-show"></use>
                                         </svg>
-                                        {{ currentViewCount }} Views
+                                        {{ currentViewCount }} <span class="hide--l">Views</span>
+                                    </li>
+                                    <li class="item has--icon" @click="shareClass">
+                                        <a class="link link--secondary">
+                                            <svg class="icon-share" style="transform:translateY(-4px);">
+                                                <use xlink:href="#icon-share"></use>
+                                            </svg>
+                                            <span class="hide--s">Share</span>
+                                        </a>
                                     </li>
                                     <li class="item">
                                         <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
