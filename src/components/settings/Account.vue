@@ -37,7 +37,7 @@
         <div class="layout__col">
 
             <!-- MOBILE NAV -->
-            <div class="input input--dropdown mobile__menu show--m">
+            <div @click="toggleMob" class="input input--dropdown mobile__menu show--m" :class="{'is--active' : showMobileMenu}">
                 <span class="input__field">Navigation</span>
                 <ul class="dropdown__list">
                     <li class="item">
@@ -94,14 +94,18 @@
                             <div class="row">
                                 <div class="col col--7-of-12 col--am">
                                     <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'">
-                                        <div v-if="this.user.facebookId != undefined" class="badge badge--fb"><svg class="icon-social-facebook"><use xlink:href="#icon-social-facebook"></use></svg></div>
+                                        <div v-if="this.user.facebookId != undefined" class="badge badge--fb">
+                                            <svg class="icon-social-facebook">
+                                                <use xlink:href="#icon-social-facebook"></use>
+                                            </svg>
+                                        </div>
                                     </div>
                                     <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
                                     {{ lastUpdatedPhoto }}
                                 </div>
                                 <div class="col col--5-of-12 col--am align--right">
                                     <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
-                                    <button id="upload-button" class="btn btn--primary btn--block" :class="{'has--loader': hasLoader }"  @click="uploadPhoto">
+                                    <button id="upload-button" class="btn btn--primary btn--block" :class="{'has--loader': hasLoader }" @click="uploadPhoto">
                                         <div v-if="uploadState <= 1" class="btn--inner"><span class="text"><use xlink:href="#icon-upload-photo"></use></svg>{{ uploadingText }}</span><div class="loader"><span></span></div></div>
                                         <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
                                     </button>
@@ -196,7 +200,8 @@
                 width: '192px',
                 uploadState: 0,
                 subDate: '',
-                subType: ''
+                subType: '',
+                showMobileMenu: false
             }
         },
         computed: {
@@ -334,6 +339,13 @@
                 this.email = this.user.email;
                 this.firstName = this.user.firstName;
                 this.lastName = this.user.lastName;
+            },
+            toggleMob() {
+                if (this.showMobileMenu) {
+                    this.showMobileMenu = false;
+                } else {
+                    this.showMobileMenu = true;
+                }
             }
         }
 

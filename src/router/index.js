@@ -70,8 +70,34 @@ export default new Router({
         { path: '/podcasts', name: 'podcasts', component: Podcasts },
         { path: '/podcasts/:id', name: 'singlepodcast', component: PodcastDetail },
         { path: '/classes', name: 'classes', component: Classes },
-        { path: '/classes/:id', name: 'singleclass', component: ClassDetail },
-        { path: '/classes/masterclasses/:id', name: 'masterclass', component: MasterClassDetail },
+        {
+            path: '/classes/:id',
+            name: 'singleclass',
+            component: ClassDetail,
+            beforeEnter: (to, from, next) => {
+                let loggedIn = store.state.userLoggedIn;
+                if (loggedIn) {
+                    next();
+                } else {
+                    store.dispatch('updateHasModal', true);
+                    store.dispatch('updateActiveModal', 'signup');
+                }
+            }
+        },
+        {
+            path: '/classes/masterclasses/:id',
+            name: 'masterclass',
+            component: MasterClassDetail,
+            beforeEnter: (to, from, next) => {
+                let loggedIn = store.state.userLoggedIn;
+                if (loggedIn) {
+                    next();
+                } else {
+                    store.dispatch('updateHasModal', true);
+                    store.dispatch('updateActiveModal', 'signup');
+                }
+            }
+        },
         { path: '/myclasses', name: 'myclasses', component: MyClasses, beforeEnter: checkLoggedIn },
         { path: '/saved', name: 'saved', component: SavedClasses, beforeEnter: checkLoggedIn },
         { path: '/searchresults', name: 'searchresults', component: SearchResults },

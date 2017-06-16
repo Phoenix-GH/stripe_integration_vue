@@ -2,7 +2,7 @@
   <div class="page__wrapper" id="topdoc">
     <appHeader></appHeader>
     <section class="page__block is--push">
-      <div class="content">
+      <div class="content" :class="{'no--pad-b': removePadding}">
         <router-view></router-view>
       </div>
       <loginModal></loginModal>
@@ -62,7 +62,7 @@
     },
     computed: {
       ...mapGetters([
-        'user'
+        'user', 'removePadding'
       ]),
       shouldHide() {
         if (this.user.subscribed) return true;

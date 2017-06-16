@@ -21,12 +21,12 @@
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                             course.instructor.name }}
                         </li>
-                        <!-- <li class="item has--icon">
+                        <li class="item has--icon">
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
                             <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -57,10 +57,11 @@
         },
         methods: {
             courseReviewCount(course) {
-                if (course.positiveReviewCount == null) {
+                let rating = (course.positiveReviewCount / course.reviewCount) * 100;
+                if (course.reviewCount == null) {
                     return "No reviews yet.";
                 } else {
-                    return `${course.positiveReviewCount}`;
+                    return `${rating}%`;
                 }
             },
             readableCourseDuration(duration) {

@@ -11,9 +11,9 @@
                 <a class="class__thumb" @click="updateCurrentClass(course)">
 
                     <div class="progress progress--s show--count">
-                        <svg data-progress="0" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
+                        <svg data-progress="1" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
                             <circle cx="16" cy="16" r="14" class="progress__bg" />
-                            <circle cx="16" cy="16" r="14" class="progress__bar" />
+                            <circle cx="16" cy="16" r="14" class="progress__bar" :style="offset(course)" />
                         </svg>
                     </div>
 
@@ -28,12 +28,12 @@
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                             course.instructor.name }}
                         </li>
-                        <!-- <li class="item has--icon">
+                        <li class="item has--icon">
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
                             <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -63,11 +63,16 @@
 
         },
         methods: {
+            offset(course) {
+                let offset = 100 - course.progress;
+                return { 'stroke-dashoffset': offset };
+            },
             courseReviewCount(course) {
-                if (course.positiveReviewCount == null) {
+                let rating = (course.positiveReviewCount / course.reviewCount) * 100;
+                if (course.reviewCount == null) {
                     return "No reviews yet.";
                 } else {
-                    return `${course.positiveReviewCount}`;
+                    return `${rating}%`;
                 }
             },
             readableCourseDuration(duration) {

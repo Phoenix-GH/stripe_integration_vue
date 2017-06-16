@@ -149,7 +149,7 @@
                                     <span class="ts--headline">You're doing great, {{ user.firstName }}!</span>
                                     <div class="divider divider--s"></div>
                                     <span class="ts--subtitle">
-                            <span class="fontWeight--3">'{{ currentLesson().title }}'</span> will begin playing in...
+                            <span class="fontWeight--3">'{{ currentLesson().title }}'</span>                                    will begin playing in...
                                     <span id="lessonCountdown" class="fontSize--m">{{ transitionTimer }}s</span>
                                     </span>
                                     <br>
@@ -303,7 +303,7 @@
                         </ol>
 
                         <!--TODO: Add sharing section -->
-                        <div class="lessons__sharing">
+                        <div v-if="showMyNotes" class="lessons__sharing">
                             <div class="well bg--snow">
                                 <svg class="icon-reward icon--m color--accent" style="float:right;">
                                     <use xlink:href="#icon-reward"></use>
@@ -412,7 +412,7 @@
                             <li class="item" :class="{'is--active': aboutActive}" @click="tappedOnAboutTab">
                                 About Class
                             </li>
-                            <li class="item" :class="{'is--active': notesActive}" @click="tappedOnNotesTab">
+                            <li v-if="showMyNotes" class="item" :class="{'is--active': notesActive}" @click="tappedOnNotesTab">
                                 My Notes
                             </li>
                             <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
@@ -462,27 +462,37 @@
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-facebook "><use xlink:href="#icon-social-facebook"></use></svg>
+                                                    <svg class="icon-social-facebook ">
+                                                        <use xlink:href="#icon-social-facebook"></use>
+                                                    </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-twitter "><use xlink:href="#icon-social-twitter"></use></svg>
+                                                    <svg class="icon-social-twitter ">
+                                                        <use xlink:href="#icon-social-twitter"></use>
+                                                    </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-instagram "><use xlink:href="#icon-social-instagram"></use></svg>
+                                                    <svg class="icon-social-instagram ">
+                                                        <use xlink:href="#icon-social-instagram"></use>
+                                                    </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-snapchat "><use xlink:href="#icon-social-snapchat"></use></svg>
+                                                    <svg class="icon-social-snapchat ">
+                                                        <use xlink:href="#icon-social-snapchat"></use>
+                                                    </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
                                                 <a href="#">
-                                                    <svg class="icon-social-website "><use xlink:href="#icon-social-website"></use></svg>
+                                                    <svg class="icon-social-website ">
+                                                        <use xlink:href="#icon-social-website"></use>
+                                                    </svg>
                                                 </a>
                                             </li>
                                         </ul>
@@ -670,7 +680,7 @@
             });
         },
         mounted() {
-
+            this.$store.dispatch('updateRemovePadding', true);
             var element = document.getElementById("topdoc");
             element.scrollIntoView({ block: "end", behavior: "smooth" });
 
@@ -706,7 +716,6 @@
                 });
                 _this.player.on('play', () => {
                     if (!this.currentLesson().free) {
-                        console.log('not free');
                         this.removedSavedForLater();
                     }
                     _this.currentOverlay = '';
@@ -717,6 +726,7 @@
                     if (_this.userLoggedIn) {
                         _this.updateLastLesson();
                         Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
+                            Class.inProgress(_this);
                         });
                     }
                     _this.isPlaying = false;
@@ -730,6 +740,7 @@
                             _this.updateLastLesson();
                         }
                         Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
+                            Class.inProgress(_this);
                         });
                     }
                     _this.isPlaying = false;
@@ -762,6 +773,7 @@
 
         },
         beforeDestroy() {
+            this.$store.dispatch('updateRemovePadding', false);
             clearInterval(this.timer);
             eventBus.$off('updateClassDetails');
             eventBus.$off('closeMenu');
@@ -769,6 +781,7 @@
                 if (!this.courseWasReset) {
                     this.updateLastLesson();
                     Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+                        Class.inProgress(_this);
                     });
                 }
             }
@@ -794,6 +807,13 @@
             },
             willShowFlash() {
                 return this.showFlash;
+            },
+            showMyNotes() {
+                if ((this.userLoggedIn) && (this.user.subscriptionType != 'free')) {
+                    return true;
+                } else {
+                    return false;
+                }
             },
             currentViewCount() {
                 return `${this.activeCourse.viewCount}`;
@@ -936,6 +956,7 @@
                 if (this.userLoggedIn) {
                     if (this.user.subscriptionType == 'free') {
                         if (!lesson.free) {
+                            this.$router.push({ name: 'upgradeaccount' });
                             return false;
                         }
                         return true;
@@ -943,6 +964,8 @@
                     return true;
                 } else {
                     if (!lesson.free) {
+                        this.$store.dispatch('updateHasModal', true);
+                        this.$store.dispatch('updateActiveModal', 'signup');
                         return false;
                     }
                     return true;
@@ -1222,7 +1245,7 @@
                         if (!lesson.free) {
                             return { 'is--locked': true };
                         } else {
-                            if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                            if (lesson._id == this.currentLessonId) return { 'is--playing': true };
                         }
                     } else {
                         if (this.lessonProgress[lesson._id] == undefined) return {};
@@ -1231,11 +1254,11 @@
                             if (lessonProgress.percentComplete >= 100) {
                                 return { 'is--playing': false, 'is--complete': true };
                             } else {
-                                if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                                if (lesson._id == this.currentLessonId) return { 'is--playing': true };
                                 return { 'is--playing': false, 'is--complete': false };
                             }
                         } else {
-                            if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                            if (lesson._id == this.currentLessonId) return { 'is--playing': true };
                             return { 'is--playing': false, 'is--complete': false };
                         }
                     }
@@ -1243,7 +1266,7 @@
                     if (!lesson.free) {
                         return { 'is--locked': true };
                     } else {
-                        if (lesson._id == this.currentLessonId) return { 'is--playing': true, 'is--complete': false };
+                        if (lesson._id == this.currentLessonId) return { 'is--playing': true };
                     }
                 }
 

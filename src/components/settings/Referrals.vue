@@ -37,7 +37,7 @@
         <div class="layout__col">
 
             <!-- MOBILE NAV -->
-            <div class="input input--dropdown mobile__menu show--m">
+            <div @click="toggleMob" class="input input--dropdown mobile__menu show--m" :class="{'is--active' : showMobileMenu}">
                 <span class="input__field">Navigation</span>
                 <ul class="dropdown__list">
                     <li class="item">
@@ -216,7 +216,8 @@
     export default {
         data: function () {
             return {
-                referrals: []
+                referrals: [],
+                showMobileMenu: false
             }
         },
         mounted() {
@@ -265,6 +266,13 @@
                 console.log('added to clipboard');
                 document.querySelector('#inputID').select();
                 document.execCommand('copy');
+            },
+            toggleMob() {
+                if (this.showMobileMenu) {
+                    this.showMobileMenu = false;
+                } else {
+                    this.showMobileMenu = true;
+                }
             }
         }
     }

@@ -37,7 +37,7 @@
         <div class="layout__col">
 
             <!-- MOBILE NAV -->
-            <div class="input input--dropdown mobile__menu show--m">
+            <div @click="toggleMob" class="input input--dropdown mobile__menu show--m" :class="{'is--active' : showMobileMenu}">
                 <span class="input__field">Navigation</span>
                 <ul class="dropdown__list">
                     <li class="item">
@@ -151,7 +151,8 @@
             return {
                 topics: [],
                 nextInvoiceDate: "",
-                bills: []
+                bills: [],
+                showMobileMenu: false
             }
         },
         computed: {
@@ -182,6 +183,13 @@
             readableDate(date) {
                 let newDate = hdate.prettyPrint(new Date(date * 1000));
                 return newDate;
+            },
+            toggleMob() {
+                if (this.showMobileMenu) {
+                    this.showMobileMenu = false;
+                } else {
+                    this.showMobileMenu = true;
+                }
             }
         },
         created() {

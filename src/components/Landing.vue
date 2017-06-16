@@ -19,7 +19,8 @@
         <!-- /BANNER (BASIC) -->
 
         <!-- BANNER (CONTINUE) -->
-        <div class="banner banner--m bg--silver go go--bottom jagged jagged--fog" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }" v-if="lastLessonExists">
+        <div class="banner banner--m bg--silver go go--bottom jagged jagged--fog" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
+            v-if="lastLessonExists">
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
@@ -48,9 +49,8 @@
 
         <!-- CLASS LIST -->
         <div class="content__section row container container--fw">
-            <inprogress />
-            <purchased v-if="false" />
-            <recommended v-if="false" />
+            <inprogress v-if="userSubscribed" />
+            <recommended />
             <!-- FEATURED CLASS -->
             <div v-if="featuredClasses.length > 0" class="content__row">
                 <div class="banner banner--m go go--bottom is--inline" :style="{ 'background-image': 'url(' + validBannerImage + ')' }">
@@ -91,6 +91,9 @@
         </div>
         <!-- /CLASS LIST -->
 
+
+
+
     </div>
 
 </template>
@@ -116,11 +119,18 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'featuredClasses', 'activeCourse', 'lastLesson'
+                'user', 'featuredClasses', 'activeCourse', 'lastLesson', 'recList', 'userLoggedIn'
             ]),
             updateFeaturedClass() {
                 if (this.featuredClasses.length > 0) {
                     return this.featuredClasses[0];
+                }
+            },
+            userSubscribed() {
+                if ((this.userLoggedIn) && (this.user.subscriptionType != 'free')) {
+                    return true
+                } else {
+                    return false
                 }
             },
             validBannerImage() {
@@ -182,6 +192,7 @@
             Class.featuredClasses(this);
             Class.inProgress(this);
             Class.completed(this);
+            Class.recList(this);
             if (this.lastLesson.course != undefined) {
                 this.lastLessonExists = true;
             }

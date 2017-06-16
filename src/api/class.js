@@ -35,6 +35,17 @@ export default {
             .catch(error => outputError(error));
     },
 
+    //returns recommended classes
+    recList(context) {
+        axios
+            .get(BASE_URL + `courses/reclist`, headers())
+            .then(response => {
+                console.log(response);
+                context.$store.dispatch('updateRecList', response.data.data);
+            })
+            .catch(error => outputError(error));
+    },
+
     //returns all master classes in progress
     masterClasses(context) {
         axios

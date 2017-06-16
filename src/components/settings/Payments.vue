@@ -37,7 +37,7 @@
         <div class="layout__col">
 
             <!-- MOBILE NAV -->
-            <div class="input input--dropdown mobile__menu show--m">
+            <div @click="toggleMob" class="input input--dropdown mobile__menu show--m" :class="{'is--active' : showMobileMenu}">
                 <span class="input__field">Navigation</span>
                 <ul class="dropdown__list">
                     <li class="item">
@@ -161,7 +161,8 @@
                 stripeReference: {},
                 cardReference: {},
                 changeCreditCard: false,
-                buttonMessage: 'Add Credit Card'
+                buttonMessage: 'Add Credit Card',
+                showMobileMenu: false
             }
         },
         watch: {
@@ -203,6 +204,13 @@
             }
         },
         methods: {
+            toggleMob() {
+                if (this.showMobileMenu) {
+                    this.showMobileMenu = false;
+                } else {
+                    this.showMobileMenu = true;
+                }
+            },
             generateToken() {
                 let _this = this;
                 this.stripeReference.createToken(this.cardReference).then(function (result) {
