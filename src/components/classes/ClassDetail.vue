@@ -85,7 +85,6 @@
                             <span class="ts--body" style="max-height:64px; overflow-y:scroll;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis imperdiet nisi id eros fringilla consequat.</span>
                         </div>
 
-
                         <div id="previewCTA" class="video__state is--reversed" v-if="currentOverlay == 'preview'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
                             <div class="wrapper">
@@ -698,7 +697,7 @@
                 type: 'application/x-mpegURL',
                 flash: { hls: { withCredentials: false } },
                 html5: { hls: { withCredentials: false } },
-                poster: '',
+                poster: this.activeCourse.thumbImageUrl,
                 preload: true
             });
             this.player.on('ready', () => {
@@ -715,12 +714,11 @@
                     }
                 });
                 _this.player.on('play', () => {
-                    if (!this.currentLesson().free) {
-                        this.removedSavedForLater();
-                    }
+                    _this.removedSavedForLater();
                     _this.currentOverlay = '';
-                    _this.updateLastLesson();
                     _this.isPlaying = true;
+                    _this.updateLastLesson();
+                    _this.updateInProgress();
                 });
                 _this.player.on('pause', () => {
                     if (_this.userLoggedIn) {
@@ -773,6 +771,7 @@
 
         },
         beforeDestroy() {
+            this.currentLessonInProgress = {};
             this.$store.dispatch('updateRemovePadding', false);
             clearInterval(this.timer);
             eventBus.$off('updateClassDetails');
@@ -835,6 +834,7 @@
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
                     lastLesson: {
+                        course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
                         progress: this.tempLastLesson.progress
                     }
@@ -980,6 +980,18 @@
                     });
                 }
             },
+            updateInProgress() {
+                let _this = this;
+                if (this.currentCourseData.state == 0) {
+                    //update course progress
+                    Class.updateCourseProgress(this, this.activeCourse._id, { state: 1 }, result => {
+                        _this.currentCourseData = result;
+                        _this.lessonProgress = result.lessonProgress;
+                        _this.popOverIsActive = false;
+                        Class.inProgress(_this);
+                    });
+                }
+            },
             playLesson(lesson) {
                 this.currentOverlay = '';
                 this.courseComplete = false;
@@ -991,12 +1003,13 @@
                 let _this = this;
                 this.currentLessonId = lesson._id;
 
-                if ((this.currentCourseData.state == 0) && (!lesson.free)) {
+                if (this.currentCourseData.state == 0) {
                     //update course progress
                     Class.updateCourseProgress(this, this.activeCourse._id, { state: 1 }, result => {
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        Class.inProgress(_this);
                     });
                 }
 
@@ -1125,12 +1138,13 @@
             //-----------------------------------
             updateDataSource() {
                 let _this = this;
+                this.$store.dispatch('updateLastLesson', {});
                 this.$store.dispatch('updateSpinner', true);
                 Class.classDetails(this, this.$route.params.id, error => {
                     _this.$router.replace({ name: 'classes' });
                     this.$store.dispatch('updateSpinner', false);
                 }, course => {
-                    _this.initDetails();
+                    _this.initDetails(course._id);
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1147,7 +1161,6 @@
                     }
                     //get course progress
                     Class.getCourseProgress(this, this.activeCourse._id, data => {
-                        //console.log(JSON.stringify(data));
                         this.currentCourseData = data;
                         if (data.lessonProgress != undefined) {
                             this.lessonProgress = data.lessonProgress;
@@ -1163,7 +1176,11 @@
                                 this.lessonProgress[lesson._id] = { lastPosition: 0, percentComplete: 0, completionDate: null };
                             }
                         }
+                        if (data.lastLesson) {
+                            this.tempLastLesson = data.lastLesson;
+                        }
                         Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
+
                             this.currentCourseData = result;
                             this.lessonProgress = result.lessonProgress;
                             this.currentLessonInProgress = result.lastLesson;
@@ -1172,8 +1189,10 @@
                             }
                             this.checkCourseProgress();
                             this.checkQuery();
+                            Class.inProgress(_this);
                         });
                     })
+                    //update class notes
                     this.updateClassNotes(this.activeCourse._id);
                     //update view count
                     Class.updateViewCount(this, this.activeCourse._id, count => { })
@@ -1319,6 +1338,7 @@
             },
             checkOverlays() {
                 //check login status
+                this.currentOverlay = '';
                 if (this.userLoggedIn) {
                     let lesson = this.currentLesson();
                     if (lesson == undefined) {
@@ -1352,7 +1372,8 @@
             checkCourseProgress() {
                 if (this.currentLessonInProgress != undefined) {
                     if (this.currentLessonInProgress.progress != undefined) {
-                        if ((this.currentLessonInProgress.progress.percentComplete < 100) && (this.currentLessonInProgress.progress.percentComplete != 0)) {
+                        if ((this.currentLessonInProgress.progress.percentComplete < 100) && (this.currentLessonInProgress.progress.percentComplete > 0)) {
+                            console.log(JSON.stringify(this.currentLessonInProgress));
                             this.currentOverlay = 'bookmark'
                         }
                     }
@@ -1399,6 +1420,7 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.courseComplete = false;
                                 _this.popOverIsActive = false;
+                                Class.inProgress(_this);
                             });
                         }
                     }
@@ -1418,6 +1440,7 @@
                                 _this.currentCourseData = result;
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.popOverIsActive = false;
+                                Class.inProgress(_this);
                             });
                         }
                     }
@@ -1533,7 +1556,6 @@
             removedSavedForLater() {
                 let courseId = this.activeCourse._id;
                 if (courseId != undefined) {
-                    console.log(courseId);
                     Class.removeSavedForLater(this, courseId);
                 }
             },
