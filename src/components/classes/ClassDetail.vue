@@ -460,35 +460,35 @@
                                                 Follow:
                                             </li>
                                             <li class="item">
-                                                <a href="#">
+                                                <a :href="activeCourse.instructor.facebookUrl">
                                                     <svg class="icon-social-facebook ">
                                                         <use xlink:href="#icon-social-facebook"></use>
                                                     </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
-                                                <a href="#">
+                                                <a :href="activeCourse.instructor.twitterUrl">
                                                     <svg class="icon-social-twitter ">
                                                         <use xlink:href="#icon-social-twitter"></use>
                                                     </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
-                                                <a href="#">
+                                                <a :href="activeCourse.instructor.instagramUrl">
                                                     <svg class="icon-social-instagram ">
                                                         <use xlink:href="#icon-social-instagram"></use>
                                                     </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
-                                                <a href="#">
+                                                <a :href="activeCourse.instructor.snapchatUrl">
                                                     <svg class="icon-social-snapchat ">
                                                         <use xlink:href="#icon-social-snapchat"></use>
                                                     </svg>
                                                 </a>
                                             </li>
                                             <li class="item">
-                                                <a href="#">
+                                                <a :href="activeCourse.instructor.webUrl">
                                                     <svg class="icon-social-website ">
                                                         <use xlink:href="#icon-social-website"></use>
                                                     </svg>
