@@ -37,7 +37,7 @@
         <div class="layout__col">
 
             <!-- MOBILE NAV -->
-            <div class="input input--dropdown mobile__menu show--m">
+            <div @click="toggleMob" class="input input--dropdown mobile__menu show--m" :class="{'is--active' : showMobileMenu}">
                 <span class="input__field">Navigation</span>
                 <ul class="dropdown__list">
                     <li class="item">
@@ -187,7 +187,8 @@
                 selectedTopics: [],
                 notifyNewClass: false,
                 notifyNewPodcast: false,
-                notifyAnouncement: false
+                notifyAnouncement: false,
+                showMobileMenu: false
             }
         },
         beforeDestroy() {
@@ -223,6 +224,13 @@
             updateUser(payload) {
                 let _this = this;
                 User.updateUser(_this, this.updatePayload);
+            },
+            toggleMob() {
+                if (this.showMobileMenu) {
+                    this.showMobileMenu = false;
+                } else {
+                    this.showMobileMenu = true;
+                }
             }
         }
     }

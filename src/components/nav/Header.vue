@@ -135,11 +135,13 @@
             </header>
         </div>
 
-        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white" @click="showSignup" v-if="!userLoggedIn">
+        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white"
+            @click="showSignup" v-if="!userLoggedIn">
             Sign Up
         </div>
 
-        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white" @click="upgradeAccount" v-if="showUpgrade">
+        <div class="control__bar fixed--bottom bg--positive show--s hide--s hide--m hide--l hide--xl hide--xxl align--center ts--headline color--white"
+            @click="upgradeAccount" v-if="showUpgrade">
             Upgrade
         </div>
         <!-- ===== /MAIN NAVIGATION ===== -->
@@ -178,7 +180,7 @@
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <div v-for="course in foundClasses" class="result is--class">
+                                <div v-for="course in topFoundClasses" class="result is--class">
                                     <div class="meta" @click="openCourse(course)">
                                         <div class="thumb" :style="{ 'background-image': 'url(' + course.thumbImageUrl + ')' }">
                                             <svg class="icon-play">
@@ -202,7 +204,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button class="btn btn--secondary btn--block is--link">More Results ({{ foundClasses.length }})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block is--link">More Results ({{ classResultCount() }})</button>
                                 </div>
 
                             </div>
@@ -224,7 +226,7 @@
                                 <!-- /EMPTY RESULTS -->
 
                                 <!-- SINGLE RESULT -->
-                                <div v-for="podcast in foundPodcasts" class="result is--podcast">
+                                <div v-for="podcast in topFoundPodcasts" class="result is--podcast">
                                     <div class="meta" @click="openPodcast(podcast)">
                                         <div class="thumb" :style="{ 'background-image': 'url(' + podcast.thumbImageUrl + ')' }">
                                             <svg class="icon-podcast">
@@ -240,7 +242,7 @@
                                                 <svg class="icon-date">
                                                     <use xlink:href="#icon-date"></use>
                                                 </svg>
-                                                Jul 17, 2016
+                                                {{ podcast.airDate }}
                                             </li>
                                         </ul>
                                     </div>
@@ -248,7 +250,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button class="btn btn--secondary btn--block">More Results ({{foundPodcasts.length}})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block">More Results ({{podcastResultCount()}})</button>
                                 </div>
 
                             </div>
@@ -334,6 +336,21 @@
                 if (!this.userLoggedIn) return true;
                 return false;
             },
+            topFoundClasses() {
+                let _classes = this.searchResults.filter(result => {
+                    if (result.type == 'Class') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(result => { return result; });
+                if (_classes.length > 1) {
+                    let top2 = [_classes[0], _classes[1]]
+                    return top2
+                } else {
+                    return _classes;
+                }
+            },
             foundClasses() {
                 let _classes = this.searchResults.filter(result => {
                     if (result.type == 'Class') {
@@ -343,6 +360,21 @@
                     }
                 }).map(result => { return result; });
                 return _classes;
+            },
+            topFoundPodcasts() {
+                let _podcasts = this.searchResults.filter(result => {
+                    if (result.type == 'Podcast') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).map(result => { return result; });
+                if (_podcasts.length > 1) {
+                    let top2 = [_podcasts[0], _podcasts[1]]
+                    return top2
+                } else {
+                    return _podcasts;
+                }
             },
             foundPodcasts() {
                 let _podcasts = this.searchResults.filter(result => {
@@ -366,7 +398,6 @@
                     Class.searchClasses(this, val, result => {
                         if (result.status == 'success') {
                             _this.searchResults = result.data;
-                            console.log(JSON.stringify(_this.searchResults));
                             _this.foundResults();
                         } else {
                             _this.searchResults = [];
@@ -442,6 +473,12 @@
             },
             upgradeAccount() {
                 this.$router.push({ name: 'upgradeaccount' });
+            },
+            podcastResultCount() {
+                return this.foundPodcasts.length;
+            },
+            classResultCount() {
+                return this.foundClasses.length;
             }
         }
     }

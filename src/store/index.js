@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
         masterClasses: [],
         completedClasses: [],
         classesInProgress: [],
+        recList: [],
         savedClasses: [],
         hasModal: false,
         activeModal: '',
@@ -25,9 +26,13 @@ export const store = new Vuex.Store({
         lastRenewal: '',
         lastLesson: {},
         showSpinner: false,
-        reviewStatusType: 'good'
+        reviewStatusType: 'good',
+        removePadding: false
     },
     actions: {
+        updateRemovePadding: ({ commit }, payload) => {
+            commit('updateRemovePadding', payload);
+        },
         updateReviewStatusType: ({ commit }, payload) => {
             commit('updateReviewStatusType', payload);
         },
@@ -93,9 +98,15 @@ export const store = new Vuex.Store({
         },
         purgeState: ({ commit }, payload) => {
             commit('purgeState', payload);
+        },
+        updateRecList: ({ commit }, payload) => {
+            commit('updateRecList', payload);
         }
     },
     mutations: {
+        updateRemovePadding: (state, payload) => {
+            state.removePadding = payload;
+        },
         purgeState: (state, payload) => {
             console.log('state has been purged');
             state = payload;
@@ -166,6 +177,10 @@ export const store = new Vuex.Store({
             state.featuredClasses = payload;
             persist();
         },
+        updateRecList: (state, payload) => {
+            state.recList = payload;
+            persist();
+        },
         updateClassesByTopic: (state, payload) => {
             state.classesByTopic[payload.topic] = payload.data;
             persist();
@@ -183,6 +198,9 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
+        removePadding: state => {
+            return state.removePadding;
+        },
         reviewStatusType: state => {
             return state.reviewStatusType;
         },
@@ -239,6 +257,9 @@ export const store = new Vuex.Store({
         },
         showSpinner: state => {
             return state.showSpinner;
+        },
+        recList: state => {
+            return state.recList;
         }
     }
 });
@@ -260,6 +281,7 @@ export const purgeAll = () => {
         completedClasses: [],
         classesInProgress: [],
         savedClasses: [],
+        recList: [],
         hasModal: false,
         activeModal: '',
         userLoggedIn: false,
@@ -273,7 +295,8 @@ export const purgeAll = () => {
         lastRenewal: '',
         lastLesson: {},
         showSpinner: false,
-        reviewStatusType: 'good'
+        reviewStatusType: 'good',
+        removePadding: false
     };
     localStorage.clear();
     store.dispatch('purgeState', payload);

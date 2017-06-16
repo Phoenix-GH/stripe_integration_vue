@@ -84,7 +84,7 @@
                                 </h1>
                                 <ul class="class__meta list list--inline list--divided">
                                     <li class="item has--icon">
-                                        <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activePodcast.instructor.profileImage + ')' }"></span>                                    with {{ activePodcast.instructor.name }}
+                                        <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + activePodcast.instructor.profileImage + ')' }"></span>                                        with {{ activePodcast.instructor.name }}
                                     </li>
                                     <li class="item has--icon">
                                         <svg class="icon-play-count">
@@ -172,11 +172,19 @@
             VueMarkdown
         },
         mounted() {
+            twttr.widgets.load();
+            if (window.FB) {
+                window.FB.XFBML.parse();
+            }
+            this.$store.dispatch('updateRemovePadding', true);
             var element = document.getElementById("topdoc");
             element.scrollIntoView({ block: "end", behavior: "smooth" });
             console.log("updating active podcast" + this.activePodcast._id);
             this.updatePodcast();
 
+        },
+        beforeDestroy() {
+            this.$store.dispatch('updateRemovePadding', false);
         },
         computed: {
             ...mapGetters([
@@ -206,6 +214,9 @@
             },
             showLoading() {
                 return this.isLoading;
+            },
+            shareUrl() {
+                return `https://smm.co?ref=${this.user.referralId}`;
             }
         },
         methods: {

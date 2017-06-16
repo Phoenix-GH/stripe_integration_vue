@@ -35,6 +35,7 @@
             <!-- /CLASS LIST -->
             <purchased v-if="masterClasses.length > 0" />
             <inprogress v-if="classesInProgress.length > 0" />
+            <completedClasses v-if="completedClasses.length > 0" />
 
         </div>
 
