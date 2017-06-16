@@ -163,6 +163,7 @@ export const store = new Vuex.Store({
             persist();
         },
         updateActiveCourse: (state, payload) => {
+            console.log('store, updating active course ' + payload._id);
             state.activeCourse = payload;
             persist();
         },

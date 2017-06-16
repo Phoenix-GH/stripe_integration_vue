@@ -323,6 +323,7 @@
                 }
             },
             updateCurrentClass(course) {
+                console.log('course id being set is ' + course._id);
                 this.$store.dispatch('updateActiveCourse', course);
                 this.$router.push({ name: 'singleclass', params: { id: course._id } });
             },
