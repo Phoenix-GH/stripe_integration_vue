@@ -2,12 +2,12 @@
 
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
-            <div class="banner__content container container--fw is--reversed">
+        <div class="banner bg--stainless jagged jagged--fog">
+            <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
-                        <h1 class="ts--headline">Saved for Later</h1>
-                        <p class="ts--title is--secondary">View a list of all the classes you’ve saved to take later</p>
+                        <h1 class="ts--display">Saved for Later</h1>
+                        <p class="ts--body is--secondary fontSize--l">View a list of all the classes you’ve saved to take later.</p>
                     </div>
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->

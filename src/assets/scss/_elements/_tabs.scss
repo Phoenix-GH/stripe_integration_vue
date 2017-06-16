@@ -1,6 +1,7 @@
 .tab__group{
     width:100%;
     display:flex;
+    box-shadow: 0 3px 15px rgba($black, 0.1);
     .item{
         white-space: nowrap;
         flex-grow:1;
@@ -9,10 +10,10 @@
         padding:$spacing-m $spacing-xs;
         text-align: center;
         border-left:1px solid $silver;
-        font-family:$secondary-font;
-        font-size:$base-font-size*0.6;
+        font-family:$tertiary-font;
+        font-size:$base-font-size*1.2;
         text-transform:uppercase;
-        font-weight:900;
+        font-weight:600;
         transition:background 0.1s ease-in-out;
         &:first-child{
             border-left:none;
@@ -43,9 +44,10 @@
             display:none;
         }
         &:hover{
+            color:$black;
             cursor:pointer;
             svg{
-                fill:$black;
+                fill:$accent;
             }
         }
         &::after{
@@ -98,7 +100,7 @@
     display:none;
 }
 #categoryDropdown{
-    padding:$spacing-s 5%;
+    padding:$spacing-s $spacing-l;
     background-color:$white;
 }
 
@@ -112,13 +114,5 @@
     }
     #categoryDropdown{
         display:none;
-    }
-}
-
-@media #{$mq-large}{
-    .tab__group{
-        .item{
-            font-size:$base-font-size*0.7;
-        }
     }
 }

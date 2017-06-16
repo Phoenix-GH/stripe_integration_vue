@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood jagged jagged--fog">
+        <div class="banner bg--black jagged jagged--fog">
             <div class="banner__content container container--fw is--reversed row">
                 <div class="col col--8-of-12 col--centered">
                     <h1 class="ts--headline">Earnings Disclaimer</h1>

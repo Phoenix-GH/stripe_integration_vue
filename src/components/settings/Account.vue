@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row content">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -29,13 +29,45 @@
                 <li class="item" v-if="user.role == 2">
                     <router-link class="link" :to="{ name: 'students' }">Students</router-link>
                 </li>
-
             </ul>
         </div>
         <!-- /LEFT SIDEBAR -->
 
-        <!-- SETTINGS PANEL -->
-        <div class="col col--7-of-12">
+        <!-- MAIN CONTENT -->
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
+
             <div class="panel">
                 <!-- PANEL HEADER -->
                 <div class="panel__head">
@@ -59,26 +91,21 @@
                     <!-- AVATAR -->
                     <div class="panel__section">
                         <div class="well">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
-                                    <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'"></div>
+                            <div class="row">
+                                <div class="col col--7-of-12 col--am">
+                                    <div class="avatar avatar--l margin--s no--margin-tb no--margin-l" :style="'background-image:url(' + profileImageUrl + ')'">
+                                        <div v-if="this.user.facebookId != undefined" class="badge badge--fb"><svg class="icon-social-facebook"><use xlink:href="#icon-social-facebook"></use></svg></div>
+                                    </div>
                                     <!-- NOTE: Can be 'Never', '23 hours ago', 'Yesterday', '2 days ago', 'A month ago', '2 months ago', 'A year ago', '2 years ago' -->
                                     {{ lastUpdatedPhoto }}
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <ul class="list list--inline">
-                                        <!-- NOTE: 'Delete' is only displayed if a photo has been uploaded -->
-                                        <li class="item" v-if="user.profileImageUrl">
-                                            <a class="link link--secondary fontSize--xs" @click="removeImage">Delete</a>
-                                        </li>
-                                        <li class="item">
-                                            <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
-                                            <button id="upload-button" class="btn btn--primary" :class="{'has--loader': hasLoader }" :style="styleObject" @click="uploadPhoto">
-                                                <div v-if="uploadState <= 1" class="btn--inner"><span class="text">{{ uploadingText }}</span><div class="loader"><span></span></div></div>
-                                                <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
-                                              </button>
-                                        </li>
-                                    </ul>
+                                <div class="col col--5-of-12 col--am align--right">
+                                    <input type="file" accept="image/png, image/jpeg" style="display:none;" id="inputfile" @change="onFileChange" />
+                                    <button id="upload-button" class="btn btn--primary btn--block" :class="{'has--loader': hasLoader }"  @click="uploadPhoto">
+                                        <div v-if="uploadState <= 1" class="btn--inner"><span class="text"><use xlink:href="#icon-upload-photo"></use></svg>{{ uploadingText }}</span><div class="loader"><span></span></div></div>
+                                        <div v-if="uploadState == 2" class="btn--inner"><span class="checkmark"></span></div>
+                                    </button>
+                                    <a class="link link--secondary fontSize--xs margin--xs no--margin-b no--margin-lr" @click="removeImage">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +122,7 @@
                                 </div>
                                 <div class="input input--text">
                                     <input type="text" class="input__field" :class="{'not--empty': lastName.length > 0}" id="lastName" v-model="lastName">
-                                    <label for="lastName">Last Name (Optional)</label>
+                                    <label for="lastName">Last Name</label>
                                 </div>
                                 <div class="input input--text">
                                     <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email">
@@ -109,16 +136,16 @@
                     <!-- MEMBERSHIP -->
                     <div clas="panel__section" v-if="user.subscriptionType!='free'">
                         <div class="well">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
+                            <div class="row">
+                                <div class="col col--8-of-12 col--m-1-of-2 col--am">
                                     <span v-if="user.subscriptionType!='paused'" class="ts--subtitle">Membership</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--subtitle">Membership Paused</span>
                                     <span v-if="user.subscriptionType!='paused'" class="ts--body is--secondary disp--block">Automatically renews: {{ subscriptionRenewal }}</span>
                                     <span v-if="user.subscriptionType=='paused'" class="ts--body is--secondary disp--block">Will Cancel On: {{ subscriptionRenewal }}</span>
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary" @click="pauseRenewal">Pause Renewal</button>
-                                    <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary" @click="activateRenewal">Activate</button>
+                                <div class="col col--4-of-12 col--m-1-of-2 col--am align--right">
+                                    <button v-if="user.subscriptionType!='paused'" class="btn btn--secondary btn--block is--warning" @click="pauseRenewal">Pause Renewal</button>
+                                    <button v-if="user.subscriptionType=='paused'" class="btn btn--secondary btn--block is--affirmative" @click="activateRenewal">Activate</button>
                                 </div>
                             </div>
                         </div>
@@ -129,20 +156,18 @@
                 <!-- /PANEL BODY -->
             </div>
         </div>
-        <!-- /SETTINGS PANEL -->
+        <!-- /MAIN CONTENT -->
 
-        <!-- RIGHT SIDEBAR -->
-        <div class="col col--2-of-12 align--center" :class="{hide: shouldHide}">
-            <ul class="list list--buttons">
-                <li class="item">
-                    <button class="btn btn--primary" @click="saveUser">Save Changes</button>
-                </li>
-                <li class="item" @click="discardChanges">
-                    <a class="link link--secondary fontSize--xs">Discard Changes</a>
-                </li>
-            </ul>
+        <!-- CONTROL BAR -->
+        <div class="control__bar fixed--bottom wrapper bg--accent is--reversed" :class="{show: !shouldHide}">
+            <div class="wrapper__inner">
+                <a class="link link--secondary fontSize--xs" @click="discardChanges">Discard Changes</a>
+            </div>
+            <div class="wrapper__inner align--right">
+                <button class="btn btn--primary is--reversed" @click="saveUser">Save</button>
+            </div>
         </div>
-        <!-- / RIGHT SIDEBAR -->
+        <!-- /CONTROL BAR -->
 
     </div>
 
@@ -161,7 +186,7 @@
         data: function () {
             return {
                 photoIsUploaded: false,
-                profileImageUrl: 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg',
+                profileImageUrl: 'https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png',
                 email: '',
                 firstName: '',
                 lastName: '',
@@ -184,7 +209,7 @@
             },
             lastUpdatedPhoto() {
                 let date = new Date(this.user.updatedAt);
-                return `Updated: ${timeSince(date)} ago`;
+                return `${timeSince(date)} ago`;
             },
             updatePayload() {
                 return {
@@ -218,7 +243,7 @@
             if (this.user.profileImageUrl.length > 0) {
                 this.profileImageUrl = this.user.profileImageUrl;
             } else {
-                this.profileImageUrl = "http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg";
+                this.profileImageUrl = "https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png";
             }
 
             if (this.user.email != undefined) {
@@ -285,7 +310,7 @@
                 });
             },
             removeImage() {
-                this.profileImageUrl = 'http://www.renurban.com/sites/default/files/pictures/picture-36-1450346274.jpg';
+                this.profileImageUrl = 'https://s3.amazonaws.com/selfmademanbucket/assets/img/avatar-default-2.png';
                 User.updateUser(this, this.updatePayload);
             },
             pauseRenewal() {

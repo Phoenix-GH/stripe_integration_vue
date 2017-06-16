@@ -1,12 +1,12 @@
 <template lang="html">
     <div>
         <!-- BANNER -->
-        <div class="banner bg--black bg--wood">
-            <div class="banner__content container container--fw is--reversed">
+        <div class="banner bg--stainless jagged jagged--fog">
+            <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
-                        <h1 class="ts--headline">My Classes</h1>
-                        <p class="ts--title is--secondary">View a list of all your in progress and completed classes</p>
+                        <h1 class="ts--display">My Classes</h1>
+                        <p class="ts--body is--secondary fontSize--l">View a list of all your in progress and completed classes.</p>
                     </div>
                     <!-- BROWSE CLASSES -->
                     <!-- NOTE: This button is only displayed if the user is enrolled in classes -->
@@ -33,8 +33,8 @@
             <!-- /EMPTY STATE -->
 
             <!-- /CLASS LIST -->
-            <inprogress v-if="classesInProgress.length > 0" />
             <purchased v-if="masterClasses.length > 0" />
+            <inprogress v-if="classesInProgress.length > 0" />
 
         </div>
 

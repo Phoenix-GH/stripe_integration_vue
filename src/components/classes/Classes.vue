@@ -2,8 +2,8 @@
     <div id="mt">
 
         <!-- BANNER -->
-        <div v-if="featuredClasses.length > 0" class="banner banner--m go go--bottom" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
-            <div class="banner__content container container--fw container--l is--reversed">
+        <div v-if="featuredClasses.length > 0" class="banner banner--m go go--bottom jagged jagged--snow" :style="{ 'background-image': 'url(' + updateFeaturedClass.bannerImageUrl + ')' }">
+            <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="banner__text wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
@@ -21,7 +21,7 @@
                                 </svg>
                                 <a class="link link--secondary" href="javascript:;">{{ updateFeaturedClass.positiveReviewCount }}</a>
                             </li>
-                            <li class="item has--icon">
+                            <li class="item has--icon color--white">
                                 <svg class="icon-users color--white">
                                     <use xlink:href="#icon-users"></use>
                                 </svg>
@@ -29,8 +29,10 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="banner__play wrapper__inner align--right">
+                    <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click="updateCurrentClass(updateFeaturedClass)" class="btn__play btn--l" href="javascript:;">Watch</a>
+                        <br><br>
+                        <span class="ts--title">Start Learning</span>
                     </div>
                 </div>
             </div>
@@ -103,7 +105,7 @@
         <!-- CATEGORIES NAV (MOBILE)-->
         <div id="categoryDropdown">
             <div class="input input--dropdown" data-name="categorySelector">
-                <!-- <label>Categories</label> -->
+                <label>Filter by Topic</label>
                 <span class="input__field">Make a Selection</span>
                 <ul class="dropdown__list">
                     <li class="item">All</li>
@@ -164,12 +166,12 @@
                                 <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                                 course.instructor.name }}
                             </li>
-                            <li class="item has--icon">
+                            <!-- <li class="item has--icon">
                                 <svg class="icon-thumbs-up">
                                     <use xlink:href="#icon-thumbs-up"></use>
                                 </svg>
                                 <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>

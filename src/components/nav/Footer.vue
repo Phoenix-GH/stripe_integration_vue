@@ -5,7 +5,7 @@
             <div class="container container--fw">
                 <nav class="footer__nav--main row">
                     <div class="col col--2-of-12 col--m-1-of-3 col--s-1-of-3">
-                        <span class="ts--caption">Self Made Man</span>
+                        <span class="ts--title fontSize--xs color--white-60">Self Made Man</span>
                         <ul class="list list--nav">
                             <li class="item">
                                 <router-link class="link" :to="{ name: 'home' }">About</router-link>
@@ -25,7 +25,7 @@
                         </ul>
                     </div>
                     <div class="col col--2-of-12 col--m-2-of-3 col--s-2-of-3">
-                        <span class="ts--caption">My Account</span>
+                        <span class="ts--title fontSize--xs color--white-60">My Account</span>
                         <ul class="list list--nav">
                             <li class="item">
                                 <router-link class="link" :to="{ name: 'account' }">Profile &amp; Security</router-link>
@@ -43,7 +43,7 @@
                         </ul>
                     </div>
                     <div id="footerCategories" class="col col--6-of-12 col--push-2-of-12">
-                        <span class="ts--caption">Learn Skills</span>
+                        <span class="ts--title fontSize--xs color--white-60">Learn Skills</span>
                         <div class="row">
                             <div class="col col--2-of-6 col--m-1-of-3 col--s-1-of-3">
                                 <ul class="list list--nav">
@@ -105,30 +105,23 @@
                         </ul>
                         <ul class="list list--inline list--social wrapper__inner align--right">
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://www.facebook.com/MikeDillardFanPage" target="_blank">
                                     <svg class="icon-social-facebook">
                                         <use xlink:href="#icon-social-facebook"></use>
                                     </svg>
                                 </a>
                             </li>
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://twitter.com/Mike_Dillard" target="_blank">
                                     <svg class="icon-social-twitter">
                                         <use xlink:href="#icon-social-twitter"></use>
                                     </svg>
                                 </a>
                             </li>
                             <li class="item">
-                                <a class="link" href="#">
+                                <a class="link" href="https://www.instagram.com/selfmademanofficial/" target="_blank">
                                     <svg class="icon-social-instagram">
                                         <use xlink:href="#icon-social-instagram"></use>
-                                    </svg>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a class="link" href="#">
-                                    <svg class="icon-social-pinterest">
-                                        <use xlink:href="#icon-social-pinterest"></use>
                                     </svg>
                                 </a>
                             </li>

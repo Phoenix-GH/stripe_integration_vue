@@ -83,13 +83,11 @@
             display:none;
             height:27%;
             top:0;
-            border-radius:$class-border-radius $class-border-radius 0 0;
             background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
         }
         &::after{
             height:50%;
             bottom:0;
-            border-radius:0 0 $class-border-radius $class-border-radius;
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%);
         }
         .remove__link{
@@ -117,14 +115,14 @@
             display:block;
             padding:4px 8px;
             position:absolute;
-            bottom:$spacing-s;
-            right:$spacing-s;
+            bottom:0;
+            right:0;
             z-index:3;
-            border-radius:4px;
+            border-radius:2px 0 2px 0;
             text-decoration: none;
             color:$white;
             font-weight:700;
-            background-color: $white-40;
+            background-color: #000;
         }
         .progress{
             position:absolute;
@@ -136,8 +134,9 @@
             }
         }
         &:hover{
+            cursor:pointer;
             .btn__play{
-                background-color:$bright-brand;
+                background-color:$white-60;
             }
             .remove__link{
                 transform:translateY(0);
@@ -149,7 +148,10 @@
         margin-top:$spacing-s;
         position:relative;
         .link{
-            font-size:$fs-s;
+            font-family:$tertiary-font;
+            font-size:$fs-l;
+            font-weight:600;
+            line-height:1em;
             &::before{
                 display:none;
             }
@@ -187,7 +189,6 @@
                 display:block;
                 height:30%;
                 top:0;
-                // border-radius:$class-border-radius $class-border-radius 0 0;
                 background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
             }
             &::after{
@@ -231,7 +232,7 @@
 }
 
 .class__meta{
-    margin-top:$spacing-s;
+    margin-top:$spacing-m;
 }
 
 //=== Lessons
@@ -270,6 +271,9 @@
                             }
                         }
                         &:last-child{
+                            font-family: $tertiary-font;
+                            font-weight: 600;
+                            font-size:1.25em;
                             padding-left:0;
                             transform:translateX(-6px);
                             transition: all 0.3s ease-in-out;
@@ -282,7 +286,7 @@
                                 background-image:url('./assets/img/carat-down.svg');
                                 background-size:contain;
                                 background-repeat: no-repeat;
-                                transform:rotate(-90deg) translateX(-1px);
+                                transform:rotate(-90deg) translateX(1px);
                                 transition:all 0.2s ease-in-out;
                             }
                         }
@@ -574,7 +578,8 @@
         padding:$spacing-m;
         padding-bottom:112px;
         .class__title{
-            font-size:1.75em;
+            line-height:1.25em;
+            font-weight:700;
         }
     }
 }
@@ -714,13 +719,15 @@
 
     //=== Layouts
     .class__container{
-        width:88.42%;
-        margin-left:11.58%;
+        // width:88.42%;
+        // margin-left:11.58%;
         .class__info{
             width:56.78%;
+            padding:$spacing-l $spacing-xl;
             float:left;
             .class__title{
-                font-size:1.5em;
+                font-size:2.6em;
+                line-height:1em;
             }
         }
     }
@@ -744,10 +751,10 @@
                 transition:all 0.2s ease-in-out;
             }
             .player{
-                width: 50.2vw;
-                height: calc(50.2vw * 0.5625);
+                width:56.78vw;
+                height: calc(56.78vw * 0.5625);
                 max-width: 100%;
-                max-height: 511px;
+                // max-height: 511px;
                 padding-top:0;
             }
         }
@@ -767,6 +774,7 @@
         .lessons__layout{
             .lessons__list,
             .lessons__sharing{
+                padding-right:$spacing-l;
                 padding-left:$spacing-l;
             }
             .lessons__list{
@@ -811,10 +819,16 @@
         }
         .class__info{
             padding-left:11.58%;
+            &.is--podcast{
+                padding-left:$spacing-xxxl;
+            }
         }
         .class__lessons{
             height:auto;
             padding-right:11.58%;
+            &.is--podcast{
+                padding-right:0;
+            }
         }
     }
 }

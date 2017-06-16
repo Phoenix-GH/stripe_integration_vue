@@ -1,10 +1,10 @@
 <template lang="html">
 
-    <div class="row">
+    <div class="container container--fw container--s layout--1-4 cf">
 
         <!-- LEFT SIDEBAR -->
-        <div class="col col--2-of-12 col--push-1-of-12">
-            <ul class="list list--nav page__tabs">
+        <div class="layout__col">
+            <ul class="list list--nav page__tabs hide--m">
                 <li class="item">
                     <router-link class="link" :to="{ name: 'account' }">Account</router-link>
                 </li>
@@ -34,7 +34,39 @@
         <!-- /LEFT SIDEBAR -->
 
         <!-- MAIN CONTENT -->
-        <div class="col col--7-of-12">
+        <div class="layout__col">
+
+            <!-- MOBILE NAV -->
+            <div class="input input--dropdown mobile__menu show--m">
+                <span class="input__field">Navigation</span>
+                <ul class="dropdown__list">
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'account' }">Account</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" v-if="!hasFacebook" :to="{ name: 'password' }">Password</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link is--active" :to="{ name: 'payments' }">Payments</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'billing' }">Billing</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'emailnotifications' }">Email Notifications</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link class="link" :to="{ name: 'referrals' }">Referrals</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'reviews' }">Reviews</router-link>
+                    </li>
+                    <li class="item" v-if="user.role == 2">
+                        <router-link class="link" :to="{ name: 'students' }">Students</router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- /MOBILE NAV -->
 
             <div class="panel">
 
@@ -61,8 +93,8 @@
                         <!-- PAYMENT METHOD -->
                         <!-- NOTE: Display only if Credit Card saved -->
                         <div class="well" v-if="hasStripeAccount">
-                            <div class="wrapper">
-                                <div class="wrapper__inner">
+                            <div class="row">
+                                <div class="col col--8-of-12 col--am">
                                     <ul class="list list--inline list--divided">
                                         <li class="item no--pad-l">
                                             <span class="cc__icon" :class="{'is--visa': updatedCardInfo.cardType == 'Visa', 'is--mastercard': updatedCardInfo.cardType == 'MasterCard', 'is--amex': updatedCardInfo.cardType == 'American Express', 'is--discover': updatedCardInfo.cardType == 'Discover', 'is--diners-club': updatedCardInfo.cardType == 'Diners Club'}"></span>
@@ -73,8 +105,8 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="wrapper__inner align--right">
-                                    <button class="btn btn--secondary" @click="updateCreditCard">Change Method</button>
+                                <div class="col col--4-of-12 col--am align--right">
+                                    <button class="btn btn--secondary btn--block" @click="updateCreditCard">Change Method</button>
                                 </div>
                             </div>
                         </div>

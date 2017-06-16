@@ -2,7 +2,7 @@
     <!-- CLASSES - IN PROGRESS -->
     <div class="content__row">
 
-        <h2 v-if="masterClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="masterClasses.length">Master Classes</h2>
+        <h2 v-if="masterClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="masterClasses.length">Your Masterclasses</h2>
 
         <div class="row grid">
 
@@ -20,12 +20,12 @@
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.course.instructor.profileImage + ')' }"></span>{{
                             course.course.instructor.name }}
                         </li>
-                        <li class="item has--icon">
+                        <!-- <li class="item has--icon">
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
                             <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

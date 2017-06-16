@@ -31,15 +31,15 @@
     &.has--badge{
         &::after{
             content:attr(data-badge);
-            width: 20px;
-            height: 20px;
+            width: 21px;
+            height: 21px;
             display: inline-block;
             margin-left:$spacing-xs;
-            transform: translateY(-2px);
+            transform: translateY(-0px);
             border-radius: 10px;
             color: $black;
-            font-size:$fs-xxs;
-            line-height: 20px;
+            font-size:15px;
+            line-height: 21px;
             text-align: center;
             background-color: $stainless;
         }
@@ -50,7 +50,7 @@
         }
         &.is--primary{
             &::after{
-                color:$white;
+                color:$black;
                 background-color:$brand;
             }
         }

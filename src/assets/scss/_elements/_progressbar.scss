@@ -20,8 +20,8 @@
         }
     }
     .progress__counter{
-        font-family: $secondary-font;
-        font-size:22px;
+        font-family: $tertiary-font;
+        font-size:28px;
         font-weight:600;
         color: $black-80;
         position: absolute;
@@ -32,8 +32,8 @@
     &.show--count{
         &::after{
             content:'Complete';
-            font-family: $secondary-font;
-            font-size: 10px;
+            font-family: $tertiary-font;
+            font-size: 12px;
             font-weight:900;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -72,9 +72,9 @@
             position: static;
             vertical-align: middle;
             transform:translateX(0);
-            font-family: $primary-font;
-            font-weight:500;
-            font-size:1em;
+            font-family: $tertiary-font;
+            font-weight:600;
+            font-size:1.25em;
             color:$black;
         }
         &.show--count{

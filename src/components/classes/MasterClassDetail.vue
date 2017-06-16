@@ -256,7 +256,7 @@
                     <div class="lessons__layout">
 
                         <div class="lessons__sharing" v-if="!currentMasterCourse.unlocked">
-                            <div class="well bg--positive bg--wood align--center margin--xxl no--margin-lr no--margin-t no--border">
+                            <div class="well bg--positive align--center margin--xxl no--margin-lr no--margin-t no--border">
                                 <span class="ts--title margin--m no--margin-t no--margin-lr color--white">Get instant access for <span class="underlined">${{currentMasterCourse.course.amount}}</span></span>
                                 <button @click="purchaseMasterCourse" class="btn btn--cta is--reversed">Purchase Masterclass</button>
                             </div>
@@ -279,7 +279,7 @@
                                         </li>
 
                                         <li class="item">
-                                            {{ lessons.length }} Lessons
+                                            {{ lessons.length }} Chapters
                                         </li>
                                     </ul>
                                 </div>
@@ -327,10 +327,8 @@
                                 <svg class="icon-reward icon--m color--accent" style="float:right;">
                                     <use xlink:href="#icon-reward"></use>
                                 </svg>
-                                <span class="ts--subtitle">Give a month, earn a month!</span>
-                                <p class="ts--body">Share this class with your friends and you’ll both receive a free month of Premium when they
-                                    sign up.</p>
-                                <div class="divider divider--s"></div>
+                                <span class="ts--title">Refer a Friend, Earn $25</span>
+                                <p class="ts--body">Earn $25 for every friend you refer.</p>
                                 <div class="wrapper">
                                     <div class="wrapper__inner padding--m no--pad-l no--pad-tb">
                                         <div class="input input--text" data-tooltip="Click to copy" data-tip-pos="right">
@@ -417,14 +415,7 @@
                     <div class="class__tabs">
 
                         <!-- ABOUT TAB -->
-                        <div id="about" class="tab__content" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
-                            <h3 class="ts--subtitle">Tagged with:</h3>
-                            <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
-                                <li v-for="tagName in activeCourse.tags" class="item">
-                                    <router-link class="tag" :to="{ name: 'searchresults', query: { terms: tagName }}">{{ tagName }}</router-link>
-                                </li>
-                            </ul>
-                            <span class="divider divider--s"></span>
+                        <div id="about" class="tab__content dropcap" :class="{'hide': !aboutActive, 'remove': !aboutActive}">
 
                             <vue-markdown class="ts--body">{{ activeCourse.description }}</vue-markdown>
 
@@ -434,21 +425,67 @@
                                     {{ bullet }}
                                 </li>
                             </ul>
+
                             <br>
-                            <h3 class="ts--subtitle">About the Instructor</h3>
-                            <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
-                            <span class="divider divider--s"></span>
-                            <div class="well disp--ib">
-                                <ul class="list list--inline">
-                                    <li class="item">
-                                        <span class="avatar avatar--xxl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
-                                    </li>
-                                    <li class="item">
-                                        <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
-                                        <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
-                                    </li>
-                                </ul>
+                            <h3 class="ts--subtitle">About the Instructor:</h3>
+                            <div id="instructor" class="well disp--ib no--pad" style="width:100%;">
+                                <div class="well__row">
+                                    <div class="well__section">
+                                        <ul class="list list--inline list--tight">
+                                            <li class="item">
+                                                <span class="avatar avatar--xl" :style="{ 'background-image': 'url(' + activeCourse.instructor.profileImage + ')' }"></span>
+                                            </li>
+                                            <li class="item">
+                                                <h3 class="ts--title">{{ activeCourse.instructor.name }}</h3>
+                                                <span class="ts--subtitle is--secondary">{{ activeCourse.instructor.title }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="well__row padding--m">
+                                    <p class="ts--body">{{ activeCourse.instructor.bio }}</p>
+                                    <div class="align--right">
+                                        <ul class="list list--inline list--social disp--ib">
+                                            <li class="item is--emphasis fontSize--s">
+                                                Follow:
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-facebook icon--s"><use xlink:href="#icon-social-facebook"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-twitter icon--s"><use xlink:href="#icon-social-twitter"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-instagram icon--s"><use xlink:href="#icon-social-instagram"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-snapchat icon--s"><use xlink:href="#icon-social-snapchat"></use></svg>
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="#">
+                                                    <svg class="icon-social-website icon--s"><use xlink:href="#icon-social-website"></use></svg>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+
+                            <h3 class="ts--subtitle">Tagged with:</h3>
+                            <ul class="list list--inline list--tight margin--s no--margin-lr no--margin-b">
+                                <li v-for="tagName in activeCourse.tags" class="item">
+                                    <router-link class="tag" :to="{ name: 'searchresults', query: { terms: tagName }}">{{ tagName }}</router-link>
+                                </li>
+                            </ul>
+
                         </div>
                         <!-- /ABOUT TAB -->
 
