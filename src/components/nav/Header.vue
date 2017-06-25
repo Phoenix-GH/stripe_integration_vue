@@ -174,7 +174,7 @@
                             </div>
                             <div class="results__list">
                                 <!-- EMPTY RESULTS -->
-                                <div v-if="foundClasses.length == 0" class="well is--empty align--center">
+                                <div v-if="topFoundClasses.length == 0" class="well is--empty align--center">
                                     No matching classes...
                                 </div>
                                 <!-- /EMPTY RESULTS -->
@@ -204,7 +204,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button @click="searchPage" class="btn btn--secondary btn--block is--link">More Results ({{ classResultCount() }})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block is--link">More Results ({{ classSearchCount }})</button>
                                 </div>
 
                             </div>
@@ -220,7 +220,7 @@
 
                             <div class="results__list">
                                 <!-- EMPTY RESULTS -->
-                                <div v-if="foundPodcasts.length == 0" class="well is--empty align--center">
+                                <div v-if="topFoundPodcasts.length == 0" class="well is--empty align--center">
                                     No matching podcasts...
                                 </div>
                                 <!-- /EMPTY RESULTS -->
@@ -250,7 +250,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button @click="searchPage" class="btn btn--secondary btn--block">More Results ({{podcastResultCount()}})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block">More Results ({{podcastSearchCount}})</button>
                                 </div>
 
                             </div>
@@ -293,7 +293,9 @@
                 showResultsList: false,
                 searchResults: [],
                 stripeHandler: {},
-                closedAlert: false
+                closedAlert: false,
+                classSearchCount: 0,
+                podcastSearchCount: 0
             }
         },
         computed: {
@@ -351,16 +353,6 @@
                     return _classes;
                 }
             },
-            foundClasses() {
-                let _classes = this.searchResults.filter(result => {
-                    if (result.type == 'Class') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }).map(result => { return result; });
-                return _classes;
-            },
             topFoundPodcasts() {
                 let _podcasts = this.searchResults.filter(result => {
                     if (result.type == 'Podcast') {
@@ -375,16 +367,6 @@
                 } else {
                     return _podcasts;
                 }
-            },
-            foundPodcasts() {
-                let _podcasts = this.searchResults.filter(result => {
-                    if (result.type == 'Podcast') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }).map(result => { return result; });
-                return _podcasts;
             }
         },
         watch: {
@@ -398,7 +380,30 @@
                     Class.searchClasses(this, val, result => {
                         if (result.status == 'success') {
                             _this.searchResults = result.data;
+
+                            //update counts
+                            let classCount = result.data.filter(obj => {
+                                if (obj.type == 'Class') {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }).map(obj => { return obj; });
+                            _this.classSearchCount = classCount.length;
+
+                            let podcastCount = result.data.filter(obj => {
+                                if (obj.type == 'Podcast') {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }).map(obj => { return obj; });
+                            _this.podcastSearchCount = podcastCount.length;
+
+                            //update results
                             _this.foundResults();
+
+
                         } else {
                             _this.searchResults = [];
                             _this.noResultsFound();
@@ -473,12 +478,6 @@
             },
             upgradeAccount() {
                 this.$router.push({ name: 'upgradeaccount' });
-            },
-            podcastResultCount() {
-                return this.foundPodcasts.length;
-            },
-            classResultCount() {
-                return this.foundClasses.length;
             }
         }
     }

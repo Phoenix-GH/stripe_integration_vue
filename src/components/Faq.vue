@@ -14,7 +14,7 @@
                                 <p class="ts--body is--secondary">Have a question? Feedback? We can help.</p>
                             </div>
                             <div class="wrapper__inner align--right">
-                                <button class="btn btn--primary is--affirmative modal--toggle" data-target="#modalContact">Contact Us</button>
+                                <button @click="launchContactForm" class="btn btn--primary is--affirmative modal--toggle" data-target="#modalContact">Contact Us</button>
                             </div>
                         </div>
                     </div>
@@ -42,14 +42,14 @@
                                     <div class="accordion__content">
                                         A garage full of power tools won’t build your house for you but they can greatly increase the speed and efficiency of doing
                                         so if you choose to use them. The same is true for the tools and knowledge available
-                                        to you through Self Made Man. Instead of offering a "warranty" as insurance for a potential
-                                        lack of satisfaction, we chose to do something more radical that falls in line with our
-                                        philosophy. We know our product has value. We know that if you implement it, you’ll see
-                                        results and so we challenge you to do so. Success is equal parts dedication and commitment
-                                        so if you can put any system from a purchased masterclass to use fully within 6 months
-                                        of enrolling, we’ll give you a full refund as a reward for your focused pursuit of improvement.
-                                        As we offer a masterclass that is valuable to you, we recognize that a motivated and
-                                        successful student is valuable to us.
+                                        to you through Self Made Man. Instead of offering a "warranty" as insurance for a
+                                        potential lack of satisfaction, we chose to do something more radical that falls
+                                        in line with our philosophy. We know our product has value. We know that if you implement
+                                        it, you’ll see results and so we challenge you to do so. Success is equal parts dedication
+                                        and commitment so if you can put any system from a purchased masterclass to use fully
+                                        within 6 months of enrolling, we’ll give you a full refund as a reward for your focused
+                                        pursuit of improvement. As we offer a masterclass that is valuable to you, we recognize
+                                        that a motivated and successful student is valuable to us.
                                     </div>
                                 </li>
 
@@ -59,8 +59,7 @@
                                     <div class="accordion__content">
                                         Yes, share a referral code with your friends and you’ll both receive a free month of Premium when they sign up. Your unique
                                         referral URLs can be found in your
-                                        <router-link class="link link--secondary"
-                                            :to="{ name: 'referrals' }">account settings</router-link> and also on individual classes.
+                                        <router-link class="link link--secondary" :to="{ name: 'referrals' }">account settings</router-link> and also on individual classes.
                                     </div>
                                 </li>
 
@@ -107,6 +106,16 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
+    export default {
+        methods: {
+            launchContactForm() {
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'contact');
+            }
+        }
+    }
 
 </script>
 
