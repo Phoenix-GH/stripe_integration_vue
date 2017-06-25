@@ -29,12 +29,12 @@
             <!-- SIGN UP WITH EMAIL -->
             <div class="panel__section">
               <form id="formRegister" class="form" @submit.prevent="signup">
-                <div class="input input--text">
+                <div class="input input--text" :class="{'has--error': emailError}">
                   <input type="email" class="input__field" :class="{'not--empty': email.length > 0}" id="emailAddress" v-model="email" autofocus
                     required pattern="[^ @]*@[^ @]*">
                   <label for="emailAddress">Email Address</label>
                 </div>
-                <div class="input input--password">
+                <div class="input input--password" :class="{'has--error': passwordError}">
                   <input type="password" class="input__field" :class="{'not--empty': password.length > 0}" id="createPass" v-model="password"
                     autocomplete="new-password" required>
                   <label for="createPass">Password</label>
@@ -74,7 +74,9 @@
         facebookId: '',
         errorMessage: '',
         profileImageUrl: '',
-        name: ''
+        name: '',
+        passwordError: false,
+        emailError: false
       }
     },
     computed: {
@@ -111,6 +113,8 @@
         this.profileImageUrl = '';
         this.errorMessage = '';
         this.name = '';
+        this.passwordError = false;
+        this.emailError = false;
         this.$store.dispatch('updateHasModal', false);
         this.$store.dispatch('updateActiveModal', '');
       },
@@ -119,19 +123,25 @@
         if (this.password.length < 8) {
           console.log('password not long enough.');
           this.errorMessage = 'Please enter a password 8 characters or more.'
+          this.passwordError = true;
           return;
         }
+        this.passwordError = false;
         if (this.email.length == 0) {
           console.log('email not long enough');
           this.errorMessage = 'Please enter a valid email address'
+          this.emailError = true;
           return;
         }
+        this.emailError = false;
+
         let _this = this;
         User.signup(this, this.loginPayload, error => {
           if (error) {
             _this.errorMessage = error.response.data.message;
           }
         })
+
       },
       loginWithFacebook() {
         let _this = this;

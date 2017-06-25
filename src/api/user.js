@@ -366,5 +366,19 @@ export default {
                 });
         });
         return promise;
+    },
+
+    contactForm(context, payload) {
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'contactform', payload, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+        return promise;
     }
 };

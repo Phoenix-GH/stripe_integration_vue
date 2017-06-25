@@ -10,6 +10,7 @@
       <reviewModal></reviewModal>
       <forgotPasswordModal></forgotPasswordModal>
       <shareModal></shareModal>
+      <contactModal></contactModal>
     </section>
     <appFooter></appFooter>
   </div>
@@ -26,6 +27,7 @@
   import Review from './components/modals/Review.vue'
   import ForgotPassword from './components/modals/ForgotPassword.vue'
   import Share from './components/modals/Share.vue'
+  import Contact from './components/modals/ContactForm.vue'
 
   //map getters from Vuex store
   import { mapGetters } from 'vuex';
@@ -48,7 +50,8 @@
       signupModal: Signup,
       reviewModal: Review,
       forgotPasswordModal: ForgotPassword,
-      shareModal: Share
+      shareModal: Share,
+      contactModal: Contact
     },
     data: function () {
       return {
