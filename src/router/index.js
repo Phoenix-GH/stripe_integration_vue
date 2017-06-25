@@ -73,30 +73,12 @@ export default new Router({
         {
             path: '/classes/:id',
             name: 'singleclass',
-            component: ClassDetail,
-            beforeEnter: (to, from, next) => {
-                let loggedIn = store.state.userLoggedIn;
-                if (loggedIn) {
-                    next();
-                } else {
-                    store.dispatch('updateHasModal', true);
-                    store.dispatch('updateActiveModal', 'signup');
-                }
-            }
+            component: ClassDetail
         },
         {
             path: '/classes/masterclasses/:id',
             name: 'masterclass',
-            component: MasterClassDetail,
-            beforeEnter: (to, from, next) => {
-                let loggedIn = store.state.userLoggedIn;
-                if (loggedIn) {
-                    next();
-                } else {
-                    store.dispatch('updateHasModal', true);
-                    store.dispatch('updateActiveModal', 'signup');
-                }
-            }
+            component: MasterClassDetail
         },
         { path: '/myclasses', name: 'myclasses', component: MyClasses, beforeEnter: checkLoggedIn },
         { path: '/saved', name: 'saved', component: SavedClasses, beforeEnter: checkLoggedIn },
