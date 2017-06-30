@@ -1285,7 +1285,13 @@
                         if (this.lessonProgress[lesson._id] == undefined) return {};
                         let lessonProgress = this.lessonProgress[lesson._id];
                         if (lessonProgress != undefined) {
-                            if (lessonProgress.percentComplete >= 100) {
+                            if ((lessonProgress.percentComplete >= 100) && (lesson._id == this.currentLessonId)) {
+                                if (!this.player.paused()) {
+                                    return { 'is--playing': true };
+                                } else {
+                                    return { 'is--playing': false, 'is--complete': true };
+                                }
+                            } else if (lessonProgress.percentComplete >= 100) {
                                 return { 'is--playing': false, 'is--complete': true };
                             } else {
                                 if (lesson._id == this.currentLessonId) return { 'is--playing': true };
