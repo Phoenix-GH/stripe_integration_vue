@@ -74,9 +74,7 @@
         facebookId: '',
         errorMessage: '',
         profileImageUrl: '',
-        name: '',
-        passwordError: false,
-        emailError: false
+        name: ''
       }
     },
     computed: {
@@ -103,6 +101,21 @@
           profileImageUrl: this.profileImageUrl,
           name: this.name
         }
+      },
+      emailError() {
+        if (this.errorMessage == 'Sorry, someone has already signed up using that email...') {
+          return true;
+        }
+        if (this.errorMessage == 'Please enter a valid email address.') {
+          return true;
+        }
+        return false;
+      },
+      passwordError() {
+        if (this.errorMessage == 'Please enter a password 8 characters or more.') {
+          return true;
+        }
+        return false;
       }
     },
     methods: {
@@ -129,7 +142,7 @@
         this.passwordError = false;
         if (this.email.length == 0) {
           console.log('email not long enough');
-          this.errorMessage = 'Please enter a valid email address'
+          this.errorMessage = 'Please enter a valid email address.'
           this.emailError = true;
           return;
         }

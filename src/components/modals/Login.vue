@@ -188,9 +188,24 @@
         }
       },
       emailError() {
+        if (this.errorMessage == 'Sorry, no account was found for that email! Create an account.') {
+          return true;
+        }
+        if (this.errorMessage == 'Sorry, this email is already tied to a Facebook-connected account. Continue with Facebook.') {
+          return true;
+        }
+        if (this.errorMessage == 'Please enter a valid email address.') {
+          return true;
+        }
         return false;
       },
       passwordError() {
+        if (this.errorMessage == 'Sorry, that\'s not the right password. Try again, or reset it if you can\'t remember.') {
+          return true;
+        }
+        if (this.errorMessage == 'Please enter a password 8 characters or more.') {
+          return true;
+        }
         return false;
       }
     },
@@ -206,13 +221,12 @@
         this.$store.dispatch('updateActiveModal', '');
       },
       login() {
-
         if (this.email.length == 0) {
           console.log('email not long enough');
-          this.errorMessage = 'Please enter a valid email address'
+          this.errorMessage = 'Please enter a valid email address.'
           return;
         }
-        if (this.password.length < 1) {
+        if (this.password.length < 8) {
           console.log('password not long enough.');
           this.errorMessage = 'Please enter a password 8 characters or more.'
           return;
