@@ -104,6 +104,20 @@
                             </div>
                         </div>
 
+                        <div id="noUserCTA" class="video__state is--reversed" v-if="!userLoggedIn">
+                            <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
+                            <div class="wrapper">
+                                <div class="wrapper__inner align--center">
+                                    <svg class="icon-star icon--l color--brand margin--m no--margin-t no--margin-lr">
+                                        <use xlink:href="#icon-star"></use>
+                                    </svg>
+                                    <span class="ts--headline">Get access to the full class!</span>
+                                    <div class="divider divider--s"></div>
+                                    <button @click.stop="signUpNewAccount" class="btn btn--cta margin--m no--margin-t no--margin-lr">Signup for an Account</button>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div id="bookmarkedLesson" class="video__state is--reversed" v-if="currentOverlay == 'bookmark'">
                             <div class="blur" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"></div>
@@ -951,6 +965,10 @@
             //-----------------------------------
             // VIDEO/PLAYBACK
             //-----------------------------------
+            signUpNewAccount() {
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'signup');
+            },
             canPlayVideo(lesson) {
                 //if user is not logged in
                 if (this.userLoggedIn) {
@@ -963,12 +981,9 @@
                     }
                     return true;
                 } else {
-                    if (!lesson.free) {
-                        this.$store.dispatch('updateHasModal', true);
-                        this.$store.dispatch('updateActiveModal', 'signup');
-                        return false;
-                    }
-                    return true;
+                    this.$store.dispatch('updateHasModal', true);
+                    this.$store.dispatch('updateActiveModal', 'signup');
+                    return false;
                 }
             },
             changeVideoSource(url) {
@@ -1282,11 +1297,7 @@
                         }
                     }
                 } else {
-                    if (!lesson.free) {
-                        return { 'is--locked': true };
-                    } else {
-                        if (lesson._id == this.currentLessonId) return { 'is--playing': true };
-                    }
+                    return { 'is--locked': true };
                 }
 
             },
