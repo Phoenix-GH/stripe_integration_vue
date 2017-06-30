@@ -150,8 +150,8 @@
           if (response.status === 'connected') {
             // Logged into your app and Facebook.
             let __this = _this;
-            FB.api('/me', function (response) {
-
+            FB.api('/me?fields=id,name,email,permissions', function (response) {
+              console.log('this is my response email ' + response.email);
               let params = {
                 facebookId: response.id,
                 name: response.name,
