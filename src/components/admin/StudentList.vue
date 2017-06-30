@@ -107,7 +107,7 @@
                                         <li class="item" v-if="student.facebookId == undefined">
                                             <a @click="resetPassword(student.email)">Reset Password</a>
                                         </li>
-                                        <li class="item" v-if="student.facebookId == undefined">
+                                        <li class="item">
                                             <a @click="deleteStudent(student)">Delete User</a>
                                         </li>
                                     </ul>
