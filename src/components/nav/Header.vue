@@ -204,7 +204,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button @click="searchPage" class="btn btn--secondary btn--block is--link">More Results ({{ classSearchCount }})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block is--link" v-html='classCountText'></button>
                                 </div>
 
                             </div>
@@ -250,7 +250,7 @@
                                 <!-- /SINGLE RESULT -->
 
                                 <div class="well no--border-lr no--border-b no--radius no--pad-lr">
-                                    <button @click="searchPage" class="btn btn--secondary btn--block">More Results ({{podcastSearchCount}})</button>
+                                    <button @click="searchPage" class="btn btn--secondary btn--block" v-html='podcastCountText'></button>
                                 </div>
 
                             </div>
@@ -295,7 +295,9 @@
                 stripeHandler: {},
                 closedAlert: false,
                 classSearchCount: 0,
-                podcastSearchCount: 0
+                podcastSearchCount: 0,
+                classCountText:'',
+                podcastCountText:''
             }
         },
         computed: {
@@ -390,6 +392,7 @@
                                 }
                             }).map(obj => { return obj; });
                             _this.classSearchCount = classCount.length;
+                            _this.classCountText = "More Results ("+ classCount.length+")";
 
                             let podcastCount = result.data.filter(obj => {
                                 if (obj.type == 'Podcast') {
@@ -399,7 +402,7 @@
                                 }
                             }).map(obj => { return obj; });
                             _this.podcastSearchCount = podcastCount.length;
-
+                            _this.podcastCountText = "More Results ("+ podcastCount.length+")"
                             //update results
                             _this.foundResults();
 
