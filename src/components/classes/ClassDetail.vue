@@ -389,6 +389,16 @@
                                             <span class="hide--s">Share</span>
                                         </a>
                                     </li>
+
+                                    <li class="item has--icon" @click="showAHA">
+                                        <a class="link link--secondary">
+                                            <svg class="icon-share" style="transform:translateY(-4px);background-image: url(' + activeCourse.instructor.profileImage + ')">
+                                                <use xlink:href="#icon-share"></use>
+                                            </svg>
+                                            <span class="hide--s">AHA</span>
+                                        </a>
+                                    </li>
+
                                     <li class="item">
                                         <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
                                             <svg class="icon-more no--margin color--black">
@@ -1512,6 +1522,12 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
+            },
+            showAHA() {
+                console.log('will show AHA');
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'aha');
+                eventBus.$emit('refreshAHA');
             },
             startOver() {
                 this.resetClass();
