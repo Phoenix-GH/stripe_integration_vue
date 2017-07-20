@@ -24,11 +24,16 @@
                         <!-- ACTION BUTTON -->
                         <div class="align--center">
                             <button class="btn btn--cta btn--block" @click="handleAction">Action</button>
-                            <button class="btn btn--cta btn--block" @click="openShare">Share</button>
+                            
                             <audio ref="audioElm" src="https://www.soundjay.com/button/button-1.mp3"></audio>
                         </div>
                         <!-- /ACTION BUTTON -->
                         
+                        <!-- ACTION BUTTON -->
+                        <div class="panel__section divider--or"> 
+                            <button class="btn btn--cta btn--block" @click="openShare">Share</button>      
+                        </div>
+                        <!-- /ACTION BUTTON -->
                     </div>
                     <!-- /PANEL BODY -->
                 </div>
@@ -91,6 +96,12 @@
             handleAction() {
                  this.$refs.audioElm.play();
 
+            },
+            openShare(){
+                this.close();
+                 this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'share');
+                eventBus.$emit('refreshSocial');
             }
         }
     }
