@@ -12,41 +12,23 @@
                             <svg class="icon-reward icon--m color--accent">
                                 <use xlink:href="#icon-reward"></use>
                             </svg>
-                            <span class="ts--title margin--s no--margin-lr no--margin-b">Share with your Friends!</span>
+                            <span class="ts--title margin--s no--margin-lr no--margin-b">AHA!</span>
                             <br>
                             <div style="width:100%; max-width:400px; margin:0 auto;">
-                                <p class="ts--body">Share this class with your friends and you’ll both receive a free month of Premium when they
-                                    sign up.</p>
+                                <p class="ts--body">Message(TBD)</p>
                             </div>
                             <span class="divider divider--s"></span>
                         </div>
                         <!-- /SHARE CONTENT -->
 
-                        <!-- REFERRAL URL -->
-                        <div @click="addToClipboard" class="input input--text" data-tooltip="Click to copy" data-tip-pos="right" style="width:100%; max-width:440px; margin-right:auto; margin-left:auto;">
-                            <input type="text" class="input__field not--empty" data-copy="Copied!" readonly id="inputID2" :value="shareUrl">
-                            <label for="inputID">Referral URL</label>
+                        <!-- ACTION BUTTON -->
+                        <div class="align--center">
+                            <button class="btn btn--cta btn--block" @click="handleAction">Action</button>
+                            <button class="btn btn--cta btn--block" @click="openShare">Share</button>
+                            <audio ref="audioElm" src="https://www.soundjay.com/button/button-1.mp3"></audio>
                         </div>
-                        <!-- /REFERRAL URL -->
-
-                        <!-- SHARE BUTTONS -->
-                        <div v-if="active" style="width:190px; transform: translateY(-4px); margin:0 auto;">
-
-                            <!-- FACBOOK SHARE -->
-                            <div class="fb-share-button" :data-href="shareUrl" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fselfmademan.com%2F&amp;src=sdkpreparse">Share</a></div>
-                            <!-- /FACEBOOK SHARE -->
-
-                            <!-- TWITTER SHARE -->
-                            <div class="disp--ib" style="transform:translateY(7px);">
-                                <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" :data-url="shareUrl">Tweet</a>
-                            </div>
-                            <!-- /TWITTER SHARE -->
-
-                            <a class="btn btn--share is--email" href="mailto:support@smm.co">Email</a>
-                            <!-- /EMAIL SHARE -->
-                        </div>
-                        <!-- /SHARE BUTTONS -->
-
+                        <!-- /ACTION BUTTON -->
+                        
                     </div>
                     <!-- /PANEL BODY -->
                 </div>
@@ -70,10 +52,7 @@
             }
         },
         mounted() {
-            twttr.widgets.load();
-            if (window.FB) {
-                window.FB.XFBML.parse();
-            }
+           
             //referrals
             $('[data-copy]').click(function () {
                 var text = $(this).data('copy'),
@@ -96,23 +75,12 @@
                 'hasModal', 'activeModal', 'user'
             ]),
             active() {
-                if ((this.hasModal) && (this.activeModal == 'share')) {
-                    this.$nextTick(() => {
-                        twttr.widgets.load();
-                        if (window.FB) {
-                            window.FB.XFBML.parse();
-                        }
-                    })
+                if ((this.hasModal) && (this.activeModal == 'aha')) {
+                    
                     return true;
                 } else {
                     return false;
                 }
-            },
-            shareUrl() {
-                return `https://smm.co?ref=${this.user.referralId}`;
-            },
-            twitterShareUrl() {
-                return `https://twitter.com/intent/tweet?url=${this.shareUrl}`;
             }
         },
         methods: {
@@ -120,9 +88,9 @@
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
             },
-            addToClipboard() {
-                document.querySelector('#inputID2').select();
-                document.execCommand('copy');
+            handleAction() {
+                 this.$refs.audioElm.play();
+
             }
         }
     }

@@ -53,8 +53,9 @@
       reviewModal: Review,
       forgotPasswordModal: ForgotPassword,
       shareModal: Share,
-      contactModal: Contact,
-      ahaModal : AHA
+      ahaModal : AHA,
+      contactModal: Contact
+     
     },
     data: function () {
       return {

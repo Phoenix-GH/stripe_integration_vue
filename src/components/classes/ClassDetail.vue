@@ -392,7 +392,7 @@
 
                                     <li class="item has--icon" @click="showAHA">
                                         <a class="link link--secondary">
-                                            <svg class="icon-share" style="transform:translateY(-4px);background-image: url(' + activeCourse.instructor.profileImage + ')">
+                                            <svg class="icon-share" style="transform:translateY(-4px);">
                                                 <use xlink:href="#icon-share"></use>
                                             </svg>
                                             <span class="hide--s">AHA</span>
