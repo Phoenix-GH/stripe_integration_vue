@@ -390,7 +390,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="item has--icon" @click="showAHA">
+                                    <li class="item has--icon" @click="showAHA(activeCourse._id)">
                                         <a class="link link--secondary">
                                             <svg class="icon-share" style="transform:translateY(-4px);">
                                                 <use xlink:href="#icon-share"></use>
@@ -1523,10 +1523,12 @@
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
             },
-            showAHA() {
+            showAHA(course) {
+                if (!this.userLoggedIn) return;
                 console.log('will show AHA');
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'aha');
+                this.$store.dispatch('updateAHACourse', course);
                 eventBus.$emit('refreshAHA');
             },
             startOver() {

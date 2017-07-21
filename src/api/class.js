@@ -76,6 +76,31 @@ export default {
             .catch(error => cbErr(error));
     },
 
+    updateAHA(context, course) {
+        let _this = this;
+        let promise = new Promise((resolve, reject) => {
+            axios
+                .post(BASE_URL + 'courses/aha', course, headers())
+                .then(response => {
+                    resolve(response.data.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+        return promise;
+    },
+    
+    getAHA(context, course) {
+        axios
+            .get(BASE_URL + 'courses/aha/'+course, headers())
+            .then(response => {
+                context.$store.dispatch('updateAHACourse', response.data.data);
+                cb(response.data.data);
+            })
+            .catch(error => cbErr(error));
+    },
+
     searchClasses(context, terms, cb) {
         axios
             .get(BASE_URL + 'courses/search?terms=' + terms, headers())

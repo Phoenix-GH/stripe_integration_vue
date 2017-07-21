@@ -77,11 +77,10 @@
         },
         computed: {
             ...mapGetters([
-                'hasModal', 'activeModal', 'user'
+                'hasModal', 'activeModal', 'user', 'ahaCourse'
             ]),
             active() {
                 if ((this.hasModal) && (this.activeModal == 'aha')) {
-                    
                     return true;
                 } else {
                     return false;
@@ -92,14 +91,22 @@
             close() {
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
+                this.$store.dispatch('updateAHACourse', '');
             },
             handleAction() {
                  this.$refs.audioElm.play();
-
+                 let course = {
+                    course : this.ahaCourse
+                 }
+                Class.updateAHA(this, course).then(response => {
+                  
+                }).catch(error => {
+                    this.errorMessage = `${error.response.data.message}`
+                })
             },
             openShare(){
                 this.close();
-                 this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
             }
