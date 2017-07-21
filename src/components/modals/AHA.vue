@@ -29,11 +29,11 @@
                         </div>
                         <!-- /ACTION BUTTON -->
                         
-                        <!-- ACTION BUTTON -->
+                        <!-- SHARE BUTTON -->
                         <div class="panel__section divider--or"> 
-                            <button class="btn btn--cta btn--block" @click="openShare">Share</button>      
+                            <button class="btn btn--cta btn--block" @click="openShare">Share</button>     
                         </div>
-                        <!-- /ACTION BUTTON -->
+                        <!-- /SHARE BUTTON -->
                     </div>
                     <!-- /PANEL BODY -->
                 </div>
@@ -87,7 +87,6 @@
             close() {
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
-                
             },
             handleAction() {
                  this.$refs.audioElm.play();
