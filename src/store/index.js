@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
         showSpinner: false,
         reviewStatusType: 'good',
         removePadding: false,
-        ahaCourse:''
+        ahaCourse: ''
     },
     actions: {
         updateRemovePadding: ({ commit }, payload) => {
@@ -211,6 +211,9 @@ export const store = new Vuex.Store({
         },
         reviewStatusType: state => {
             return state.reviewStatusType;
+        },
+        ahaCourse: state => {
+            return state.ahaCourse;
         },
         user: state => {
             return state.user;

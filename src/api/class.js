@@ -91,7 +91,7 @@ export default {
         return promise;
     },
     
-    getAHA(context, course) {
+    getAHA(context, course, cbErr, cb) {
         axios
             .get(BASE_URL + 'courses/aha/'+course, headers())
             .then(response => {

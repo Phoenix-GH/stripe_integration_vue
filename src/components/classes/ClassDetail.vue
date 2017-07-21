@@ -390,12 +390,12 @@
                                         </a>
                                     </li>
 
-                                    <li class="item has--icon" @click="showAHA(activeCourse._id)">
+                                    <li class="item has--icon"   @click="showAHA()">
                                         <a class="link link--secondary">
                                             <svg class="icon-share" style="transform:translateY(-4px);">
                                                 <use xlink:href="#icon-share"></use>
                                             </svg>
-                                            <span class="hide--s">AHA</span>
+                                            <span class="hide--s":class="{'color--accent': !(ahaStatus == null)}">AHA</span>
                                         </a>
                                     </li>
 
@@ -676,7 +676,8 @@
                 currentOverlay: '',
                 currentNoteEdit: '',
                 timer: {},
-                courseWasReset: false
+                courseWasReset: false,
+                ahaStatus:null
             }
         },
         //-----------------------------------
@@ -1162,14 +1163,22 @@
             // DATA SOURCE
             //-----------------------------------
             updateDataSource() {
+                console.log("update Data source on ClassDetail");
                 let _this = this;
                 this.$store.dispatch('updateLastLesson', {});
                 this.$store.dispatch('updateSpinner', true);
                 Class.classDetails(this, this.$route.params.id, error => {
                     _this.$router.replace({ name: 'classes' });
-                    this.$store.dispatch('updateSpinner', false);
+                    
                 }, course => {
                     _this.initDetails(course._id);
+                     Class.getAHA(this, course._id, error => {
+                        this.$store.dispatch('updateSpinner', false);
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        console.log(aha);
+                    });
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1523,12 +1532,12 @@
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
             },
-            showAHA(course) {
+            showAHA() {
                 if (!this.userLoggedIn) return;
                 console.log('will show AHA');
+                this.$store.dispatch('updateAHACourse', this.activeCourse._id);
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'aha');
-                this.$store.dispatch('updateAHACourse', course);
                 eventBus.$emit('refreshAHA');
             },
             startOver() {

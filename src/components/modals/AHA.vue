@@ -51,11 +51,7 @@
     import { eventBus } from '../../main';
 
     export default {
-        data: function () {
-            return {
-                shareLink: '',
-            }
-        },
+       
         mounted() {
            
             //referrals
@@ -91,15 +87,16 @@
             close() {
                 this.$store.dispatch('updateHasModal', false);
                 this.$store.dispatch('updateActiveModal', '');
-                this.$store.dispatch('updateAHACourse', '');
+                
             },
             handleAction() {
                  this.$refs.audioElm.play();
-                 let course = {
+                 var course = {
                     course : this.ahaCourse
                  }
+                 console.log(this.ahaCourse);
                 Class.updateAHA(this, course).then(response => {
-                  
+                  this.$store.dispatch('updateAHACourse', this.ahaCourse);
                 }).catch(error => {
                     this.errorMessage = `${error.response.data.message}`
                 })
