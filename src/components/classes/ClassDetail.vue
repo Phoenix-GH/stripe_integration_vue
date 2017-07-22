@@ -253,6 +253,18 @@
                                 <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
                             </div>
                         </div>
+
+                        <div class="lessons__sharing three_lessons_give_away">
+                            <div class="col-4">
+                            <div class="three-away" />
+                            </div>
+                             <div class="col-4">
+                            <div class="three-away" />
+                            </div>
+                             <div class="col-4">
+                            <div class="three-away" />
+                            </div>
+                        </div>
                         <!-- /UPGRADE CTA - FREE USER -->
 
                         <ol class="lessons__list" :class="{'is--started': percentComplete > 0}">
@@ -1637,4 +1649,5 @@
     {
         opacity: 0
     }
+   
 </style>

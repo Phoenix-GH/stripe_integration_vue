@@ -648,6 +648,19 @@
             display:none;
         }
     }
+    .three-away
+    {
+        border-radius:50%;
+        width:40px;
+        height:40px;
+        background-color:green;
+        margin:0 auto;
+    }
+    .col-4
+    {
+        width:33%;
+        float:left;
+    }
 }
 .flex__layout{
     display:flex;
