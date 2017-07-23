@@ -648,16 +648,29 @@
             display:none;
         }
     }
-    .three-away
-    {
+    .three_lessons_give_away a{
+        width:40px;
+        height:40px;
+        display:inline-block;
+        margin:0 auto;
+        border-radius:50%;
+    }
+    .three-away{
         border-radius:50%;
         width:40px;
         height:40px;
-        background-color:green;
-        margin:0 auto;
+        text-align:center;
+        border:1px solid green;
     }
-    .col-4
+    .completed
     {
+        background-color:green;
+    }
+    .incomplete
+    {
+        background:transparent;
+    }
+    .col-4{
         width:33%;
         float:left;
     }

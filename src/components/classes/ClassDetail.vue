@@ -256,13 +256,13 @@
 
                         <div class="lessons__sharing three_lessons_give_away">
                             <div class="col-4">
-                            <div class="three-away" />
+                                <a href="#"><div class="three-away completed"></div></a>
                             </div>
-                             <div class="col-4">
-                            <div class="three-away" />
+                            <div class="col-4">
+                                <a href="#"><div class="three-away"></div></a>
                             </div>
-                             <div class="col-4">
-                            <div class="three-away" />
+                            <div class="col-4">
+                                <a href="#"><div class="three-away"></div></a>
                             </div>
                         </div>
                         <!-- /UPGRADE CTA - FREE USER -->
