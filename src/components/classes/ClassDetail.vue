@@ -30,6 +30,7 @@
 
                         <!-- Create Lesson Note -->
                         <div class="popover__toggle has--overlay" style="position:absolute; width:100%; height:100%;">
+
                             <button @click="createNote" id="createNote" class="btn btn--primary btn--icon btn--circle btn--s btn--toggle is--reversed is--off">
                                 <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg>
                                 <svg class="icon-close"><use xlink:href="#icon-close"></use></svg>
@@ -421,7 +422,7 @@
                         </div>
 
                         <!-- CLASS TABS -->
-                        <ul class="class__tabs list list--tabs fontSize--m">
+                        <ul class="class__tabs list list--tabs tabs--flex fontSize--m">
                             <li class="item" :class="{'is--active': aboutActive}" @click="tappedOnAboutTab">
                                 About Class
                             </li>
@@ -430,6 +431,9 @@
                             </li>
                             <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
+                            </li>
+                            <li class="item tab--right">
+                                <button class="btn btn--primary btn--s ">Aha!</button>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->

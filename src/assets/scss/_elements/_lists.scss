@@ -139,6 +139,7 @@
         }
     }
     &.list--tabs{
+        padding-right:0;
         .item{
             height:$spacing-xxl;
             display:inline-block;
@@ -159,6 +160,21 @@
             &:hover{
                 cursor: pointer;
                 color:$accent;
+            }
+        }
+        &.tabs--flex{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .item{
+                white-space: nowrap;
+                &.tab--right{
+                    margin-right:0;
+                    margin-left:auto;
+                    .btn{
+                        transform: translateY(-25%);
+                    }
+                }
             }
         }
     }
