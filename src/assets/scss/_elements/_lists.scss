@@ -214,9 +214,9 @@
             background-color:$fog;
             background-size:cover;
             background-position:center;
-            transition: all 0.2s ease-in-out 0.4s;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s;
             &::before, &::after{
-                transition:all 0.2s ease-in-out 0.4s;
+                transition:all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s;
             }
             &::before{
                 content:'';
@@ -257,7 +257,7 @@
                     transform: scale(1.05);
                 }
                 &::before{
-                    transform: scale(1) translate(25%, -25%);
+                    transform: scale(1.5) translate(10%, -10%);
                     opacity:1;
                 }
                 &::after{
