@@ -40,11 +40,25 @@
                                 <!-- LOGGED IN NAV -->
 
                                 <!-- Challenges -->
-                                <li id="navChallenges" class="item has--icon">
+                                <li id="navChallenges" class="item has--icon has--popover is--active">
                                     <a class="link">
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
                                     </a>
+                                    <ul class="challenge__popover list list--nav list--dropdown">
+                                        <li class="item">
+                                            <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                                            <div class="ts--title is--secondary">
+                                                Quick-Start Challenge:
+                                            </div>
+                                            <div class="ts--headline">
+                                                Complete 3 Lessons
+                                            </div>
+                                        </li>
+                                        <li class="item item--bottom">
+                                            progress here
+                                        </li>
+                                    </ul>
                                 </li>
 
                                 <!-- Classes -->

@@ -1,0 +1,16 @@
+.challenge__popover{
+    text-align: center !important;
+    padding-bottom:0 !important;
+    .item{
+        &:first-child{
+            padding:$spacing-s $spacing-m !important;
+            .ts--title{
+                line-height: 0.5em;
+                margin-top:$spacing-s !important;
+            }
+            .ts--headline{
+                font-weight: 900;
+            }
+        }
+    }
+}

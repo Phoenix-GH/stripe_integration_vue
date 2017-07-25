@@ -251,6 +251,7 @@
             border:none;
             display:block;
             overflow:hidden;
+            white-space: nowrap;
             a{
                 width:100%;
                 display:block;
@@ -266,6 +267,12 @@
                         fill:$white !important;
                     }
                 }
+            }
+            &.item--bottom{
+                padding:$spacing-xs;
+                border-top:1px solid $silver;
+                border-radius:0 0 4px 4px;
+                background-color:$fog;
             }
         }
     }
@@ -311,12 +318,12 @@
     &:hover{
         cursor:pointer;
         [class^="icon-"], [class*=" icon-"]{
-            fill:$accent !important;
+            fill:$accent;
         }
     }
     &.is--active{
         [class^="icon-"], [class*=" icon-"]{
-            fill:$accent !important;
+            fill:$accent;
         }
         .list{
             visibility: visible;
