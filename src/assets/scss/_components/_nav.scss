@@ -19,7 +19,7 @@
             position:absolute;
             z-index:1000;
             top:25px;
-            left:50%;
+            left:40%;
             transform:translateX(-56%);
         }
         .main__nav{
@@ -43,10 +43,19 @@
                     font-size:1.125em;
                 }
             }
+            #navBrowse, #navChallenges{
+                .link{
+                    transform: translateY(4px);
+                }
+            }
             #userNav{
                 float:right;
                 #navLoggedOut{
                     border:none;
+                }
+                #navChallenges{
+                    margin-right: 0;
+                    padding-right:$spacing-s;
                 }
                 #navClasses{
                     display:none;
@@ -54,9 +63,8 @@
                 #navAccount{
                     position: relative;
                     border-right:none;
-                    padding-right:0;
                     .avatar{
-                        margin-right:0;
+                        margin-right:$spacing-xs;
                     }
                     .list--dropdown{
                         right:-$spacing-xs;
@@ -141,6 +149,23 @@ body.has--banner{
 //===== MEDIA QUERIES
 //===================
 
+@media #{$mq-xsmall} {
+    .header{
+        &.header__main{
+            .logo{
+                left:50%;
+            }
+            .main__nav{
+                #navBrowse, #navChallenges{
+                    .link{
+                        transform: translateY(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media #{$mq-small} {
     .header{
         &.header__main{
@@ -162,7 +187,7 @@ body.has--banner{
                 display: table-cell;
                 vertical-align: top;
                 nav{
-                    padding:0 $spacing-m;
+                    padding:0 0 0 $spacing-m;
                     .list--divided{
                         .item{
                             height:72px;
@@ -179,6 +204,11 @@ body.has--banner{
                     }
                 }
                 #userNav{
+                    .item{
+                        &:last-child{
+                            border-right:none !important;
+                        }
+                    }
                     #navClasses{
                         display:table-cell;
                     }
@@ -201,6 +231,20 @@ body.has--banner{
                                 transform: translate(-50%, -8px);
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media #{$mq-medium} {
+    .header{
+        &.header__main{
+            .main__nav{
+                #userNav{
+                    #navChallenges{
+                        padding-right:$spacing-m;
                     }
                 }
             }

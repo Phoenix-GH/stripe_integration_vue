@@ -23,7 +23,7 @@
                 <div class="main__nav">
                     <nav class="wrapper">
                         <ul class="list list--inline wrapper__inner">
-                            <li class="item has--icon">
+                            <li id="navBrowse" class="item has--icon">
                                 <router-link class="link" :to="{ name: 'classes' }">
                                     <svg class="icon-grid color--brand">
                                         <use xlink:href="#icon-grid"></use>
@@ -38,6 +38,16 @@
                             <ul id="userNav" class="list list--inline list--divided">
 
                                 <!-- LOGGED IN NAV -->
+
+                                <!-- Challenges -->
+                                <li id="navChallenges" class="item has--icon">
+                                    <a class="link">
+                                        <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
+                                        </svg><span class="hide--m">Challenges</span>
+                                    </a>
+                                </li>
+
+                                <!-- Classes -->
                                 <li id="navClasses" class="item">
                                     <ul class="list list--inline">
 
