@@ -1,6 +1,7 @@
 .challenge__box{
     text-align: center !important;
     padding-bottom:0 !important;
+    position: relative;
     .item{
         &:first-child{
             padding:$spacing-s $spacing-m !important;
@@ -10,6 +11,24 @@
             }
             .ts--headline{
                 font-weight: 900;
+            }
+        }
+    }
+    .challenge__explainer{
+        position: absolute;
+        top:$spacing-s;
+        right:$spacing-s;
+        .link{
+            font-family: $primary-font !important;
+            font-weight:400 !important;
+            font-size:1em !important;
+            &::before{
+                left:0 !important;
+            }
+            &:hover{
+                &::before{
+                    width:100% !important;
+                }
             }
         }
     }
@@ -25,6 +44,7 @@
         li{
             white-space: nowrap;
             &.item--bottom{
+                margin-bottom:0;
                 padding:$spacing-s;
                 border-top:1px solid $silver;
                 background-color:$fog;

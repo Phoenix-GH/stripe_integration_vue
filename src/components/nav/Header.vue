@@ -62,6 +62,9 @@
                                                 <li data-step="3"></li>
                                             </ul>
                                         </li>
+                                        <li class="challenge__explainer">
+                                            <a class="link">Details</a>
+                                        </li>
                                     </ul>
                                 </li>
 
