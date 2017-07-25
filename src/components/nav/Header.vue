@@ -45,7 +45,7 @@
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
                                     </a>
-                                    <ul class="challenge__popover list list--nav list--dropdown">
+                                    <ul class="challenge__box list list--nav list--dropdown">
                                         <li class="item">
                                             <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
