@@ -95,6 +95,9 @@
                 box-shadow: none;
             }
         }
+        &.btn--s{
+            padding:0 $spacing-s;
+        }
         &.has--loader{
             .btn--inner{
                 transform: translateX(-8px);

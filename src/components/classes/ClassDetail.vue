@@ -30,6 +30,7 @@
 
                         <!-- Create Lesson Note -->
                         <div class="popover__toggle has--overlay" style="position:absolute; width:100%; height:100%;">
+
                             <button @click="createNote" id="createNote" class="btn btn--primary btn--icon btn--circle btn--s btn--toggle is--reversed is--off">
                                 <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg>
                                 <svg class="icon-close"><use xlink:href="#icon-close"></use></svg>
@@ -253,18 +254,6 @@
                                 <button @click.stop="upgradeAccount" class="btn btn--cta is--reversed">Upgrade to Premium</button>
                             </div>
                         </div>
-
-                        <div class="lessons__sharing three_lessons_give_away">
-                            <div class="col-4">
-                                <a href="#"><div class="three-away completed"></div></a>
-                            </div>
-                            <div class="col-4">
-                                <a href="#"><div class="three-away"></div></a>
-                            </div>
-                            <div class="col-4">
-                                <a href="#"><div class="three-away"></div></a>
-                            </div>
-                        </div>
                         <!-- /UPGRADE CTA - FREE USER -->
 
                         <ol class="lessons__list" :class="{'is--started': percentComplete > 0}">
@@ -401,16 +390,6 @@
                                             <span class="hide--s">Share</span>
                                         </a>
                                     </li>
-
-                                    <li class="item has--icon"   @click="showAHA()">
-                                        <a class="link link--secondary">
-                                            <svg class="icon-share" style="transform:translateY(-4px);">
-                                                <use xlink:href="#icon-share"></use>
-                                            </svg>
-                                            <span class="hide--s":class="{'color--accent': !(ahaStatus == null)}">AHA</span>
-                                        </a>
-                                    </li>
-
                                     <li class="item">
                                         <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
                                             <svg class="icon-more no--margin color--black">
@@ -443,7 +422,7 @@
                         </div>
 
                         <!-- CLASS TABS -->
-                        <ul class="class__tabs list list--tabs fontSize--m">
+                        <ul class="class__tabs list list--tabs tabs--flex fontSize--m">
                             <li class="item" :class="{'is--active': aboutActive}" @click="tappedOnAboutTab">
                                 About Class
                             </li>
@@ -452,6 +431,9 @@
                             </li>
                             <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
+                            </li>
+                            <li class="item tab--right">
+                                <button class="btn btn--primary btn--s ">Aha!</button>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->
@@ -688,8 +670,7 @@
                 currentOverlay: '',
                 currentNoteEdit: '',
                 timer: {},
-                courseWasReset: false,
-                ahaStatus:null
+                courseWasReset: false
             }
         },
         //-----------------------------------
@@ -1175,22 +1156,14 @@
             // DATA SOURCE
             //-----------------------------------
             updateDataSource() {
-                console.log("update Data source on ClassDetail");
                 let _this = this;
                 this.$store.dispatch('updateLastLesson', {});
                 this.$store.dispatch('updateSpinner', true);
                 Class.classDetails(this, this.$route.params.id, error => {
                     _this.$router.replace({ name: 'classes' });
-                    
+                    this.$store.dispatch('updateSpinner', false);
                 }, course => {
                     _this.initDetails(course._id);
-                     Class.getAHA(this, course._id, error => {
-                        this.$store.dispatch('updateSpinner', false);
-                        console.log('failed');
-                    }, aha => {
-                        this.ahaStatus = aha;
-                        console.log(aha);
-                    });
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1544,14 +1517,6 @@
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
             },
-            showAHA() {
-                if (!this.userLoggedIn) return;
-                console.log('will show AHA');
-                this.$store.dispatch('updateAHACourse', this.activeCourse._id);
-                this.$store.dispatch('updateHasModal', true);
-                this.$store.dispatch('updateActiveModal', 'aha');
-                eventBus.$emit('refreshAHA');
-            },
             startOver() {
                 this.resetClass();
             },
@@ -1649,5 +1614,4 @@
     {
         opacity: 0
     }
-   
 </style>

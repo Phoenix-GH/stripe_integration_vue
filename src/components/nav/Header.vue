@@ -24,7 +24,7 @@
                     <nav class="wrapper">
                      <div class="wrapper__inner align--right">  
                         <ul class="list list--inline wrapper__inner">
-                            <li class="item has--icon">
+                            <li id="navBrowse" class="item has--icon">
                                 <router-link class="link" :to="{ name: 'classes' }">
                                     <svg class="icon-grid color--brand">
                                         <use xlink:href="#icon-grid"></use>
@@ -51,6 +51,37 @@
                                             </ul>
                                         </li>
                                 <!-- LOGGED IN NAV -->
+
+                                <!-- Challenges -->
+                                <li id="navChallenges" class="item has--icon has--popover is--active">
+                                    <a class="link">
+                                        <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
+                                        </svg><span class="hide--m">Challenges</span>
+                                    </a>
+                                    <ul class="challenge__box list list--nav list--dropdown">
+                                        <li class="item">
+                                            <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                                            <div class="ts--title is--secondary">
+                                                Quick-Start Challenge:
+                                            </div>
+                                            <div class="ts--headline">
+                                                Complete 3 Lessons
+                                            </div>
+                                        </li>
+                                        <li class="item item--bottom">
+                                            <ul class="list list--progress">
+                                                <li class="is--complete" style="background-image:url('https://images.contentful.com/neuh3uvg7bz8/1re746Kr3e6UgEKSqkWUWo/4dcb1cff3d920e24c405402ac204ebbd/vanessa-thumb.jpg')" data-step="1"></li>
+                                                <li data-step="2"></li>
+                                                <li data-step="3"></li>
+                                            </ul>
+                                        </li>
+                                        <li class="challenge__explainer">
+                                            <a class="link">Details</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <!-- Classes -->
                                 <li id="navClasses" class="item">
                                     <ul class="list list--inline">
 

@@ -232,6 +232,10 @@ $toast-pulls: true !default;
             width: percentage(1/2);
         }
 
+        &.#{$toast-grid-column-namespace}--s-2-of-2 {
+            width: percentage(2/2);
+        }
+
         &.#{$toast-grid-column-namespace}--s-1-of-3 {
             width: percentage(1/3);
         }

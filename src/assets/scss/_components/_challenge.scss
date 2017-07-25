@@ -1,0 +1,99 @@
+.challenge__box{
+    text-align: center !important;
+    padding-bottom:0 !important;
+    position: relative;
+    .item{
+        &:first-child{
+            padding:$spacing-s $spacing-m !important;
+            .ts--title{
+                line-height: 0.5em;
+                margin-top:$spacing-s !important;
+            }
+            .ts--headline{
+                font-weight: 900;
+            }
+        }
+    }
+    .challenge__explainer{
+        position: absolute;
+        top:$spacing-s;
+        right:$spacing-s;
+        .link{
+            font-family: $primary-font !important;
+            font-weight:400 !important;
+            font-size:1em !important;
+            &::before{
+                left:0 !important;
+            }
+            &:hover{
+                &::before{
+                    width:100% !important;
+                }
+            }
+        }
+    }
+}
+
+.class{
+    .challenge__box{
+        margin:0;
+        padding:$spacing-m 0 0 0;
+        border:1px solid $silver;
+        border-radius:4px;
+        background-color:$white;
+        li{
+            white-space: nowrap;
+            &.item--bottom{
+                margin-bottom:0;
+                padding:$spacing-s;
+                border-top:1px solid $silver;
+                background-color:$fog;
+            }
+            .list--progress{
+                margin:0 auto;
+                position: relative;
+                &::after{
+                    content:'';
+                    width:100%;
+                    height:2px;
+                    display: block;
+                    position: absolute;
+                    left:50%;
+                    z-index: 0;
+                    background-color:$black-20;
+                }
+                li{
+                    position:relative;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+}
+
+@media #{$mq-medium}{
+    .class{
+        .challenge__box{
+            li{
+                .list--progress{
+                    li{
+                        width:64px;
+                        height:64px;
+                        &::after{
+                            font-size:1.875em;
+                            line-height:58px;
+                        }
+                        &.is--complete{
+                            border-width:3px;
+                            box-shadow: inset 0 0 0 3px $white;
+                            &::after{
+                                width:24px;
+                                height:24px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,30 @@
 
         <div class="row grid">
 
+            <div class="class col col--6-of-12 col--m-2-of-3 col--s-2-of-2">
+                <ul class="challenge__box list list--nav list--dropdown">
+                    <li class="item">
+                        <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                        <div class="ts--title is--secondary">
+                            Quick-Start Challenge:
+                        </div>
+                        <div class="ts--headline">
+                            Complete 3 Lessons
+                        </div>
+                    </li>
+                    <li class="item item--bottom">
+                        <ul class="list list--progress">
+                            <li class="is--complete" style="background-image:url('https://images.contentful.com/neuh3uvg7bz8/1re746Kr3e6UgEKSqkWUWo/4dcb1cff3d920e24c405402ac204ebbd/vanessa-thumb.jpg')" data-step="1"></li>
+                            <li data-step="2"></li>
+                            <li data-step="3"></li>
+                        </ul>
+                    </li>
+                    <li class="challenge__explainer">
+                        <a class="link">Details</a>
+                    </li>
+                </ul>
+            </div>
+
             <!-- SINGLE CLASS -->
             <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
