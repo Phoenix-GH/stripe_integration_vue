@@ -38,22 +38,8 @@
                         </div>
                         <div class="wrapper__inner align--right">
                             <ul id="userNav" class="list list--inline list--divided">
-                                <li id="navChallenges" class="item has--popoever" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn" @click.stop="showChallengeModal">
-                                            <a class="link link--dropdown"><span class="mobile--hide">Challenges</span></a>
-                                            <ul class="list list--nav list--dropdown">
-                                                <li class="item has--icon">
-                                                    <router-link :to="{ name: 'account' }">
-                                                        <svg class="icon-account icon--s">
-                                                            <use xlink:href="#icon-account"></use>
-                                                        </svg>
-                                                        My Profile</router-link>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                <!-- LOGGED IN NAV -->
-
                                 <!-- Challenges -->
-                                <li id="navChallenges" class="item has--icon has--popover is--active">
+                                <li id="navChallenges" class="item has--icon has--popover" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn" @click.stop="showChallengeModal">
                                     <a class="link">
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
