@@ -42,8 +42,13 @@
                                     <ul class="list list--inline">
 
                                         <!-- NOTE: Display on 'Paid Account' -->
-                                         <li id="navChallenges" class="item">
-                                            <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }">Challenges</router-link>
+                                         <li id="navChallenges" class="item has--popoever" :class="{'is--active': challengeModalVisible}" @click="showChallengeModal">
+                                            <a class="link link--dropdown"><span class="mobile--hide">Challenges</span></a>
+                                            <ul class="list list--nav list--dropdown">
+                                                 <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl">
+                                                    <a class="has--badge" data-badge="0" href="/saved">Saved</a>
+                                                </li>
+                                            </ul>
                                         </li>
                                         <li v-if="showClassLinks" id="navClasses" class="item">
                                             <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
@@ -289,6 +294,7 @@
         data: function () {
             return {
                 profileMenuVisible: false,
+                challengeModalVisible: false,
                 searchTerms: "",
                 helperText: "",
                 helperQuery: "",
@@ -426,6 +432,13 @@
                     this.profileMenuVisible = false;
                 } else {
                     this.profileMenuVisible = true;
+                }
+            },
+            showChallengeModal() {
+                if (this.challengeModalVisible) {
+                    this.challengeModalVisible = false;
+                } else {
+                    this.challengeModalVisible = true;
                 }
             },
             showLogin() {
