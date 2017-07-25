@@ -30,7 +30,6 @@
 
                         <!-- Create Lesson Note -->
                         <div class="popover__toggle has--overlay" style="position:absolute; width:100%; height:100%;">
-
                             <button @click="createNote" id="createNote" class="btn btn--primary btn--icon btn--circle btn--s btn--toggle is--reversed is--off">
                                 <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg>
                                 <svg class="icon-close"><use xlink:href="#icon-close"></use></svg>
@@ -390,6 +389,7 @@
                                             <span class="hide--s">Share</span>
                                         </a>
                                     </li>
+
                                     <li class="item">
                                         <div @click.stop="openMenu" class="has--popover is--inline" :class="{'is--active': popOverIsActive }">
                                             <svg class="icon-more no--margin color--black">
@@ -433,7 +433,7 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s ">Aha!</button>
+                                <button class="btn btn--primary btn--s ":class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">Aha!</button>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->
@@ -670,7 +670,8 @@
                 currentOverlay: '',
                 currentNoteEdit: '',
                 timer: {},
-                courseWasReset: false
+                courseWasReset: false,
+                ahaStatus:null
             }
         },
         //-----------------------------------
@@ -1156,6 +1157,7 @@
             // DATA SOURCE
             //-----------------------------------
             updateDataSource() {
+                console.log("update Data source on ClassDetail");
                 let _this = this;
                 this.$store.dispatch('updateLastLesson', {});
                 this.$store.dispatch('updateSpinner', true);
@@ -1164,6 +1166,13 @@
                     this.$store.dispatch('updateSpinner', false);
                 }, course => {
                     _this.initDetails(course._id);
+                     Class.getAHA(this, course._id, error => {
+                        this.$store.dispatch('updateSpinner', false);
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        console.log(aha);
+                    });
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1516,6 +1525,14 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
+            },
+            showAHA() {
+                if (!this.userLoggedIn) return;
+                console.log('will show AHA');
+                this.$store.dispatch('updateAHACourse', this.activeCourse._id);
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'aha');
+                eventBus.$emit('refreshAHA');
             },
             startOver() {
                 this.resetClass();
