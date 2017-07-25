@@ -56,7 +56,11 @@
                                             </div>
                                         </li>
                                         <li class="item item--bottom">
-                                            progress here
+                                            <ul class="list list--progress">
+                                                <li class="is--complete" style="background-image:url('https://images.contentful.com/neuh3uvg7bz8/1re746Kr3e6UgEKSqkWUWo/4dcb1cff3d920e24c405402ac204ebbd/vanessa-thumb.jpg')" data-step="1"></li>
+                                                <li data-step="2"></li>
+                                                <li data-step="3"></li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>

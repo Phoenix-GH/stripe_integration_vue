@@ -189,6 +189,64 @@
         border-radius:4px;
         background-color:$white-20;
     }
+    &.list--progress{
+        width:85%;
+        margin:$spacing-xs auto;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        &::after{
+            width:90% !important;
+            height:2px !important;
+            border:none !important;
+            top:50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            background-color:$black-20 !important;
+        }
+        li{
+            width:48px;
+            height:48px;
+            display: inline-block;
+            position: relative;
+            border:2px solid $black-20;
+            border-radius:50%;
+            background-color:$fog;
+            background-size:cover;
+            background-position:center;
+            &::after{
+                content:attr(data-step);
+                width: 100%;
+                text-align: center;
+                display: block;
+                position: absolute;
+                line-height: 44px;
+                font-family:$tertiary-font;
+                font-weight:900;
+                font-size:1.5em;
+            }
+            &.is--complete{
+                box-shadow: inset 0 0 0 2px $white;
+                border-color:$accent;
+                border-width:2px;
+                &::after{
+                    content:'';
+                    width:16px;
+                    height:16px;
+                    top:0;
+                    right:0;
+                    box-shadow: inset 0 0 0 2px $fog;
+                    box-sizing: border-box;
+                    border-radius:50%;
+                    transform: translate(25%, -25%);
+                    background-image: url('assets/img/check-circle.png');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+    }
     &.is--reversed{
         li.item{
             color:$white;
@@ -274,6 +332,14 @@
                 border-radius:0 0 4px 4px;
                 background-color:$fog;
             }
+        }
+        &.list--progress{
+            position: relative;
+            padding:0;
+            left:0;
+            transform: none !important;
+            box-shadow: none;
+            background: none;
         }
     }
     &.is--inline{
