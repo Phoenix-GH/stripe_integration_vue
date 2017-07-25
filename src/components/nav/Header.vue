@@ -42,6 +42,9 @@
                                     <ul class="list list--inline">
 
                                         <!-- NOTE: Display on 'Paid Account' -->
+                                         <li id="navChallenges" class="item">
+                                            <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }">Challenges</router-link>
+                                        </li>
                                         <li v-if="showClassLinks" id="navClasses" class="item">
                                             <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
                                         </li>
