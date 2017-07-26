@@ -47,7 +47,7 @@
                                     </a>
                                     <ul class="challenge__box list list--nav list--dropdown">
                                         <li class="item">
-                                            <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                                            <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
                                                 Quick-Start Challenge:
                                             </div>

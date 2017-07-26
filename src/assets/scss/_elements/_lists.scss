@@ -246,6 +246,7 @@
                 font-family:$tertiary-font;
                 font-weight:900;
                 font-size:1.5em;
+                color:$black;
             }
             &.is--complete{
                 box-shadow: inset 0 0 0 2px $white;
@@ -360,6 +361,13 @@
             transform: none !important;
             box-shadow: none;
             background: none;
+            li{
+                &.is--complete{
+                    &::before{
+                        box-shadow:inset 0 0 0 2px $fog;
+                    }
+                }
+            }
         }
     }
     &.is--inline{
