@@ -6,7 +6,7 @@
 
         <div class="row grid">
 
-            <div class="class col col--6-of-12 col--m-2-of-3 col--s-2-of-2">
+            <div v-if="['landing'].indexOf($route.name) > -1" class="class col col--6-of-12 col--m-2-of-3 col--s-2-of-2">
                 <ul class="challenge__box list list--nav list--dropdown">
                     <li class="item">
                         <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
