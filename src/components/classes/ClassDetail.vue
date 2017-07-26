@@ -852,6 +852,7 @@
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
+                    numberCompleted: this.numberCompleted,
                     lastLesson: {
                         course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
@@ -876,14 +877,18 @@
                 return false;
             },
             percentComplete() {
+                let numberCompleted = this.numberCompleted;
+                let numberOfLessons = this.lessons.length;
+                return Math.round((numberCompleted / numberOfLessons) * 100);
+            },
+            numberCompleted() {
                 if (this.lessons == undefined) return 0;
                 if (this.lessonProgress == undefined) return 0;
                 let numberCompleted = 0;
-                let numberOfLessons = this.lessons.length;
-                Object.keys(this.lessonProgress).forEach(key => {
+                 Object.keys(this.lessonProgress).forEach(key => {
                     if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
                 });
-                return Math.round((numberCompleted / numberOfLessons) * 100);
+                return numberCompleted;
             },
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;

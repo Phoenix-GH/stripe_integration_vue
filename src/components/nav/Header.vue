@@ -335,7 +335,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'numberOfLessonsCompleted'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
