@@ -692,6 +692,7 @@
     //=== Lessons
     .lessons__list{
         max-height:none;
+        overflow: visible;
         .heading{
             .wrapper__inner{
                 padding:0 4px;
