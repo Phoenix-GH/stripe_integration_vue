@@ -98,7 +98,7 @@
                                         <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl">
                                             <a class="has--badge" data-badge="0" href="/saved">Saved</a>
                                         </li>
-                                        <li class="item has--icon">
+                                        <li class="item">
                                             <router-link :to="{ name: 'account' }">
                                                 <svg class="icon-account icon--s">
                                                     <use xlink:href="#icon-account"></use>

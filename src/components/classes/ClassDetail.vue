@@ -433,7 +433,10 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s ">Aha!</button>
+                                <button class="btn btn--primary btn--s has--icon">
+                                    <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
+                                    Aha!
+                                </button>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->
