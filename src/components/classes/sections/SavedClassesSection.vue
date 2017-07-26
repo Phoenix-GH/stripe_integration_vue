@@ -2,7 +2,7 @@
     <!-- CLASSES - IN PROGRESS -->
     <div class="content__row">
 
-        <h2 v-if="savedClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="savedClasses.length">Saved Classes</h2>
+        <!-- <h2 v-if="savedClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="savedClasses.length">Saved Classes</h2> -->
 
         <div class="row grid">
 
