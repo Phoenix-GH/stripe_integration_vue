@@ -1,5 +1,5 @@
 <template>
-  <div class="page__wrapper" id="topdoc">
+  <div class="page__wrapper" id="topdoc" :class="{'bg--fog': ['account', 'password', 'payments', 'billing', 'emailnotifications', 'referrals', 'reviews', 'students'].indexOf($route.name) > -1}">
     <appHeader></appHeader>
     <section class="page__block is--push">
       <div class="content" :class="{'no--pad-b': removePadding}">
