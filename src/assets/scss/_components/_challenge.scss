@@ -38,7 +38,7 @@
     .challenge__box{
         margin:0;
         padding:$spacing-m 0 0 0;
-        border:1px solid $silver;
+        border:1px solid $black-10;
         border-radius:4px;
         background-color:$white;
         li{
@@ -46,8 +46,8 @@
             &.item--bottom{
                 margin-bottom:0;
                 padding:$spacing-s;
-                border-top:1px solid $silver;
-                background-color:$fog;
+                border-top:1px solid rgba($black, 0.05);
+                background-color:$snow;
             }
             .list--progress{
                 margin:0 auto;
@@ -65,6 +65,7 @@
                 li{
                     position:relative;
                     z-index: 1;
+                    background-color:$snow;
                 }
             }
         }

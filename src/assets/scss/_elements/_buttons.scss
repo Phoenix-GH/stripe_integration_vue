@@ -103,6 +103,9 @@
                 transform: translateX(-8px);
             }
         }
+        &.has--icon{
+            padding-left:$spacing-m;
+        }
         &.is--warning{
             background-color:$negative;
         }

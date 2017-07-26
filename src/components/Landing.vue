@@ -1,9 +1,9 @@
 <template>
 
-    <div>
+    <div class="bg--white">
 
         <!-- BANNER (BASIC) -->
-        <div class="banner bg--positive jagged jagged jagged--fog" v-if="!lastLessonExists">
+        <div class="banner bg--positive jagged jagged jagged--white" v-if="!lastLessonExists">
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
@@ -19,9 +19,9 @@
         <!-- /BANNER (BASIC) -->
 
         <!-- BANNER (CONTINUE) -->
-        <div class="banner banner--m bg--silver go go--bottom jagged jagged--fog" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
+        <div class="banner banner--m bg--silver jagged jagged--white go go--left is--reversed" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
             v-if="lastLessonExists">
-            <div class="banner__content container container--fw is--reversed">
+            <div class="banner__content container container--fw">
                 <div class="wrapper">
                     <div class="wrapper__inner">
                         <a id="mobilePlay" class="btn__play" href="javascript:;" @click="updateCurrentClass(updateFeaturedClass)">Watch</a>
@@ -30,8 +30,8 @@
                         <div class="divider divider--s"></div>
                         <ul class="list list--inline">
                             <li class="item">
-                                <button class="btn btn--secondary is--reversed" @click.stop="startLastLessonOver">
-                                    <svg class="icon-restart icon--s color--white"><use xlink:href="#icon-restart"></use></svg>
+                                <button class="btn btn--primary has--icon" @click.stop="startLastLessonOver">
+                                    <svg class="icon-restart icon--s color--black"><use xlink:href="#icon-restart"></use></svg>
                                     Start Over
                                 </button>
                             </li>
@@ -40,7 +40,8 @@
                     <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click.stop="openLastLesson" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
-                        <span class="ts--title">Continue Watching ({{ leftOffMessage }})</span>
+                        <span class="ts--title ts--label">Continue Watching</span><br>
+                        <span class="ts--caption ts--label">{{ leftOffMessage }}</span></span>
                     </div>
                 </div>
             </div>

@@ -32,7 +32,7 @@
                     <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click="updateCurrentClass(updateFeaturedClass)" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
-                        <span class="ts--title">Start Learning</span>
+                        <span class="ts--title ts--label">Start Learning</span>
                     </div>
                 </div>
             </div>
