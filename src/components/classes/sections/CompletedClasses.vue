@@ -8,7 +8,7 @@
         <div class="row grid">
 
             <!-- SINGLE CLASS -->
-            <div v-for="course in completedClasses" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+            <div v-for="course in completedClasses" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2 col--xs-2-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
                     <img :src="course.thumbImageUrl" alt="">
                     <span class="btn__play btn--s btn--secondary"></span>

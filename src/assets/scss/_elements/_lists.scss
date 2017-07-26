@@ -51,7 +51,7 @@
             }
             &.has--icon{
                 text-align:center;
-                [class^="icon-"], [class*=" icon-"], .avatar{
+                [class^="icon-"], [class*=" icon-"]{
                     margin:0 auto $spacing-xxs auto;
                     transform:translateY(-1px);
                     display:block;

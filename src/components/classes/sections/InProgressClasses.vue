@@ -31,7 +31,7 @@
             </div>
 
             <!-- SINGLE CLASS -->
-            <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+            <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2 col--xs-2-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
 
                     <div class="progress progress--s show--count">

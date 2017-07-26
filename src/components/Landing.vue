@@ -3,7 +3,7 @@
     <div class="bg--white">
 
         <!-- BANNER (BASIC) -->
-        <div class="banner bg--positive jagged jagged jagged--white" v-if="!lastLessonExists">
+        <div class="banner bg--positive jagged jagged jagged--fog" v-if="!lastLessonExists">
             <div class="banner__content container container--fw is--reversed">
                 <div class="wrapper">
                     <div class="wrapper__inner">
@@ -19,7 +19,7 @@
         <!-- /BANNER (BASIC) -->
 
         <!-- BANNER (CONTINUE) -->
-        <div class="banner banner--m bg--silver jagged jagged--white go go--left is--reversed" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
+        <div class="banner banner--m bg--silver jagged jagged--fog go go--left  is--reversed" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
             v-if="lastLessonExists">
             <div class="banner__content container container--fw">
                 <div class="wrapper">

@@ -387,7 +387,7 @@
                                             <svg class="icon-share" style="transform:translateY(-4px);">
                                                 <use xlink:href="#icon-share"></use>
                                             </svg>
-                                            <span class="hide--s">Share</span>
+                                            Share
                                         </a>
                                     </li>
                                     <li class="item">

@@ -1,6 +1,6 @@
 .grid{
     .class{
-        margin-bottom:72px;
+        margin-bottom:48px;
     }
     .class:nth-child(4n+1):nth-last-child(-n+4), .class:nth-child(4n+1):nth-last-child(-n+4) ~ .class {
         // margin-bottom:0;
@@ -688,6 +688,12 @@
 }
 
 @media #{$mq-medium}{
+
+    .grid{
+        .class{
+            margin-bottom:72px;
+        }
+    }
 
     //=== Lessons
     .lessons__list{
