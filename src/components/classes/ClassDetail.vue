@@ -433,7 +433,7 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s has--icon">
+                                <button class="btn btn--primary btn--s has--icon":class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
                                     <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
                                     Aha!
                                 </button>
@@ -673,7 +673,9 @@
                 currentOverlay: '',
                 currentNoteEdit: '',
                 timer: {},
-                courseWasReset: false
+                courseWasReset: false,
+                ahaStatus:null
+
             }
         },
         //-----------------------------------
@@ -854,6 +856,7 @@
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
+                    numberCompleted: this.numberCompleted,
                     lastLesson: {
                         course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
@@ -878,15 +881,20 @@
                 return false;
             },
             percentComplete() {
-                if (this.lessons == undefined) return 0;
-                if (this.lessonProgress == undefined) return 0;
-                let numberCompleted = 0;
+                let numberCompleted = this.numberCompleted;
                 let numberOfLessons = this.lessons.length;
-                Object.keys(this.lessonProgress).forEach(key => {
-                    if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
-                });
                 return Math.round((numberCompleted / numberOfLessons) * 100);
             },
+            numberCompleted() {
+                 if (this.lessons == undefined) return 0;
+                 if (this.lessonProgress == undefined) return 0;
+                 let numberCompleted = 0;
+                 Object.keys(this.lessonProgress).forEach(key => {
+                     if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
+                 });
+                return numberCompleted;
+             },
+
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
@@ -1167,6 +1175,14 @@
                     this.$store.dispatch('updateSpinner', false);
                 }, course => {
                     _this.initDetails(course._id);
+                    Class.getAHA(this, course._id, error => {
+                        this.$store.dispatch('updateSpinner', false);
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        console.log(aha);
+                    });
+
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1519,6 +1535,14 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
+            },
+            showAHA() {
+                if (!this.userLoggedIn) return;
+                console.log('will show AHA');
+                this.$store.dispatch('updateAHACourse', this.activeCourse._id);
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'aha');
+                eventBus.$emit('refreshAHA');
             },
             startOver() {
                 this.resetClass();

@@ -40,7 +40,8 @@
                                 <!-- LOGGED IN NAV -->
 
                                 <!-- Challenges -->
-                                <li id="navChallenges" class="item has--icon has--popover">
+                                    <li id="navChallenges" class="item has--icon has--popover" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn" @click.stop="showChallengeModal">
+
                                     <a class="link">
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
@@ -312,11 +313,14 @@
         created() {
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
+                this.challengeModalVisible = false;
+
             })
         },
         data: function () {
             return {
                 profileMenuVisible: false,
+                challengeModalVisible: false,
                 searchTerms: "",
                 helperText: "",
                 helperQuery: "",
@@ -333,7 +337,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
@@ -456,6 +460,15 @@
                     this.profileMenuVisible = true;
                 }
             },
+            showChallengeModal() {
+                console.log(this.activeCourse.lessons.course);
+                if (this.challengeModalVisible) {
+                    this.challengeModalVisible = false;
+                } else {
+                    this.challengeModalVisible = true;
+                }
+            },
+
             showLogin() {
                 purgeAll();
                 this.$store.dispatch('updateHasModal', true);
