@@ -51,6 +51,7 @@
                                             <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
                                                 Quick-Start Challenge:
+                                                {{getCurrentLessons}}
                                             </div>
                                             <div class="ts--headline">
                                                 Complete 3 Lessons
@@ -314,7 +315,6 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
                 this.challengeModalVisible = false;
-
             })
         },
         data: function () {
@@ -332,13 +332,16 @@
                 classSearchCount: 0,
                 podcastSearchCount: 0,
                 classCountText:'',
-                podcastCountText:''
+                podcastCountText:'',
+                currentCourseData: {},
+                
             }
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse', 'lastLesson'
             ]),
+
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
                     return true;
@@ -404,7 +407,13 @@
                 } else {
                     return _podcasts;
                 }
-            }
+            },
+            getCurrentLessons()
+            {
+                if (this.userLoggedIn) {
+                    return lastLesson;
+                }
+            },
         },
         watch: {
             searchTerms(val) {
@@ -461,7 +470,7 @@
                 }
             },
             showChallengeModal() {
-                console.log(JSON.stringify(this.activeCourse));
+                
                 if (this.challengeModalVisible) {
                     this.challengeModalVisible = false;
                 } else {

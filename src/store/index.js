@@ -197,8 +197,7 @@ export const store = new Vuex.Store({
             state.lastRenewal = payload;
             persist();
         },
-        updateLastLesson: (state, 
-            payload) => {
+        updateLastLesson: (state, payload) => {
             state.lastLesson = payload;
             persist();
         },
