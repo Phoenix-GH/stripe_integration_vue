@@ -42,8 +42,9 @@ $toast-col-groups: (2, 3, 4, 5, 6, 8, 12) !default;
 $toast-gutter-width: 32px !default;
 
 // Breakpoints
-$toast-breakpoint-medium: $bp-small !default;
-$toast-breakpoint-small: $bp-xsmall !default;
+$toast-breakpoint-medium: $bp-medium !default;
+$toast-breakpoint-small: $bp-small !default;
+$toast-breakpoint-xsmall: $bp-xsmall !default;
 
 // Pushes and pulls
 $toast-pushes: true !default;
@@ -232,6 +233,10 @@ $toast-pulls: true !default;
             width: percentage(1/2);
         }
 
+        &.#{$toast-grid-column-namespace}--s-2-of-2 {
+            width: percentage(2/2);
+        }
+
         &.#{$toast-grid-column-namespace}--s-1-of-3 {
             width: percentage(1/3);
         }
@@ -249,6 +254,41 @@ $toast-pulls: true !default;
         }
 
         &.#{$toast-grid-column-namespace}--s-3-of-4 {
+            width: percentage(3/4);
+        }
+    }
+
+    @media (max-width: $toast-breakpoint-xsmall) {
+        &[class*="#{$toast-grid-column-namespace}--xs-"] {
+            display: inline-block;
+            margin-right: -.24em;
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-1-of-2 {
+            width: percentage(1/2);
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-2-of-2 {
+            width: percentage(2/2);
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-1-of-3 {
+            width: percentage(1/3);
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-2-of-3 {
+            width: percentage(2/3);
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-1-of-4 {
+            width: percentage(1/4);
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-2-of-4 {
+            @extend .#{$toast-grid-column-namespace}--xs-1-of-2;
+        }
+
+        &.#{$toast-grid-column-namespace}--xs-3-of-4 {
             width: percentage(3/4);
         }
     }

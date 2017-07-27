@@ -104,6 +104,13 @@ body{
     }
 }
 
+.ts--label{
+    display: inline-block;
+    padding:0 4px;
+    color:$white !important;
+    background: black;
+}
+
 .ts--body{
     font-size:1em;
     font-weight:400;

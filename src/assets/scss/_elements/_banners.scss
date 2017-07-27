@@ -20,6 +20,18 @@
             z-index: 1;
             // border-radius:4px;
         }
+        &.go--left{
+            &::after{
+                bottom:0;
+                background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+            }
+        }
+        &.go--right{
+            &::after{
+                bottom:0;
+                background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+            }
+        }
         &.go--bottom{
             &::after{
                 bottom:0;
@@ -33,6 +45,18 @@
             }
         }
         &.go--light{
+            &.go--left{
+                &::after{
+                    bottom:0;
+                    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+                }
+            }
+            &.go--right{
+                &::after{
+                    bottom:0;
+                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+                }
+            }
             &.go--bottom{
                 &::after{
                     background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.6) 100%);
@@ -57,6 +81,11 @@
             background-size:1520px;
             background-position:center bottom;
             background-repeat:repeat-x;
+        }
+        &.jagged--white{
+            &::before{
+                background-image:url('./assets/img/jagged-white.png');
+            }
         }
         &.jagged--snow{
             &::before{

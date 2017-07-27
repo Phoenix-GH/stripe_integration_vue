@@ -30,6 +30,7 @@
 
                         <!-- Create Lesson Note -->
                         <div class="popover__toggle has--overlay" style="position:absolute; width:100%; height:100%;">
+
                             <button @click="createNote" id="createNote" class="btn btn--primary btn--icon btn--circle btn--s btn--toggle is--reversed is--off">
                                 <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg>
                                 <svg class="icon-close"><use xlink:href="#icon-close"></use></svg>
@@ -386,7 +387,7 @@
                                             <svg class="icon-share" style="transform:translateY(-4px);">
                                                 <use xlink:href="#icon-share"></use>
                                             </svg>
-                                            <span class="hide--s">Share</span>
+                                            Share
                                         </a>
                                     </li>
                                     <li class="item">
@@ -421,7 +422,7 @@
                         </div>
 
                         <!-- CLASS TABS -->
-                        <ul class="class__tabs list list--tabs fontSize--m">
+                        <ul class="class__tabs list list--tabs tabs--flex fontSize--m">
                             <li class="item" :class="{'is--active': aboutActive}" @click="tappedOnAboutTab">
                                 About Class
                             </li>
@@ -430,6 +431,12 @@
                             </li>
                             <li class="item" :class="{'is--active': reviewsActive}" @click="tappedOnReviewsTab">
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
+                            </li>
+                            <li class="item tab--right">
+                                <button class="btn btn--primary btn--s has--icon":class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
+                                    <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
+                                    Aha!
+                                </button>
                             </li>
                         </ul>
                         <!-- /CLASS TABS -->
@@ -666,7 +673,9 @@
                 currentOverlay: '',
                 currentNoteEdit: '',
                 timer: {},
-                courseWasReset: false
+                courseWasReset: false,
+                ahaStatus:null
+
             }
         },
         //-----------------------------------
@@ -847,6 +856,7 @@
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
+                    numberCompleted: this.numberCompleted,
                     lastLesson: {
                         course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
@@ -871,15 +881,20 @@
                 return false;
             },
             percentComplete() {
-                if (this.lessons == undefined) return 0;
-                if (this.lessonProgress == undefined) return 0;
-                let numberCompleted = 0;
+                let numberCompleted = this.numberCompleted;
                 let numberOfLessons = this.lessons.length;
-                Object.keys(this.lessonProgress).forEach(key => {
-                    if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
-                });
                 return Math.round((numberCompleted / numberOfLessons) * 100);
             },
+            numberCompleted() {
+                 if (this.lessons == undefined) return 0;
+                 if (this.lessonProgress == undefined) return 0;
+                 let numberCompleted = 0;
+                 Object.keys(this.lessonProgress).forEach(key => {
+                     if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
+                 });
+                return numberCompleted;
+             },
+
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
@@ -1160,6 +1175,14 @@
                     this.$store.dispatch('updateSpinner', false);
                 }, course => {
                     _this.initDetails(course._id);
+                    Class.getAHA(this, course._id, error => {
+                        this.$store.dispatch('updateSpinner', false);
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        console.log(aha);
+                    });
+
                     this.$store.dispatch('updateSpinner', false);
                 });
             },
@@ -1512,6 +1535,14 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'share');
                 eventBus.$emit('refreshSocial');
+            },
+            showAHA() {
+                if (!this.userLoggedIn) return;
+                console.log('will show AHA');
+                this.$store.dispatch('updateAHACourse', this.activeCourse._id);
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'aha');
+                eventBus.$emit('refreshAHA');
             },
             startOver() {
                 this.resetClass();

@@ -1,5 +1,5 @@
 <template>
-  <div class="page__wrapper" id="topdoc">
+  <div class="page__wrapper" id="topdoc" :class="{'bg--fog': ['account', 'password', 'payments', 'billing', 'emailnotifications', 'referrals', 'reviews', 'students'].indexOf($route.name) > -1}">
     <appHeader></appHeader>
     <section class="page__block is--push">
       <div class="content" :class="{'no--pad-b': removePadding}">
@@ -10,6 +10,7 @@
       <reviewModal></reviewModal>
       <forgotPasswordModal></forgotPasswordModal>
       <shareModal></shareModal>
+      <ahaModal></ahaModal>
       <contactModal></contactModal>
     </section>
     <appFooter></appFooter>
@@ -27,6 +28,7 @@
   import Review from './components/modals/Review.vue'
   import ForgotPassword from './components/modals/ForgotPassword.vue'
   import Share from './components/modals/Share.vue'
+  import AHA from './components/modals/AHA.vue'
   import Contact from './components/modals/ContactForm.vue'
 
   //map getters from Vuex store
@@ -51,7 +53,9 @@
       reviewModal: Review,
       forgotPasswordModal: ForgotPassword,
       shareModal: Share,
+      ahaModal : AHA,
       contactModal: Contact
+     
     },
     data: function () {
       return {
