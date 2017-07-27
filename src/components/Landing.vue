@@ -19,7 +19,7 @@
         <!-- /BANNER (BASIC) -->
 
         <!-- BANNER (CONTINUE) -->
-        <div class="banner banner--m bg--silver jagged jagged--fog go go--left  is--reversed" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
+        <div class="banner banner--m bg--silver jagged jagged--fog go go--left  go--light is--reversed" :style="{ 'background-image': 'url(' + activeCourse.bannerImageUrl + ')' }"
             v-if="lastLessonExists">
             <div class="banner__content container container--fw">
                 <div class="wrapper">

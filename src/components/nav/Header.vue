@@ -40,7 +40,7 @@
                                 <!-- LOGGED IN NAV -->
 
                                 <!-- Challenges -->
-                                <li id="navChallenges" class="item has--icon has--popover is--active">
+                                <li id="navChallenges" class="item has--icon has--popover">
                                     <a class="link">
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
