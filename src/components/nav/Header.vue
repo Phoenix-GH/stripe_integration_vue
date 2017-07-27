@@ -51,7 +51,6 @@
                                             <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
                                                 Quick-Start Challenge:
-                                                {{getCurrentLessons}}
                                             </div>
                                             <div class="ts--headline">
                                                 Complete 3 Lessons
@@ -59,9 +58,9 @@
                                         </li>
                                         <li class="item item--bottom">
                                             <ul class="list list--progress">
-                                                <li class="is--complete" style="background-image:url('https://images.contentful.com/neuh3uvg7bz8/1re746Kr3e6UgEKSqkWUWo/4dcb1cff3d920e24c405402ac204ebbd/vanessa-thumb.jpg')" data-step="1"></li>
-                                                <li data-step="2"></li>
-                                                <li data-step="3"></li>
+                                                <li v-bind:class="completedOne" data-step="1"></li>
+                                                <li v-bind:class="completedTwo" data-step="2"></li>
+                                                <li v-bind:class="completedThree" data-step="3"></li>
                                             </ul>
                                         </li>
                                         <li class="challenge__explainer">
@@ -334,14 +333,28 @@
                 classCountText:'',
                 podcastCountText:'',
                 currentCourseData: {},
-                
+                number: 0,
             }
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse', 'lastLesson'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse', 'completedCount'
             ]),
-
+            completedOne() {
+                if(this.completedCount>0) {
+                    return 'is--complete';
+                }
+            },
+            completedTwo() {
+                if(this.completedCount>1) {
+                    return 'is--complete';
+                }
+            },
+            completedThree() {
+                if(this.completedCount>2) {
+                    return 'is--complete';
+                }
+            },
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
                     return true;
@@ -407,13 +420,7 @@
                 } else {
                     return _podcasts;
                 }
-            },
-            getCurrentLessons()
-            {
-                if (this.userLoggedIn) {
-                    return lastLesson;
-                }
-            },
+            }
         },
         watch: {
             searchTerms(val) {
@@ -470,14 +477,13 @@
                 }
             },
             showChallengeModal() {
-                
                 if (this.challengeModalVisible) {
                     this.challengeModalVisible = false;
                 } else {
                     this.challengeModalVisible = true;
+                    console.log(this.completedCount);
                 }
             },
-
             showLogin() {
                 purgeAll();
                 this.$store.dispatch('updateHasModal', true);

@@ -700,6 +700,9 @@
                 this.popOverIsActive = false;
                 this.currentNoteEdit = '';
             });
+            eventBus.$on('refreshAHA', () => {
+                _this.initDetails(); 
+            });
         },
         mounted() {
             this.$store.dispatch('updateRemovePadding', true);
@@ -760,7 +763,8 @@
                             _this.currentLessonId = _nextLesson._id;
                             _this.updateLastLesson();
                         }
-                        Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
+                        Class.updateCourseProgress(_this, _this.activeCourse._id, _this.
+                            progressPayload, result => {
                             Class.inProgress(_this);
                         });
                     }
@@ -799,6 +803,7 @@
             clearInterval(this.timer);
             eventBus.$off('updateClassDetails');
             eventBus.$off('closeMenu');
+            eventBus.$off('updateCompletedCount');
             if (this.userLoggedIn) {
                 if (!this.courseWasReset) {
                     this.updateLastLesson();
@@ -856,7 +861,6 @@
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
-                    numberCompleted: this.numberCompleted,
                     lastLesson: {
                         course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
@@ -1018,6 +1022,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        this.$store.dispatch('updateCompletedCount', this.numberCompleted);
                         Class.inProgress(_this);
                     });
                 }
@@ -1039,6 +1044,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        this.$store.dispatch('updateCompletedCount', this.numberCompleted);
                         Class.inProgress(_this);
                     });
                 }
@@ -1227,6 +1233,7 @@
                             }
                             this.checkCourseProgress();
                             this.checkQuery();
+                            this.$store.dispatch('updateCompletedCount', this.numberCompleted);
                             Class.inProgress(_this);
                         });
                     })
@@ -1460,6 +1467,7 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.courseComplete = false;
                                 _this.popOverIsActive = false;
+                                this.$store.dispatch('updateCompletedCount', this.numberCompleted);
                                 Class.inProgress(_this);
                             });
                         }
@@ -1481,6 +1489,8 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.numberOfLessons = result.numberOfLessons;
                                 _this.popOverIsActive = false;
+                                this.$store.dispatch('updateCompletedCount', this.numberCompleted);
+                               
                                 Class.inProgress(_this);
                             });
                         }

@@ -77,8 +77,12 @@
         if (this.user.subscribed == undefined || this.user.subscribed == false) return false;
       }
     },
+    events: {
+      'updateCompletedCount': function(data) {
+        this.$broadcast('updateCompletedCount', data);
+      }
+    },
     created() {
-
       $(document).click(function (e) {
         console.log('close menu');
         eventBus.$emit('closeMenu');
