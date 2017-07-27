@@ -58,9 +58,10 @@
                                         </li>
                                         <li class="item item--bottom">
                                             <ul class="list list--progress">
-                                                <li v-bind:class="completedOne" data-step="1"></li>
-                                                <li v-bind:class="completedTwo" data-step="2"></li>
-                                                <li v-bind:class="completedThree" data-step="3"></li>
+
+                                                <li v-for="n in this.completedCount" class="is--complete" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="n"></li>
+                                               
+                                                <li v-for="j in 3-completedCount" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="j+completedCount"></li>
                                             </ul>
                                         </li>
                                         <li class="challenge__explainer">
@@ -342,7 +343,7 @@
             ]),
             completedOne() {
                 if(this.completedCount>0) {
-                    return 'is--complete';
+                    return 'is--complete' ;
                 }
             },
             completedTwo() {
