@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
         showSpinner: false,
         reviewStatusType: 'good',
         removePadding: false,
-        ahaCourse: ''
+        ahaCourse: '',
     },
     actions: {
         updateRemovePadding: ({ commit }, payload) => {
@@ -36,6 +36,9 @@ export const store = new Vuex.Store({
         },
         updateReviewStatusType: ({ commit }, payload) => {
             commit('updateReviewStatusType', payload);
+        },
+        updateAHACourse: ({ commit }, payload) => {
+            commit('updateAHACourse', payload);
         },
         updateAHACourse: ({ commit }, payload) => {
             commit('updateAHACourse', payload);

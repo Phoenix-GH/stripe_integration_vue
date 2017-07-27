@@ -48,7 +48,7 @@
                                         <li class="item">
                                             <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
-                                                Quick-Start Challenge:
+                                                Quick-Start Challenge: 
                                             </div>
                                             <div class="ts--headline">
                                                 Complete 3 Lessons
@@ -335,7 +335,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'numberOfLessonsCompleted'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
@@ -459,6 +459,7 @@
                 }
             },
             showChallengeModal() {
+                console.log(this.activeCourse.lessons.course);
                 if (this.challengeModalVisible) {
                     this.challengeModalVisible = false;
                 } else {

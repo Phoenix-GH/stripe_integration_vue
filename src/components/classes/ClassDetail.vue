@@ -1013,6 +1013,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        _this.numberCompleted = this.numberCompleted;
                         Class.inProgress(_this);
                     });
                 }
