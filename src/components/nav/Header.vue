@@ -461,7 +461,7 @@
                 }
             },
             showChallengeModal() {
-                console.log(this.activeCourse.lessons.course);
+                console.log(JSON.stringify(this.activeCourse));
                 if (this.challengeModalVisible) {
                     this.challengeModalVisible = false;
                 } else {

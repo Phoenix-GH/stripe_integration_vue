@@ -433,7 +433,7 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s has--icon":class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
+                                <button class="btn btn--primary btn--s has--icon" :class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
                                     <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
                                     Aha!
                                 </button>
@@ -1479,6 +1479,7 @@
                             Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
                                 _this.currentCourseData = result;
                                 _this.lessonProgress = result.lessonProgress;
+                                _this.numberOfLessons = result.numberOfLessons;
                                 _this.popOverIsActive = false;
                                 Class.inProgress(_this);
                             });

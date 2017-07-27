@@ -40,9 +40,6 @@ export const store = new Vuex.Store({
         updateAHACourse: ({ commit }, payload) => {
             commit('updateAHACourse', payload);
         },
-        updateAHACourse: ({ commit }, payload) => {
-            commit('updateAHACourse', payload);
-        },
         updateLastLesson: ({ commit }, payload) => {
             commit('updateLastLesson', payload);
         },
@@ -200,7 +197,8 @@ export const store = new Vuex.Store({
             state.lastRenewal = payload;
             persist();
         },
-        updateLastLesson: (state, payload) => {
+        updateLastLesson: (state, 
+            payload) => {
             state.lastLesson = payload;
             persist();
         },
