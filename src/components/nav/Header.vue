@@ -61,7 +61,7 @@
 
                                                 <li v-for="n in this.completedCount" class="is--complete" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="n"></li>
                                                
-                                                <li v-for="j in 3-completedCount" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="j+completedCount"></li>
+                                                <li v-for="j in 3-completedCount" :data-step="j+completedCount"></li>
                                             </ul>
                                         </li>
                                         <li class="challenge__explainer">
@@ -341,21 +341,6 @@
             ...mapGetters([
                 'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse', 'completedCount'
             ]),
-            completedOne() {
-                if(this.completedCount>0) {
-                    return 'is--complete' ;
-                }
-            },
-            completedTwo() {
-                if(this.completedCount>1) {
-                    return 'is--complete';
-                }
-            },
-            completedThree() {
-                if(this.completedCount>2) {
-                    return 'is--complete';
-                }
-            },
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
                     return true;
