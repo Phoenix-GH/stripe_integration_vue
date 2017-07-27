@@ -97,11 +97,23 @@
         }
         &.btn--s{
             padding:0 $spacing-s;
+            &.has--icon{
+                padding-left:$spacing-s;
+                svg{
+                    width:16px;
+                    height:16px;
+                    fill:$black;
+                    margin-right:2px;
+                }
+            }
         }
         &.has--loader{
             .btn--inner{
                 transform: translateX(-8px);
             }
+        }
+        &.has--icon{
+            padding-left:$spacing-m;
         }
         &.is--warning{
             background-color:$negative;

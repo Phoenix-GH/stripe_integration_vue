@@ -6,10 +6,10 @@
 
         <div class="row grid">
 
-            <div class="class col col--6-of-12 col--m-2-of-3 col--s-2-of-2">
+            <div v-if="['landing'].indexOf($route.name) > -1" class="class col col--6-of-12 col--m-2-of-3 col--s-2-of-2">
                 <ul class="challenge__box list list--nav list--dropdown">
                     <li class="item">
-                        <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                        <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
                         <div class="ts--title is--secondary">
                             Quick-Start Challenge:
                         </div>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- SINGLE CLASS -->
-            <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+            <div v-for="course in classesInProgress" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2 col--xs-2-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
 
                     <div class="progress progress--s show--count">
@@ -52,12 +52,12 @@
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                             course.instructor.name }}
                         </li>
-                        <li class="item has--icon">
+                        <!-- <li class="item has--icon">
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
                             <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

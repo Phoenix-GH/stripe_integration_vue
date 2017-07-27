@@ -22,7 +22,6 @@
                 <router-link class="logo logo_smm" :to="{ name: 'landing' }">Self Made Man</router-link>
                 <div class="main__nav">
                     <nav class="wrapper">
-                     <div class="wrapper__inner align--right">  
                         <ul class="list list--inline wrapper__inner">
                             <li id="navBrowse" class="item has--icon">
                                 <router-link class="link" :to="{ name: 'classes' }">
@@ -35,20 +34,22 @@
                                 <router-link class="link" :to="{ name: 'podcasts' }">Podcast</router-link>
                             </li>
                         </ul>
-                        </div>
                         <div class="wrapper__inner align--right">
                             <ul id="userNav" class="list list--inline list--divided">
+
+                                <!-- LOGGED IN NAV -->
+
                                 <!-- Challenges -->
-                                <li id="navChallenges" class="item has--icon has--popover" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn" @click.stop="showChallengeModal">
+                                <li id="navChallenges" class="item has--icon has--popover">
                                     <a class="link">
                                         <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
                                     </a>
                                     <ul class="challenge__box list list--nav list--dropdown">
                                         <li class="item">
-                                            <svg class="icon-trophy icon--l color--brand"><use xlink:href="#icon-trophy"></use></svg>
+                                            <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
                                             <div class="ts--title is--secondary">
-                                                Quick-Start Challenge: 
+                                                Quick-Start Challenge:
                                             </div>
                                             <div class="ts--headline">
                                                 Complete 3 Lessons
@@ -72,7 +73,6 @@
                                     <ul class="list list--inline">
 
                                         <!-- NOTE: Display on 'Paid Account' -->
-                                         
                                         <li v-if="showClassLinks" id="navClasses" class="item">
                                             <router-link class="link has--badge is--primary" :to="{ name: 'myclasses' }" :data-badge="classesInProgress.length">My Classes</router-link>
                                         </li>
@@ -98,7 +98,7 @@
                                         <li class="item show--s hide--s hide--m hide--l hide--xl hide--xxl">
                                             <a class="has--badge" data-badge="0" href="/saved">Saved</a>
                                         </li>
-                                        <li class="item has--icon">
+                                        <li class="item">
                                             <router-link :to="{ name: 'account' }">
                                                 <svg class="icon-account icon--s">
                                                     <use xlink:href="#icon-account"></use>
@@ -312,13 +312,11 @@
         created() {
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
-                this.challengeModalVisible = false;
             })
         },
         data: function () {
             return {
                 profileMenuVisible: false,
-                challengeModalVisible: false,
                 searchTerms: "",
                 helperText: "",
                 helperQuery: "",
@@ -335,7 +333,7 @@
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
@@ -456,14 +454,6 @@
                     this.profileMenuVisible = false;
                 } else {
                     this.profileMenuVisible = true;
-                }
-            },
-            showChallengeModal() {
-                console.log(this.activeCourse.lessons.course);
-                if (this.challengeModalVisible) {
-                    this.challengeModalVisible = false;
-                } else {
-                    this.challengeModalVisible = true;
                 }
             },
             showLogin() {

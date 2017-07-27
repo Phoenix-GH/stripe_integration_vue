@@ -32,7 +32,7 @@
                     <div class="banner__play wrapper__inner align--center is--thirds">
                         <a @click="updateCurrentClass(updateFeaturedClass)" class="btn__play btn--l" href="javascript:;">Watch</a>
                         <br><br>
-                        <span class="ts--title">Start Learning</span>
+                        <span class="ts--title ts--label">Start Learning</span>
                     </div>
                 </div>
             </div>
@@ -153,8 +153,16 @@
             <div class="row grid">
 
                 <!-- SINGLE CLASS -->
-                <div v-for="course in currentResults" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+                <div v-for="course in currentResults" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2 col--xs-2-of-2" data-progress="0">
                     <a class="class__thumb" @click="updateCurrentClass(course)">
+
+                        <div v-if="course.progress" class="progress progress--s show--count">
+                            <svg data-progress="1" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
+                                <circle cx="16" cy="16" r="14" class="progress__bg" />
+                                <circle cx="16" cy="16" r="14" class="progress__bar" :style="offset(course)" />
+                            </svg>
+                        </div>
+
                         <img :src="course.thumbImageUrl" alt="">
                         <span class="btn__play btn--s btn--secondary"></span>
                         <span class="image__cap"><svg class="icon-time icon--s"><use xlink:href="#icon-time"></use></svg>{{ readableCourseDuration(course.duration) }}</span>
@@ -166,12 +174,12 @@
                                 <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                                 course.instructor.name }}
                             </li>
-                            <li class="item has--icon">
+                            <!-- <li class="item has--icon">
                                 <svg class="icon-thumbs-up">
                                     <use xlink:href="#icon-thumbs-up"></use>
                                 </svg>
                                 <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -239,6 +247,10 @@
             }
         },
         methods: {
+            offset(course) {
+                let offset = 100 - course.progress;
+                return { 'stroke-dashoffset': offset };
+            },
             courseReviewCount(course) {
                 let rating = (course.positiveReviewCount / course.reviewCount) * 100;
                 if (course.reviewCount == null) {

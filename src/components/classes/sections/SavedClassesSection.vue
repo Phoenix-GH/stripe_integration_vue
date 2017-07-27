@@ -2,12 +2,10 @@
     <!-- CLASSES - IN PROGRESS -->
     <div class="content__row">
 
-        <h2 v-if="savedClasses.length > 0" class="ts--title is--title has--badge is--tertiary" :data-badge="savedClasses.length">Saved Classes</h2>
-
         <div class="row grid">
 
             <!-- SINGLE CLASS -->
-            <div v-for="course in savedClasses" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2" data-progress="0">
+            <div v-for="course in savedClasses" class="class col col--3-of-12 col--m-1-of-3 col--s-1-of-2 col--xs-2-of-2" data-progress="0">
                 <a class="class__thumb" @click="updateCurrentClass(course)">
                     <img :src="course.thumbImageUrl" alt="">
                     <span class="btn__play btn--s btn--secondary"></span>
@@ -21,12 +19,12 @@
                             <span class="avatar avatar-s" :style="{ 'background-image': 'url(' + course.instructor.profileImage + ')' }"></span>{{
                             course.instructor.name }}
                         </li>
-                        <li class="item has--icon">
+                        <!-- <li class="item has--icon">
                             <svg class="icon-thumbs-up">
                                 <use xlink:href="#icon-thumbs-up"></use>
                             </svg>
                             <a class="link link--secondary">{{ courseReviewCount(course) }}</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
