@@ -2,9 +2,6 @@
     .class{
         margin-bottom:48px;
     }
-    .class:nth-child(4n+1):nth-last-child(-n+4), .class:nth-child(4n+1):nth-last-child(-n+4) ~ .class {
-        // margin-bottom:0;
-    }
 }
 
 .carousel{
@@ -65,10 +62,19 @@
         transform: perspective( 600px ) translate3d( 0, 0, 0 );
         transform-style: preserve-3d;
         backface-visibility: hidden;
+        &:hover{
+            img{
+                transform: scale(1.025);
+            }
+            .btn__play{
+                transform:translate(-50%, -50%) scale(0.95);
+            }
+        }
         img{
             width:calc(100% + 1px);
             position:relative;
             z-index: 0;
+            transition:all 0.15s ease-in-out;
         }
         &::before, &::after{
             content:'';
