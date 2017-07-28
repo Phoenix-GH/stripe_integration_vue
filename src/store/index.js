@@ -41,9 +41,6 @@ export const store = new Vuex.Store({
         updateAHACourse: ({ commit }, payload) => {
             commit('updateAHACourse', payload);
         },
-        updateAHACourse: ({ commit }, payload) => {
-            commit('updateAHACourse', payload);
-        },
         updateCompletedCount: ({ commit }, payload) => {
             commit('updateCompletedCount', payload);
         },
