@@ -116,6 +116,9 @@
 .modal__header{
 	position: relative;
 	padding:$spacing-m;
+	&.jagged{
+		padding-bottom:$spacing-xl;
+	}
 	&.show--badge{
 		padding-top:64px;
 	}
