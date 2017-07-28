@@ -29,6 +29,7 @@ export const store = new Vuex.Store({
         reviewStatusType: 'good',
         removePadding: false,
         ahaCourse: '',
+        completedCount: 0,
     },
     actions: {
         updateRemovePadding: ({ commit }, payload) => {
@@ -40,8 +41,8 @@ export const store = new Vuex.Store({
         updateAHACourse: ({ commit }, payload) => {
             commit('updateAHACourse', payload);
         },
-        updateAHACourse: ({ commit }, payload) => {
-            commit('updateAHACourse', payload);
+        updateCompletedCount: ({ commit }, payload) => {
+            commit('updateCompletedCount', payload);
         },
         updateLastLesson: ({ commit }, payload) => {
             commit('updateLastLesson', payload);
@@ -123,6 +124,9 @@ export const store = new Vuex.Store({
         },
         updateAHACourse: (state, payload) => {
             state.ahaCourse = payload;
+        },
+        updateCompletedCount: (state, payload) => {
+            state.completedCount = payload;
         },
         loadCache: (state, payload) => {
             Object.assign(state, payload);
@@ -217,6 +221,9 @@ export const store = new Vuex.Store({
         },
         ahaCourse: state => {
             return state.ahaCourse;
+        },
+        completedCount: state => {
+            return state.completedCount;
         },
         user: state => {
             return state.user;

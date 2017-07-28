@@ -58,9 +58,8 @@
                                         </li>
                                         <li class="item item--bottom">
                                             <ul class="list list--progress">
-                                                <li class="is--complete" style="background-image:url('https://images.contentful.com/neuh3uvg7bz8/1re746Kr3e6UgEKSqkWUWo/4dcb1cff3d920e24c405402ac204ebbd/vanessa-thumb.jpg')" data-step="1"></li>
-                                                <li data-step="2"></li>
-                                                <li data-step="3"></li>
+                                                <li v-for="n in this.completedCount" class="is--complete" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="n"></li>
+                                                <li v-for="j in 3-completedCount" :data-step="j+completedCount"></li>
                                             </ul>
                                         </li>
                                         <li class="challenge__explainer">
@@ -314,7 +313,6 @@
             eventBus.$on('closeMenu', () => {
                 this.profileMenuVisible = false;
                 this.challengeModalVisible = false;
-
             })
         },
         data: function () {
@@ -332,12 +330,14 @@
                 classSearchCount: 0,
                 podcastSearchCount: 0,
                 classCountText:'',
-                podcastCountText:''
+                podcastCountText:'',
+                currentCourseData: {},
+                number: 0,
             }
         },
         computed: {
             ...mapGetters([
-                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse'
+                'user', 'classesInProgress', 'userLoggedIn', 'showSpinner', 'savedClasses', 'activeCourse', 'completedCount'
             ]),
             showUpgrade() {
                 if ((this.userLoggedIn) && (this.user.subscriptionType == 'free')) {
@@ -461,14 +461,13 @@
                 }
             },
             showChallengeModal() {
-                console.log(this.activeCourse.lessons.course);
                 if (this.challengeModalVisible) {
                     this.challengeModalVisible = false;
                 } else {
                     this.challengeModalVisible = true;
+                    console.log(this.completedCount);
                 }
             },
-
             showLogin() {
                 purgeAll();
                 this.$store.dispatch('updateHasModal', true);

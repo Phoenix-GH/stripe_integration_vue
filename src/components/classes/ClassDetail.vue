@@ -433,7 +433,7 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s has--icon":class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
+                                <button class="btn btn--primary btn--s has--icon" :class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
                                     <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
                                     Aha!
                                 </button>
@@ -699,6 +699,7 @@
             eventBus.$on('closeMenu', () => {
                 this.popOverIsActive = false;
                 this.currentNoteEdit = '';
+                this.updateAHAStatus();
             });
         },
         mounted() {
@@ -760,7 +761,8 @@
                             _this.currentLessonId = _nextLesson._id;
                             _this.updateLastLesson();
                         }
-                        Class.updateCourseProgress(_this, _this.activeCourse._id, _this.progressPayload, result => {
+                        Class.updateCourseProgress(_this, _this.activeCourse._id, _this.
+                            progressPayload, result => {
                             Class.inProgress(_this);
                         });
                     }
@@ -799,6 +801,7 @@
             clearInterval(this.timer);
             eventBus.$off('updateClassDetails');
             eventBus.$off('closeMenu');
+            eventBus.$off('updateCompletedCount');
             if (this.userLoggedIn) {
                 if (!this.courseWasReset) {
                     this.updateLastLesson();
@@ -856,7 +859,6 @@
                     lessonProgress: this.lessonProgress,
                     progress: this.percentComplete,
                     state: this.currentCourseData.state,
-                    numberCompleted: this.numberCompleted,
                     lastLesson: {
                         course: this.activeCourse,
                         lesson: this.tempLastLesson.lesson,
@@ -893,8 +895,7 @@
                      if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
                  });
                 return numberCompleted;
-             },
-
+            },
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
@@ -1018,6 +1019,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                         Class.inProgress(_this);
                     });
                 }
@@ -1039,6 +1041,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
+                        this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                         Class.inProgress(_this);
                     });
                 }
@@ -1176,7 +1179,6 @@
                 }, course => {
                     _this.initDetails(course._id);
                     Class.getAHA(this, course._id, error => {
-                        this.$store.dispatch('updateSpinner', false);
                         console.log('failed');
                     }, aha => {
                         this.ahaStatus = aha;
@@ -1185,6 +1187,15 @@
 
                     this.$store.dispatch('updateSpinner', false);
                 });
+            },
+            updateAHAStatus() {
+                Class.getAHA(this, this.activeCourse._id, error => {
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        _this.initDetails(this.activeCourse._id);
+                        console.log(aha);
+                    });
             },
             initDetails() {
 
@@ -1227,6 +1238,7 @@
                             }
                             this.checkCourseProgress();
                             this.checkQuery();
+                            this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                             Class.inProgress(_this);
                         });
                     })
@@ -1460,6 +1472,7 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.courseComplete = false;
                                 _this.popOverIsActive = false;
+                                this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                                 Class.inProgress(_this);
                             });
                         }
@@ -1479,7 +1492,9 @@
                             Class.updateCourseProgress(this, this.activeCourse._id, this.progressPayload, result => {
                                 _this.currentCourseData = result;
                                 _this.lessonProgress = result.lessonProgress;
+                                _this.numberOfLessons = result.numberOfLessons;
                                 _this.popOverIsActive = false;
+                                this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                                 Class.inProgress(_this);
                             });
                         }
