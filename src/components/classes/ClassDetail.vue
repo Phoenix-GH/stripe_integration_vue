@@ -699,9 +699,7 @@
             eventBus.$on('closeMenu', () => {
                 this.popOverIsActive = false;
                 this.currentNoteEdit = '';
-            });
-            eventBus.$on('refreshAHA', () => {
-                _this.initDetails(); 
+                this.updateAHAStatus();
             });
         },
         mounted() {
@@ -1182,7 +1180,6 @@
                 }, course => {
                     _this.initDetails(course._id);
                     Class.getAHA(this, course._id, error => {
-                        this.$store.dispatch('updateSpinner', false);
                         console.log('failed');
                     }, aha => {
                         this.ahaStatus = aha;
@@ -1191,6 +1188,15 @@
 
                     this.$store.dispatch('updateSpinner', false);
                 });
+            },
+            updateAHAStatus() {
+                Class.getAHA(this, this.activeCourse._id, error => {
+                        console.log('failed');
+                    }, aha => {
+                        this.ahaStatus = aha;
+                        _this.initDetails(this.activeCourse._id);
+                        console.log(aha);
+                    });
             },
             initDetails() {
 
