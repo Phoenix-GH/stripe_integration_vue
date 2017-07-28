@@ -12,6 +12,7 @@
       <shareModal></shareModal>
       <ahaModal></ahaModal>
       <contactModal></contactModal>
+      <challengeInfoModal></challengeInfoModal>
     </section>
     <appFooter></appFooter>
   </div>
@@ -30,6 +31,7 @@
   import Share from './components/modals/Share.vue'
   import AHA from './components/modals/AHA.vue'
   import Contact from './components/modals/ContactForm.vue'
+  import ChallengeInfo from './components/modals/ChallengeInfo.vue'
 
   //map getters from Vuex store
   import { mapGetters } from 'vuex';
@@ -53,9 +55,9 @@
       reviewModal: Review,
       forgotPasswordModal: ForgotPassword,
       shareModal: Share,
-      ahaModal : AHA,
-      contactModal: Contact
-     
+      ahaModal: AHA,
+      contactModal: Contact,
+      challengeInfoModal: ChallengeInfo
     },
     data: function () {
       return {
@@ -78,7 +80,7 @@
       }
     },
     events: {
-      'updateCompletedCount': function(data) {
+      'updateCompletedCount': function (data) {
         this.$broadcast('updateCompletedCount', data);
       }
     },

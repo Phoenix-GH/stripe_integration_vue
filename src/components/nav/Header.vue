@@ -40,15 +40,19 @@
                                 <!-- LOGGED IN NAV -->
 
                                 <!-- Challenges -->
-                                    <li id="navChallenges" class="item has--icon has--popover" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn" @click.stop="showChallengeModal">
+                                <li id="navChallenges" class="item has--icon has--popover" :class="{'is--active': challengeModalVisible}" v-if="userLoggedIn"
+                                    @click.stop="showChallengeModal">
 
                                     <a class="link">
-                                        <svg class="icon-trophy color--brand"><use xlink:href="#icon-trophy"></use>
+                                        <svg class="icon-trophy color--brand">
+                                            <use xlink:href="#icon-trophy"></use>
                                         </svg><span class="hide--m">Challenges</span>
                                     </a>
                                     <ul class="challenge__box list list--nav list--dropdown">
                                         <li class="item">
-                                            <svg class="icon-trophy icon--l"><use xlink:href="#icon-trophy"></use></svg>
+                                            <svg class="icon-trophy icon--l">
+                                                <use xlink:href="#icon-trophy"></use>
+                                            </svg>
                                             <div class="ts--title is--secondary">
                                                 Quick-Start Challenge:
                                             </div>
@@ -62,8 +66,8 @@
                                                 <li v-for="j in 3-completedCount" :data-step="j+completedCount"></li>
                                             </ul>
                                         </li>
-                                        <li class="challenge__explainer">
-                                            <a class="link">Details</a>
+                                        <li class="challenge__explainer" @click.stop="showChallengeInfoModal">
+                                            <a class="link" href="javascript:;">Details</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -329,8 +333,8 @@
                 closedAlert: false,
                 classSearchCount: 0,
                 podcastSearchCount: 0,
-                classCountText:'',
-                podcastCountText:'',
+                classCountText: '',
+                podcastCountText: '',
                 currentCourseData: {},
                 number: 0,
             }
@@ -427,7 +431,7 @@
                                 }
                             }).map(obj => { return obj; });
                             _this.classSearchCount = classCount.length;
-                            _this.classCountText = "More Results ("+ classCount.length+")";
+                            _this.classCountText = "More Results (" + classCount.length + ")";
 
                             let podcastCount = result.data.filter(obj => {
                                 if (obj.type == 'Podcast') {
@@ -437,7 +441,7 @@
                                 }
                             }).map(obj => { return obj; });
                             _this.podcastSearchCount = podcastCount.length;
-                            _this.podcastCountText = "More Results ("+ podcastCount.length+")"
+                            _this.podcastCountText = "More Results (" + podcastCount.length + ")"
                             //update results
                             _this.foundResults();
 
@@ -468,11 +472,14 @@
                     console.log(this.completedCount);
                 }
             },
+            showChallengeInfoModal() {
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'challengeinfo');
+            },
             showLogin() {
                 purgeAll();
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'login');
-
             },
             showSignup() {
                 purgeAll();
