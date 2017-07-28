@@ -1545,6 +1545,10 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'review');
             },
+            aha() {
+                this.$store.dispatch('updateHasModal', true);
+                this.$store.dispatch('updateActiveModal', 'aha');
+            },
             shareClass() {
                 console.log('will share class');
                 this.$store.dispatch('updateHasModal', true);
