@@ -897,8 +897,7 @@
                      if (this.lessonProgress[key].percentComplete >= 100) numberCompleted++;
                  });
                 return numberCompleted;
-             },
-
+            },
             courseProgressBar() {
                 let offset = 100 - this.percentComplete;
                 return { 'stroke-dashoffset': offset };
@@ -1022,7 +1021,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
-                        this.$store.dispatch('updateCompletedCount', this.numberCompleted);
+                        this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                         Class.inProgress(_this);
                     });
                 }
@@ -1044,7 +1043,7 @@
                         _this.currentCourseData = result;
                         _this.lessonProgress = result.lessonProgress;
                         _this.popOverIsActive = false;
-                        this.$store.dispatch('updateCompletedCount', this.numberCompleted);
+                        this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                         Class.inProgress(_this);
                     });
                 }
@@ -1233,7 +1232,7 @@
                             }
                             this.checkCourseProgress();
                             this.checkQuery();
-                            this.$store.dispatch('updateCompletedCount', this.numberCompleted);
+                            this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                             Class.inProgress(_this);
                         });
                     })
@@ -1467,7 +1466,7 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.courseComplete = false;
                                 _this.popOverIsActive = false;
-                                this.$store.dispatch('updateCompletedCount', this.numberCompleted);
+                                this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                                 Class.inProgress(_this);
                             });
                         }
@@ -1489,8 +1488,7 @@
                                 _this.lessonProgress = result.lessonProgress;
                                 _this.numberOfLessons = result.numberOfLessons;
                                 _this.popOverIsActive = false;
-                                this.$store.dispatch('updateCompletedCount', this.numberCompleted);
-                               
+                                this.$store.dispatch('updateCompletedCount', Math.min(this.numberCompleted,3));
                                 Class.inProgress(_this);
                             });
                         }

@@ -58,9 +58,7 @@
                                         </li>
                                         <li class="item item--bottom">
                                             <ul class="list list--progress">
-
                                                 <li v-for="n in this.completedCount" class="is--complete" :style="{ 'background-image': 'url(' + profileImage + ')' }" :data-step="n"></li>
-                                               
                                                 <li v-for="j in 3-completedCount" :data-step="j+completedCount"></li>
                                             </ul>
                                         </li>
