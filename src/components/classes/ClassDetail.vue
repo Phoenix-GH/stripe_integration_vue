@@ -433,8 +433,8 @@
                                 <span class="has--badge" :data-badge="activeCourse.reviews.length">Reviews</span>
                             </li>
                             <li class="item tab--right">
-                                <button class="btn btn--primary btn--s has--icon" :class="{'color--accent': !(ahaStatus == null)}" @click="showAHA()">
-                                    <svg class="icon-star"><use xlink:href="#icon-star"></use></svg>
+                                <button class="btn btn--primary is--accent btn--s has--icon" :class="{'color--white': !(ahaStatus == null)}" @click="showAHA()">
+                                    <svg class="icon-star color--white"><use xlink:href="#icon-star"></use></svg>
                                     Aha!
                                 </button>
                             </li>
