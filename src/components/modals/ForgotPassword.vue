@@ -2,6 +2,7 @@
 
     <div id="modalForgotPassword" class="modal modal--s reversed--head" :class="{'is--visible': active}">
         <div class="modal__wrapper modal__wrapper--transition no--pad">
+            <a href="javascript:;" class="modal__close" @click="close"><svg class="icon-close icon--s"><use xlink:href="#icon-close"></use></svg></a>
             <div class="modal__body">
                 <div class="modal__head bg--black is--reversed">
                     <span class="ts--headline">Forgot Password?</span>

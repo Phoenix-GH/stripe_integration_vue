@@ -113,7 +113,28 @@
 .modal__header, .modal__body {
 	box-sizing: border-box;
 }
-
+.modal__header{
+	position: relative;
+	padding:$spacing-m;
+	&.jagged{
+		padding-bottom:$spacing-xl;
+	}
+	&.show--badge{
+		padding-top:64px;
+	}
+	.modal__badge{
+		width:120px;
+		height:120px;
+		border-radius:50%;
+		overflow: hidden;
+		position: absolute;
+		left:50%;
+		transform: translate(-50%, -125%);
+		img{
+			width:100%;
+		}
+	}
+}
 .modal__body{
 	.modal__head{
 		padding:$spacing-m;
@@ -124,4 +145,9 @@
 	.panel__body{
 		padding:$spacing-m !important;
 	}
+}
+.modal__footer{
+	padding:$spacing-m;
+	border-top:1px solid $fog;
+	background-color:$snow;
 }

@@ -1,6 +1,7 @@
 <template lang="html">
   <div id="modalLogin" class="modal modal--s reversed--head" :class="{'is--visible': active}">
     <div class="modal__wrapper modal__wrapper--transition no--pad">
+        <a href="javascript:;" class="modal__close" @click="close"><svg class="icon-close icon--s"><use xlink:href="#icon-close"></use></svg></a>
       <a href="javascript:;" class="modal__close" @click="close">
         <svg class="icon-close icon--s">
           <use xlink:href="#icon-close"></use>

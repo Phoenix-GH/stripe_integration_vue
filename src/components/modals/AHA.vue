@@ -1,6 +1,7 @@
 <template>
     <div id="modalShowAHA" class="modal modal--s" :class="{'is--visible': active}">
         <div class="modal__wrapper modal__wrapper--transition no--pad">
+            <a href="javascript:;" class="modal__close" @click="close"><svg class="icon-close icon--s"><use xlink:href="#icon-close"></use></svg></a>
             <div class="modal__body">
                 <div class="well no--border">
                     <!-- PANEL BODY -->
@@ -8,7 +9,7 @@
                         <div class="align--center">
                             <button @click="handleAction">Action</button>
                             <audio ref="audioElm" src="https://www.soundjay.com/button/button-1.mp3"></audio>
-                            <button@click="openShare">Share</button>   
+                            <button@click="openShare">Share</button>
                         </div>
                     </div>
                     <!-- /PANEL BODY -->
@@ -28,7 +29,7 @@
 
     export default {
         mounted() {
-           
+
         },
         computed: {
             ...mapGetters([
