@@ -55,7 +55,9 @@
                  }
                  console.log(this.ahaCourse);
                 Class.updateAHA(this, course).then(response => {
-                  this.$store.dispatch('updateAHACourse', this.ahaCourse);
+                   this.$store.dispatch('updateAHACourse', this.ahaCourse);
+                   eventBus.$emit('closeAHA');
+                   this.close();
                 }).catch(error => {
                     this.errorMessage = `${error.response.data.message}`
                 })

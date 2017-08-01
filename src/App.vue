@@ -80,9 +80,7 @@
       }
     },
     events: {
-      'updateCompletedCount': function (data) {
-        this.$broadcast('updateCompletedCount', data);
-      }
+    
     },
     created() {
       $(document).click(function (e) {

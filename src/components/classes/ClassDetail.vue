@@ -699,7 +699,12 @@
             eventBus.$on('closeMenu', () => {
                 this.popOverIsActive = false;
                 this.currentNoteEdit = '';
+            });
+            eventBus.$on('closeAHA', () => {
+                console.log("close aha");
                 this.updateAHAStatus();
+                this.popOverIsActive = false;
+                this.currentNoteEdit = '';
             });
         },
         mounted() {
@@ -1545,10 +1550,6 @@
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'review');
             },
-            aha() {
-                this.$store.dispatch('updateHasModal', true);
-                this.$store.dispatch('updateActiveModal', 'aha');
-            },
             shareClass() {
                 console.log('will share class');
                 this.$store.dispatch('updateHasModal', true);
@@ -1561,7 +1562,6 @@
                 this.$store.dispatch('updateAHACourse', this.activeCourse._id);
                 this.$store.dispatch('updateHasModal', true);
                 this.$store.dispatch('updateActiveModal', 'aha');
-                eventBus.$emit('refreshAHA');
             },
             startOver() {
                 this.resetClass();
