@@ -49,11 +49,11 @@
                 this.$store.dispatch('updateActiveModal', '');
             },
             handleAction() {
-                 this.$refs.audioElm.play();
-                 var course = {
+                this.$refs.audioElm.play();
+                var course = {
                     course : this.ahaCourse
-                 }
-                 console.log(this.ahaCourse);
+                }
+                console.log(this.ahaCourse);
                 Class.updateAHA(this, course).then(response => {
                    this.$store.dispatch('updateAHACourse', this.ahaCourse);
                    eventBus.$emit('closeAHA');
